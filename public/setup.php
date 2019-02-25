@@ -172,9 +172,3 @@ if (isset($_POST['setup'])) {
 <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-<?php
-if ($success) {
-    unlink(__DIR__ . '/setup.php');
-}
-?>
