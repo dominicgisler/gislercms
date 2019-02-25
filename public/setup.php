@@ -8,7 +8,7 @@
 
     <title>Setup - GislerCMS</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/login.css" rel="stylesheet">
@@ -17,7 +17,7 @@
     <form id="setup-form" class="form-signin">
         <div class="text-center mb-4">
             <img class="mb-4" src="img/logo-black.png" alt="" width="72" height="72">
-            <h1 class="h3 mb-3 font-weight-normal">GislerCMS</h1>
+            <h1 class="h3 mb-3 font-weight-normal">GislerCMS - Setup</h1>
         </div>
         <div class="collapse show multi-collapse" id="step1">
             <div class="text-center mb-4">
