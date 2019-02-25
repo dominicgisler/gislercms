@@ -14,19 +14,24 @@
     <link href="{{ base_url() }}/css/login.css" rel="stylesheet">
 </head>
 <body>
-    <form class="form-signin">
+    <form class="form-signin" method="post">
         <div class="text-center mb-4">
             <img class="mb-4" src="{{ base_url() }}/img/logo-black.png" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">GislerCMS</h1>
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    Bitte überprüfe deine Eingaben!
+                </div>
+            {% endif %}
         </div>
 
         <div class="form-label-group">
-            <input type="email" id="inputUser" class="form-control" placeholder="Username" required autofocus>
+            <input type="text" id="inputUser" name="username" class="form-control" placeholder="Username" value="{{ username }}" required autofocus>
             <label for="inputEmail">Username</label>
         </div>
 
         <div class="form-label-group">
-            <input type="password" id="inputPassword" class="form-control" placeholder="Passwort" required>
+            <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Passwort" required>
             <label for="inputPassword">Passwort</label>
         </div>
 

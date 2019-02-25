@@ -47,7 +47,7 @@ class Application
         // services
         $container = $this->app->getContainer();
 
-        $container['base_url'] = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
+        $container['base_url'] = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBaseUrl()), '/');
 
         $container['view'] = function ($container) {
             $twig = new Twig(__DIR__ . '/../templates', [
