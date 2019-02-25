@@ -32,6 +32,23 @@ if (isset($_POST['setup'])) {
                 $error = 'SQLSTATE[' . $err[0] . '] [' . $err[1] . '] ' . $err[2];
             }
         }
+        if (empty($error)) {
+            $sql = "INSERT INTO `cms__user` (`username`, `firstname`, `lastname`, `email`, `password`) VALUES (?, ?, ?, ?, ?)";
+            $stmt = $pdo->prepare($sql);
+            $res = $stmt->execute([
+                $userUsername,
+                $userFirstname,
+                $userLastname,
+                $userEmail,
+                password_hash($userPassword, PASSWORD_DEFAULT)
+            ]);
+            if ($res === false) {
+                $err = $stmt->errorInfo();
+                if ($err[0] !== '00000' && $err[0] !== '01000') {
+                    $error = 'SQLSTATE[' . $err[0] . '] [' . $err[1] . '] ' . $err[2];
+                }
+            }
+        }
     } catch (Exception $e) {
         $error = $e->getMessage();
     }
@@ -119,12 +136,14 @@ if (isset($_POST['setup'])) {
             </div>
             <div class="d-flex">
                 <div class="form-label-group w-50 mr-1">
-                    <input type="text" id="userFirstname" name="user_firstname" class="form-control" placeholder="Firstname"
+                    <input type="text" id="userFirstname" name="user_firstname" class="form-control"
+                           placeholder="Firstname"
                            value="<?php echo $userFirstname; ?>" required>
                     <label for="userLastname">Firstname</label>
                 </div>
                 <div class="form-label-group w-50 ml-1">
-                    <input type="text" id="userLastname" name="user_lastname" class="form-control" placeholder="Lastname"
+                    <input type="text" id="userLastname" name="user_lastname" class="form-control"
+                           placeholder="Lastname"
                            value="<?php echo $userLastname; ?>" required>
                     <label for="userLastname">Lastname</label>
                 </div>
@@ -135,7 +154,8 @@ if (isset($_POST['setup'])) {
                 <label for="userEmail">Email</label>
             </div>
             <div class="form-label-group">
-                <input type="password" id="userPassword" name="user_password" class="form-control" placeholder="Password"
+                <input type="password" id="userPassword" name="user_password" class="form-control"
+                       placeholder="Password"
                        required>
                 <label for="userPassword">Password</label>
             </div>
