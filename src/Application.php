@@ -4,9 +4,13 @@ namespace GislerCMS;
 
 use GislerCMS\Controller\IndexController;
 use GislerCMS\Controller\LoginController;
+use GislerCMS\Controller\LogoutController;
+use GislerCMS\Middleware\LoginMiddleware;
+use GislerCMS\Middleware\NoLoginMiddleware;
 use Slim\App;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
+use Zend\Config\Config;
 
 /**
  * Class Application
@@ -36,7 +40,22 @@ class Application
      */
     protected function getSettings()
     {
-        return include __DIR__ . '/../config/default.php';
+        $configPaths = [
+            __DIR__ . '/../config/default.php',
+            __DIR__ . '/../config/' . APPLICATION_ENV . '.php',
+            __DIR__ . '/../config/global.php',
+            __DIR__ . '/../config/local.php'
+        ];
+
+        $config = new Config([]);
+        foreach ($configPaths as $configPath) {
+            foreach (glob($configPath) as $filename) {
+                /** @noinspection PhpIncludeInspection */
+                $config->merge(new Config(include $filename));
+            }
+        }
+
+        return $config->toArray();
     }
 
     /**
@@ -47,18 +66,30 @@ class Application
         // services
         $container = $this->app->getContainer();
 
-        $container['base_url'] = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBaseUrl()), '/');
+        $container['base_url'] =
+            rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBaseUrl()), '/');
 
         $container['view'] = function ($container) {
-            $twig = new Twig(__DIR__ . '/../templates', [
-                //'cache' => __DIR__ . '/../cache'
-                'cache' => false
+            $cfg = $container['settings']['renderer'];
+
+            $twig = new Twig($cfg['template_path'], [
+                'cache' => $cfg['cache']
             ]);
 
             // Instantiate and add Slim specific extension
             $twig->addExtension(new TwigExtension($container['router'], $container['base_url']));
 
             return $twig;
+        };
+
+        $container['pdo'] = function ($container) {
+            $cfg = $container['settings']['database'];
+
+            return new \PDO(
+                sprintf('mysql:host=%s;dbname=%s;port=3306', $cfg['host'], $cfg['data']),
+                $cfg['user'],
+                $cfg['pass']
+            );
         };
     }
 
@@ -75,7 +106,15 @@ class Application
      */
     protected function registerRoutes()
     {
-        $this->app->map(IndexController::METHODS, IndexController::PATTERN, IndexController::class)->setName(IndexController::NAME);
-        $this->app->map(LoginController::METHODS, LoginController::PATTERN, LoginController::class)->setName(LoginController::NAME);
+        $this->app->map(IndexController::METHODS, IndexController::PATTERN, IndexController::class)
+            ->add(LoginMiddleware::class)
+            ->setName(IndexController::NAME);
+
+        $this->app->map(LoginController::METHODS, LoginController::PATTERN, LoginController::class)
+            ->add(NoLoginMiddleware::class)
+            ->setName(LoginController::NAME);
+
+        $this->app->map(LogoutController::METHODS, LogoutController::PATTERN, LogoutController::class)
+            ->setName(LogoutController::NAME);
     }
 }

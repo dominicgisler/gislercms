@@ -18,9 +18,13 @@
   ],
   "require": {
     "php": ">=7.0",
+    "ext-pdo": "*",
     "slim/slim": "^3.12",
     "slim/twig-view": "^2.4",
-    "monolog/monolog": "^1.24"
+    "monolog/monolog": "^1.24",
+    "zendframework/zend-config": "^3.2",
+    "zendframework/zend-session": "^2.8",
+    "zendframework/zend-validator": "^2.12"
   },
   "autoload": {
     "psr-4": {

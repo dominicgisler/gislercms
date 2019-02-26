@@ -2,6 +2,8 @@
 
 namespace GislerCMS\Controller;
 
+use GislerCMS\Entity\SessionHelper;
+use GislerCMS\Entity\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -32,13 +34,11 @@ class LoginController extends AbstractController
             $username = $request->getParsedBodyParam('username');
             $password = $request->getParsedBodyParam('password');
 
-            $pdo = new \PDO('mysql:host=localhost;dbname=gislercms;port=3306', 'root', 'root');
-            $stmt = $pdo->prepare("SELECT * FROM cms__user WHERE username = ?");
-            $stmt->execute([$username]);
-
-            $user = $stmt->fetch();
-            if ($user) {
-                if (password_verify($password, $user['password'])) {
+            $user = User::getUser($this->get('pdo'), $username);
+            if ($user->getUserId() > 0) {
+                if (password_verify($password, $user->getPassword())) {
+                    $cont = SessionHelper::getContainer();
+                    $cont->offsetSet('user', $user);
                     return $response->withRedirect($this->get('base_url'));
                 }
             }
