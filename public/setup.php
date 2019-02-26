@@ -10,6 +10,7 @@ $userEmail = '';
 $userPassword = '';
 $error = '';
 $success = false;
+$successMsg = 'Setup successful!';
 
 if (isset($_POST['setup'])) {
     $dbHost = $_POST['db_host'] ?: '';
@@ -46,6 +47,25 @@ if (isset($_POST['setup'])) {
                 $err = $stmt->errorInfo();
                 if ($err[0] !== '00000' && $err[0] !== '01000') {
                     $error = 'SQLSTATE[' . $err[0] . '] [' . $err[1] . '] ' . $err[2];
+                }
+            }
+            if (empty($error)) {
+                // build config
+                $cfg = "<?php" . PHP_EOL . PHP_EOL .
+                    "return [" . PHP_EOL .
+                    "    'settings' => [" . PHP_EOL .
+                    "        'database' => [" . PHP_EOL .
+                    "            'host' => '" . $dbHost . "'," . PHP_EOL .
+                    "            'user' => '" . $dbUser . "'," . PHP_EOL .
+                    "            'pass' => '" . $dbPassword . "'," . PHP_EOL .
+                    "            'data' => '" . $dbDatabase . "'" . PHP_EOL .
+                    "        ]" . PHP_EOL .
+                    "    ]" . PHP_EOL .
+                    "];" . PHP_EOL;
+                if (!file_put_contents(__DIR__ . '/../config/local.php', $cfg)) {
+                    $error = 'Could not write config file!<br>Please check permissions and try again.';
+                } elseif (!unlink(__DIR__ . '/setup.php')) {
+                    $successMsg .= '<br>Please delete setup file.';
                 }
             }
         }
@@ -85,7 +105,7 @@ if (isset($_POST['setup'])) {
             </div>
         <?php } elseif ($success) { ?>
             <div class="alert alert-success" role="alert">
-                Setup successful!<br>
+                <?php echo $successMsg; ?><br><br>
                 <a href="login" class="alert-link">Redirect to login</a>
             </div>
         <?php } ?>

@@ -3,3 +3,4 @@
 !/logs/README.md
 /cache/
 /.idea/
+/config/local.php
