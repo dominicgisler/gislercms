@@ -22,6 +22,6 @@ class IndexController extends AbstractController
      */
     public function __invoke($request, $response)
     {
-        return $this->get('view')->render($response, 'index.twig');
+        return $this->render($request, $response, 'index.twig');
     }
 }

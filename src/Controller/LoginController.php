@@ -50,6 +50,6 @@ class LoginController extends AbstractController
             ];
         }
 
-        return $this->get('view')->render($response->withStatus($status), 'login.twig', $data);
+        return $this->render($request, $response, 'login.twig', $data);
     }
 }

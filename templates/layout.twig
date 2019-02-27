@@ -9,6 +9,7 @@
     <title>Dashboard - GislerCMS</title>
 
     <link href="{{ base_url() }}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ base_url() }}/css/fontawesome.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{{ base_url() }}/css/style.css" rel="stylesheet">
@@ -40,72 +41,48 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <span data-feather="home"></span>
-                            Dashboard <span class="sr-only">(current)</span>
+                        <a class="nav-link {% if route == 'index' %}active{% endif %}" href="#">
+                            <i class="fa fa-home fa-fw"></i>
+                            Dashboard {% if route == 'index' %}<span class="sr-only">(current)</span>{% endif %}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file"></span>
-                            Orders
+                        <a class="nav-link {% if route == 'orders' %}active{% endif %}" href="#">
+                            <i class="fa fa-file fa-fw"></i>
+                            Orders {% if route == 'orders' %}<span class="sr-only">(current)</span>{% endif %}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="shopping-cart"></span>
-                            Products
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="users"></span>
-                            Customers
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="bar-chart-2"></span>
-                            Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="layers"></span>
-                            Integrations
+                        <a class="nav-link {% if route == 'integration' %}active{% endif %}" href="#">
+                            <i class="fa fa-layer-group fa-fw"></i>
+                            Integrations {% if route == 'integration' %}<span class="sr-only">(current)</span>{% endif %}
                         </a>
                     </li>
                 </ul>
 
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Saved reports</span>
-                    <a class="d-flex align-items-center text-muted" href="#">
-                        <span data-feather="plus-circle"></span>
+                    <span>Seiten</span>
+                    <a class="d-flex align-items-center text-muted p-0" href="#">
+                        <i class="fa fa-plus-circle fa-fw"></i>
                     </a>
                 </h6>
                 <ul class="nav flex-column mb-2">
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Current month
+                            <i class="fa fa-file-alt fa-fw"></i>
+                            Startseite
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Last quarter
+                            <i class="fa fa-file-alt fa-fw"></i>
+                            Über uns
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Social engagement
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Year-end sale
+                            <i class="fa fa-file-alt fa-fw"></i>
+                            Kontakt
                         </a>
                     </li>
                 </ul>
@@ -114,15 +91,12 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Content</h1>
+                {% block content %}{% endblock %}
             </div>
         </main>
     </div>
 </div>
 <script src="{{ base_url() }}/js/jquery-3.3.1.slim.min.js"></script>
 <script src="{{ base_url() }}/js/bootstrap.bundle.min.js"></script>
-<script src="{{ base_url() }}/js/feather.min.js"></script>
-<script src="{{ base_url() }}/js/Chart.min.js"></script>
-<script src="{{ base_url() }}/js/script.js"></script>
 </body>
 </html>

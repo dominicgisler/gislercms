@@ -2,6 +2,10 @@
 
 namespace GislerCMS\Controller;
 
+use Slim\Http\Request;
+use Slim\Http\Response;
+use Slim\Route;
+
 /**
  * Class AbstractController
  * @package GislerCMS\Controller
@@ -28,5 +32,22 @@ abstract class AbstractController
     protected function get($var)
     {
         return $this->container->get($var);
+    }
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param string $template
+     * @param array $data
+     * @return Response
+     */
+    protected function render(Request $request, Response $response, string $template, array $data = []): Response
+    {
+        /** @var Route $route */
+        $route = $request->getAttribute('route');
+        $arr = [
+            'route' => $route->getName()
+        ];
+        return $this->get('view')->render($response, $template, array_merge($arr, $data));
     }
 }

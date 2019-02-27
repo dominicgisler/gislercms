@@ -2,12 +2,6 @@ body {
   font-size: .875rem;
 }
 
-.feather {
-  width: 16px;
-  height: 16px;
-  vertical-align: text-bottom;
-}
-
 /*
  * Sidebar
  */
@@ -43,12 +37,12 @@ body {
   color: #333;
 }
 
-.sidebar .nav-link .feather {
+.sidebar .nav-link .fa {
   margin-right: 4px;
-  color: #999;
+  color: #888888;
 }
 
-.sidebar .nav-link.active {
+.sidebar .nav-link.active, .sidebar .nav-link.active .fa {
   color: #007bff;
 }
 
@@ -60,6 +54,10 @@ body {
 .sidebar-heading {
   font-size: .75rem;
   text-transform: uppercase;
+}
+
+.sidebar-heading a.text-muted {
+  text-decoration: none;
 }
 
 /*
