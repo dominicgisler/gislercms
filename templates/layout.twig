@@ -1,102 +1,27 @@
 <!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Gisler Software">
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="Gisler Software">
 
-    <title>Dashboard - GislerCMS</title>
+        <title>{% block title %}{% endblock %} - GislerCMS</title>
 
-    <link href="{{ base_url() }}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ base_url() }}/css/fontawesome.min.css" rel="stylesheet">
+        <link href="{{ base_url() }}/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{{ base_url() }}/css/fontawesome.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="{{ base_url() }}/css/style.css" rel="stylesheet">
-</head>
-<body>
-<nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark flex-md-nowrap p-0 shadow justify-content-between">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0 p-2" href="{{ base_url() }}">
-        <img src="{{ base_url() }}/img/logo-white-small.png" width="32" height="32">
-        <span class="align-middle ml-1">GislerCMS</span>
-    </a>
-    <ul class="navbar-nav px-3">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Administrator
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Profil</a>
-                <a class="dropdown-item" href="#">Einstellungen</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{ base_url() }}/logout">Abmelden</a>
-            </div>
-        </li>
-    </ul>
-</nav>
-
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link {% if route == 'index' %}active{% endif %}" href="#">
-                            <i class="fa fa-home fa-fw"></i>
-                            Dashboard {% if route == 'index' %}<span class="sr-only">(current)</span>{% endif %}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if route == 'orders' %}active{% endif %}" href="#">
-                            <i class="fa fa-file fa-fw"></i>
-                            Orders {% if route == 'orders' %}<span class="sr-only">(current)</span>{% endif %}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if route == 'integration' %}active{% endif %}" href="#">
-                            <i class="fa fa-layer-group fa-fw"></i>
-                            Integrations {% if route == 'integration' %}<span class="sr-only">(current)</span>{% endif %}
-                        </a>
-                    </li>
-                </ul>
-
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Seiten</span>
-                    <a class="d-flex align-items-center text-muted p-0" href="#">
-                        <i class="fa fa-plus-circle fa-fw"></i>
-                    </a>
-                </h6>
-                <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fa fa-file-alt fa-fw"></i>
-                            Startseite
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fa fa-file-alt fa-fw"></i>
-                            Über uns
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fa fa-file-alt fa-fw"></i>
-                            Kontakt
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                {% block content %}{% endblock %}
-            </div>
-        </main>
-    </div>
-</div>
-<script src="{{ base_url() }}/js/jquery-3.3.1.slim.min.js"></script>
-<script src="{{ base_url() }}/js/bootstrap.bundle.min.js"></script>
-</body>
+        {% block stylesheets %}
+            <!-- Custom styles for this template -->
+            <link href="{{ base_url() }}/css/style.css" rel="stylesheet">
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+        {% block scripts %}
+            <script src="{{ base_url() }}/js/jquery-3.3.1.slim.min.js"></script>
+            <script src="{{ base_url() }}/js/bootstrap.bundle.min.js"></script>
+        {% endblock %}
+    </body>
 </html>

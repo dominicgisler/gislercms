@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Gisler Software">
+{% extends 'layout.twig' %}
 
-    <title>Login - GislerCMS</title>
+{% block title %}Login{% endblock %}
 
-    <link href="{{ base_url() }}/css/bootstrap.min.css" rel="stylesheet">
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ base_url() }}/css/login.css">
+{% endblock %}
 
-    <!-- Custom styles for this template -->
-    <link href="{{ base_url() }}/css/login.css" rel="stylesheet">
-</head>
-<body>
+{% block body %}
     <form class="form-signin" method="post">
         <div class="text-center mb-4">
             <img class="mb-4" src="{{ base_url() }}/img/logo-black.png" alt="" width="72" height="72">
@@ -38,5 +31,4 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Anmelden</button>
         <p class="mt-5 mb-3 text-muted text-center">&copy; {{ now|date('Y') }} Gisler Software</p>
     </form>
-</body>
-</html>
+{% endblock %}

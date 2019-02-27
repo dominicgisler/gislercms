@@ -5,6 +5,7 @@ namespace GislerCMS;
 use GislerCMS\Controller\IndexController;
 use GislerCMS\Controller\LoginController;
 use GislerCMS\Controller\LogoutController;
+use GislerCMS\Controller\SetupController;
 use GislerCMS\Middleware\LoginMiddleware;
 use GislerCMS\Middleware\NoLoginMiddleware;
 use Slim\App;
@@ -106,15 +107,22 @@ class Application
      */
     protected function registerRoutes()
     {
-        $this->app->map(IndexController::METHODS, IndexController::PATTERN, IndexController::class)
-            ->add(LoginMiddleware::class)
-            ->setName(IndexController::NAME);
-
+        // Login
         $this->app->map(LoginController::METHODS, LoginController::PATTERN, LoginController::class)
             ->add(NoLoginMiddleware::class)
             ->setName(LoginController::NAME);
 
+        // Logout
         $this->app->map(LogoutController::METHODS, LogoutController::PATTERN, LogoutController::class)
             ->setName(LogoutController::NAME);
+
+        // Setup
+        $this->app->map(SetupController::METHODS, SetupController::PATTERN, SetupController::class)
+            ->setName(SetupController::NAME);
+
+        // Dashboard
+        $this->app->map(IndexController::METHODS, IndexController::PATTERN, IndexController::class)
+            ->add(LoginMiddleware::class)
+            ->setName(IndexController::NAME);
     }
 }

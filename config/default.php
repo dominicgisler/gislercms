@@ -22,6 +22,8 @@ return [
             'user' => 'root',
             'pass' => 'root',
             'data' => 'gislercms'
-        ]
+        ],
+
+        'enable_setup' => true
     ],
 ];
