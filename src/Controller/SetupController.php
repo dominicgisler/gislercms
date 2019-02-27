@@ -63,7 +63,7 @@ class SetupController extends AbstractController
                         $data['error'] = 'SQLSTATE[' . $err[0] . '] [' . $err[1] . '] ' . $err[2];
                     }
                 }
-                if (empty($error)) {
+                if (empty($data['error'])) {
                     $sql = "INSERT INTO `cms__user` (`username`, `firstname`, `lastname`, `email`, `password`) VALUES (?, ?, ?, ?, ?)";
                     $stmt = $pdo->prepare($sql);
                     $res = $stmt->execute([
@@ -79,7 +79,7 @@ class SetupController extends AbstractController
                             $data['error'] = 'SQLSTATE[' . $err[0] . '] [' . $err[1] . '] ' . $err[2];
                         }
                     }
-                    if (empty($error)) {
+                    if (empty($data['error'])) {
                         // build config
                         $cfg = "<?php" . PHP_EOL . PHP_EOL .
                             "return [" . PHP_EOL .
@@ -89,9 +89,9 @@ class SetupController extends AbstractController
                             "            'user' => '" . $data['db_user'] . "'," . PHP_EOL .
                             "            'pass' => '" . $data['db_password'] . "'," . PHP_EOL .
                             "            'data' => '" . $data['db_database'] . "'" . PHP_EOL .
-                            "        ]" . PHP_EOL .
-                            "    ]," . PHP_EOL . PHP_EOL .
-                            "    'enable_setup' => false" .
+                            "        ]," . PHP_EOL . PHP_EOL .
+                            "        'enable_setup' => false" . PHP_EOL .
+                            "    ]," . PHP_EOL .
                             "];" . PHP_EOL;
                         if (!file_put_contents(__DIR__ . '/../../config/local.php', $cfg)) {
                             $data['error'] = 'Could not write config file!<br>Please check permissions and try again.';
@@ -102,7 +102,7 @@ class SetupController extends AbstractController
                 $data['error'] = $e->getMessage();
             }
 
-            if (empty($error)) {
+            if (empty($data['error'])) {
                 $data['success'] = true;
             }
         }
