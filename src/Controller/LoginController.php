@@ -2,8 +2,9 @@
 
 namespace GislerCMS\Controller;
 
-use GislerCMS\Entity\SessionHelper;
-use GislerCMS\Entity\User;
+use GislerCMS\Helper\SessionHelper;
+use GislerCMS\Model\DbModel;
+use GislerCMS\Model\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -24,6 +25,7 @@ class LoginController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
+     * @throws \Exception
      */
     public function __invoke($request, $response)
     {
@@ -34,7 +36,8 @@ class LoginController extends AbstractController
             $username = $request->getParsedBodyParam('username');
             $password = $request->getParsedBodyParam('password');
 
-            $user = User::getUser($this->get('pdo'), $username);
+            DbModel::init($this->get('pdo'));
+            $user = User::getUser($username);
             if ($user->getUserId() > 0) {
                 if (password_verify($password, $user->getPassword())) {
                     $cont = SessionHelper::getContainer();

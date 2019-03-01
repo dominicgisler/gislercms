@@ -2,8 +2,8 @@
 
 namespace GislerCMS\Middleware;
 
-use GislerCMS\Entity\SessionHelper;
-use GislerCMS\Entity\User;
+use GislerCMS\Helper\SessionHelper;
+use GislerCMS\Model\User;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

@@ -1,12 +1,12 @@
 <?php
 
-namespace GislerCMS\Entity;
+namespace GislerCMS\Helper;
 
 use Zend\Session\Container;
 
 /**
  * Class SessionHelper
- * @package GislerCMS\Entity
+ * @package GislerCMS\Helper
  */
 class SessionHelper
 {

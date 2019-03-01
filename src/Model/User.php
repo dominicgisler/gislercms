@@ -1,12 +1,12 @@
 <?php
 
-namespace GislerCMS\Entity;
+namespace GislerCMS\Model;
 
 /**
  * Class User
- * @package GislerCMS\Entity
+ * @package GislerCMS\Model
  */
-class User
+class User extends DbModel
 {
     /**
      * @var int
@@ -87,9 +87,14 @@ class User
         $this->resetKey = $resetKey;
     }
 
-    public static function getUser(\PDO $pdo, string $username): User
+    /**
+     * @param string $username
+     * @return User
+     * @throws \Exception
+     */
+    public static function getUser(string $username): User
     {
-        $stmt = $pdo->prepare("SELECT * FROM cms__user WHERE username = ?");
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__user` WHERE `username` = ?");
         $stmt->execute([$username]);
         $user = $stmt->fetchObject();
         if ($user) {
@@ -252,6 +257,10 @@ class User
         $this->resetKey = $resetKey;
     }
 
+    /**
+     * @param User $user
+     * @return bool
+     */
     public function isEqual(User $user): bool
     {
         return

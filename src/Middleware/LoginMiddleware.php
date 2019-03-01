@@ -2,8 +2,9 @@
 
 namespace GislerCMS\Middleware;
 
-use GislerCMS\Entity\SessionHelper;
-use GislerCMS\Entity\User;
+use GislerCMS\Helper\SessionHelper;
+use GislerCMS\Model\DbModel;
+use GislerCMS\Model\User;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -35,6 +36,7 @@ class LoginMiddleware
      * @param  callable                       $next     Next middleware
      *
      * @return ResponseInterface|Response
+     * @throws \Exception
      */
     public function __invoke($request, $response, $next)
     {
@@ -43,7 +45,8 @@ class LoginMiddleware
         if ($cont->offsetExists('user')) {
             /** @var User $user */
             $user = $cont->offsetGet('user');
-            $dbUser = User::getUser($this->container->get('pdo'), $user->getUsername());
+            DbModel::init($this->container->get('pdo'));
+            $dbUser = User::getUser($user->getUsername());
 
             if ($user->isEqual($dbUser)) {
                 return $next($request, $response);

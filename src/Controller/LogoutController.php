@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Controller;
 
-use GislerCMS\Entity\SessionHelper;
+use GislerCMS\Helper\SessionHelper;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
