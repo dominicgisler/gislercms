@@ -48,29 +48,19 @@
 
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <span>Seiten</span>
-                        <a class="d-flex align-items-center text-muted p-0" href="#">
+                        <a class="d-flex align-items-center text-muted p-0" href="{{ base_url() }}/page/add">
                             <i class="fa fa-plus-circle fa-fw"></i>
                         </a>
                     </h6>
                     <ul class="nav flex-column mb-2">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fa fa-file-alt fa-fw"></i>
-                                Startseite
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fa fa-file-alt fa-fw"></i>
-                                Über uns
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fa fa-file-alt fa-fw"></i>
-                                Kontakt
-                            </a>
-                        </li>
+                        {% for page in pages %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ base_url() }}/page/{{ page.getPageId() }}">
+                                    <i class="fa fa-file-alt fa-fw"></i>
+                                    {{ page.getName() }}
+                                </a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </nav>
