@@ -92,7 +92,7 @@ class User extends DbModel
      * @return User
      * @throws \Exception
      */
-    public static function getUser(string $username): User
+    public static function getByUsername(string $username): User
     {
         $stmt = self::getPDO()->prepare("SELECT * FROM `cms__user` WHERE `username` = ?");
         $stmt->execute([$username]);
@@ -111,6 +111,31 @@ class User extends DbModel
             );
         }
         return new User();
+    }
+
+    /**
+     * @param User $user
+     * @return User
+     * @throws \Exception
+     */
+    public static function create(User $user): User
+    {
+        $sql = "INSERT INTO `cms__user` (`username`, `firstname`, `lastname`, `email`, `password`) VALUES (?, ?, ?, ?, ?)";
+        $stmt = self::getPDO()->prepare($sql);
+        $res = $stmt->execute([
+            $user->getUsername(),
+            $user->getFirstname(),
+            $user->getLastname(),
+            $user->getEmail(),
+            $user->getPassword()
+        ]);
+        if ($res === false) {
+            $err = $stmt->errorInfo();
+            if ($err[0] !== '00000' && $err[0] !== '01000') {
+                return new User();
+            }
+        }
+        return self::getByUsername($user->getUsername());
     }
 
     /**

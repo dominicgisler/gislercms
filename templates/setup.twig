@@ -12,14 +12,18 @@
         <div class="text-center mb-4">
             <img class="mb-4" src="{{ base_url() }}/img/logo-black.png" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">GislerCMS - Setup</h1>
-            {% if error %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error|raw }}
-                </div>
-            {% elseif success %}
-                <div class="alert alert-success" role="alert">
-                    {{ success_msg|raw }}<br><br>
-                    <a href="{{ base_url() }}/login" class="alert-link">Redirect to login</a>
+            {% if messages|length > 0 %}
+                <div class="alert {% if success %}alert-success{% else %}alert-danger{% endif %}" role="alert">
+                    {% if error %}
+                        {% for key, message in messages %}
+                            <strong>{{ key }}</strong><br>
+                            {{ message.message }}<br><br>
+                        {% endfor %}
+                        Some errors occurred, please try again.
+                    {% else %}
+                        Setup successful<br><br>
+                        <a href="{{ base_url() }}/login" class="alert-link">Redirect to login</a>
+                    {% endif %}
                 </div>
             {% endif %}
         </div>

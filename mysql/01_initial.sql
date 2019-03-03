@@ -1,3 +1,19 @@
+DROP TABLE IF EXISTS `cms__page_translation_history`;
+DROP TABLE IF EXISTS `cms__page_translation`;
+DROP TABLE IF EXISTS `cms__page`;
+DROP TABLE IF EXISTS `cms__user`;
+DROP TABLE IF EXISTS `cms__language`;
+DROP TABLE IF EXISTS `cms__config`;
+DROP TABLE IF EXISTS `cms__migration`;
+
+CREATE TABLE `cms__migration`
+(
+  `migration`  VARCHAR(128) NOT NULL,
+  `created_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT `pk_migration` PRIMARY KEY (`migration`)
+);
+
 CREATE TABLE `cms__config`
 (
   `config_id`  INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -94,7 +110,7 @@ CREATE TABLE `cms__page_translation_history`
   `meta_copyright`              VARCHAR(255) NULL     DEFAULT NULL,
   `meta_image`                  VARCHAR(255) NULL     DEFAULT NULL,
   `enabled`                     TINYINT(1)   NOT NULL DEFAULT 0,
-  `fk_user_id`                  INT UNSIGNED NULL DEFAULT NULL,
+  `fk_user_id`                  INT UNSIGNED NULL     DEFAULT NULL,
   `created_at`                  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at`                  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 

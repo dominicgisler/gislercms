@@ -37,7 +37,7 @@ class LoginController extends AbstractController
             $password = $request->getParsedBodyParam('password');
 
             DbModel::init($this->get('pdo'));
-            $user = User::getUser($username);
+            $user = User::getByUsername($username);
             if ($user->getUserId() > 0) {
                 if (password_verify($password, $user->getPassword())) {
                     $cont = SessionHelper::getContainer();

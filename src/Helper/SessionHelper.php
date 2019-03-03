@@ -17,6 +17,9 @@ class SessionHelper
      */
     private static $container;
 
+    /**
+     * @return Container
+     */
     public static function getContainer(): Container
     {
         if (is_null(self::$container)) {

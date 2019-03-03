@@ -2,6 +2,9 @@
 
 namespace GislerCMS\Controller;
 
+use GislerCMS\Helper\MigrationHelper;
+use GislerCMS\Model\DbModel;
+use GislerCMS\Model\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -36,9 +39,9 @@ class SetupController extends AbstractController
             'user_lastname' => '',
             'user_email' => '',
             'user_password' => '',
-            'error' => '',
+            'error' => false,
             'success' => false,
-            'success_msg' => 'Setup successful!'
+            'messages' => []
         ];
 
         if ($request->isPost()) {
@@ -55,31 +58,27 @@ class SetupController extends AbstractController
                     $data['db_user'],
                     $data['db_password']
                 );
-                $res = $pdo->exec(file_get_contents(__DIR__ . '/../../mysql/01_initial.sql'));
+                $res = MigrationHelper::executeMigrations($pdo);
+                $data['messages'] = $res['migrations'];
 
-                if ($res === false) {
-                    $err = $pdo->errorInfo();
-                    if ($err[0] !== '00000' && $err[0] !== '01000') {
-                        $data['error'] = 'SQLSTATE[' . $err[0] . '] [' . $err[1] . '] ' . $err[2];
-                    }
-                }
-                if (empty($data['error'])) {
-                    $sql = "INSERT INTO `cms__user` (`username`, `firstname`, `lastname`, `email`, `password`) VALUES (?, ?, ?, ?, ?)";
-                    $stmt = $pdo->prepare($sql);
-                    $res = $stmt->execute([
+                if ($res['status'] === 'error') {
+                    $data['error'] = true;
+                } else {
+                    DbModel::init($pdo);
+                    $user = User::create(new User(
+                        0,
                         $data['user_username'],
                         $data['user_firstname'],
                         $data['user_lastname'],
                         $data['user_email'],
                         password_hash($data['user_password'], PASSWORD_DEFAULT)
-                    ]);
-                    if ($res === false) {
-                        $err = $stmt->errorInfo();
-                        if ($err[0] !== '00000' && $err[0] !== '01000') {
-                            $data['error'] = 'SQLSTATE[' . $err[0] . '] [' . $err[1] . '] ' . $err[2];
-                        }
-                    }
-                    if (empty($data['error'])) {
+                    ));
+                    if ($user->getUserId() === 0) {
+                        $data['error'] = true;
+                        $data['messages']['create_user'] = [
+                            'message' => 'Couldn\'t create admin user!'
+                        ];
+                    } else {
                         // build config
                         $cfg = "<?php" . PHP_EOL . PHP_EOL .
                             "return [" . PHP_EOL .
@@ -94,12 +93,18 @@ class SetupController extends AbstractController
                             "    ]," . PHP_EOL .
                             "];" . PHP_EOL;
                         if (!file_put_contents(__DIR__ . '/../../config/local.php', $cfg)) {
-                            $data['error'] = 'Could not write config file!<br>Please check permissions and try again.';
+                            $data['error'] = true;
+                            $data['messages']['write_config'] = [
+                                'message' => 'Could not write config file!'
+                            ];
                         }
                     }
                 }
             } catch (\Exception $e) {
-                $data['error'] = $e->getMessage();
+                $data['error'] = true;
+                $data['messages']['exec_migration'] = [
+                    'message' => $e->getMessage()
+                ];
             }
 
             if (empty($data['error'])) {

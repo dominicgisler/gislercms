@@ -46,7 +46,7 @@ class LoginMiddleware
             /** @var User $user */
             $user = $cont->offsetGet('user');
             DbModel::init($this->container->get('pdo'));
-            $dbUser = User::getUser($user->getUsername());
+            $dbUser = User::getByUsername($user->getUsername());
 
             if ($user->isEqual($dbUser)) {
                 return $next($request, $response);
