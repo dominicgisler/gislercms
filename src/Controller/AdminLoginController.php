@@ -9,13 +9,13 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class LoginController
+ * Class AdminLoginController
  * @package GislerCMS\Controller
  */
-class LoginController extends AbstractController
+class AdminLoginController extends AbstractController
 {
-    const NAME = 'login';
-    const PATTERN = '/login';
+    const NAME = 'admin-login';
+    const PATTERN = '{admin_route}/login';
     const METHODS = ['GET', 'POST'];
 
     const HTTP_OK = 200;
@@ -42,7 +42,7 @@ class LoginController extends AbstractController
                 if (password_verify($password, $user->getPassword())) {
                     $cont = SessionHelper::getContainer();
                     $cont->offsetSet('user', $user);
-                    return $response->withRedirect($this->get('base_url'));
+                    return $response->withRedirect($this->get('base_url') . $this->get('settings')['admin_route']);
                 }
             }
 
@@ -53,6 +53,6 @@ class LoginController extends AbstractController
             ];
         }
 
-        return $this->render($request, $response, 'login.twig', $data);
+        return $this->render($request, $response, 'admin/login.twig', $data);
     }
 }

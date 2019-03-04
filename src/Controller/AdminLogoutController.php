@@ -7,13 +7,13 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class LogoutController
+ * Class AdminLogoutController
  * @package GislerCMS\Controller
  */
-class LogoutController extends AbstractController
+class AdminLogoutController extends AbstractController
 {
-    const NAME = 'logout';
-    const PATTERN = '/logout';
+    const NAME = 'admin-logout';
+    const PATTERN = '{admin_route}/logout';
     const METHODS = ['GET'];
 
     /**
@@ -26,6 +26,6 @@ class LogoutController extends AbstractController
         $cont = SessionHelper::getContainer();
         $cont->offsetUnset('user');
 
-        return $response->withRedirect($this->get('base_url'));
+        return $response->withRedirect($this->get('base_url') . $this->get('settings')['admin_route']);
     }
 }

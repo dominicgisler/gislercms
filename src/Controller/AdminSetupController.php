@@ -9,13 +9,13 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class SetupController
+ * Class AdminSetupController
  * @package GislerCMS\Controller
  */
-class SetupController extends AbstractController
+class AdminSetupController extends AbstractController
 {
-    const NAME = 'setup';
-    const PATTERN = '/setup';
+    const NAME = 'admin-setup';
+    const PATTERN = '{admin_route}/setup';
     const METHODS = ['GET', 'POST'];
 
     /**
@@ -26,7 +26,7 @@ class SetupController extends AbstractController
     public function __invoke($request, $response)
     {
         if (!$this->get('settings')['enable_setup']) {
-            return $response->withRedirect($this->get('base_url'));
+            return $response->withRedirect($this->get('base_url') . $this->get('settings')['admin_route']);
         }
 
         $data = [
@@ -112,6 +112,6 @@ class SetupController extends AbstractController
             }
         }
 
-        return $this->render($request, $response, 'setup.twig', $data);
+        return $this->render($request, $response, 'admin/setup.twig', $data);
     }
 }

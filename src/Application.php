@@ -2,10 +2,10 @@
 
 namespace GislerCMS;
 
-use GislerCMS\Controller\IndexController;
-use GislerCMS\Controller\LoginController;
-use GislerCMS\Controller\LogoutController;
-use GislerCMS\Controller\SetupController;
+use GislerCMS\Controller\AdminIndexController;
+use GislerCMS\Controller\AdminLoginController;
+use GislerCMS\Controller\AdminLogoutController;
+use GislerCMS\Controller\AdminSetupController;
 use GislerCMS\Middleware\LoginMiddleware;
 use GislerCMS\Middleware\NoLoginMiddleware;
 use Slim\App;
@@ -107,22 +107,32 @@ class Application
      */
     protected function registerRoutes()
     {
-        // Login
-        $this->app->map(LoginController::METHODS, LoginController::PATTERN, LoginController::class)
-            ->add(NoLoginMiddleware::class)
-            ->setName(LoginController::NAME);
+        $classes = [
+            'default' => [
+                AdminLogoutController::class,
+                AdminSetupController::class
+            ],
+            'require_login' => [
+                AdminIndexController::class
+            ],
+            'require_nologin' => [
+                AdminLoginController::class
+            ]
+        ];
+        $adminRoute = $this->app->getContainer()['settings']['admin_route'];
 
-        // Logout
-        $this->app->map(LogoutController::METHODS, LogoutController::PATTERN, LogoutController::class)
-            ->setName(LogoutController::NAME);
-
-        // Setup
-        $this->app->map(SetupController::METHODS, SetupController::PATTERN, SetupController::class)
-            ->setName(SetupController::NAME);
-
-        // Dashboard
-        $this->app->map(IndexController::METHODS, IndexController::PATTERN, IndexController::class)
-            ->add(LoginMiddleware::class)
-            ->setName(IndexController::NAME);
+        foreach ($classes['default'] as $class) {
+            $this->app->map($class::METHODS, str_replace('{admin_route}', $adminRoute, $class::PATTERN), $class)->setName($class::NAME);
+        }
+        foreach ($classes['require_login'] as $class) {
+            $this->app->map($class::METHODS, str_replace('{admin_route}', $adminRoute, $class::PATTERN), $class)
+                ->add(LoginMiddleware::class)
+                ->setName($class::NAME);
+        }
+        foreach ($classes['require_nologin'] as $class) {
+            $this->app->map($class::METHODS, str_replace('{admin_route}', $adminRoute, $class::PATTERN), $class)
+                ->add(NoLoginMiddleware::class)
+                ->setName($class::NAME);
+        }
     }
 }

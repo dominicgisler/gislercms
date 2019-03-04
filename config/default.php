@@ -24,6 +24,8 @@ return [
             'data' => 'gislercms'
         ],
 
+        'admin_route' => '/admin',
+
         'enable_setup' => true
     ],
 ];

@@ -8,13 +8,13 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class IndexController
+ * Class AdminIndexController
  * @package GislerCMS\Controller
  */
-class IndexController extends AbstractController
+class AdminIndexController extends AbstractController
 {
-    const NAME = 'index';
-    const PATTERN = '/';
+    const NAME = 'admin-index';
+    const PATTERN = '{admin_route}[/]';
     const METHODS = ['GET'];
 
     /**
@@ -28,7 +28,7 @@ class IndexController extends AbstractController
         DbModel::init($this->get('pdo'));
         $pages = Page::getAll();
 
-        return $this->render($request, $response, 'index.twig', [
+        return $this->render($request, $response, 'admin/index.twig', [
             'pages' => $pages
         ]);
     }

@@ -46,7 +46,8 @@ abstract class AbstractController
         /** @var Route $route */
         $route = $request->getAttribute('route');
         $arr = [
-            'route' => $route->getName()
+            'route' => $route->getName(),
+            'admin_url' => $this->get('base_url') . $this->get('settings')['admin_route']
         ];
         return $this->get('view')->render($response, $template, array_merge($arr, $data));
     }

@@ -1,16 +1,16 @@
-{% extends 'layout.twig' %}
+{% extends 'admin/layout.twig' %}
 
 {% block title %}Setup{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ base_url() }}/css/login.css">
+    <link rel="stylesheet" href="{{ base_url() }}/css/admin/login.css">
 {% endblock %}
 
 {% block body %}
     <form id="setup-form" class="form-signin" method="post">
         <input type="hidden" name="setup">
         <div class="text-center mb-4">
-            <img class="mb-4" src="{{ base_url() }}/img/logo-black.png" alt="" width="72" height="72">
+            <img class="mb-4" src="{{ base_url() }}/img/admin/logo-black.png" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">GislerCMS - Setup</h1>
             {% if messages|length > 0 %}
                 <div class="alert {% if success %}alert-success{% else %}alert-danger{% endif %}" role="alert">
@@ -22,7 +22,7 @@
                         Some errors occurred, please try again.
                     {% else %}
                         Setup successful<br><br>
-                        <a href="{{ base_url() }}/login" class="alert-link">Redirect to login</a>
+                        <a href="{{ admin_url }}/login" class="alert-link">Redirect to login</a>
                     {% endif %}
                 </div>
             {% endif %}
