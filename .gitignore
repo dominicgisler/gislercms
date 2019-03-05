@@ -5,6 +5,7 @@
 /.idea/
 /config/local.php
 /public/js/**/bootstrap*
+/public/js/**/jquery*
 /public/js/**/*.min.js
 /public/css/webfonts
 /public/css/**/*.css
