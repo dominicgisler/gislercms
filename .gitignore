@@ -4,3 +4,8 @@
 /cache/
 /.idea/
 /config/local.php
+/public/js/**/bootstrap*
+/public/js/**/*.min.js
+/public/css/webfonts
+/public/css/**/*.css
+/public/css/**/*.css.map
