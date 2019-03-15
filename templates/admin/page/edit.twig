@@ -1,0 +1,9 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/content.twig' %}
+
+{% block title %}"{{ page.name }}" bearbeiten{% endblock %}
+
+{% block content %}
+    {{ forms.form_group('text', 'name', 'Name', 'Name') }}
+{% endblock %}

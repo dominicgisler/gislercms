@@ -1,0 +1,16 @@
+{% extends 'admin/content.twig' %}
+
+{% block title %}Seite nicht gefunden{% endblock %}
+
+{% block content %}
+    <p>Die gewünschte Seite wurde nicht gefunden, bitte wähle eine Seite aus der Liste aus:</p>
+    <ul>
+        {% for page in pages %}
+            <li>
+                <a href="{{ admin_url }}/page/{{ page.getPageId() }}">
+                    {{ page.getName() }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

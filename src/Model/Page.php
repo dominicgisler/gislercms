@@ -95,6 +95,50 @@ class Page extends DbModel
     }
 
     /**
+     * @param int $id
+     * @return Page
+     * @throws \Exception
+     */
+    public static function get(int $id): Page
+    {
+        $arr = [];
+        $stmt = self::getPDO()->prepare("
+            SELECT
+                `p`.`page_id`,
+                `p`.`name`,
+                `p`.`enabled`,
+                `p`.`trash`,
+                `l`.`language_id`,
+                `l`.`locale`,
+                `l`.`description`,
+                `l`.`enabled`
+            
+            FROM `cms__page` `p`
+              
+            INNER JOIN `cms__language` `l`
+            ON `p`.fk_language_id = `l`.language_id
+            
+            WHERE `p`.`page_id` = ?
+        ");
+        $stmt->execute([$id]);
+        $page = $stmt->fetchObject();
+        if ($page) {
+            return new Page(
+                $page->page_id,
+                $page->name,
+                $page->enabled,
+                $page->trash,
+                new Language(
+                    $page->language_id,
+                    $page->locale,
+                    $page->description
+                )
+            );
+        }
+        return new Page();
+    }
+
+    /**
      * @return int
      */
     public function getPageId(): int

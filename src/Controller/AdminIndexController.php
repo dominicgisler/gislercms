@@ -2,8 +2,6 @@
 
 namespace GislerCMS\Controller;
 
-use GislerCMS\Model\DbModel;
-use GislerCMS\Model\Page;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -25,11 +23,6 @@ class AdminIndexController extends AbstractController
      */
     public function __invoke($request, $response)
     {
-        DbModel::init($this->get('pdo'));
-        $pages = Page::getAll();
-
-        return $this->render($request, $response, 'admin/index.twig', [
-            'pages' => $pages
-        ]);
+        return $this->render($request, $response, 'admin/index.twig');
     }
 }

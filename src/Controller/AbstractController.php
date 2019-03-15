@@ -2,6 +2,8 @@
 
 namespace GislerCMS\Controller;
 
+use GislerCMS\Model\DbModel;
+use GislerCMS\Model\Page;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Route;
@@ -23,6 +25,7 @@ abstract class AbstractController
     public function __construct($container)
     {
         $this->container = $container;
+        DbModel::init($this->get('pdo'));
     }
 
     /**
@@ -47,7 +50,8 @@ abstract class AbstractController
         $route = $request->getAttribute('route');
         $arr = [
             'route' => $route->getName(),
-            'admin_url' => $this->get('base_url') . $this->get('settings')['admin_route']
+            'admin_url' => $this->get('base_url') . $this->get('settings')['admin_route'],
+            'pages' => Page::getAll()
         ];
         return $this->get('view')->render($response, $template, array_merge($arr, $data));
     }
