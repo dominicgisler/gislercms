@@ -67,7 +67,7 @@ class Config extends DbModel
     /**
      * @param int $configId
      */
-    public function setConfigId(int $configId)
+    public function setConfigId(int $configId): void
     {
         $this->configId = $configId;
     }
@@ -83,7 +83,7 @@ class Config extends DbModel
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -99,7 +99,7 @@ class Config extends DbModel
     /**
      * @param string $value
      */
-    public function setValue(string $value)
+    public function setValue(string $value): void
     {
         $this->value = $value;
     }

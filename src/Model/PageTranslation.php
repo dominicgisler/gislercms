@@ -122,7 +122,7 @@ class PageTranslation extends DbModel
     /**
      * @param int $pageTranslationId
      */
-    public function setPageTranslationId(int $pageTranslationId)
+    public function setPageTranslationId(int $pageTranslationId): void
     {
         $this->pageTranslationId = $pageTranslationId;
     }
@@ -138,7 +138,7 @@ class PageTranslation extends DbModel
     /**
      * @param Page $page
      */
-    public function setPage(Page $page)
+    public function setPage(Page $page): void
     {
         $this->page = $page;
     }
@@ -154,7 +154,7 @@ class PageTranslation extends DbModel
     /**
      * @param Language $language
      */
-    public function setLanguage(Language $language)
+    public function setLanguage(Language $language): void
     {
         $this->language = $language;
     }
@@ -170,7 +170,7 @@ class PageTranslation extends DbModel
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -186,7 +186,7 @@ class PageTranslation extends DbModel
     /**
      * @param string $title
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -202,7 +202,7 @@ class PageTranslation extends DbModel
     /**
      * @param string $content
      */
-    public function setContent(string $content)
+    public function setContent(string $content): void
     {
         $this->content = $content;
     }
@@ -218,7 +218,7 @@ class PageTranslation extends DbModel
     /**
      * @param string $metaKeywords
      */
-    public function setMetaKeywords(string $metaKeywords)
+    public function setMetaKeywords(string $metaKeywords): void
     {
         $this->metaKeywords = $metaKeywords;
     }
@@ -234,7 +234,7 @@ class PageTranslation extends DbModel
     /**
      * @param string $metaDescription
      */
-    public function setMetaDescription(string $metaDescription)
+    public function setMetaDescription(string $metaDescription): void
     {
         $this->metaDescription = $metaDescription;
     }
@@ -250,7 +250,7 @@ class PageTranslation extends DbModel
     /**
      * @param string $metaAuthor
      */
-    public function setMetaAuthor(string $metaAuthor)
+    public function setMetaAuthor(string $metaAuthor): void
     {
         $this->metaAuthor = $metaAuthor;
     }
@@ -266,7 +266,7 @@ class PageTranslation extends DbModel
     /**
      * @param string $metaCopyright
      */
-    public function setMetaCopyright(string $metaCopyright)
+    public function setMetaCopyright(string $metaCopyright): void
     {
         $this->metaCopyright = $metaCopyright;
     }
@@ -282,7 +282,7 @@ class PageTranslation extends DbModel
     /**
      * @param string $metaImage
      */
-    public function setMetaImage(string $metaImage)
+    public function setMetaImage(string $metaImage): void
     {
         $this->metaImage = $metaImage;
     }
@@ -298,7 +298,7 @@ class PageTranslation extends DbModel
     /**
      * @param bool $enabled
      */
-    public function setEnabled(bool $enabled)
+    public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
     }

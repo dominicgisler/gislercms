@@ -149,7 +149,7 @@ class User extends DbModel
     /**
      * @param int $userId
      */
-    public function setUserId(int $userId)
+    public function setUserId(int $userId): void
     {
         $this->userId = $userId;
     }
@@ -165,7 +165,7 @@ class User extends DbModel
     /**
      * @param string $username
      */
-    public function setUsername(string $username)
+    public function setUsername(string $username): void
     {
         $this->username = $username;
     }
@@ -181,7 +181,7 @@ class User extends DbModel
     /**
      * @param string $firstname
      */
-    public function setFirstname(string $firstname)
+    public function setFirstname(string $firstname): void
     {
         $this->firstname = $firstname;
     }
@@ -197,7 +197,7 @@ class User extends DbModel
     /**
      * @param string $lastname
      */
-    public function setLastname(string $lastname)
+    public function setLastname(string $lastname): void
     {
         $this->lastname = $lastname;
     }
@@ -213,7 +213,7 @@ class User extends DbModel
     /**
      * @param string $email
      */
-    public function setEmail(string $email)
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }
@@ -229,7 +229,7 @@ class User extends DbModel
     /**
      * @param string $password
      */
-    public function setPassword(string $password)
+    public function setPassword(string $password): void
     {
         $this->password = $password;
     }
@@ -245,7 +245,7 @@ class User extends DbModel
     /**
      * @param int $failedLogins
      */
-    public function setFailedLogins(int $failedLogins)
+    public function setFailedLogins(int $failedLogins): void
     {
         $this->failedLogins = $failedLogins;
     }
@@ -261,7 +261,7 @@ class User extends DbModel
     /**
      * @param bool $locked
      */
-    public function setLocked(bool $locked)
+    public function setLocked(bool $locked): void
     {
         $this->locked = $locked;
     }
@@ -277,7 +277,7 @@ class User extends DbModel
     /**
      * @param string $resetKey
      */
-    public function setResetKey(string $resetKey)
+    public function setResetKey(string $resetKey): void
     {
         $this->resetKey = $resetKey;
     }

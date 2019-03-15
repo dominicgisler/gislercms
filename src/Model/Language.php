@@ -48,7 +48,7 @@ class Language extends DbModel
      * @return Language
      * @throws \Exception
      */
-    public static function getLanguage(string $locale)
+    public static function getLanguage(string $locale): Language
     {
         $stmt = self::getPDO()->prepare("SELECT * FROM `cms__language` WHERE `locale` = ?");
         $stmt->execute([$locale]);
@@ -75,7 +75,7 @@ class Language extends DbModel
     /**
      * @param int $languageId
      */
-    public function setLanguageId(int $languageId)
+    public function setLanguageId(int $languageId): void
     {
         $this->languageId = $languageId;
     }
@@ -91,7 +91,7 @@ class Language extends DbModel
     /**
      * @param string $locale
      */
-    public function setLocale(string $locale)
+    public function setLocale(string $locale): void
     {
         $this->locale = $locale;
     }
@@ -107,7 +107,7 @@ class Language extends DbModel
     /**
      * @param string $description
      */
-    public function setDescription(string $description)
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
@@ -123,7 +123,7 @@ class Language extends DbModel
     /**
      * @param bool $enabled
      */
-    public function setEnabled(bool $enabled)
+    public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
     }

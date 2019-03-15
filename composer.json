@@ -17,7 +17,7 @@
     }
   ],
   "require": {
-    "php": ">=7.0",
+    "php": ">=7.3",
     "ext-pdo": "*",
     "slim/slim": "^3.12",
     "slim/twig-view": "^2.4",
@@ -33,5 +33,16 @@
     "psr-4": {
       "GislerCMS\\": "src/"
     }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "cp -r vendor/fortawesome/font-awesome/webfonts public/css/.",
+      "cp -r vendor/twbs/bootstrap/dist/js/* public/js/.",
+      "cp -r vendor/components/jquery/*.js public/js/.",
+      "cd public/css/admin/ && sass style.scss style.css",
+      "cd public/css/admin/ && sass login.scss login.css",
+      "cd public/css/admin/ && yuicompressor style.css -o style.min.css",
+      "cd public/css/admin/ && yuicompressor login.css -o login.min.css"
+    ]
   }
 }

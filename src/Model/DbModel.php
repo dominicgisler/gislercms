@@ -16,7 +16,7 @@ abstract class DbModel
     /**
      * @param \PDO $pdo
      */
-    public static function init(\PDO $pdo)
+    public static function init(\PDO $pdo): void
     {
         self::$pdo = $pdo;
     }

@@ -105,7 +105,7 @@ class Page extends DbModel
     /**
      * @param int $pageId
      */
-    public function setPageId(int $pageId)
+    public function setPageId(int $pageId): void
     {
         $this->pageId = $pageId;
     }
@@ -121,7 +121,7 @@ class Page extends DbModel
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -137,7 +137,7 @@ class Page extends DbModel
     /**
      * @param bool $enabled
      */
-    public function setEnabled(bool $enabled)
+    public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
     }
@@ -153,7 +153,7 @@ class Page extends DbModel
     /**
      * @param bool $trash
      */
-    public function setTrash(bool $trash)
+    public function setTrash(bool $trash): void
     {
         $this->trash = $trash;
     }
@@ -169,7 +169,7 @@ class Page extends DbModel
     /**
      * @param Language $language
      */
-    public function setLanguage(Language $language)
+    public function setLanguage(Language $language): void
     {
         $this->language = $language;
     }
