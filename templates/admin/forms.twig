@@ -1,7 +1,41 @@
-{% macro form_group(type, name, label, placeholder, hint) %}
-    <div class="form-group">
-        <label for="input_{{ name }}">{{ label }}</label>
-        <input type="{{ type }}" class="form-control" id="input_{{ name }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %} placeholder="{{ placeholder }}">
-        {% if hint %}<small id="hint_{{ name }}" class="form-text text-muted">{{ hint }}</small>{% endif %}
+{% macro form_group(type, name, value, label, placeholder, class, hint, options) %}
+    {% import _self as forms %}
+    {% if type == 'checkbox' %}
+        {{ forms.checkbox(name, value, label, class) }}
+    {% else %}
+        <div class="form-group">
+            <label for="input_{{ name }}">{{ label }}</label>
+            {% if type == 'textarea' %}
+                {{ forms.textarea(name, value, placeholder, class, hint) }}
+            {% elseif type == 'select' %}
+                {{ forms.select(name, value, options, placeholder, class, hint) }}
+            {% else %}
+                {{ forms.input(type, name, value, placeholder, class, hint) }}
+            {% endif %}
+            {% if hint %}<small id="hint_{{ name }}" class="form-text text-muted">{{ hint }}</small>{% endif %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro textarea(name, value, placeholder, class, hint) %}
+    <textarea class="form-control {{ class }}" id="input_{{ name }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %} placeholder="{{ placeholder }}">{{ value }}</textarea>
+{% endmacro %}
+
+{% macro select(name, value, options, placeholder, class, hint) %}
+    <select class="form-control {{ class }}" id="input_{{ name }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %}>
+        {% for key, val in options %}
+            <option value="{{ key }}">{{ val }}</option>
+        {% endfor %}
+    </select>
+{% endmacro %}
+
+{% macro checkbox(name, value, label, class) %}
+    <div class="form-check {{ class }}">
+        <input class="form-check-input" type="checkbox" id="input_{{ name }}" {% if value %}checked{% endif %}>
+        <label class="form-check-label" for="input_{{ name }}">{{ label }}</label>
     </div>
+{% endmacro %}
+
+{% macro input(type, name, value, placeholder, class, hint) %}
+    <input type="{{ type }}" class="form-control {{ class }}" id="input_{{ name }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %} value="{{ value }}" placeholder="{{ placeholder }}">
 {% endmacro %}
