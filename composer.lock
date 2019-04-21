@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1dea7bba5243f1272dec4b5f3b56506",
+    "content-hash": "17be97beec502a2528b8eea668db82f6",
     "packages": [
         {
             "name": "components/jquery",
@@ -703,16 +703,16 @@
         },
         {
             "name": "tinymce/tinymce",
-            "version": "5.0.3",
+            "version": "4.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tinymce/tinymce-dist.git",
-                "reference": "0d275010c122a955b14ff5ed5d9e4ebff058e677"
+                "reference": "3a997f24eb54d890b1c88f22cff03092e0b73378"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/0d275010c122a955b14ff5ed5d9e4ebff058e677",
-                "reference": "0d275010c122a955b14ff5ed5d9e4ebff058e677",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/3a997f24eb54d890b1c88f22cff03092e0b73378",
+                "reference": "3a997f24eb54d890b1c88f22cff03092e0b73378",
                 "shasum": ""
             },
             "type": "component",
@@ -745,7 +745,7 @@
                 "tinymce",
                 "wysiwyg"
             ],
-            "time": "2019-03-19T05:27:15+00:00"
+            "time": "2019-03-20T13:56:58+00:00"
         },
         {
             "name": "trippo/ResponsiveFilemanager",

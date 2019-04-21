@@ -8,4 +8,5 @@
     {{ forms.form_group('text', 'name', page.name, 'Name', 'Name') }}
     {{ forms.form_group('select', 'language', page.language, 'Standardsprache', '', '', '', {de: 'Deutsch', en: 'English'}) }}
     {{ forms.form_group('checkbox', 'enabled', page.enabled, 'Seite aktiviert') }}
+    {{ forms.form_group('textarea', 'content', 'Test', 'Inhalt', 'Inhalt', 'tinymce') }}
 {% endblock %}
