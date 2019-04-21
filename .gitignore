@@ -10,3 +10,6 @@
 /public/css/webfonts
 /public/css/**/*.css
 /public/css/**/*.css.map
+/public/js/tinymce
+/public/filemanager
+!/public/filemanager/config/config.php
