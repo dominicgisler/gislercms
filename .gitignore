@@ -13,5 +13,6 @@
 /public/js/tinymce
 /public/filemanager
 !/public/filemanager/config/config.php
+!/public/filemanager/js/include.js
 /public/uploads
 /public/thumbs
