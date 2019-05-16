@@ -13,7 +13,6 @@
       "emoticons template paste textcolor colorpicker textpattern responsivefilemanager imagetools"
     ],
     toolbar1: "undo redo | styleselect fontselect fontsizeselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-    //toolbar2: "addWidget addModule | print preview media | forecolor backcolor emoticons | responsivefilemanager",
     toolbar2: "addWidget addModule | print preview media | forecolor backcolor emoticons | responsivefilemanager",
     image_advtab: true,
     content_css: "/css/content.css",
