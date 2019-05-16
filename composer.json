@@ -18,16 +18,8 @@
   ],
   "repositories": [
     {
-      "type": "package",
-      "package": {
-        "name": "trippo/ResponsiveFilemanager",
-        "version": "master",
-        "source": {
-          "url": "https://github.com/trippo/ResponsiveFilemanager.git",
-          "type": "git",
-          "reference": "master"
-        }
-      }
+      "type": "vcs",
+      "url": "ssh://git@github.com:22/dominicgisler/gislercms-editor.git"
     }
   ],
   "require": {
@@ -42,8 +34,7 @@
     "fortawesome/font-awesome": "^5.7",
     "twbs/bootstrap": "^4.3",
     "components/jquery": "^3.3",
-    "tinymce/tinymce": "^4.9",
-    "trippo/ResponsiveFilemanager": "dev-master"
+    "dominicgisler/gislercms-editor": "dev-master"
   },
   "autoload": {
     "psr-4": {
@@ -55,18 +46,13 @@
       "cp -r vendor/fortawesome/font-awesome/webfonts public/css/.",
       "cp -r vendor/twbs/bootstrap/dist/js/* public/js/.",
       "cp -r vendor/components/jquery/*.js public/js/.",
-      "cp -r vendor/tinymce/tinymce public/js/.",
       "cd public/css/admin/ && sass style.scss style.css",
       "cd public/css/admin/ && sass login.scss login.css",
       "cd public/css/admin/ && yuicompressor style.css -o style.min.css",
       "cd public/css/admin/ && yuicompressor login.css -o login.min.css",
-      "mkdir vendor/responsive_filemanager || true",
-      "curl -s \"https://api.github.com/repos/trippo/ResponsiveFilemanager/releases/latest\" | grep \"responsive_filemanager.zip\" | cut -d '\"' -f 4 | wget -qi - -O vendor/responsive_filemanager/archive.zip || true",
-      "cd vendor/responsive_filemanager && unzip -o archive.zip",
-      "cp -r vendor/responsive_filemanager/tinymce/plugins/responsivefilemanager public/js/tinymce/plugins/.",
-      "cp -n -r vendor/responsive_filemanager/filemanager public/.",
-      "mkdir public/uploads",
-      "mkdir public/thumbs"
+      "cp -r vendor/dominicgisler/gislercms-editor public/editor",
+      "mkdir public/uploads && chmod 755 public/uploads",
+      "mkdir public/thumbs && chmod 755 public/thumbs"
     ]
   }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "17be97beec502a2528b8eea668db82f6",
+    "content-hash": "181f84ef04a0d1675d2edeab28065217",
     "packages": [
         {
             "name": "components/jquery",
@@ -80,17 +80,35 @@
             "time": "2017-02-14T19:40:03+00:00"
         },
         {
+            "name": "dominicgisler/gislercms-editor",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@github.com:22/dominicgisler/gislercms-editor.git",
+                "reference": "4b0ad9c2eb6606dfc6d940b91788de1781f57ba0"
+            },
+            "type": "library",
+            "authors": [
+                {
+                    "name": "Dominic Gisler",
+                    "email": "domgisler@gmail.com"
+                }
+            ],
+            "description": "editor package for gislercms",
+            "time": "2019-05-16T16:54:33+00:00"
+        },
+        {
             "name": "fortawesome/font-awesome",
-            "version": "5.8.1",
+            "version": "5.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FortAwesome/Font-Awesome.git",
-                "reference": "299abb1fb101f4e1cfd1d2fccc461782ff84b13d"
+                "reference": "e05a1219784935ff5beb6bfb17cdc86bc848d0bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/299abb1fb101f4e1cfd1d2fccc461782ff84b13d",
-                "reference": "299abb1fb101f4e1cfd1d2fccc461782ff84b13d",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/e05a1219784935ff5beb6bfb17cdc86bc848d0bb",
+                "reference": "e05a1219784935ff5beb6bfb17cdc86bc848d0bb",
                 "shasum": ""
             },
             "type": "library",
@@ -140,7 +158,7 @@
                 "icon",
                 "svg"
             ],
-            "time": "2019-03-21T21:50:43+00:00"
+            "time": "2019-05-07T17:37:12+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -702,63 +720,6 @@
             "time": "2019-02-06T07:57:58+00:00"
         },
         {
-            "name": "tinymce/tinymce",
-            "version": "4.9.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tinymce/tinymce-dist.git",
-                "reference": "3a997f24eb54d890b1c88f22cff03092e0b73378"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/3a997f24eb54d890b1c88f22cff03092e0b73378",
-                "reference": "3a997f24eb54d890b1c88f22cff03092e0b73378",
-                "shasum": ""
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "scripts": [
-                        "tinymce.js",
-                        "plugins/*/plugin.js",
-                        "themes/*/theme.js"
-                    ],
-                    "files": [
-                        "tinymce.min.js",
-                        "plugins/*/plugin.min.js",
-                        "themes/*/theme.min.js",
-                        "skins/**"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-2.1-only"
-            ],
-            "description": "Web based JavaScript HTML WYSIWYG editor control.",
-            "homepage": "http://www.tinymce.com",
-            "keywords": [
-                "editor",
-                "html",
-                "javascript",
-                "richtext",
-                "tinymce",
-                "wysiwyg"
-            ],
-            "time": "2019-03-20T13:56:58+00:00"
-        },
-        {
-            "name": "trippo/ResponsiveFilemanager",
-            "version": "master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/trippo/ResponsiveFilemanager.git",
-                "reference": "master"
-            },
-            "type": "library",
-            "time": "2019-04-15T17:34:18+00:00"
-        },
-        {
             "name": "twbs/bootstrap",
             "version": "v4.3.1",
             "source": {
@@ -811,16 +772,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.8.1",
+            "version": "v2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "91cc2594d3143761ce0399c1caffd0b500ffe5b9"
+                "reference": "5240e21982885b76629552d83b4ebb6d41ccde6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/91cc2594d3143761ce0399c1caffd0b500ffe5b9",
-                "reference": "91cc2594d3143761ce0399c1caffd0b500ffe5b9",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/5240e21982885b76629552d83b4ebb6d41ccde6b",
+                "reference": "5240e21982885b76629552d83b4ebb6d41ccde6b",
                 "shasum": ""
             },
             "require": {
@@ -836,7 +797,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "2.10-dev"
                 }
             },
             "autoload": {
@@ -874,7 +835,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-04-16T17:14:24+00:00"
+            "time": "2019-05-14T12:03:52+00:00"
         },
         {
             "name": "zendframework/zend-config",
@@ -1181,7 +1142,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "trippo/responsivefilemanager": 20
+        "dominicgisler/gislercms-editor": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

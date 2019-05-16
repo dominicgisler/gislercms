@@ -3,7 +3,7 @@
 
   tinymce.init({
     selector: "textarea.tinymce",
-    theme: "modern",
+    theme: "silver",
     language: "de",
     height: 300,
     plugins: [
@@ -19,10 +19,10 @@
     content_css: "/css/content.css",
     extended_valid_elements : "widget,module",
     custom_elements: "widget,module",
-    external_filemanager_path:"/filemanager/",
+    external_filemanager_path:"/editor/filemanager/",
     filemanager_title:"Filemanager",
     filemanager_access_key: "Ond9yK4I27r6Od1FQ77UYlr289MCpvQf",
-    external_plugins: { "filemanager" : "/filemanager/plugin.min.js"},
+    external_plugins: { "filemanager" : "/editor/filemanager/plugin.min.js"},
     convert_urls: false
   });
 }());
