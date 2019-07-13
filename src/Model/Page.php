@@ -75,20 +75,22 @@ class Page extends DbModel
             
             ORDER BY `name` ASC
         ");
-        $pages = $stmt->fetchAll(\PDO::FETCH_OBJ);
-        if (sizeof($pages) > 0) {
-            foreach ($pages as $page) {
-                $arr[] = new Page(
-                    $page->page_id,
-                    $page->name,
-                    $page->enabled,
-                    $page->trash,
-                    new Language(
-                        $page->language_id,
-                        $page->locale,
-                        $page->description
-                    )
-                );
+        if ($stmt instanceof \PDOStatement) {
+            $pages = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            if (sizeof($pages) > 0) {
+                foreach ($pages as $page) {
+                    $arr[] = new Page(
+                        $page->page_id,
+                        $page->name,
+                        $page->enabled,
+                        $page->trash,
+                        new Language(
+                            $page->language_id,
+                            $page->locale,
+                            $page->description
+                        )
+                    );
+                }
             }
         }
         return $arr;
@@ -101,7 +103,6 @@ class Page extends DbModel
      */
     public static function get(int $id): Page
     {
-        $arr = [];
         $stmt = self::getPDO()->prepare("
             SELECT
                 `p`.`page_id`,
