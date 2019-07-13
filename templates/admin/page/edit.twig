@@ -4,9 +4,45 @@
 
 {% block title %}"{{ page.name }}" bearbeiten{% endblock %}
 
+{% set languages = {'de':'Deutsch','en':'Englisch'} %}
+
 {% block content %}
-    {{ forms.form_group('text', 'name', page.name, 'Name', 'Name') }}
+    {{ forms.form_group('text', 'name', page.name, 'Name', '', '', 'Nur als interne Bezeichnung') }}
     {{ forms.form_group('select', 'language', page.language, 'Standardsprache', '', '', '', {de: 'Deutsch', en: 'English'}) }}
     {{ forms.form_group('checkbox', 'enabled', page.enabled, 'Seite aktiviert') }}
-    {{ forms.form_group('textarea', 'content', 'Test', 'Inhalt', 'Inhalt', 'tinymce') }}
+    <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+        {% for key, val in languages %}
+            <li class="nav-item">
+                <a class="nav-link {% if loop.first %}active{% endif %}" id="{{ key }}-tab" data-toggle="tab" href="#lang-{{ key }}" role="tab" aria-controls="lang-{{ key }}" aria-selected="true">{{ val }}</a>
+            </li>
+        {% endfor %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Neue Sprache</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Französisch</a>
+                <a class="dropdown-item" href="#">Italienisch</a>
+                <a class="dropdown-item" href="#">Spanisch</a>
+            </div>
+        </li>
+    </ul>
+    <div class="tab-content mt-4" id="myTabContent">
+        {% for key, val in languages %}
+            <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="lang-{{ key }}" role="tabpanel" aria-labelledby="{{ key }}-tab">
+                {{ forms.form_group('checkbox', 'enabled', true, 'Sprache aktiviert') }}
+                <div class="mt-2"></div>
+                {{ forms.form_group('text', 'name', '', 'Seitenname', '', '', 'Der Name, welcher in der URL verwendet wird') }}
+                {{ forms.form_group('text', 'title', '', 'Seitentitel', '', '', 'Der Titel, welcher im Browser angezeigt wird') }}
+                {{ forms.form_group('text', 'keywords', '', 'Suchbegriffe', '', '', 'Begriffe, über welche diese Seite gefunden werden soll (SEO)') }}
+                {{ forms.form_group('textarea', 'description', '', 'Beschreibung', '', '', 'Eine kurze Beschreibung des Seiteninhalts (SEO)') }}
+                {{ forms.form_group('text', 'author', '', 'Autor', '', '', 'Metadaten') }}
+                {{ forms.form_group('text', 'copyright', '', 'Copyright', '', '', 'Metadaten') }}
+                {{ forms.form_group('text', 'image', '', 'Titelbild', '', '', 'Titelbild, wird z.B. beim Teilen auf Facebook dargestellt') }}
+                {{ forms.form_group('textarea', 'content', 'Test ' ~ val, 'Inhalt', '', 'tinymce') }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="text-right mb-4">
+        <button class="btn btn-primary">Speichern</button>
+        <button class="btn btn-danger">Löschen</button>
+    </div>
 {% endblock %}
