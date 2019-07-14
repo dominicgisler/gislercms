@@ -6,6 +6,7 @@ use GislerCMS\Filter\ToBool;
 use GislerCMS\Filter\ToLanguage;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\Page;
+use GislerCMS\Model\PageTranslation;
 use GislerCMS\Validator\LanguageExists;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -36,6 +37,7 @@ class AdminPageEditController extends AbstractController
         $languages = Language::getAll();
 
         if ($page->getPageId() > 0) {
+            $translations = PageTranslation::getPageTranslations($page);
             $errors = [];
             if ($request->isPost()) {
                 $page = $request->getParsedBodyParam('page');
@@ -63,6 +65,7 @@ class AdminPageEditController extends AbstractController
             return $this->render($request, $response, 'admin/page/edit.twig', [
                 'page' => $page,
                 'languages' => $languages,
+                'translations' => $translations,
                 'errors' => $errors
             ]);
         }
@@ -146,7 +149,7 @@ class AdminPageEditController extends AbstractController
                 ]
             ],
             [
-                'name' => 'keywords',
+                'name' => 'meta_keywords',
                 'required' => false,
                 'validators' => [
                     new StringLength([
@@ -156,7 +159,7 @@ class AdminPageEditController extends AbstractController
                 ]
             ],
             [
-                'name' => 'description',
+                'name' => 'meta_description',
                 'required' => false,
                 'validators' => [
                     new StringLength([
@@ -166,7 +169,7 @@ class AdminPageEditController extends AbstractController
                 ]
             ],
             [
-                'name' => 'author',
+                'name' => 'meta_author',
                 'required' => false,
                 'validators' => [
                     new StringLength([
@@ -176,7 +179,7 @@ class AdminPageEditController extends AbstractController
                 ]
             ],
             [
-                'name' => 'copyright',
+                'name' => 'meta_copyright',
                 'required' => false,
                 'validators' => [
                     new StringLength([
@@ -186,7 +189,7 @@ class AdminPageEditController extends AbstractController
                 ]
             ],
             [
-                'name' => 'image',
+                'name' => 'meta_image',
                 'required' => false,
                 'validators' => [
                     new StringLength([

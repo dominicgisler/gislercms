@@ -25,16 +25,16 @@
         <div class="tab-content mt-4" id="myTabContent">
             {% for language in languages %}
                 <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="lang-{{ language.locale }}" role="tabpanel" aria-labelledby="{{ language.locale }}-tab">
-                    {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', true, 'Sprache aktiviert') }}
+                    {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', translations[language.locale].enabled, 'Sprache aktiviert') }}
                     <div class="mt-2"></div>
-                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][name]', '', 'Seitenname', '', language.locale ~ '_name' in errors ? 'is-invalid' : '', 'Der Name, welcher in der URL verwendet wird') }}
-                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][title]', '', 'Seitentitel', '', language.locale ~ '_title' in errors ? 'is-invalid' : '', 'Der Titel, welcher im Browser angezeigt wird') }}
-                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][keywords]', '', 'Suchbegriffe', '', language.locale ~ '_keywords' in errors ? 'is-invalid' : '', 'Begriffe, über welche diese Seite gefunden werden soll (SEO)') }}
-                    {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][description]', '', 'Beschreibung', '', language.locale ~ '_description' in errors ? 'is-invalid' : '', 'Eine kurze Beschreibung des Seiteninhalts (SEO)') }}
-                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][author]', '', 'Autor', '', language.locale ~ '_author' in errors ? 'is-invalid' : '', 'Metadaten') }}
-                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][copyright]', '', 'Copyright', '', language.locale ~ '_copyright' in errors ? 'is-invalid' : '', 'Metadaten') }}
-                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][image]', '', 'Titelbild', '', language.locale ~ '_image' in errors ? 'is-invalid' : '', 'Titelbild, wird z.B. beim Teilen auf Facebook dargestellt') }}
-                    {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', 'Test ' ~ val, 'Inhalt', '', language.locale ~ '_name' in errors ? 'tinymce is-invalid' : 'tinymce') }}
+                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][name]', translations[language.locale].name, 'Seitenname', '', language.locale ~ '_name' in errors ? 'is-invalid' : '', 'Der Name, welcher in der URL verwendet wird') }}
+                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][title]', translations[language.locale].title, 'Seitentitel', '', language.locale ~ '_title' in errors ? 'is-invalid' : '', 'Der Titel, welcher im Browser angezeigt wird') }}
+                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_keywords]', translations[language.locale].meta_keywords, 'Suchbegriffe', '', language.locale ~ '_keywords' in errors ? 'is-invalid' : '', 'Begriffe, über welche diese Seite gefunden werden soll (SEO)') }}
+                    {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][meta_description]', translations[language.locale].meta_description, 'Beschreibung', '', language.locale ~ '_description' in errors ? 'is-invalid' : '', 'Eine kurze Beschreibung des Seiteninhalts (SEO)') }}
+                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_author]', translations[language.locale].meta_author, 'Autor', '', language.locale ~ '_author' in errors ? 'is-invalid' : '', 'Metadaten') }}
+                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_copyright]', translations[language.locale].meta_copyright, 'Copyright', '', language.locale ~ '_copyright' in errors ? 'is-invalid' : '', 'Metadaten') }}
+                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_image]', translations[language.locale].meta_image, 'Titelbild', '', language.locale ~ '_image' in errors ? 'is-invalid' : '', 'Titelbild, wird z.B. beim Teilen auf Facebook dargestellt') }}
+                    {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt', '', language.locale ~ '_name' in errors ? 'tinymce is-invalid' : 'tinymce') }}
                 </div>
             {% endfor %}
         </div>
