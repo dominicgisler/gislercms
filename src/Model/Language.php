@@ -44,6 +44,40 @@ class Language extends DbModel
     }
 
     /**
+     * @return Language[]
+     * @throws \Exception
+     */
+    public static function getAll(): array
+    {
+        $arr = [];
+        $stmt = self::getPDO()->query("
+            SELECT
+                `l`.`language_id`,
+                `l`.`locale`,
+                `l`.`description`,
+                `l`.`enabled`
+            
+            FROM `cms__language` `l`
+            
+            ORDER BY `description` ASC
+        ");
+        if ($stmt instanceof \PDOStatement) {
+            $languages = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            if (sizeof($languages) > 0) {
+                foreach ($languages as $language) {
+                    $arr[] = new Language(
+                        $language->language_id,
+                        $language->locale,
+                        $language->description,
+                        $language->enabled
+                    );
+                }
+            }
+        }
+        return $arr;
+    }
+
+    /**
      * @param string $locale
      * @return Language
      * @throws \Exception
