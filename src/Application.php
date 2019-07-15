@@ -5,6 +5,7 @@ namespace GislerCMS;
 use GislerCMS\Controller\AdminIndexController;
 use GislerCMS\Controller\AdminLoginController;
 use GislerCMS\Controller\AdminLogoutController;
+use GislerCMS\Controller\AdminPageAddController;
 use GislerCMS\Controller\AdminPageEditController;
 use GislerCMS\Controller\AdminSetupController;
 use GislerCMS\Middleware\LoginMiddleware;
@@ -115,7 +116,8 @@ class Application
             ],
             'require_login' => [
                 AdminIndexController::class,
-                AdminPageEditController::class
+                AdminPageEditController::class,
+                AdminPageAddController::class
             ],
             'require_nologin' => [
                 AdminLoginController::class
