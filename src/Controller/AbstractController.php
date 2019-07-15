@@ -2,8 +2,10 @@
 
 namespace GislerCMS\Controller;
 
+use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\Page;
+use GislerCMS\Model\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Route;
@@ -46,12 +48,17 @@ abstract class AbstractController
      */
     protected function render(Request $request, Response $response, string $template, array $data = []): Response
     {
+        $cont = SessionHelper::getContainer();
+        /** @var User $user */
+        $user = $cont->offsetGet('user');
+
         /** @var Route $route */
         $route = $request->getAttribute('route');
         $arr = [
             'route' => $route->getName(),
             'admin_url' => $this->get('base_url') . $this->get('settings')['admin_route'],
-            'pages' => Page::getAll()
+            'pages' => Page::getAll(),
+            'user' => $user
         ];
         return $this->get('view')->render($response, $template, array_merge($arr, $data));
     }
