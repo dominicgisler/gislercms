@@ -112,7 +112,7 @@ class Page extends DbModel
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled`
+                `l`.`enabled` AS 'l_enabled'
             
             FROM `cms__page` `p`
               
@@ -132,11 +132,48 @@ class Page extends DbModel
                 new Language(
                     $page->language_id,
                     $page->locale,
-                    $page->description
+                    $page->description,
+                    $page->l_enabled
                 )
             );
         }
         return new Page();
+    }
+
+    /**
+     * @return Page|null
+     * @throws \Exception
+     */
+    public function save(): ?Page
+    {
+        $pdo = self::getPDO();
+        if ($this->getPageId() > 0) {
+            $stmt = $pdo->prepare("
+                UPDATE `cms__page`
+                SET `name` = ?, `enabled` = ?, `trash` = ?, `fk_language_id` = ?
+                WHERE `page_id` = ?
+            ");
+            $res = $stmt->execute([
+                $this->getName(),
+                $this->isEnabled(),
+                $this->isTrash(),
+                $this->getLanguage()->getLanguageId(),
+                $this->getPageId()
+            ]);
+            return $res ? self::get($this->getPageId()) : null;
+        } else {
+            $stmt = $pdo->prepare("
+                INSERT INTO `cms__page` (`name`, `enabled`, `trash`, `fk_language_id`)
+                VALUES (?, ?, ?, ?)
+            ");
+            $res = $stmt->execute([
+                $this->getName(),
+                $this->isEnabled(),
+                $this->isTrash(),
+                $this->getLanguage()->getLanguageId()
+            ]);
+            return $res ? self::get($pdo->lastInsertId()) : null;
+        }
     }
 
     /**

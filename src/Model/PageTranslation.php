@@ -112,6 +112,64 @@ class PageTranslation extends DbModel
     }
 
     /**
+     * @param int $id
+     * @return PageTranslation
+     * @throws \Exception
+     */
+    public static function get(int $id): PageTranslation
+    {
+        $stmt = self::getPDO()->prepare("
+            SELECT
+                `t`.`page_translation_id`,
+                `t`.`fk_page_id`,
+                `t`.`name`,
+                `t`.`title`,
+                `t`.`content`,
+                `t`.`meta_keywords`,
+                `t`.`meta_description`,
+                `t`.`meta_author`,
+                `t`.`meta_copyright`,
+                `t`.`meta_image`,
+                `t`.`enabled`,
+                `l`.`language_id`,
+                `l`.`locale`,
+                `l`.`description`,
+                `l`.`enabled` AS 'l_enabled'
+            
+            FROM `cms__page_translation` `t`
+              
+            INNER JOIN `cms__language` `l`
+            ON `t`.fk_language_id = `l`.language_id
+            
+            WHERE `t`.`page_translation_id` = ?
+        ");
+        $stmt->execute([$id]);
+        $pageTranslation = $stmt->fetchObject();
+        if ($pageTranslation) {
+            return new PageTranslation(
+                $pageTranslation->page_translation_id,
+                Page::get($pageTranslation->fk_page_id),
+                new Language(
+                    $pageTranslation->language_id,
+                    $pageTranslation->locale,
+                    $pageTranslation->description,
+                    $pageTranslation->l_enabled
+                ),
+                $pageTranslation->name,
+                $pageTranslation->title ?: '',
+                $pageTranslation->content ?: '',
+                $pageTranslation->meta_keywords ?: '',
+                $pageTranslation->meta_description ?: '',
+                $pageTranslation->meta_author ?: '',
+                $pageTranslation->meta_copyright ?: '',
+                $pageTranslation->meta_image ?: '',
+                $pageTranslation->enabled
+            );
+        }
+        return new PageTranslation();
+    }
+
+    /**
      * @param Page $page
      * @return PageTranslation[]
      * @throws \Exception
@@ -169,6 +227,61 @@ class PageTranslation extends DbModel
             }
         }
         return $arr;
+    }
+
+    /**
+     * @return PageTranslation|null
+     * @throws \Exception
+     */
+    public function save(): ?PageTranslation
+    {
+        $pdo = self::getPDO();
+        if ($this->getPageTranslationId() > 0) {
+            $stmt = $pdo->prepare("
+                UPDATE `cms__page_translation`
+                SET `name` = ?, `title` = ?, `content` = ?, `meta_keywords` = ?, `meta_description` = ?,
+                    `meta_author` = ?, `meta_copyright` = ?, `meta_image` = ?, `enabled` = ?
+                WHERE `page_translation_id` = ?
+            ");
+            $res = $stmt->execute([
+                $this->getName(),
+                $this->getTitle(),
+                $this->getContent(),
+                $this->getMetaKeywords(),
+                $this->getMetaDescription(),
+                $this->getMetaAuthor(),
+                $this->getMetaCopyright(),
+                $this->getMetaImage(),
+                $this->isEnabled(),
+                $this->getPageTranslationId()
+            ]);
+            return $res ? self::get($this->getPageTranslationId()) : null;
+        } else {
+            $stmt = $pdo->prepare("
+                INSERT INTO `cms__page_translation` (
+                    `fk_page_id`, `fk_language_id`, `name`, `title`, `content`, `meta_keywords`,
+                    `meta_description`, `meta_author`, `meta_copyright`, `meta_image`, `enabled`
+                )
+                VALUES (
+                    ?, ?, ?, ?, ?, ?,
+                    ?, ?, ?, ?, ?
+                )
+            ");
+            $res = $stmt->execute([
+                $this->getPage()->getPageId(),
+                $this->getLanguage()->getLanguageId(),
+                $this->getName(),
+                $this->getTitle(),
+                $this->getContent(),
+                $this->getMetaKeywords(),
+                $this->getMetaDescription(),
+                $this->getMetaAuthor(),
+                $this->getMetaCopyright(),
+                $this->getMetaImage(),
+                $this->isEnabled()
+            ]);
+            return $res ? self::get($pdo->lastInsertId()) : null;
+        }
     }
 
     /**

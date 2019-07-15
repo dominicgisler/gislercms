@@ -6,10 +6,39 @@
 
 {% set languageSelect = [] %}
 {% for language in languages %}
-    {% set languageSelect = languageSelect|merge({ (language.locale): language.description}) %}
+    {% set selected = false %}
+    {% if language.getLanguageId() == page.language.getLanguageId() %}
+        {% set selected = true %}
+    {% endif %}
+    {% set languageSelect = languageSelect|merge({ (language.locale): {label: language.description, selected: selected}}) %}
 {% endfor %}
 
+{%
+    set messages = {
+        invalid_input: {
+            class: 'danger',
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+        },
+        save_error: {
+            class: 'danger',
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+        },
+        save_success: {
+            class: 'success',
+            message: 'Die Seite wurde erfolgreich gespeichert.'
+        }
+    }
+%}
+
 {% block content %}
+    {% if message %}
+        <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
+            {{ messages[message].message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
     <form method="post">
         {{ forms.form_group('text', 'page[name]', page.name, 'Name', '', 'name' in errors ? 'is-invalid' : '', 'Nur als interne Bezeichnung') }}
         {{ forms.form_group('select', 'page[language]', page.language, 'Standardsprache', '', 'language' in errors ? 'is-invalid' : '', '', languageSelect) }}
@@ -29,12 +58,12 @@
                     <div class="mt-2"></div>
                     {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][name]', translations[language.locale].name, 'Seitenname', '', language.locale ~ '_name' in errors ? 'is-invalid' : '', 'Der Name, welcher in der URL verwendet wird') }}
                     {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][title]', translations[language.locale].title, 'Seitentitel', '', language.locale ~ '_title' in errors ? 'is-invalid' : '', 'Der Titel, welcher im Browser angezeigt wird') }}
-                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_keywords]', translations[language.locale].meta_keywords, 'Suchbegriffe', '', language.locale ~ '_keywords' in errors ? 'is-invalid' : '', 'Begriffe, über welche diese Seite gefunden werden soll (SEO)') }}
-                    {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][meta_description]', translations[language.locale].meta_description, 'Beschreibung', '', language.locale ~ '_description' in errors ? 'is-invalid' : '', 'Eine kurze Beschreibung des Seiteninhalts (SEO)') }}
-                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_author]', translations[language.locale].meta_author, 'Autor', '', language.locale ~ '_author' in errors ? 'is-invalid' : '', 'Metadaten') }}
-                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_copyright]', translations[language.locale].meta_copyright, 'Copyright', '', language.locale ~ '_copyright' in errors ? 'is-invalid' : '', 'Metadaten') }}
-                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_image]', translations[language.locale].meta_image, 'Titelbild', '', language.locale ~ '_image' in errors ? 'is-invalid' : '', 'Titelbild, wird z.B. beim Teilen auf Facebook dargestellt') }}
-                    {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt', '', language.locale ~ '_name' in errors ? 'tinymce is-invalid' : 'tinymce') }}
+                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_keywords]', translations[language.locale].metaKeywords, 'Suchbegriffe', '', language.locale ~ '_keywords' in errors ? 'is-invalid' : '', 'Begriffe, über welche diese Seite gefunden werden soll (SEO)') }}
+                    {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][meta_description]', translations[language.locale].metaDescription, 'Beschreibung', '', language.locale ~ '_description' in errors ? 'is-invalid' : '', 'Eine kurze Beschreibung des Seiteninhalts (SEO)') }}
+                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_author]', translations[language.locale].metaAuthor, 'Autor', '', language.locale ~ '_author' in errors ? 'is-invalid' : '', 'Metadaten') }}
+                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_copyright]', translations[language.locale].metaCopyright, 'Copyright', '', language.locale ~ '_copyright' in errors ? 'is-invalid' : '', 'Metadaten') }}
+                    {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_image]', translations[language.locale].metaImage, 'Titelbild', '', language.locale ~ '_image' in errors ? 'is-invalid' : '', 'Titelbild, wird z.B. beim Teilen auf Facebook dargestellt') }}
+                    {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt', '', language.locale ~ '_content' in errors ? 'tinymce is-invalid' : 'tinymce') }}
                 </div>
             {% endfor %}
         </div>

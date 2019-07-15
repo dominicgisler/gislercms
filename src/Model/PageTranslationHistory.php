@@ -112,6 +112,112 @@ class PageTranslationHistory extends DbModel
     }
 
     /**
+     * @param int $id
+     * @return PageTranslationHistory
+     * @throws \Exception
+     */
+    public static function get(int $id): PageTranslationHistory
+    {
+        $stmt = self::getPDO()->prepare("
+            SELECT
+                `t`.`page_translation_history_id`,
+                `t`.`fk_page_translation_id`,
+                `t`.`name`,
+                `t`.`title`,
+                `t`.`content`,
+                `t`.`meta_keywords`,
+                `t`.`meta_description`,
+                `t`.`meta_author`,
+                `t`.`meta_copyright`,
+                `t`.`meta_image`,
+                `t`.`enabled`,
+                `u`.`username`
+            
+            FROM `cms__page_translation_history` `t`
+            
+            INNER JOIN `cms__user` `u`
+            ON `t`.`fk_user_id` = `u`.`user_id`
+            
+            WHERE `t`.`page_translation_history_id` = ?
+        ");
+        $stmt->execute([$id]);
+        $pageTranslation = $stmt->fetchObject();
+        if ($pageTranslation) {
+            return new PageTranslationHistory(
+                $pageTranslation->page_translation_history_id,
+                PageTranslation::get($pageTranslation->fk_page_translation_id),
+                $pageTranslation->name,
+                $pageTranslation->title ?: '',
+                $pageTranslation->content ?: '',
+                $pageTranslation->meta_keywords ?: '',
+                $pageTranslation->meta_description ?: '',
+                $pageTranslation->meta_author ?: '',
+                $pageTranslation->meta_copyright ?: '',
+                $pageTranslation->meta_image ?: '',
+                $pageTranslation->enabled,
+                User::getByUsername($pageTranslation->username)
+            );
+        }
+        return new PageTranslationHistory();
+    }
+
+    /**
+     * @return PageTranslationHistory|null
+     * @throws \Exception
+     */
+    public function save(): ?PageTranslationHistory
+    {
+        $pdo = self::getPDO();
+        if ($this->getPageTranslationHistoryId() > 0) {
+            $stmt = $pdo->prepare("
+                UPDATE `cms__page_translation`
+                SET `name` = ?, `title` = ?, `content` = ?, `meta_keywords` = ?, `meta_description` = ?,
+                    `meta_author` = ?, `meta_copyright` = ?, `meta_image` = ?, `enabled` = ?, `fk_user_id` = ?
+                WHERE `page_translation_history_id` = ?
+            ");
+            $res = $stmt->execute([
+                $this->getName(),
+                $this->getTitle(),
+                $this->getContent(),
+                $this->getMetaKeywords(),
+                $this->getMetaDescription(),
+                $this->getMetaAuthor(),
+                $this->getMetaCopyright(),
+                $this->getMetaImage(),
+                $this->isEnabled(),
+                $this->getUser()->getUserId(),
+                $this->getPageTranslationHistoryId()
+            ]);
+            return $res ? self::get($this->getPageTranslationHistoryId()) : null;
+        } else {
+            $stmt = $pdo->prepare("
+                INSERT INTO `cms__page_translation_history` (
+                    `fk_page_translation_id`, `name`, `title`, `content`, `meta_keywords`, `meta_description`,
+                    `meta_author`, `meta_copyright`, `meta_image`, `enabled`, `fk_user_id`
+                )
+                VALUES (
+                    ?, ?, ?, ?, ?, ?,
+                    ?, ?, ?, ?, ?
+                )
+            ");
+            $res = $stmt->execute([
+                $this->getPageTranslation()->getPageTranslationId(),
+                $this->getName(),
+                $this->getTitle(),
+                $this->getContent(),
+                $this->getMetaKeywords(),
+                $this->getMetaDescription(),
+                $this->getMetaAuthor(),
+                $this->getMetaCopyright(),
+                $this->getMetaImage(),
+                $this->isEnabled(),
+                $this->getUser()->getUserId()
+            ]);
+            return $res ? self::get($pdo->lastInsertId()) : null;
+        }
+    }
+
+    /**
      * @return int
      */
     public function getPageTranslationHistoryId(): int
