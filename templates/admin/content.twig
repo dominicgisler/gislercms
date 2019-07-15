@@ -55,8 +55,8 @@
                     <ul class="nav flex-column mb-2">
                         {% for page in pages %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ admin_url }}/page/{{ page.getPageId() }}">
-                                    <i class="fa fa-file-alt fa-fw"></i>
+                                <a class="nav-link {% if not page.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/page/{{ page.getPageId() }}">
+                                    <i class="fa {% if page.isEnabled() %}fa-file-alt{% else %}fa-eye-slash{% endif %} fa-fw"></i>
                                     {{ page.getName() }}
                                 </a>
                             </li>

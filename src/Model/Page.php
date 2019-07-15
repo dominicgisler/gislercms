@@ -66,14 +66,14 @@ class Page extends DbModel
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled`
+                `l`.`enabled` AS 'l_enabled'
             
             FROM `cms__page` `p`
               
             INNER JOIN `cms__language` `l`
             ON `p`.fk_language_id = `l`.language_id
             
-            ORDER BY `name` ASC
+            ORDER BY `enabled` DESC, `name` ASC
         ");
         if ($stmt instanceof \PDOStatement) {
             $pages = $stmt->fetchAll(\PDO::FETCH_OBJ);
@@ -87,7 +87,8 @@ class Page extends DbModel
                         new Language(
                             $page->language_id,
                             $page->locale,
-                            $page->description
+                            $page->description,
+                            $page->l_enabled
                         )
                     );
                 }
