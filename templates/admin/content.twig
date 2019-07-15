@@ -53,14 +53,25 @@
                         </a>
                     </h6>
                     <ul class="nav flex-column mb-2">
+                        {% set trash = 0 %}
                         {% for page in pages %}
-                            <li class="nav-item">
-                                <a class="nav-link {% if not page.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/page/{{ page.getPageId() }}">
-                                    <i class="fa {% if page.isEnabled() %}fa-file-alt{% else %}fa-eye-slash{% endif %} fa-fw"></i>
-                                    {{ page.getName() }}
-                                </a>
-                            </li>
+                            {% if page.isTrash() %}
+                                {% set trash = trash + 1 %}
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link {% if not page.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/page/{{ page.getPageId() }}">
+                                        <i class="fa {% if page.isEnabled() %}fa-file-alt{% else %}fa-eye-slash{% endif %} fa-fw"></i>
+                                        {{ page.getName() }}
+                                    </a>
+                                </li>
+                            {% endif %}
                         {% endfor %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ admin_url }}/page/trash">
+                                <i class="fa fa-trash-alt fa-fw"></i>
+                                Papierkorb ({{ trash }})
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </nav>

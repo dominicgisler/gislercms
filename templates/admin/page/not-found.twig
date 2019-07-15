@@ -6,11 +6,13 @@
     <p>Die gewünschte Seite wurde nicht gefunden, bitte wähle eine Seite aus der Liste aus:</p>
     <ul>
         {% for page in pages %}
-            <li>
-                <a href="{{ admin_url }}/page/{{ page.getPageId() }}">
-                    {{ page.getName() }}
-                </a>
-            </li>
+            {% if not page.isTrash() %}
+                <li>
+                    <a href="{{ admin_url }}/page/{{ page.getPageId() }}">
+                        {{ page.getName() }}
+                    </a>
+                </li>
+            {% endif %}
         {% endfor %}
     </ul>
 {% endblock %}

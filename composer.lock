@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5cb8ac82a1d671865b1384236d4637c9",
+    "content-hash": "d0469d34b2ff0b446c7375d339d801b9",
     "packages": [
         {
             "name": "components/jquery",
@@ -98,17 +98,35 @@
             "time": "2019-05-16T17:25:06+00:00"
         },
         {
+            "name": "dominicgisler/gislercms-sweetalert2",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@github.com:22/dominicgisler/gislercms-sweetalert2.git",
+                "reference": "22c19fd325e4fd97adb92423cdbaba26934c4eac"
+            },
+            "type": "library",
+            "authors": [
+                {
+                    "name": "Dominic Gisler",
+                    "email": "domgisler@gmail.com"
+                }
+            ],
+            "description": "sweetalert2 package for gislercms",
+            "time": "2019-07-15T17:34:04+00:00"
+        },
+        {
             "name": "fortawesome/font-awesome",
-            "version": "5.8.2",
+            "version": "5.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FortAwesome/Font-Awesome.git",
-                "reference": "e05a1219784935ff5beb6bfb17cdc86bc848d0bb"
+                "reference": "ba907eaec40fab01d410c3023a5572b2cb46cea6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/e05a1219784935ff5beb6bfb17cdc86bc848d0bb",
-                "reference": "e05a1219784935ff5beb6bfb17cdc86bc848d0bb",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/ba907eaec40fab01d410c3023a5572b2cb46cea6",
+                "reference": "ba907eaec40fab01d410c3023a5572b2cb46cea6",
                 "shasum": ""
             },
             "type": "library",
@@ -158,7 +176,7 @@
                 "icon",
                 "svg"
             ],
-            "time": "2019-05-07T17:37:12+00:00"
+            "time": "2019-06-04T21:18:16+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -772,16 +790,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.10.0",
+            "version": "v2.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "5240e21982885b76629552d83b4ebb6d41ccde6b"
+                "reference": "699ed2342557c88789a15402de5eb834dedd6792"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/5240e21982885b76629552d83b4ebb6d41ccde6b",
-                "reference": "5240e21982885b76629552d83b4ebb6d41ccde6b",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/699ed2342557c88789a15402de5eb834dedd6792",
+                "reference": "699ed2342557c88789a15402de5eb834dedd6792",
                 "shasum": ""
             },
             "require": {
@@ -792,12 +810,12 @@
             "require-dev": {
                 "psr/container": "^1.0",
                 "symfony/debug": "^2.7",
-                "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
+                "symfony/phpunit-bridge": "^3.4.19|^4.1.8|^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.10-dev"
+                    "dev-master": "2.11-dev"
                 }
             },
             "autoload": {
@@ -835,20 +853,20 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-05-14T12:03:52+00:00"
+            "time": "2019-06-18T15:37:11+00:00"
         },
         {
             "name": "zendframework/zend-config",
-            "version": "3.2.0",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-config.git",
-                "reference": "6796f5dcba52c84ef2501d7313618989b5ef3023"
+                "reference": "012341361ae3cc97a99959e7cb7c9ebd04d49572"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-config/zipball/6796f5dcba52c84ef2501d7313618989b5ef3023",
-                "reference": "6796f5dcba52c84ef2501d7313618989b5ef3023",
+                "url": "https://api.github.com/repos/zendframework/zend-config/zipball/012341361ae3cc97a99959e7cb7c9ebd04d49572",
+                "reference": "012341361ae3cc97a99959e7cb7c9ebd04d49572",
                 "shasum": ""
             },
             "require": {
@@ -876,8 +894,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.x-dev",
-                    "dev-develop": "3.3.x-dev"
+                    "dev-master": "3.3.x-dev",
+                    "dev-develop": "3.4.x-dev"
                 }
             },
             "autoload": {
@@ -895,7 +913,7 @@
                 "config",
                 "zf"
             ],
-            "time": "2018-04-24T19:26:44+00:00"
+            "time": "2019-06-08T18:58:54+00:00"
         },
         {
             "name": "zendframework/zend-eventmanager",
@@ -1332,7 +1350,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "dominicgisler/gislercms-editor": 20
+        "dominicgisler/gislercms-editor": 20,
+        "dominicgisler/gislercms-sweetalert2": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

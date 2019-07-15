@@ -50,105 +50,116 @@ class AdminPageEditController extends AbstractController
             $translationsHistory = [];
             $errors = [];
             if ($request->isPost()) {
-                $pageData = $request->getParsedBodyParam('page');
-                $filter = $this->getPageInputFilter();
-                $filter->setData($pageData);
-                if (!$filter->isValid()) {
-                    $errors = array_merge($errors, array_keys($filter->getMessages()));
-                }
-                $pageData = $filter->getValues();
-                $page->setName($pageData['name']);
-                $page->setEnabled($pageData['enabled']);
-                $page->setLanguage($pageData['language']);
-
-                $translationData = $request->getParsedBodyParam('translation');
-                $filter = $this->getTranslationInputFilter();
-                foreach ($translationData as $key => $translation) {
-                    $filter->setData($translation);
+                if (!$request->getParsedBodyParam('delete')) {
+                    $pageData = $request->getParsedBodyParam('page');
+                    $filter = $this->getPageInputFilter();
+                    $filter->setData($pageData);
                     if (!$filter->isValid()) {
-                        foreach($filter->getMessages() as $field => $msg) {
-                            $errors[] = $key . '_' . $field;
+                        $errors = array_merge($errors, array_keys($filter->getMessages()));
+                    }
+                    $pageData = $filter->getValues();
+                    $page->setName($pageData['name']);
+                    $page->setEnabled($pageData['enabled']);
+                    $page->setLanguage($pageData['language']);
+                    $page->setTrash(false);
+
+                    $translationData = $request->getParsedBodyParam('translation');
+                    $filter = $this->getTranslationInputFilter();
+                    foreach ($translationData as $key => $translation) {
+                        $filter->setData($translation);
+                        if (!$filter->isValid()) {
+                            foreach ($filter->getMessages() as $field => $msg) {
+                                $errors[] = $key . '_' . $field;
+                            }
                         }
-                    }
-                    $data = $filter->getValues();
-                    if (isset($translations[$key])) {
-                        if ($translations[$key]->getName() !== $data['name'] ||
-                            $translations[$key]->getTitle() !== $data['title'] ||
-                            $translations[$key]->getContent() !== $data['content'] ||
-                            $translations[$key]->getMetaKeywords() !== $data['meta_keywords'] ||
-                            $translations[$key]->getMetaDescription() !== $data['meta_description'] ||
-                            $translations[$key]->getMetaAuthor() !== $data['meta_author'] ||
-                            $translations[$key]->getMetaCopyright() !== $data['meta_copyright'] ||
-                            $translations[$key]->getMetaImage() !== $data['meta_image'] ||
-                            $translations[$key]->isEnabled() !== $data['enabled']
-                        ) {
-                            // create PageTranslationHistory if there are changes
-                            $translationsHistory[$key] = new PageTranslationHistory(
-                                0,
-                                $translations[$key],
-                                $translations[$key]->getName(),
-                                $translations[$key]->getTitle(),
-                                $translations[$key]->getContent(),
-                                $translations[$key]->getMetaKeywords(),
-                                $translations[$key]->getMetaDescription(),
-                                $translations[$key]->getMetaAuthor(),
-                                $translations[$key]->getMetaCopyright(),
-                                $translations[$key]->getMetaImage(),
-                                $translations[$key]->isEnabled(),
-                                $user
-                            );
+                        $data = $filter->getValues();
+                        if (isset($translations[$key])) {
+                            if ($translations[$key]->getName() !== $data['name'] ||
+                                $translations[$key]->getTitle() !== $data['title'] ||
+                                $translations[$key]->getContent() !== $data['content'] ||
+                                $translations[$key]->getMetaKeywords() !== $data['meta_keywords'] ||
+                                $translations[$key]->getMetaDescription() !== $data['meta_description'] ||
+                                $translations[$key]->getMetaAuthor() !== $data['meta_author'] ||
+                                $translations[$key]->getMetaCopyright() !== $data['meta_copyright'] ||
+                                $translations[$key]->getMetaImage() !== $data['meta_image'] ||
+                                $translations[$key]->isEnabled() !== $data['enabled']
+                            ) {
+                                // create PageTranslationHistory if there are changes
+                                $translationsHistory[$key] = new PageTranslationHistory(
+                                    0,
+                                    $translations[$key],
+                                    $translations[$key]->getName(),
+                                    $translations[$key]->getTitle(),
+                                    $translations[$key]->getContent(),
+                                    $translations[$key]->getMetaKeywords(),
+                                    $translations[$key]->getMetaDescription(),
+                                    $translations[$key]->getMetaAuthor(),
+                                    $translations[$key]->getMetaCopyright(),
+                                    $translations[$key]->getMetaImage(),
+                                    $translations[$key]->isEnabled(),
+                                    $user
+                                );
+                            }
+                        } else {
+                            $translations[$key] = new PageTranslation();
+                            $translations[$key]->setLanguage(Language::getLanguage($key));
+                            $translations[$key]->setPage($page);
                         }
-                    } else {
-                        $translations[$key] = new PageTranslation();
-                        $translations[$key]->setLanguage(Language::getLanguage($key));
-                        $translations[$key]->setPage($page);
-                    }
-                    $translations[$key]->setEnabled($data['enabled']);
-                    $translations[$key]->setName($data['name']);
-                    $translations[$key]->setTitle($data['title']);
-                    $translations[$key]->setMetaKeywords($data['meta_keywords']);
-                    $translations[$key]->setMetaDescription($data['meta_description']);
-                    $translations[$key]->setMetaAuthor($data['meta_author']);
-                    $translations[$key]->setMetaCopyright($data['meta_copyright']);
-                    $translations[$key]->setMetaImage($data['meta_image']);
-                    $translations[$key]->setContent($data['content']);
-                }
-
-                if (sizeof($errors) == 0) {
-                    $saveError = false;
-
-                    $res = $page->save();
-                    if (!is_null($res)) {
-                        $page = $res;
-                    } else {
-                        $saveError = true;
+                        $translations[$key]->setEnabled($data['enabled']);
+                        $translations[$key]->setName($data['name']);
+                        $translations[$key]->setTitle($data['title']);
+                        $translations[$key]->setMetaKeywords($data['meta_keywords']);
+                        $translations[$key]->setMetaDescription($data['meta_description']);
+                        $translations[$key]->setMetaAuthor($data['meta_author']);
+                        $translations[$key]->setMetaCopyright($data['meta_copyright']);
+                        $translations[$key]->setMetaImage($data['meta_image']);
+                        $translations[$key]->setContent($data['content']);
                     }
 
-                    foreach ($translations as &$translation) {
-                        $res = $translation->save();
+                    if (sizeof($errors) == 0) {
+                        $saveError = false;
+
+                        $res = $page->save();
                         if (!is_null($res)) {
-                            $translation = $res;
+                            $page = $res;
                         } else {
                             $saveError = true;
                         }
-                    }
 
-                    foreach ($translationsHistory as &$translationHistory) {
-                        $res = $translationHistory->save();
-                        if (!is_null($res)) {
-                            $translationHistory = $res;
-                        } else {
-                            $saveError = true;
+                        foreach ($translations as &$translation) {
+                            $res = $translation->save();
+                            if (!is_null($res)) {
+                                $translation = $res;
+                            } else {
+                                $saveError = true;
+                            }
                         }
-                    }
 
-                    if ($saveError) {
-                        $msg = 'save_error';
+                        foreach ($translationsHistory as &$translationHistory) {
+                            $res = $translationHistory->save();
+                            if (!is_null($res)) {
+                                $translationHistory = $res;
+                            } else {
+                                $saveError = true;
+                            }
+                        }
+
+                        if ($saveError) {
+                            $msg = 'save_error';
+                        } else {
+                            $msg = 'save_success';
+                        }
                     } else {
-                        $msg = 'save_success';
+                        $msg = 'invalid_input';
                     }
                 } else {
-                    $msg = 'invalid_input';
+                    if ($page->isTrash()) {
+                        $page->delete();
+                    } else {
+                        $page->setTrash(true);
+                        $page->save();
+                    }
+                    return $response->withRedirect($this->get('base_url') . $this->get('settings')['admin_route']);
                 }
             }
             return $this->render($request, $response, 'admin/page/edit.twig', [

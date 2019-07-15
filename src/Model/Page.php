@@ -56,6 +56,25 @@ class Page extends DbModel
      */
     public static function getAll(): array
     {
+        return self::getWhere();
+    }
+
+    /**
+     * @return Page[]
+     * @throws \Exception
+     */
+    public static function getTrash(): array
+    {
+        return self::getWhere('`p`.`trash` = 1');
+    }
+
+    /**
+     * @param string $where
+     * @return Page[]
+     * @throws \Exception
+     */
+    private static function getWhere($where = ''): array
+    {
         $arr = [];
         $stmt = self::getPDO()->query("
             SELECT
@@ -72,6 +91,8 @@ class Page extends DbModel
               
             INNER JOIN `cms__language` `l`
             ON `p`.fk_language_id = `l`.language_id
+            
+            " . (!empty($where) ? 'WHERE ' . $where : '') . "
             
             ORDER BY `enabled` DESC, `name` ASC
         ");
@@ -175,6 +196,23 @@ class Page extends DbModel
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;
         }
+    }
+
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete(): bool
+    {
+        $pdo = self::getPDO();
+        if ($this->getPageId() > 0) {
+            $stmt = $pdo->prepare("
+                DELETE FROM `cms__page`
+                WHERE `page_id` = ?
+            ");
+            return $stmt->execute([$this->getPageId()]);
+        }
+        return false;
     }
 
     /**

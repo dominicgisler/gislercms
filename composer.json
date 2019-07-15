@@ -20,6 +20,10 @@
     {
       "type": "vcs",
       "url": "ssh://git@github.com:22/dominicgisler/gislercms-editor.git"
+    },
+    {
+      "type": "vcs",
+      "url": "ssh://git@github.com:22/dominicgisler/gislercms-sweetalert2.git"
     }
   ],
   "require": {
@@ -35,6 +39,7 @@
     "twbs/bootstrap": "^4.3",
     "components/jquery": "^3.3",
     "dominicgisler/gislercms-editor": "dev-master",
+    "dominicgisler/gislercms-sweetalert2": "dev-master",
     "zendframework/zend-inputfilter": "^2.10"
   },
   "autoload": {
@@ -52,6 +57,7 @@
       "cd public/css/admin/ && yuicompressor style.css -o style.min.css",
       "cd public/css/admin/ && yuicompressor login.css -o login.min.css",
       "cp -r vendor/dominicgisler/gislercms-editor public/editor",
+      "cp -r vendor/dominicgisler/gislercms-sweetalert2/sweetalert2.all.min.js public/js/.",
       "mkdir public/uploads && chmod 755 public/uploads",
       "mkdir public/thumbs && chmod 755 public/thumbs"
     ]
