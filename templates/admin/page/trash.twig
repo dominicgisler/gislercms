@@ -4,7 +4,7 @@
 
 {% block content %}
     <form method="post">
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered {% if trashPages|length > 0 %}table-hover{% endif %}">
             <thead>
                 <tr>
                     <th scope="col" style="width: 50px;"></th>
