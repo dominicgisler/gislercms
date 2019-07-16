@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc99248dcb2b34549668583267b9f19a",
+    "content-hash": "5cb8ac82a1d671865b1384236d4637c9",
     "packages": [
         {
             "name": "components/jquery",
@@ -85,7 +85,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@github.com:22/dominicgisler/gislercms-editor.git",
-                "reference": "46398cac658d22d2f2d262481e447c5d4b97e1be"
+                "reference": "8002000200c397f11e33575ef899e10f1e3b9a94"
             },
             "type": "library",
             "authors": [
@@ -95,7 +95,7 @@
                 }
             ],
             "description": "editor package for gislercms",
-            "time": "2019-05-16T17:25:06+00:00"
+            "time": "2019-07-16T20:19:00+00:00"
         },
         {
             "name": "fortawesome/font-awesome",

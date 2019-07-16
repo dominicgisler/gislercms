@@ -20,10 +20,6 @@
     {
       "type": "vcs",
       "url": "ssh://git@github.com:22/dominicgisler/gislercms-editor.git"
-    },
-    {
-      "type": "vcs",
-      "url": "ssh://git@github.com:22/dominicgisler/gislercms-sweetalert2.git"
     }
   ],
   "require": {

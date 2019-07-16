@@ -100,4 +100,18 @@
             </div>
         </div>
     </form>
+    {% include 'admin/partial/insert-widget-modal.twig' %}
+    {% include 'admin/partial/insert-module-modal.twig' %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script>
+        function autocompletePageWidgets() {
+            autocompleteWidgets([{% for widget in widgets %}'{{ widget.getName() }}'{% if not loop.last %},{% endif %}{% endfor %}]);
+        }
+        function autocompletePageModules() {
+            autocompleteModules(['these','will','be','the','modules']);
+        }
+    </script>
 {% endblock %}
