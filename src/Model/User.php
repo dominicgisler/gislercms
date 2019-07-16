@@ -282,6 +282,19 @@ class User extends DbModel
         $this->resetKey = $resetKey;
     }
 
+    public function getDisplayName(): string
+    {
+        if (!empty($this->firstname) && !empty($this->lastname)) {
+            return $this->firstname . ' ' . $this->lastname;
+        } elseif (!empty($this->firstname)) {
+            return $this->firstname;
+        } elseif (!empty($this->lastname)) {
+            return $this->lastname;
+        } else {
+            return $this->username;
+        }
+    }
+
     /**
      * @param User $user
      * @return bool

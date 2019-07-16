@@ -49,6 +49,7 @@ class LoginMiddleware
             $dbUser = User::getByUsername($user->getUsername());
 
             if ($user->isEqual($dbUser)) {
+                $cont->offsetSet('user', $dbUser);
                 return $next($request, $response);
             }
         }
