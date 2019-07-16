@@ -19,10 +19,10 @@
                             <strong>{{ key }}</strong><br>
                             {{ message.message }}<br><br>
                         {% endfor %}
-                        Some errors occurred, please try again.
+                        Es sind Fehler aufgetregen, bitte versuche es erneut.
                     {% else %}
-                        Setup successful<br><br>
-                        <a href="{{ admin_url }}/login" class="alert-link">Redirect to login</a>
+                        Setup erfolgreich<br><br>
+                        <a href="{{ admin_url }}/login" class="alert-link">Weiter zum Login</a>
                     {% endif %}
                 </div>
             {% endif %}
@@ -30,9 +30,9 @@
         {% if not success %}
             <div class="collapse show multi-collapse" id="step1">
                 <div class="text-center mb-4">
-                    <h2 class="h4 mb-3 font-weight-normal">Step 1</h2>
+                    <h2 class="h4 mb-3 font-weight-normal">Schritt 1</h2>
                     <p>
-                        Please provide your database connection data below.
+                        Bitte konfiguriere deine Datenbank-Verbindungsdaten.
                     </p>
                 </div>
                 <div class="form-label-group">
@@ -41,64 +41,64 @@
                     <label for="dbHost">Host</label>
                 </div>
                 <div class="form-label-group">
-                    <input type="text" id="dbDatabase" name="db_database" class="form-control" placeholder="Database"
+                    <input type="text" id="dbDatabase" name="db_database" class="form-control" placeholder="Datenbank"
                            value="{{ db_database }}" required>
-                    <label for="dbDatabase">Database</label>
+                    <label for="dbDatabase">Datenbank</label>
                 </div>
                 <div class="form-label-group">
-                    <input type="text" id="dbUser" name="db_user" class="form-control" placeholder="Username"
+                    <input type="text" id="dbUser" name="db_user" class="form-control" placeholder="Benutzername"
                            value="{{ db_user }}" required>
-                    <label for="dbUser">Username</label>
+                    <label for="dbUser">Benutzername</label>
                 </div>
                 <div class="form-label-group">
-                    <input type="password" id="dbPassword" name="db_password" class="form-control" placeholder="Password"
+                    <input type="password" id="dbPassword" name="db_password" class="form-control" placeholder="Passwort"
                            required>
-                    <label for="dbPassword">Password</label>
+                    <label for="dbPassword">Passwort</label>
                 </div>
                 <button class="btn btn-lg btn-primary btn-block" type="button" data-toggle="collapse"
-                        data-target=".multi-collapse" aria-expanded="false" aria-controls="step1 step2">Next
+                        data-target=".multi-collapse" aria-expanded="false" aria-controls="step1 step2">Weiter
                 </button>
             </div>
             <div class="collapse multi-collapse" id="step2">
                 <div class="text-center mb-4">
-                    <h2 class="h4 mb-3 font-weight-normal">Step 2</h2>
+                    <h2 class="h4 mb-3 font-weight-normal">Schritt 2</h2>
                     <p>
-                        How would you like to log in?
+                        Wie möchtest du dich einloggen?
                     </p>
                 </div>
                 <div class="form-label-group">
-                    <input type="text" id="userUsername" name="user_username" class="form-control" placeholder="Username"
+                    <input type="text" id="userUsername" name="user_username" class="form-control" placeholder="Benutzername"
                            value="{{ user_username }}" required>
-                    <label for="userUsername">Username</label>
+                    <label for="userUsername">Benutzername</label>
                 </div>
                 <div class="d-flex">
                     <div class="form-label-group w-50 mr-1">
                         <input type="text" id="userFirstname" name="user_firstname" class="form-control"
-                               placeholder="Firstname"
+                               placeholder="Vorname"
                                value="{{ user_firstname }}" required>
-                        <label for="userLastname">Firstname</label>
+                        <label for="userLastname">Vorname</label>
                     </div>
                     <div class="form-label-group w-50 ml-1">
                         <input type="text" id="userLastname" name="user_lastname" class="form-control"
-                               placeholder="Lastname"
+                               placeholder="Name"
                                value="{{ user_lastname }}" required>
-                        <label for="userLastname">Lastname</label>
+                        <label for="userLastname">Name</label>
                     </div>
                 </div>
                 <div class="form-label-group">
-                    <input type="email" id="userEmail" name="user_email" class="form-control" placeholder="Email"
+                    <input type="email" id="userEmail" name="user_email" class="form-control" placeholder="E-Mail"
                            value="{{ user_email }}" required>
-                    <label for="userEmail">Email</label>
+                    <label for="userEmail">E-Mail</label>
                 </div>
                 <div class="form-label-group">
                     <input type="password" id="userPassword" name="user_password" class="form-control"
-                           placeholder="Password"
+                           placeholder="Passwort"
                            required>
-                    <label for="userPassword">Password</label>
+                    <label for="userPassword">Passwort</label>
                 </div>
 
-                <button class="btn btn-lg btn-primary btn-block" type="button" data-toggle="collapse"
-                        data-target=".multi-collapse" aria-expanded="false" aria-controls="step1 step2">Back
+                <button class="btn btn-lg btn-secondary btn-block" type="button" data-toggle="collapse"
+                        data-target=".multi-collapse" aria-expanded="false" aria-controls="step1 step2">Zurück
                 </button>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Setup</button>
             </div>
