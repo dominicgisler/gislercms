@@ -27,21 +27,15 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link {% if route == 'index' %}active{% endif %}" href="#">
+                            <a class="nav-link {% if route == 'admin-index' %}active{% endif %}" href="{{ admin_url }}">
                                 <i class="fa fa-home fa-fw"></i>
-                                Dashboard {% if route == 'index' %}<span class="sr-only">(current)</span>{% endif %}
+                                Dashboard {% if route == 'admin-index' %}<span class="sr-only">(current)</span>{% endif %}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if route == 'orders' %}active{% endif %}" href="#">
+                            <a class="nav-link {% if route == 'admin-preview' %}active{% endif %}" href="{{ admin_url }}/preview">
                                 <i class="fa fa-file fa-fw"></i>
-                                Orders {% if route == 'orders' %}<span class="sr-only">(current)</span>{% endif %}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if route == 'integration' %}active{% endif %}" href="#">
-                                <i class="fa fa-layer-group fa-fw"></i>
-                                Integrations {% if route == 'integration' %}<span class="sr-only">(current)</span>{% endif %}
+                                Seitenvorschau {% if route == 'admin-preview' %}<span class="sr-only">(current)</span>{% endif %}
                             </a>
                         </li>
                     </ul>
@@ -54,20 +48,21 @@
                     </h6>
                     <ul class="nav flex-column mb-2">
                         {% set trash = 0 %}
-                        {% for page in pages %}
-                            {% if page.isTrash() %}
+                        {% for navPage in pages %}
+                            {% set active = (route == 'admin-page-edit' and page.getPageId() == navPage.getPageId()) %}
+                            {% if navPage.isTrash() %}
                                 {% set trash = trash + 1 %}
                             {% else %}
                                 <li class="nav-item">
-                                    <a class="nav-link {% if not page.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/page/{{ page.getPageId() }}">
-                                        <i class="fa {% if page.isEnabled() %}fa-file-alt{% else %}fa-eye-slash{% endif %} fa-fw"></i>
-                                        {{ page.getName() }}
+                                    <a class="nav-link {% if active %}active{% endif %} {% if not navPage.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/page/{{ navPage.getPageId() }}">
+                                        <i class="fa {% if navPage.isEnabled() %}fa-file-alt{% else %}fa-eye-slash{% endif %} fa-fw"></i>
+                                        {{ navPage.getName() }}
                                     </a>
                                 </li>
                             {% endif %}
                         {% endfor %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ admin_url }}/page/trash">
+                            <a class="nav-link {% if route == 'admin-page-trash' %}active{% endif %}" href="{{ admin_url }}/page/trash">
                                 <i class="fa fa-trash-alt fa-fw"></i>
                                 Papierkorb ({{ trash }})
                             </a>
@@ -82,20 +77,21 @@
                     </h6>
                     <ul class="nav flex-column mb-2">
                         {% set trash = 0 %}
-                        {% for widget in widgets %}
-                            {% if widget.isTrash() %}
+                        {% for navWidget in widgets %}
+                            {% set active = (route == 'admin-widget-edit' and widget.getWidgetId() == navWidget.getWidgetId()) %}
+                            {% if navWidget.isTrash() %}
                                 {% set trash = trash + 1 %}
                             {% else %}
                                 <li class="nav-item">
-                                    <a class="nav-link {% if not widget.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/widget/{{ widget.getWidgetId() }}">
-                                        <i class="fa {% if widget.isEnabled() %}fa-file-alt{% else %}fa-eye-slash{% endif %} fa-fw"></i>
-                                        {{ widget.getName() }}
+                                    <a class="nav-link {% if active %}active{% endif %} {% if not navWidget.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/widget/{{ navWidget.getWidgetId() }}">
+                                        <i class="fa {% if navWidget.isEnabled() %}fa-file-alt{% else %}fa-eye-slash{% endif %} fa-fw"></i>
+                                        {{ navWidget.getName() }}
                                     </a>
                                 </li>
                             {% endif %}
                         {% endfor %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ admin_url }}/widget/trash">
+                            <a class="nav-link {% if route == 'admin-widget-trash' %}active{% endif %}" href="{{ admin_url }}/widget/trash">
                                 <i class="fa fa-trash-alt fa-fw"></i>
                                 Papierkorb ({{ trash }})
                             </a>

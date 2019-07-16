@@ -3,6 +3,7 @@
 namespace GislerCMS;
 
 use GislerCMS\Controller\Admin\AdminIndexController;
+use GislerCMS\Controller\Admin\AdminPreviewController;
 use GislerCMS\Controller\Admin\AdminSetupController;
 use GislerCMS\Controller\Admin\Auth\AdminLoginController;
 use GislerCMS\Controller\Admin\Auth\AdminLogoutController;
@@ -120,6 +121,7 @@ class Application
             ],
             'require_login' => [
                 AdminIndexController::class,
+                AdminPreviewController::class,
                 AdminPageAddController::class,
                 AdminPageEditController::class,
                 AdminPageTrashController::class,
