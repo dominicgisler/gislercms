@@ -91,7 +91,8 @@ CREATE TABLE `cms__page_translation`
   `updated_at`          TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   CONSTRAINT `pk_page_translation` PRIMARY KEY (`page_translation_id`),
-  CONSTRAINT `uq_page_translation` UNIQUE (`fk_page_id`, `fk_language_id`),
+  CONSTRAINT `uq1_page_translation` UNIQUE (`fk_page_id`, `fk_language_id`),
+  CONSTRAINT `uq2_page_translation` UNIQUE (`name`, `fk_language_id`),
   CONSTRAINT `fk_page_translation_page` FOREIGN KEY (`fk_page_id`) REFERENCES `cms__page` (`page_id`)
     ON UPDATE CASCADE
     ON DELETE CASCADE,
@@ -137,6 +138,7 @@ CREATE TABLE `cms__widget`
   `updated_at`     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   CONSTRAINT `pk_widget` PRIMARY KEY (`widget_id`),
+  CONSTRAINT `uq_widget` UNIQUE (`name`),
   CONSTRAINT `fk_widget_language` FOREIGN KEY (`fk_language_id`) REFERENCES `cms__language` (`language_id`)
     ON UPDATE CASCADE
     ON DELETE RESTRICT

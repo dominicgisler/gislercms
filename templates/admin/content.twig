@@ -73,6 +73,34 @@
                             </a>
                         </li>
                     </ul>
+
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Widgets</span>
+                        <a class="d-flex align-items-center text-muted p-0" href="{{ admin_url }}/widget/add">
+                            <i class="fa fa-plus-circle fa-fw"></i>
+                        </a>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        {% set trash = 0 %}
+                        {% for widget in widgets %}
+                            {% if widget.isTrash() %}
+                                {% set trash = trash + 1 %}
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link {% if not widget.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/widget/{{ widget.getWidgetId() }}">
+                                        <i class="fa {% if widget.isEnabled() %}fa-file-alt{% else %}fa-eye-slash{% endif %} fa-fw"></i>
+                                        {{ widget.getName() }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ admin_url }}/widget/trash">
+                                <i class="fa fa-trash-alt fa-fw"></i>
+                                Papierkorb ({{ trash }})
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
 
