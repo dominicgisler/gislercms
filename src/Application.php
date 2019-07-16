@@ -9,6 +9,9 @@ use GislerCMS\Controller\Admin\Auth\AdminLogoutController;
 use GislerCMS\Controller\Admin\Page\AdminPageAddController;
 use GislerCMS\Controller\Admin\Page\AdminPageEditController;
 use GislerCMS\Controller\Admin\Page\AdminPageTrashController;
+use GislerCMS\Controller\Admin\Widget\AdminWidgetAddController;
+use GislerCMS\Controller\Admin\Widget\AdminWidgetEditController;
+use GislerCMS\Controller\Admin\Widget\AdminWidgetTrashController;
 use GislerCMS\Middleware\LoginMiddleware;
 use GislerCMS\Middleware\NoLoginMiddleware;
 use Slim\App;
@@ -117,9 +120,12 @@ class Application
             ],
             'require_login' => [
                 AdminIndexController::class,
-                AdminPageEditController::class,
                 AdminPageAddController::class,
-                AdminPageTrashController::class
+                AdminPageEditController::class,
+                AdminPageTrashController::class,
+                AdminWidgetAddController::class,
+                AdminWidgetEditController::class,
+                AdminWidgetTrashController::class
             ],
             'require_nologin' => [
                 AdminLoginController::class

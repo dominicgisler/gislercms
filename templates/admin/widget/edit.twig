@@ -1,0 +1,96 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/content.twig' %}
+
+{% block title %}Widget "{{ widget.name }}" bearbeiten{% endblock %}
+
+{% set languageSelect = [] %}
+{% for language in languages %}
+    {% set selected = false %}
+    {% if language.getLanguageId() == widget.language.getLanguageId() %}
+        {% set selected = true %}
+    {% endif %}
+    {% set languageSelect = languageSelect|merge({ (language.locale): {label: language.description, selected: selected}}) %}
+{% endfor %}
+
+{%
+    set messages = {
+        invalid_input: {
+            class: 'danger',
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+        },
+        save_error: {
+            class: 'danger',
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+        },
+        save_success: {
+            class: 'success',
+            message: 'Das Widget wurde erfolgreich gespeichert.'
+        },
+        is_trash: {
+            class: 'warning',
+            message: 'Dieses Widget befindet sich im Papierkorb, speichere es um es wiederherzustellen.'
+        }
+    }
+%}
+{% if widget.isTrash() %}
+    {% set message = 'is_trash' %}
+{% endif %}
+
+{% block content %}
+    {% if message %}
+        <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
+            {{ messages[message].message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <form method="post" id="widget-form">
+        {{ forms.form_group('text', 'widget[name]', widget.name, 'Name', '', 'name' in errors ? 'is-invalid' : '', 'Nur als interne Bezeichnung') }}
+        {{ forms.form_group('select', 'widget[language]', widget.language, 'Standardsprache', '', 'language' in errors ? 'is-invalid' : '', '', languageSelect) }}
+        {{ forms.form_group('checkbox', 'widget[enabled]', widget.enabled, 'Widget aktiviert') }}
+        <h2 class="h4 mt-4">Sprachen</h2>
+        <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+            {% for language in languages %}
+                <li class="nav-item">
+                    <a class="nav-link {% if loop.first %}active{% endif %}" id="{{ language.locale }}-tab" data-toggle="tab" href="#lang-{{ language.locale }}" role="tab" aria-controls="lang-{{ language.locale }}" aria-selected="true">{{ language.description }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content mt-4" id="myTabContent">
+            {% for language in languages %}
+                <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="lang-{{ language.locale }}" role="tabpanel" aria-labelledby="{{ language.locale }}-tab">
+                    {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', translations[language.locale].enabled, 'Übersetzung aktiviert') }}
+                    <div class="mt-2"></div>
+                    {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt', '', language.locale ~ '_content' in errors ? 'tinymce is-invalid' : 'tinymce') }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-right mb-4">
+            <button class="btn btn-primary" name="save">{% if widget.isTrash() %}Wiederherstellen{% else %}Speichern{% endif %}</button>
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if widget.isTrash() %}Endgültig löschen{% else %}Löschen{% endif %}</button>
+        </div>
+
+        {# confirm delete modal #}
+        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteLabel">Widget löschen</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Möchtest du das Widget wirklich{% if widget.isTrash() %} unwiderruflich{% endif %} löschen?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" name="delete" class="btn btn-danger">Ja, Widget löschen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

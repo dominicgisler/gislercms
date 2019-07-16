@@ -117,8 +117,7 @@ class WidgetTranslationHistory extends DbModel
                     `fk_widget_translation_id`, `content`, `enabled`, `fk_user_id`
                 )
                 VALUES (
-                    ?, ?, ?, ?, ?, ?,
-                    ?, ?, ?, ?, ?
+                    ?, ?, ?, ?
                 )
             ");
             $res = $stmt->execute([

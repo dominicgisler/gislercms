@@ -1,0 +1,18 @@
+{% extends 'admin/content.twig' %}
+
+{% block title %}Widget nicht gefunden{% endblock %}
+
+{% block content %}
+    <p>Das gewünschte Widget wurde nicht gefunden, bitte wähle ein Widget aus der Liste aus:</p>
+    <ul>
+        {% for widget in widgets %}
+            {% if not widget.isTrash() %}
+                <li>
+                    <a href="{{ admin_url }}/widget/{{ widget.getWidgetId() }}">
+                        {{ widget.getName() }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}
