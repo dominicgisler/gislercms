@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d0469d34b2ff0b446c7375d339d801b9",
+    "content-hash": "cc99248dcb2b34549668583267b9f19a",
     "packages": [
         {
             "name": "components/jquery",
@@ -96,24 +96,6 @@
             ],
             "description": "editor package for gislercms",
             "time": "2019-05-16T17:25:06+00:00"
-        },
-        {
-            "name": "dominicgisler/gislercms-sweetalert2",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "ssh://git@github.com:22/dominicgisler/gislercms-sweetalert2.git",
-                "reference": "22c19fd325e4fd97adb92423cdbaba26934c4eac"
-            },
-            "type": "library",
-            "authors": [
-                {
-                    "name": "Dominic Gisler",
-                    "email": "domgisler@gmail.com"
-                }
-            ],
-            "description": "sweetalert2 package for gislercms",
-            "time": "2019-07-15T17:34:04+00:00"
         },
         {
             "name": "fortawesome/font-awesome",
@@ -1350,8 +1332,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "dominicgisler/gislercms-editor": 20,
-        "dominicgisler/gislercms-sweetalert2": 20
+        "dominicgisler/gislercms-editor": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

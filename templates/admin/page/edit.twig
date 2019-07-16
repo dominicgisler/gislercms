@@ -75,33 +75,29 @@
             {% endfor %}
         </div>
         <div class="text-right mb-4">
-            <input type="hidden" name="delete" id="delete-input">
             <button class="btn btn-primary" name="save">{% if page.isTrash() %}Wiederherstellen{% else %}Speichern{% endif %}</button>
-            <button class="btn btn-danger" onclick="return confirmDelete();">{% if page.isTrash() %}Endgültig löschen{% else %}Löschen{% endif %}</button>
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if page.isTrash() %}Endgültig löschen{% else %}Löschen{% endif %}</button>
+        </div>
+
+        {# confirm delete modal #}
+        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteLabel">Seite löschen</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Möchtest du die Seite wirklich{% if page.isTrash() %} unwiderruflich{% endif %} löschen?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" name="delete" class="btn btn-danger">Ja, Seite löschen</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
-{% endblock %}
-
-{% block scripts %}
-    {{ parent() }}
-    <script>
-        function confirmDelete() {
-            Swal.fire({
-                title: 'Seite löschen',
-                text: 'Möchtest du die Seite wirklich{% if page.isTrash() %} unwiderruflich{% endif %} löschen?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc3545',
-                cancelButtonColor: '#007bff',
-                confirmButtonText: 'Ja, Seite löschen',
-                cancelButtonText: 'Abbrechen'
-            }).then((result) => {
-                if (result.value) {
-                    document.getElementById('delete-input').setAttribute('value', '1');
-                    document.getElementById('page-form').submit();
-                }
-            });
-            return false;
-        }
-    </script>
 {% endblock %}

@@ -50,7 +50,7 @@ class AdminPageEditController extends AbstractController
             $translationsHistory = [];
             $errors = [];
             if ($request->isPost()) {
-                if (!$request->getParsedBodyParam('delete')) {
+                if (is_null($request->getParsedBodyParam('delete'))) {
                     $pageData = $request->getParsedBodyParam('page');
                     $filter = $this->getPageInputFilter();
                     $filter->setData($pageData);
