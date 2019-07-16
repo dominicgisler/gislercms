@@ -1,7 +1,8 @@
 <?php
 
-namespace GislerCMS\Controller;
+namespace GislerCMS\Controller\Admin\Page;
 
+use GislerCMS\Controller\Admin\AdminAbstractController;
 use GislerCMS\Filter\ToBool;
 use GislerCMS\Filter\ToLanguage;
 use GislerCMS\Helper\SessionHelper;
@@ -18,10 +19,10 @@ use Zend\Validator\NotEmpty;
 use Zend\Validator\StringLength;
 
 /**
- * Class AdminPageEditController
+ * Class AdminPageEditControllerAdmin
  * @package GislerCMS\Controller
  */
-class AdminPageEditController extends AbstractController
+class AdminPageEditController extends AdminAbstractController
 {
     const NAME = 'admin-page-edit';
     const PATTERN = '{admin_route}/page/{id:[0-9]+}';

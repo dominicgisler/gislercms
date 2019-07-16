@@ -1,6 +1,6 @@
 <?php
 
-namespace GislerCMS\Controller;
+namespace GislerCMS\Controller\Admin;
 
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\DbModel;
@@ -11,10 +11,10 @@ use Slim\Http\Response;
 use Slim\Route;
 
 /**
- * Class AbstractController
+ * Class AdminAbstractController
  * @package GislerCMS\Controller
  */
-abstract class AbstractController
+abstract class AdminAbstractController
 {
     /**
      * @var \Slim\Container|\Psr\Container\ContainerInterface

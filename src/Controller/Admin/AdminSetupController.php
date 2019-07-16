@@ -1,6 +1,6 @@
 <?php
 
-namespace GislerCMS\Controller;
+namespace GislerCMS\Controller\Admin;
 
 use GislerCMS\Helper\MigrationHelper;
 use GislerCMS\Model\DbModel;
@@ -9,10 +9,10 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminSetupController
+ * Class AdminSetupControllerAdmin
  * @package GislerCMS\Controller
  */
-class AdminSetupController extends AbstractController
+class AdminSetupController extends AdminAbstractController
 {
     const NAME = 'admin-setup';
     const PATTERN = '{admin_route}/setup';

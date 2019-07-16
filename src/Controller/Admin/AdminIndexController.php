@@ -1,15 +1,15 @@
 <?php
 
-namespace GislerCMS\Controller;
+namespace GislerCMS\Controller\Admin;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminIndexController
+ * Class AdminIndexControllerAdmin
  * @package GislerCMS\Controller
  */
-class AdminIndexController extends AbstractController
+class AdminIndexController extends AdminAbstractController
 {
     const NAME = 'admin-index';
     const PATTERN = '{admin_route}[/]';

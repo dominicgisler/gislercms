@@ -1,7 +1,8 @@
 <?php
 
-namespace GislerCMS\Controller;
+namespace GislerCMS\Controller\Admin\Page;
 
+use GislerCMS\Controller\Admin\AdminAbstractController;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\Page;
 use GislerCMS\Model\PageTranslation;
@@ -9,10 +10,10 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminPageAddController
+ * Class AdminPageAddControllerAdmin
  * @package GislerCMS\Controller
  */
-class AdminPageAddController extends AbstractController
+class AdminPageAddController extends AdminAbstractController
 {
     const NAME = 'admin-page-add';
     const PATTERN = '{admin_route}/page/add';

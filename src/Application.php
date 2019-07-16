@@ -2,13 +2,13 @@
 
 namespace GislerCMS;
 
-use GislerCMS\Controller\AdminIndexController;
-use GislerCMS\Controller\AdminLoginController;
-use GislerCMS\Controller\AdminLogoutController;
-use GislerCMS\Controller\AdminPageAddController;
-use GislerCMS\Controller\AdminPageEditController;
-use GislerCMS\Controller\AdminPageTrashController;
-use GislerCMS\Controller\AdminSetupController;
+use GislerCMS\Controller\Admin\AdminIndexController;
+use GislerCMS\Controller\Admin\AdminSetupController;
+use GislerCMS\Controller\Admin\Auth\AdminLoginController;
+use GislerCMS\Controller\Admin\Auth\AdminLogoutController;
+use GislerCMS\Controller\Admin\Page\AdminPageAddController;
+use GislerCMS\Controller\Admin\Page\AdminPageEditController;
+use GislerCMS\Controller\Admin\Page\AdminPageTrashController;
 use GislerCMS\Middleware\LoginMiddleware;
 use GislerCMS\Middleware\NoLoginMiddleware;
 use Slim\App;
