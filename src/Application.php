@@ -7,6 +7,7 @@ use GislerCMS\Controller\AdminLoginController;
 use GislerCMS\Controller\AdminLogoutController;
 use GislerCMS\Controller\AdminPageAddController;
 use GislerCMS\Controller\AdminPageEditController;
+use GislerCMS\Controller\AdminPageTrashController;
 use GislerCMS\Controller\AdminSetupController;
 use GislerCMS\Middleware\LoginMiddleware;
 use GislerCMS\Middleware\NoLoginMiddleware;
@@ -117,7 +118,8 @@ class Application
             'require_login' => [
                 AdminIndexController::class,
                 AdminPageEditController::class,
-                AdminPageAddController::class
+                AdminPageAddController::class,
+                AdminPageTrashController::class
             ],
             'require_nologin' => [
                 AdminLoginController::class
