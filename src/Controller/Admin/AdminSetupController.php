@@ -92,7 +92,7 @@ class AdminSetupController extends AdminAbstractController
                             "        'enable_setup' => false" . PHP_EOL .
                             "    ]," . PHP_EOL .
                             "];" . PHP_EOL;
-                        if (!file_put_contents(__DIR__ . '/../../config/local.php', $cfg)) {
+                        if (!file_put_contents(__DIR__ . '/../../../config/local.php', $cfg)) {
                             $data['error'] = true;
                             $data['messages']['write_config'] = [
                                 'message' => 'Could not write config file!'
