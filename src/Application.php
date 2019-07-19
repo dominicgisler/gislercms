@@ -13,6 +13,7 @@ use GislerCMS\Controller\Admin\Page\AdminPageTrashController;
 use GislerCMS\Controller\Admin\Widget\AdminWidgetAddController;
 use GislerCMS\Controller\Admin\Widget\AdminWidgetEditController;
 use GislerCMS\Controller\Admin\Widget\AdminWidgetTrashController;
+use GislerCMS\Controller\IndexController;
 use GislerCMS\Middleware\LoginMiddleware;
 use GislerCMS\Middleware\NoLoginMiddleware;
 use Slim\App;
@@ -117,7 +118,8 @@ class Application
         $classes = [
             'default' => [
                 AdminLogoutController::class,
-                AdminSetupController::class
+                AdminSetupController::class,
+                IndexController::class
             ],
             'require_login' => [
                 AdminIndexController::class,
