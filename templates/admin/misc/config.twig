@@ -7,7 +7,7 @@
 {% set languageSelect = [] %}
 {% for language in languages %}
     {% set selected = false %}
-    {% if language.getLanguageId() == config['page.default_language'] %}
+    {% if language.getLanguageId() == config.page_default_language %}
         {% set selected = true %}
     {% endif %}
     {% set languageSelect = languageSelect|merge({ (language.locale): {label: language.description, selected: selected}}) %}
@@ -49,27 +49,15 @@
         </div>
     {% endif %}
     <form method="post" id="page-form">
-        {{ forms.form_group('checkbox', 'maintenance_mode', config['maintenance_mode'], 'Wartungsmodus', '', 'maintenance_mode' in errors ? 'is-invalid' : '', 'Im Wartungsmodus wird eine statische Seite angezeigt.') }}
-        {{ forms.form_group('text', 'page.meta_keywords', config['page.meta_keywords'], 'Standard-Suchbegriffe', '', 'page.meta_keywords' in errors ? 'is-invalid' : '', 'Wird bei der Seitenerstellung verwendet') }}
-        {{ forms.form_group('text', 'page.meta_description', config['page.meta_description'], 'Standard-Beschreibung', '', 'page.meta_description' in errors ? 'is-invalid' : '', 'Wird bei der Seitenerstellung verwendet') }}
-        {{ forms.form_group('text', 'page.meta_author', config['page.meta_author'], 'Standard-Autor', '', 'page.meta_author' in errors ? 'is-invalid' : '', 'Wird bei der Seitenerstellung verwendet') }}
-        {{ forms.form_group('text', 'page.meta_copyright', config['page.meta_copyright'], 'Standard-Copyright', '', 'page.meta_copyright' in errors ? 'is-invalid' : '', 'Wird bei der Seitenerstellung verwendet') }}
-        {{ forms.form_group('select', 'page.default_language', config['page.default_language'], 'Standard-Sprache', '', 'page.default_language' in errors ? 'is-invalid' : '', 'Wird bei der Seitenerstellung verwendet', languageSelect) }}
-        {{ forms.form_group('select', 'default_page', config['default_page'], 'Startseite', '', 'default_page' in errors ? 'is-invalid' : '', 'Startseite deiner Webseite', pageSelect) }}
+        {{ forms.form_group('checkbox', 'maintenance_mode', config.maintenance_mode, 'Wartungsmodus', '', 'maintenance_mode' in errors ? 'is-invalid' : '', 'Im Wartungsmodus wird eine statische Seite angezeigt.') }}
+        {{ forms.form_group('text', 'page_meta_keywords', config.page_meta_keywords, 'Standard-Suchbegriffe', '', 'page_meta_keywords' in errors ? 'is-invalid' : '', 'Wird bei der Seitenerstellung verwendet') }}
+        {{ forms.form_group('text', 'page_meta_description', config.page_meta_description, 'Standard-Beschreibung', '', 'page_meta_description' in errors ? 'is-invalid' : '', 'Wird bei der Seitenerstellung verwendet') }}
+        {{ forms.form_group('text', 'page_meta_author', config.page_meta_author, 'Standard-Autor', '', 'page_meta_author' in errors ? 'is-invalid' : '', 'Wird bei der Seitenerstellung verwendet') }}
+        {{ forms.form_group('text', 'page_meta_copyright', config.page_meta_copyright, 'Standard-Copyright', '', 'page_meta_copyright' in errors ? 'is-invalid' : '', 'Wird bei der Seitenerstellung verwendet') }}
+        {{ forms.form_group('select', 'page_default_language', config.page_default_language, 'Standard-Sprache', '', 'page_default_language' in errors ? 'is-invalid' : '', 'Wird bei der Seitenerstellung verwendet', languageSelect) }}
+        {{ forms.form_group('select', 'default_page', config.default_page, 'Startseite', '', 'default_page' in errors ? 'is-invalid' : '', 'Startseite deiner Webseite', pageSelect) }}
         <div class="text-right mb-4">
-            <button class="btn btn-primary" name="save">{% if page.isTrash() %}Wiederherstellen{% else %}Speichern{% endif %}</button>
+            <button class="btn btn-primary" name="save">Speichern</button>
         </div>
     </form>
-{% endblock %}
-
-{% block scripts %}
-    {{ parent() }}
-    <script>
-        function autocompletePageWidgets() {
-            autocompleteWidgets([{% for widget in widgets %}'{{ widget.getName() }}'{% if not loop.last %},{% endif %}{% endfor %}]);
-        }
-        function autocompletePageModules() {
-            autocompleteModules(['these','will','be','the','modules']);
-        }
-    </script>
 {% endblock %}

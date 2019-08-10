@@ -21,19 +21,40 @@ class Config extends DbModel
     /**
      * @var string
      */
+    private $type;
+
+    /**
+     * @var mixed
+     */
     private $value;
 
     /**
      * Config constructor.
      * @param int $configId
      * @param string $name
+     * @param string $type
      * @param string $value
      */
-    public function __construct(int $configId = 0, string $name = '', string $value = '')
+    public function __construct(int $configId = 0, string $name = '', string $type = '', $value = null)
     {
         $this->configId = $configId;
         $this->name = $name;
-        $this->value = $value;
+        $this->type = $type;
+        switch ($this->type) {
+            case 'bool':
+            case 'boolean':
+                $this->value = $value ? true : false;
+                break;
+            case 'int':
+            case 'integer':
+                $this->value = intval($value);
+                break;
+            case 'json':
+                $this->value = json_decode($value);
+                break;
+            default:
+                $this->value = $value;
+        }
     }
 
     /**
@@ -43,7 +64,7 @@ class Config extends DbModel
     public static function getAll(): array
     {
         $arr = [];
-        $stmt = self::getPDO()->query("SELECT `config_id`, `name`, `value` FROM `cms__config`");
+        $stmt = self::getPDO()->query("SELECT `config_id`, `name`, `type`, `value` FROM `cms__config`");
         if ($stmt instanceof \PDOStatement) {
             $configs = $stmt->fetchAll(\PDO::FETCH_OBJ);
             if (sizeof($configs) > 0) {
@@ -51,6 +72,7 @@ class Config extends DbModel
                     $arr[] = new Config(
                         $config->config_id,
                         $config->name,
+                        $config->type,
                         $config->value
                     );
                 }
@@ -73,10 +95,66 @@ class Config extends DbModel
             return new Config(
                 $config->config_id,
                 $config->name,
+                $config->type,
                 $config->value
             );
         }
         return new Config();
+    }
+
+    /**
+     * @param int $id
+     * @return Config
+     * @throws \Exception
+     */
+    public static function get(int $id): Config
+    {
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__config` WHERE `config_id` = ?");
+        $stmt->execute([$id]);
+        $config = $stmt->fetchObject();
+        if ($config) {
+            return new Config(
+                $config->config_id,
+                $config->name,
+                $config->type,
+                $config->value
+            );
+        }
+        return new Config();
+    }
+
+    /**
+     * @return Config|null
+     * @throws \Exception
+     */
+    public function save(): ?Config
+    {
+        $pdo = self::getPDO();
+        if ($this->getConfigId() > 0) {
+            $stmt = $pdo->prepare("
+                UPDATE `cms__config`
+                SET `name` = ?, `type` = ?, `value` = ?
+                WHERE `config_id` = ?
+            ");
+            $res = $stmt->execute([
+                $this->getName(),
+                $this->getType(),
+                $this->getValueAsString(),
+                $this->getConfigId()
+            ]);
+            return $res ? self::get($this->getConfigId()) : null;
+        } else {
+            $stmt = $pdo->prepare("
+                INSERT INTO `cms__config` (`name`, `type`, `value`)
+                VALUES (?, ?, ?)
+            ");
+            $res = $stmt->execute([
+                $this->getName(),
+                $this->getType(),
+                $this->getValueAsString()
+            ]);
+            return $res ? self::get($pdo->lastInsertId()) : null;
+        }
     }
 
     /**
@@ -114,16 +192,51 @@ class Config extends DbModel
     /**
      * @return string
      */
-    public function getValue(): string
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
     {
         return $this->value;
     }
 
     /**
-     * @param string $value
+     * @param mixed $value
      */
-    public function setValue(string $value): void
+    public function setValue($value): void
     {
         $this->value = $value;
+    }
+
+    /**
+     * @return string
+     */
+    private function getValueAsString(): string
+    {
+        switch ($this->type) {
+            case 'bool':
+            case 'boolean':
+                $value = $this->value ? '1' : '0';
+                break;
+            case 'json':
+                $value = json_encode($this->value);
+                break;
+            default:
+                $value = strval($this->value);
+        }
+        return $value;
     }
 }

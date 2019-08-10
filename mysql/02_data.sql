@@ -24,9 +24,9 @@ VALUES (1, 1, 1, '<p>Copyright &copy; 2019 by Gisler Software</p>', 1),
 
 INSERT INTO `cms__config` (`name`, `type`, `value`)
 VALUES ('maintenance_mode', 'boolean', '0'),
-       ('page.meta_keywords', 'string', 'cms, gisler, software, gislercms'),
-       ('page.meta_description', 'string', 'Meine eigene Webseite mit GislerCMS'),
-       ('page.meta_author', 'string', 'Max Muster'),
-       ('page.meta_copyright', 'string', 'Max Muster, domain.tld'),
-       ('page.default_language', 'integer', '1'),
+       ('page_meta_keywords', 'string', 'cms, gisler, software, gislercms'),
+       ('page_meta_description', 'string', 'Meine eigene Webseite mit GislerCMS'),
+       ('page_meta_author', 'string', 'Max Muster'),
+       ('page_meta_copyright', 'string', 'Max Muster, domain.tld'),
+       ('page_default_language', 'integer', '1'),
        ('default_page', 'integer', '1');

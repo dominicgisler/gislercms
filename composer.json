@@ -35,7 +35,8 @@
     "twbs/bootstrap": "^4.3",
     "components/jquery": "^3.3",
     "dominicgisler/gislercms-editor": "dev-master",
-    "zendframework/zend-inputfilter": "^2.10"
+    "zendframework/zend-inputfilter": "^2.10",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {

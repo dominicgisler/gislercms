@@ -2,32 +2,32 @@
 
 namespace GislerCMS\Validator;
 
-use GislerCMS\Model\Language;
+use GislerCMS\Model\Page;
 use Zend\Validator\AbstractValidator;
 
 /**
- * Class LanguageExists
+ * Class PageExists
  * @package GislerCMS\Validator
  */
-class LanguageExists extends AbstractValidator
+class PageExists extends AbstractValidator
 {
     /**
-     * Returns true if the language exists
+     * Returns true if the page exists
      *
-     * @param  Language $value
+     * @param  Page $value
      * @return bool
      */
     public function isValid($value)
     {
-        if (!($value instanceof Language)) {
+        if (!($value instanceof Page)) {
             $this->error('wrong input type');
             return false;
         }
 
         $this->setValue($value);
 
-        if (!$value->getLanguageId()) {
-            $this->error('language does not exist');
+        if (!$value->getPageId()) {
+            $this->error('page does not exist');
         }
 
         if ($this->getMessages()) {

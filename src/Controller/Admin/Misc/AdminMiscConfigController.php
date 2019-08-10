@@ -5,15 +5,17 @@ namespace GislerCMS\Controller\Admin\Misc;
 use GislerCMS\Controller\Admin\AdminAbstractController;
 use GislerCMS\Filter\ToBool;
 use GislerCMS\Filter\ToLanguage;
+use GislerCMS\Filter\ToPage;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Config;
 use GislerCMS\Model\Language;
+use GislerCMS\Model\Page;
 use GislerCMS\Model\User;
 use GislerCMS\Validator\LanguageExists;
+use GislerCMS\Validator\PageExists;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Zend\InputFilter\Factory;
-use Zend\Validator\NotEmpty;
 use Zend\Validator\StringLength;
 
 /**
@@ -55,23 +57,36 @@ class AdminMiscConfigController extends AdminAbstractController
             if (!$filter->isValid()) {
                 $errors = array_merge($errors, array_keys($filter->getMessages()));
             }
+            $data = $filter->getValues();
 
             if (sizeof($errors) == 0) {
                 $saveError = false;
 
-//                foreach ($configs as &$config) {
-//                    $res = $config->save();
-//                    if (!is_null($res)) {
-//                        $config = $res;
-//                    } else {
-//                        $saveError = true;
-//                    }
-//                }
+                foreach ($configs as &$config) {
+                    if (isset($data[$config->getName()])) {
+                        $val = $data[$config->getName()];
+                        if ($val instanceof Language) {
+                            $val = $val->getLanguageId();
+                        } elseif ($val instanceof Page) {
+                            $val = $val->getPageId();
+                        }
+                        $config->setValue($val);
+                        $res = $config->save();
+                        if (!is_null($res)) {
+                            $config = $res;
+                        } else {
+                            $saveError = true;
+                        }
+                    }
+                }
 
                 if ($saveError) {
                     $msg = 'save_error';
                 } else {
                     $msg = 'save_success';
+                    foreach (Config::getAll() as $config) {
+                        $data[$config->getName()] = $config->getValue();
+                    }
                 }
             } else {
                 $msg = 'invalid_input';
@@ -80,7 +95,8 @@ class AdminMiscConfigController extends AdminAbstractController
         return $this->render($request, $response, 'admin/misc/config.twig', [
             'languages' => $languages,
             'config' => $data,
-            'message' => $msg
+            'message' => $msg,
+            'errors' => $errors
         ]);
     }
 
@@ -92,18 +108,59 @@ class AdminMiscConfigController extends AdminAbstractController
         $factory = new Factory();
         return $factory->createInputFilter([
             [
-                'name' => 'name',
-                'required' => true,
+                'name' => 'maintenance_mode',
+                'required' => false,
+                'filters' => [
+                    new ToBool()
+                ],
+                'validators' => []
+            ],
+            [
+                'name' => 'page_meta_keywords',
+                'required' => false,
+                'filters' => [],
                 'validators' => [
-                    new NotEmpty(),
                     new StringLength([
-                        'min' => 1,
-                        'max' => 128
+                        'min' => 0,
+                        'max' => 512
                     ])
                 ]
             ],
             [
-                'name' => 'language',
+                'name' => 'page_meta_description',
+                'required' => false,
+                'filters' => [],
+                'validators' => [
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 512
+                    ])
+                ]
+            ],
+            [
+                'name' => 'page_meta_author',
+                'required' => false,
+                'filters' => [],
+                'validators' => [
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 255
+                    ])
+                ]
+            ],
+            [
+                'name' => 'page_meta_copyright',
+                'required' => false,
+                'filters' => [],
+                'validators' => [
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 255
+                    ])
+                ]
+            ],
+            [
+                'name' => 'page_default_language',
                 'required' => true,
                 'filters' => [
                     new ToLanguage()
@@ -113,12 +170,14 @@ class AdminMiscConfigController extends AdminAbstractController
                 ]
             ],
             [
-                'name' => 'enabled',
-                'required' => false,
+                'name' => 'default_page',
+                'required' => true,
                 'filters' => [
-                    new ToBool()
+                    new ToPage()
                 ],
-                'validators' => []
+                'validators' => [
+                    new PageExists()
+                ]
             ]
         ]);
     }

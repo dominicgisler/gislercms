@@ -5,6 +5,10 @@ namespace GislerCMS\Filter;
 use GislerCMS\Model\Language;
 use Zend\Filter\AbstractFilter;
 
+/**
+ * Class ToLanguage
+ * @package GislerCMS\Filter
+ */
 class ToLanguage extends AbstractFilter
 {
     /**
@@ -16,6 +20,9 @@ class ToLanguage extends AbstractFilter
      */
     public function filter($value)
     {
+        if (!is_string($value)) {
+            return new Language();
+        }
         return Language::getLanguage($value);
     }
 }

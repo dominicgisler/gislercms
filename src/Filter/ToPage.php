@@ -2,22 +2,24 @@
 
 namespace GislerCMS\Filter;
 
+use GislerCMS\Model\Page;
 use Zend\Filter\AbstractFilter;
 
 /**
- * Class ToBool
+ * Class ToPage
  * @package GislerCMS\Filter
  */
-class ToBool extends AbstractFilter
+class ToPage extends AbstractFilter
 {
     /**
-     * Returns (bool) $value
+     * Returns (Page) $value
      *
      * @param string $value
-     * @return bool
+     * @return Page
+     * @throws \Exception
      */
     public function filter($value)
     {
-        return $value ? true : false;
+        return Page::get(intval($value));
     }
 }
