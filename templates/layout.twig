@@ -1,26 +1,56 @@
+<!DOCTYPE html>
+<html lang="{{ page.getLanguage().getLocale() }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v3.8.5">
-    <title>{{ page.title }}</title>
+        <title>{{ page.getTitle() }}</title>
 
-    <link rel="canonical" href="{{ base_url() }}/{{ page.getLanguage().getLocale() }}/{{ page.getName() }}">
+        <meta itemprop="name" content="{{ page.getTitle() }}">
+        <meta itemprop="description" content="{{ page.getDescription() }}">
+        <meta itemprop="image" content="{{ page.getMetaImage() }}">
 
-    <!-- Bootstrap core CSS -->
-    <link href="{{ base_url() }}/css/style.min.css" rel="stylesheet">
-</head>
-<body>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@publisher_handle">
+        <meta name="twitter:title" content="{{ page.getTitle() }}">
+        <meta name="twitter:description" content="{{ page.getDescription() }}">
+        <meta name="twitter:creator" content="@author_handle">
+        <meta name="twitter:image:src" content="{{ page.getMetaImage() }}">
 
-{{ widget.getWidgetWithLanguage('navigation', page.getLanguage()).getName() }}
+        <meta property="og:url" content="{{ base_url() }}/{{ page.getLanguage().getLocale() }}/{{ page.getName() }}">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="{{ page.getTitle() }}">
+        <meta property="og:description" content="{{ page.getDescription() }}">
+        <meta property="og:image" content="{{ page.getMetaImage() }}">
 
-<main role="main" class="container">
-{{ page.content|raw }}
-</main><!-- /.container -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script></body>
+        <meta name="author" content="{{ page.getMetaAuthor() }}">
+        <meta name="publisher" content="{{ page.getMetaPublisher() }}">
+        <meta name="keywords" content="{{ page.getMetaKeywords }}">
+        <meta name="description" content="{{ page.getMetaDescription }}">
+        <meta name="date" content="2018-05-19T10:57:16+02:00">
+        <meta name="robots" content="index,follow">
+        <meta name="copyright" content="{{ page.getMetaCopyright() }}">
+        <meta name="language" content="{{ page.getLanguage().getLocale() }}">
+
+        <link rel="canonical" href="{{ base_url() }}/{{ page.getLanguage().getLocale() }}/{{ page.getName() }}">
+
+        <link href="{{ base_url() }}/css/style.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container mt-4">
+            <div class="border rounded bg-light text-center p-4 display-4">
+                <a href="{{ base_url() }}">GislerCMS</a>
+            </div>
+            <nav class="mt-2 border rounded bg-light">
+                {% set widget = widget.getWidget('navigation') %}
+                {{ widget_translation.getWidgetTranslation(widget, page.getLanguage()).getContent()|raw }}
+            </nav>
+            <main role="main" class="mt-2 border rounded bg-light p-4">
+                {{ page.getContent()|raw }}
+            </main>
+            <footer class="mt-2 border rounded bg-light p-4 text-center">
+                Copyright &copy; {{ 'now'|date('Y') }} by Gisler Software
+            </footer>
+        </div>
+    </body>
 </html>

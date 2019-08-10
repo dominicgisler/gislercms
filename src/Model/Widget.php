@@ -164,11 +164,10 @@ class Widget extends DbModel
 
     /**
      * @param string $name
-     * @param Language $language
      * @return Widget
      * @throws \Exception
      */
-    public static function getWidgetWithLanguage(string $name, Language $language): Widget
+    public static function getWidget(string $name): Widget
     {
         $stmt = self::getPDO()->prepare("
             SELECT
@@ -187,9 +186,8 @@ class Widget extends DbModel
             ON `w`.fk_language_id = `l`.language_id
             
             WHERE `w`.`name` = ?
-            AND `l`.`language_id` = ?
         ");
-        $stmt->execute([$name, $language->getLanguageId()]);
+        $stmt->execute([$name]);
         $widget = $stmt->fetchObject();
         if ($widget) {
             return new Widget(
@@ -259,6 +257,25 @@ class Widget extends DbModel
             return $stmt->execute([$this->getWidgetId()]);
         }
         return false;
+    }
+
+    /**
+     * @return WidgetTranslation
+     * @throws \Exception
+     */
+    public function getDefaultWidgetTranslation()
+    {
+        return WidgetTranslation::getDefaultWidgetTranslation($this);
+    }
+
+    /**
+     * @param Language $language
+     * @return WidgetTranslation
+     * @throws \Exception
+     */
+    public function getWidgetTranslation(Language $language)
+    {
+        return WidgetTranslation::getWidgetTranslation($this, $language);
     }
 
     /**

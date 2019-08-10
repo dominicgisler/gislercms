@@ -216,6 +216,25 @@ class Page extends DbModel
     }
 
     /**
+     * @return PageTranslation
+     * @throws \Exception
+     */
+    public function getDefaultPageTranslation()
+    {
+        return PageTranslation::getDefaultPageTranslation($this);
+    }
+
+    /**
+     * @param Language $language
+     * @return PageTranslation
+     * @throws \Exception
+     */
+    public function getPageTranslation(Language $language)
+    {
+        return PageTranslation::getPageTranslation($this, $language);
+    }
+
+    /**
      * @return int
      */
     public function getPageId(): int

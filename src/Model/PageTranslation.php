@@ -231,6 +231,64 @@ class PageTranslation extends DbModel
 
     /**
      * @param Page $page
+     * @return PageTranslation
+     * @throws \Exception
+     */
+    public static function getDefaultPageTranslation(Page $page): PageTranslation
+    {
+        $stmt = self::getPDO()->prepare("
+            SELECT
+                `t`.`page_translation_id`,
+                `t`.`name`,
+                `t`.`title`,
+                `t`.`content`,
+                `t`.`meta_keywords`,
+                `t`.`meta_description`,
+                `t`.`meta_author`,
+                `t`.`meta_copyright`,
+                `t`.`meta_image`,
+                `t`.`enabled`,
+                `l`.`language_id`,
+                `l`.`locale`,
+                `l`.`description`,
+                `l`.`enabled` AS 'l_enabled'
+            
+            FROM `cms__page_translation` `t`
+              
+            INNER JOIN `cms__language` `l`
+            ON `t`.fk_language_id = `l`.language_id
+            
+            WHERE `t`.`fk_page_id` = ?
+            AND `l`.`language_id` = ?
+        ");
+        $stmt->execute([$page->getPageId(), $page->getLanguage()->getLanguageId()]);
+        $pageTranslation =  $stmt->fetchObject();
+        if ($pageTranslation) {
+            return new PageTranslation(
+                $pageTranslation->page_translation_id,
+                $page,
+                new Language(
+                    $pageTranslation->language_id,
+                    $pageTranslation->locale,
+                    $pageTranslation->description,
+                    $pageTranslation->l_enabled
+                ),
+                $pageTranslation->name,
+                $pageTranslation->title ?: '',
+                $pageTranslation->content ?: '',
+                $pageTranslation->meta_keywords ?: '',
+                $pageTranslation->meta_description ?: '',
+                $pageTranslation->meta_author ?: '',
+                $pageTranslation->meta_copyright ?: '',
+                $pageTranslation->meta_image ?: '',
+                $pageTranslation->enabled
+            );
+        }
+        return new PageTranslation();
+    }
+
+    /**
+     * @param Page $page
      * @param Language $language
      * @return PageTranslation
      * @throws \Exception
@@ -259,7 +317,8 @@ class PageTranslation extends DbModel
             INNER JOIN `cms__language` `l`
             ON `t`.fk_language_id = `l`.language_id
             
-            WHERE `t`.`fk_page_id` = ?
+            WHERE `t`.`enabled` = 1
+            AND `t`.`fk_page_id` = ?
             AND `l`.`language_id` = ?
         ");
         $stmt->execute([$page->getPageId(), $language->getLanguageId()]);
@@ -285,7 +344,7 @@ class PageTranslation extends DbModel
                 $pageTranslation->enabled
             );
         }
-        return new PageTranslation();
+        return self::getDefaultPageTranslation($page);
     }
 
     /**
