@@ -1,7 +1,7 @@
 {% macro form_group(type, name, value, label, placeholder, class, hint, options) %}
     {% import _self as forms %}
     {% if type == 'checkbox' %}
-        {{ forms.checkbox(name, value, label, class) }}
+        {{ forms.checkbox(name, value, label, class, hint) }}
     {% else %}
         <div class="form-group">
             <label for="input_{{ name }}">{{ label }}</label>
@@ -29,11 +29,13 @@
     </select>
 {% endmacro %}
 
-{% macro checkbox(name, value, label, class) %}
+{% macro checkbox(name, value, label, class, hint) %}
     <div class="form-check {{ class }}">
         <input class="form-check-input" type="checkbox" name="{{ name }}" id="input_{{ name }}" {% if value %}checked{% endif %}>
         <label class="form-check-label" for="input_{{ name }}">{{ label }}</label>
     </div>
+    {% if hint %}<small id="hint_{{ name }}" class="form-text text-muted">{{ hint }}</small>{% endif %}
+    <div class="mt-3"></div>
 {% endmacro %}
 
 {% macro input(type, name, value, placeholder, class, hint) %}

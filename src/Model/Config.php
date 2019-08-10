@@ -37,6 +37,29 @@ class Config extends DbModel
     }
 
     /**
+     * @return Config[]
+     * @throws \Exception
+     */
+    public static function getAll(): array
+    {
+        $arr = [];
+        $stmt = self::getPDO()->query("SELECT `config_id`, `name`, `value` FROM `cms__config`");
+        if ($stmt instanceof \PDOStatement) {
+            $configs = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            if (sizeof($configs) > 0) {
+                foreach ($configs as $config) {
+                    $arr[] = new Config(
+                        $config->config_id,
+                        $config->name,
+                        $config->value
+                    );
+                }
+            }
+        }
+        return $arr;
+    }
+
+    /**
      * @param string $name
      * @return Config
      * @throws \Exception

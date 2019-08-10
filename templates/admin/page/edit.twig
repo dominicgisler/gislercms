@@ -62,7 +62,6 @@
             {% for language in languages %}
                 <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="lang-{{ language.locale }}" role="tabpanel" aria-labelledby="{{ language.locale }}-tab">
                     {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', translations[language.locale].enabled, 'Übersetzung aktiviert') }}
-                    <div class="mt-2"></div>
                     {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][name]', translations[language.locale].name, 'Seitenname', '', language.locale ~ '_name' in errors ? 'is-invalid' : '', 'Der Name, welcher in der URL verwendet wird') }}
                     {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][title]', translations[language.locale].title, 'Seitentitel', '', language.locale ~ '_title' in errors ? 'is-invalid' : '', 'Der Titel, welcher im Browser angezeigt wird') }}
                     {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_keywords]', translations[language.locale].metaKeywords, 'Suchbegriffe', '', language.locale ~ '_keywords' in errors ? 'is-invalid' : '', 'Begriffe, über welche diese Seite gefunden werden soll (SEO)') }}
