@@ -163,6 +163,52 @@ class Widget extends DbModel
     }
 
     /**
+     * @param string $name
+     * @param Language $language
+     * @return Widget
+     * @throws \Exception
+     */
+    public static function getWidgetWithLanguage(string $name, Language $language): Widget
+    {
+        $stmt = self::getPDO()->prepare("
+            SELECT
+                `w`.`widget_id`,
+                `w`.`name`,
+                `w`.`enabled`,
+                `w`.`trash`,
+                `l`.`language_id`,
+                `l`.`locale`,
+                `l`.`description`,
+                `l`.`enabled` AS 'l_enabled'
+            
+            FROM `cms__widget` `w`
+              
+            INNER JOIN `cms__language` `l`
+            ON `w`.fk_language_id = `l`.language_id
+            
+            WHERE `w`.`name` = ?
+            AND `l`.`language_id` = ?
+        ");
+        $stmt->execute([$name, $language->getLanguageId()]);
+        $widget = $stmt->fetchObject();
+        if ($widget) {
+            return new Widget(
+                $widget->widget_id,
+                $widget->name,
+                $widget->enabled,
+                $widget->trash,
+                new Language(
+                    $widget->language_id,
+                    $widget->locale,
+                    $widget->description,
+                    $widget->l_enabled
+                )
+            );
+        }
+        return new Widget();
+    }
+
+    /**
      * @return Widget|null
      * @throws \Exception
      */

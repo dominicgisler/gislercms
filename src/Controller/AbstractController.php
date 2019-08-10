@@ -2,10 +2,7 @@
 
 namespace GislerCMS\Controller;
 
-use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\DbModel;
-use GislerCMS\Model\Page;
-use GislerCMS\Model\User;
 use GislerCMS\Model\Widget;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -52,7 +49,8 @@ abstract class AbstractController
         /** @var Route $route */
         $route = $request->getAttribute('route');
         $arr = [
-            'route' => $route->getName()
+            'route' => $route->getName(),
+            'widget' => new Widget()
         ];
         return $this->get('view')->render($response, $template, array_merge($arr, $data));
     }

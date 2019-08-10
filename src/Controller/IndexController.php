@@ -2,7 +2,9 @@
 
 namespace GislerCMS\Controller;
 
+use GislerCMS\Model\Config;
 use GislerCMS\Model\Page;
+use GislerCMS\Model\PageTranslation;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -24,6 +26,9 @@ class IndexController extends AbstractController
      */
     public function __invoke($request, $response)
     {
-        return $this->render($request, $response, 'layout.twig');
+        $cfg = Config::getConfig('default_page');
+        $page = Page::get($cfg->getValue());
+        $pageTrans = PageTranslation::getPageTranslation($page, $page->getLanguage());
+        return $this->render($request, $response, 'layout.twig', ['page' => $pageTrans]);
     }
 }
