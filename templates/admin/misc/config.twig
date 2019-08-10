@@ -10,7 +10,7 @@
     {% if language.getLanguageId() == config.page_default_language %}
         {% set selected = true %}
     {% endif %}
-    {% set languageSelect = languageSelect|merge({ (language.locale): {label: language.description, selected: selected}}) %}
+    {% set languageSelect = languageSelect|merge([{value: language.locale, label: language.description, selected: selected}]) %}
 {% endfor %}
 
 {% set pageSelect = [] %}
@@ -19,7 +19,7 @@
     {% if page.getPageId() == config.default_page %}
         {% set selected = true %}
     {% endif %}
-    {% set pageSelect = pageSelect|merge({ (page.getPageId()): {label: page.name, selected: selected}}) %}
+    {% set pageSelect = pageSelect|merge([{value: page.getPageId(), label: page.name, selected: selected}]) %}
 {% endfor %}
 
 {%

@@ -23,8 +23,8 @@
 
 {% macro select(name, value, options, placeholder, class, hint) %}
     <select class="form-control {{ class }}" id="input_{{ name }}" name="{{ name }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %}>
-        {% for key, val in options %}
-            <option value="{{ key }}"{% if val.selected %} selected{% endif %}>{{ val.label }}</option>
+        {% for elem in options %}
+            <option value="{{ elem.value }}"{% if elem.selected %} selected{% endif %}>{{ elem.label }}</option>
         {% endfor %}
     </select>
 {% endmacro %}

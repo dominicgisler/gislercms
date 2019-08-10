@@ -10,7 +10,7 @@
     {% if language.getLanguageId() == widget.language.getLanguageId() %}
         {% set selected = true %}
     {% endif %}
-    {% set languageSelect = languageSelect|merge({ (language.locale): {label: language.description, selected: selected}}) %}
+    {% set languageSelect = languageSelect|merge([{value: language.locale, label: language.description, selected: selected}]) %}
 {% endfor %}
 
 {%
@@ -67,8 +67,8 @@
             {% endfor %}
         </div>
         <div class="text-right mb-4">
-            <button class="btn btn-primary" name="save">{% if widget.isTrash() %}Wiederherstellen{% else %}Speichern{% endif %}</button>
             <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if widget.isTrash() %}Endgültig löschen{% else %}Löschen{% endif %}</button>
+            <button class="btn btn-primary" name="save">{% if widget.isTrash() %}Wiederherstellen{% else %}Speichern{% endif %}</button>
         </div>
 
         {# confirm delete modal #}
