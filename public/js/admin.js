@@ -47,6 +47,15 @@
       });
     }
   });
+
+  $('body').on('click', '#insertModuleModal .modal-footer .btn-primary', function() {
+    tinymce.activeEditor.execCommand('mceInsertContent', false, '<pre class="module">' + $('#input-module-name').val() + '</pre>');
+    $('#insertModuleModal').modal('hide');
+  });
+  $('body').on('click', '#insertWidgetModal .modal-footer .btn-primary', function() {
+    tinymce.activeEditor.execCommand('mceInsertContent', false, '<pre class="widget">' + $('#input-widget-name').val() + '</pre>');
+    $('#insertWidgetModal').modal('hide');
+  });
 }());
 
 function autocompleteWidgets(widgets) {

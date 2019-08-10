@@ -1,0 +1,24 @@
+pre.widget, pre.module {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  border: 1px solid #C6C6C6;
+  padding: 10px;
+  background: #E6E6E6;
+}
+
+pre.widget:before, pre.module:before {
+  font-weight: bold;
+  display: block;
+  font-size: 14px;
+  height: 25px;
+}
+
+pre.widget:before {
+  content: 'Widget';
+}
+
+pre.module:before {
+  content: 'Modul';
+}
