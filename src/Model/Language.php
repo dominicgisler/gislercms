@@ -29,18 +29,39 @@ class Language extends DbModel
     private $enabled;
 
     /**
+     * @var string
+     */
+    private $createdAt;
+
+    /**
+     * @var string
+     */
+    private $updatedAt;
+
+    /**
      * Language constructor.
      * @param int $languageId
      * @param string $locale
      * @param string $description
      * @param bool $enabled
+     * @param string $createdAt
+     * @param string $updatedAt
      */
-    public function __construct(int $languageId = 0, string $locale = '', string $description = '', bool $enabled = true)
+    public function __construct(
+        int $languageId = 0,
+        string $locale = '',
+        string $description = '',
+        bool $enabled = true,
+        string $createdAt = '',
+        string $updatedAt = ''
+    )
     {
         $this->languageId = $languageId;
         $this->locale = $locale;
         $this->description = $description;
         $this->enabled = $enabled;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -50,17 +71,7 @@ class Language extends DbModel
     public static function getAll(): array
     {
         $arr = [];
-        $stmt = self::getPDO()->query("
-            SELECT
-                `l`.`language_id`,
-                `l`.`locale`,
-                `l`.`description`,
-                `l`.`enabled`
-            
-            FROM `cms__language` `l`
-            
-            ORDER BY `description` ASC
-        ");
+        $stmt = self::getPDO()->query("SELECT * FROM `cms__language` `l` ORDER BY `description` ASC");
         if ($stmt instanceof \PDOStatement) {
             $languages = $stmt->fetchAll(\PDO::FETCH_OBJ);
             if (sizeof($languages) > 0) {
@@ -69,7 +80,9 @@ class Language extends DbModel
                         $language->language_id,
                         $language->locale,
                         $language->description,
-                        $language->enabled
+                        $language->enabled,
+                        $language->created_at,
+                        $language->updated_at
                     );
                 }
             }
@@ -92,7 +105,9 @@ class Language extends DbModel
                 $language->language_id,
                 $language->locale,
                 $language->description,
-                $language->enabled
+                $language->enabled,
+                $language->created_at,
+                $language->updated_at
             );
         }
         return new Language();
@@ -160,5 +175,37 @@ class Language extends DbModel
     public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param string $createdAt
+     */
+    public function setCreatedAt(string $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param string $updatedAt
+     */
+    public function setUpdatedAt(string $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

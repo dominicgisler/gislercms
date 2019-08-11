@@ -34,20 +34,42 @@ class Widget extends DbModel
     private $language;
 
     /**
+     * @var string
+     */
+    private $createdAt;
+
+    /**
+     * @var string
+     */
+    private $updatedAt;
+
+    /**
      * Widget constructor.
      * @param int $widgetId
      * @param string $name
      * @param bool $enabled
      * @param bool $trash
      * @param Language $language
+     * @param string $createdAt
+     * @param string $updatedAt
      */
-    public function __construct(int $widgetId = 0, string $name = '', bool $enabled = true, bool $trash = false, Language $language = null)
+    public function __construct(
+        int $widgetId = 0,
+        string $name = '',
+        bool $enabled = true,
+        bool $trash = false,
+        Language $language = null,
+        string $createdAt = '',
+        string $updatedAt = ''
+    )
     {
         $this->widgetId = $widgetId;
         $this->name = $name;
         $this->enabled = $enabled;
         $this->trash = $trash;
         $this->language = $language;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -65,7 +87,7 @@ class Widget extends DbModel
      */
     public static function getTrash(): array
     {
-        return self::getWhere('`p`.`trash` = 1');
+        return self::getWhere('`w`.`trash` = 1');
     }
 
     /**
@@ -78,19 +100,23 @@ class Widget extends DbModel
         $arr = [];
         $stmt = self::getPDO()->query("
             SELECT
-                `p`.`widget_id`,
-                `p`.`name`,
-                `p`.`enabled`,
-                `p`.`trash`,
+                `w`.`widget_id`,
+                `w`.`name`,
+                `w`.`enabled`,
+                `w`.`trash`,
+                `w`.`created_at`,
+                `w`.`updated_at`,
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled` AS 'l_enabled'
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
             
-            FROM `cms__widget` `p`
+            FROM `cms__widget` `w`
               
             INNER JOIN `cms__language` `l`
-            ON `p`.fk_language_id = `l`.language_id
+            ON `w`.fk_language_id = `l`.language_id
             
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
             
@@ -109,8 +135,12 @@ class Widget extends DbModel
                             $widget->language_id,
                             $widget->locale,
                             $widget->description,
-                            $widget->l_enabled
-                        )
+                            $widget->l_enabled,
+                            $widget->l_created_at,
+                            $widget->l_updated_at
+                        ),
+                        $widget->created_at,
+                        $widget->updated_at
                     );
                 }
             }
@@ -127,21 +157,25 @@ class Widget extends DbModel
     {
         $stmt = self::getPDO()->prepare("
             SELECT
-                `p`.`widget_id`,
-                `p`.`name`,
-                `p`.`enabled`,
-                `p`.`trash`,
+                `w`.`widget_id`,
+                `w`.`name`,
+                `w`.`enabled`,
+                `w`.`trash`,
+                `w`.`created_at`,
+                `w`.`updated_at`,
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled` AS 'l_enabled'
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
             
-            FROM `cms__widget` `p`
+            FROM `cms__widget` `w`
               
             INNER JOIN `cms__language` `l`
-            ON `p`.fk_language_id = `l`.language_id
+            ON `w`.fk_language_id = `l`.language_id
             
-            WHERE `p`.`widget_id` = ?
+            WHERE `w`.`widget_id` = ?
         ");
         $stmt->execute([$id]);
         $widget = $stmt->fetchObject();
@@ -155,8 +189,12 @@ class Widget extends DbModel
                     $widget->language_id,
                     $widget->locale,
                     $widget->description,
-                    $widget->l_enabled
-                )
+                    $widget->l_enabled,
+                    $widget->l_created_at,
+                    $widget->l_updated_at
+                ),
+                $widget->created_at,
+                $widget->updated_at
             );
         }
         return new Widget();
@@ -175,10 +213,14 @@ class Widget extends DbModel
                 `w`.`name`,
                 `w`.`enabled`,
                 `w`.`trash`,
+                `w`.`created_at`,
+                `w`.`updated_at`,
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled` AS 'l_enabled'
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
             
             FROM `cms__widget` `w`
               
@@ -199,8 +241,12 @@ class Widget extends DbModel
                     $widget->language_id,
                     $widget->locale,
                     $widget->description,
-                    $widget->l_enabled
-                )
+                    $widget->l_enabled,
+                    $widget->l_created_at,
+                    $widget->l_updated_at
+                ),
+                $widget->created_at,
+                $widget->updated_at
             );
         }
         return new Widget();
@@ -356,5 +402,37 @@ class Widget extends DbModel
     public function setLanguage(Language $language): void
     {
         $this->language = $language;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param string $createdAt
+     */
+    public function setCreatedAt(string $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param string $updatedAt
+     */
+    public function setUpdatedAt(string $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

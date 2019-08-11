@@ -34,25 +34,42 @@ class WidgetTranslation extends DbModel
     private $enabled;
 
     /**
+     * @var string
+     */
+    private $createdAt;
+
+    /**
+     * @var string
+     */
+    private $updatedAt;
+
+    /**
      * WidgetTranslation constructor.
      * @param int $widgetTranslationId
      * @param Widget $widget
      * @param Language $language
      * @param string $content
      * @param bool $enabled
+     * @param string $createdAt
+     * @param string $updatedAt
      */
     public function __construct(
         int $widgetTranslationId = 0,
         Widget $widget = null,
         Language $language = null,
         string $content = '',
-        bool $enabled = false
-    ) {
+        bool $enabled = false,
+        string $createdAt = '',
+        string $updatedAt = ''
+    )
+    {
         $this->widgetTranslationId = $widgetTranslationId;
         $this->widget = $widget;
         $this->language = $language;
         $this->content = $content;
         $this->enabled = $enabled;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -68,10 +85,14 @@ class WidgetTranslation extends DbModel
                 `t`.`fk_widget_id`,
                 `t`.`content`,
                 `t`.`enabled`,
+                `t`.`created_at`,
+                `t`.`updated_at`,
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled` AS 'l_enabled'
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
             
             FROM `cms__widget_translation` `t`
               
@@ -90,10 +111,14 @@ class WidgetTranslation extends DbModel
                     $widgetTranslation->language_id,
                     $widgetTranslation->locale,
                     $widgetTranslation->description,
-                    $widgetTranslation->l_enabled
+                    $widgetTranslation->l_enabled,
+                    $widgetTranslation->l_created_at,
+                    $widgetTranslation->l_updated_at
                 ),
                 $widgetTranslation->content ?: '',
-                $widgetTranslation->enabled
+                $widgetTranslation->enabled,
+                $widgetTranslation->created_at,
+                $widgetTranslation->updated_at
             );
         }
         return new WidgetTranslation();
@@ -112,10 +137,14 @@ class WidgetTranslation extends DbModel
                 `t`.`widget_translation_id`,
                 `t`.`content`,
                 `t`.`enabled`,
+                `t`.`created_at`,
+                `t`.`updated_at`,
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled` AS 'l_enabled'
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
             
             FROM `cms__widget_translation` `t`
               
@@ -125,7 +154,7 @@ class WidgetTranslation extends DbModel
             WHERE `t`.`fk_widget_id` = ?
         ");
         $stmt->execute([$widget->getWidgetId()]);
-        $widgetTranslations =  $stmt->fetchAll(\PDO::FETCH_OBJ);
+        $widgetTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
         if (sizeof($widgetTranslations) > 0) {
             foreach ($widgetTranslations as $widgetTranslation) {
                 $arr[$widgetTranslation->locale] = new WidgetTranslation(
@@ -135,10 +164,14 @@ class WidgetTranslation extends DbModel
                         $widgetTranslation->language_id,
                         $widgetTranslation->locale,
                         $widgetTranslation->description,
-                        $widgetTranslation->l_enabled
+                        $widgetTranslation->l_enabled,
+                        $widgetTranslation->l_created_at,
+                        $widgetTranslation->l_updated_at
                     ),
                     $widgetTranslation->content ?: '',
-                    $widgetTranslation->enabled
+                    $widgetTranslation->enabled,
+                    $widgetTranslation->created_at,
+                    $widgetTranslation->updated_at
                 );
             }
         }
@@ -157,10 +190,14 @@ class WidgetTranslation extends DbModel
                 `t`.`widget_translation_id`,
                 `t`.`content`,
                 `t`.`enabled`,
+                `t`.`created_at`,
+                `t`.`updated_at`,
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled` AS 'l_enabled'
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
             
             FROM `cms__widget_translation` `t`
               
@@ -171,7 +208,7 @@ class WidgetTranslation extends DbModel
             AND `l`.`language_id` = ?
         ");
         $stmt->execute([$widget->getWidgetId(), $widget->getLanguage()->getLanguageId()]);
-        $widgetTranslation =  $stmt->fetchObject();
+        $widgetTranslation = $stmt->fetchObject();
         if ($widgetTranslation) {
             return new WidgetTranslation(
                 $widgetTranslation->widget_translation_id,
@@ -180,10 +217,14 @@ class WidgetTranslation extends DbModel
                     $widgetTranslation->language_id,
                     $widgetTranslation->locale,
                     $widgetTranslation->description,
-                    $widgetTranslation->l_enabled
+                    $widgetTranslation->l_enabled,
+                    $widgetTranslation->l_created_at,
+                    $widgetTranslation->l_updated_at
                 ),
                 $widgetTranslation->content ?: '',
-                $widgetTranslation->enabled
+                $widgetTranslation->enabled,
+                $widgetTranslation->created_at,
+                $widgetTranslation->updated_at
             );
         }
         return new WidgetTranslation();
@@ -202,10 +243,14 @@ class WidgetTranslation extends DbModel
                 `t`.`widget_translation_id`,
                 `t`.`content`,
                 `t`.`enabled`,
+                `t`.`created_at`,
+                `t`.`updated_at`,
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled` AS 'l_enabled'
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
             
             FROM `cms__widget_translation` `t`
               
@@ -217,7 +262,7 @@ class WidgetTranslation extends DbModel
             AND `l`.`language_id` = ?
         ");
         $stmt->execute([$widget->getWidgetId(), $language->getLanguageId()]);
-        $widgetTranslation =  $stmt->fetchObject();
+        $widgetTranslation = $stmt->fetchObject();
         if ($widgetTranslation) {
             return new WidgetTranslation(
                 $widgetTranslation->widget_translation_id,
@@ -226,10 +271,14 @@ class WidgetTranslation extends DbModel
                     $widgetTranslation->language_id,
                     $widgetTranslation->locale,
                     $widgetTranslation->description,
-                    $widgetTranslation->l_enabled
+                    $widgetTranslation->l_enabled,
+                    $widgetTranslation->l_created_at,
+                    $widgetTranslation->l_updated_at
                 ),
                 $widgetTranslation->content ?: '',
-                $widgetTranslation->enabled
+                $widgetTranslation->enabled,
+                $widgetTranslation->created_at,
+                $widgetTranslation->updated_at
             );
         }
         return self::getDefaultWidgetTranslation($widget);
@@ -351,5 +400,37 @@ class WidgetTranslation extends DbModel
     public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param string $createdAt
+     */
+    public function setCreatedAt(string $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param string $updatedAt
+     */
+    public function setUpdatedAt(string $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

@@ -69,6 +69,16 @@ class PageTranslationHistory extends DbModel
     private $user;
 
     /**
+     * @var string
+     */
+    private $createdAt;
+
+    /**
+     * @var string
+     */
+    private $updatedAt;
+
+    /**
      * PageTranslationHistory constructor.
      * @param int $pageTranslationHistoryId
      * @param PageTranslation $pageTranslation
@@ -82,6 +92,8 @@ class PageTranslationHistory extends DbModel
      * @param string $metaImage
      * @param bool $enabled
      * @param User $user
+     * @param string $createdAt
+     * @param string $updatedAt
      */
     public function __construct(
         int $pageTranslationHistoryId = 0,
@@ -95,8 +107,11 @@ class PageTranslationHistory extends DbModel
         string $metaCopyright = '',
         string $metaImage = '',
         bool $enabled = false,
-        User $user = null
-    ) {
+        User $user = null,
+        string $createdAt = '',
+        string $updatedAt = ''
+    )
+    {
         $this->pageTranslationHistoryId = $pageTranslationHistoryId;
         $this->pageTranslation = $pageTranslation;
         $this->name = $name;
@@ -109,6 +124,8 @@ class PageTranslationHistory extends DbModel
         $this->metaImage = $metaImage;
         $this->enabled = $enabled;
         $this->user = $user;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -131,6 +148,8 @@ class PageTranslationHistory extends DbModel
                 `t`.`meta_copyright`,
                 `t`.`meta_image`,
                 `t`.`enabled`,
+                `t`.`created_at`,
+                `t`.`updated_at`,
                 `u`.`username`
             
             FROM `cms__page_translation_history` `t`
@@ -155,7 +174,9 @@ class PageTranslationHistory extends DbModel
                 $pageTranslation->meta_copyright ?: '',
                 $pageTranslation->meta_image ?: '',
                 $pageTranslation->enabled,
-                User::getByUsername($pageTranslation->username)
+                User::getByUsername($pageTranslation->username),
+                $pageTranslation->created_at,
+                $pageTranslation->updated_at
             );
         }
         return new PageTranslationHistory();
@@ -407,5 +428,37 @@ class PageTranslationHistory extends DbModel
     public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param string $createdAt
+     */
+    public function setCreatedAt(string $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param string $updatedAt
+     */
+    public function setUpdatedAt(string $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

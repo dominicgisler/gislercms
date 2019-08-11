@@ -69,6 +69,16 @@ class PageTranslation extends DbModel
     private $enabled;
 
     /**
+     * @var string
+     */
+    private $createdAt;
+
+    /**
+     * @var string
+     */
+    private $updatedAt;
+
+    /**
      * PageTranslation constructor.
      * @param int $pageTranslationId
      * @param Page $page
@@ -82,6 +92,8 @@ class PageTranslation extends DbModel
      * @param string $metaCopyright
      * @param string $metaImage
      * @param bool $enabled
+     * @param string $createdAt
+     * @param string $updatedAt
      */
     public function __construct(
         int $pageTranslationId = 0,
@@ -95,8 +107,11 @@ class PageTranslation extends DbModel
         string $metaAuthor = '',
         string $metaCopyright = '',
         string $metaImage = '',
-        bool $enabled = false
-    ) {
+        bool $enabled = false,
+        string $createdAt = '',
+        string $updatedAt = ''
+    )
+    {
         $this->pageTranslationId = $pageTranslationId;
         $this->page = $page;
         $this->language = $language;
@@ -109,6 +124,8 @@ class PageTranslation extends DbModel
         $this->metaCopyright = $metaCopyright;
         $this->metaImage = $metaImage;
         $this->enabled = $enabled;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -131,10 +148,14 @@ class PageTranslation extends DbModel
                 `t`.`meta_copyright`,
                 `t`.`meta_image`,
                 `t`.`enabled`,
+                `t`.`created_at`,
+                `t`.`updated_at`
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled` AS 'l_enabled'
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
             
             FROM `cms__page_translation` `t`
               
@@ -153,7 +174,9 @@ class PageTranslation extends DbModel
                     $pageTranslation->language_id,
                     $pageTranslation->locale,
                     $pageTranslation->description,
-                    $pageTranslation->l_enabled
+                    $pageTranslation->l_enabled,
+                    $pageTranslation->l_created_at,
+                    $pageTranslation->l_updated_at
                 ),
                 $pageTranslation->name,
                 $pageTranslation->title ?: '',
@@ -163,7 +186,9 @@ class PageTranslation extends DbModel
                 $pageTranslation->meta_author ?: '',
                 $pageTranslation->meta_copyright ?: '',
                 $pageTranslation->meta_image ?: '',
-                $pageTranslation->enabled
+                $pageTranslation->enabled,
+                $pageTranslation->created_at,
+                $pageTranslation->updated_at
             );
         }
         return new PageTranslation();
@@ -189,10 +214,14 @@ class PageTranslation extends DbModel
                 `t`.`meta_copyright`,
                 `t`.`meta_image`,
                 `t`.`enabled`,
+                `t`.`created_at`,
+                `t`.`updated_at`,
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled` AS 'l_enabled'
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
             
             FROM `cms__page_translation` `t`
               
@@ -202,7 +231,7 @@ class PageTranslation extends DbModel
             WHERE `t`.`fk_page_id` = ?
         ");
         $stmt->execute([$page->getPageId()]);
-        $pageTranslations =  $stmt->fetchAll(\PDO::FETCH_OBJ);
+        $pageTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
         if (sizeof($pageTranslations) > 0) {
             foreach ($pageTranslations as $pageTranslation) {
                 $arr[$pageTranslation->locale] = new PageTranslation(
@@ -212,7 +241,9 @@ class PageTranslation extends DbModel
                         $pageTranslation->language_id,
                         $pageTranslation->locale,
                         $pageTranslation->description,
-                        $pageTranslation->l_enabled
+                        $pageTranslation->l_enabled,
+                        $pageTranslation->l_created_at,
+                        $pageTranslation->l_updated_at
                     ),
                     $pageTranslation->name,
                     $pageTranslation->title ?: '',
@@ -222,7 +253,9 @@ class PageTranslation extends DbModel
                     $pageTranslation->meta_author ?: '',
                     $pageTranslation->meta_copyright ?: '',
                     $pageTranslation->meta_image ?: '',
-                    $pageTranslation->enabled
+                    $pageTranslation->enabled,
+                    $pageTranslation->created_at,
+                    $pageTranslation->updated_at
                 );
             }
         }
@@ -248,10 +281,14 @@ class PageTranslation extends DbModel
                 `t`.`meta_copyright`,
                 `t`.`meta_image`,
                 `t`.`enabled`,
+                `t`.`created_at`,
+                `t`.`updated_at`,
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled` AS 'l_enabled'
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
             
             FROM `cms__page_translation` `t`
               
@@ -262,7 +299,7 @@ class PageTranslation extends DbModel
             AND `l`.`language_id` = ?
         ");
         $stmt->execute([$page->getPageId(), $page->getLanguage()->getLanguageId()]);
-        $pageTranslation =  $stmt->fetchObject();
+        $pageTranslation = $stmt->fetchObject();
         if ($pageTranslation) {
             return new PageTranslation(
                 $pageTranslation->page_translation_id,
@@ -271,7 +308,9 @@ class PageTranslation extends DbModel
                     $pageTranslation->language_id,
                     $pageTranslation->locale,
                     $pageTranslation->description,
-                    $pageTranslation->l_enabled
+                    $pageTranslation->l_enabled,
+                    $pageTranslation->l_created_at,
+                    $pageTranslation->l_updated_at
                 ),
                 $pageTranslation->name,
                 $pageTranslation->title ?: '',
@@ -281,7 +320,9 @@ class PageTranslation extends DbModel
                 $pageTranslation->meta_author ?: '',
                 $pageTranslation->meta_copyright ?: '',
                 $pageTranslation->meta_image ?: '',
-                $pageTranslation->enabled
+                $pageTranslation->enabled,
+                $pageTranslation->created_at,
+                $pageTranslation->updated_at
             );
         }
         return new PageTranslation();
@@ -307,10 +348,14 @@ class PageTranslation extends DbModel
                 `t`.`meta_copyright`,
                 `t`.`meta_image`,
                 `t`.`enabled`,
+                `t`.`created_at`,
+                `t`.`updated_at`,
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled` AS 'l_enabled'
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
             
             FROM `cms__page_translation` `t`
               
@@ -322,7 +367,7 @@ class PageTranslation extends DbModel
             AND `l`.`language_id` = ?
         ");
         $stmt->execute([$page->getPageId(), $language->getLanguageId()]);
-        $pageTranslation =  $stmt->fetchObject();
+        $pageTranslation = $stmt->fetchObject();
         if ($pageTranslation) {
             return new PageTranslation(
                 $pageTranslation->page_translation_id,
@@ -331,7 +376,9 @@ class PageTranslation extends DbModel
                     $pageTranslation->language_id,
                     $pageTranslation->locale,
                     $pageTranslation->description,
-                    $pageTranslation->l_enabled
+                    $pageTranslation->l_enabled,
+                    $pageTranslation->l_created_at,
+                    $pageTranslation->l_updated_at
                 ),
                 $pageTranslation->name,
                 $pageTranslation->title ?: '',
@@ -341,7 +388,9 @@ class PageTranslation extends DbModel
                 $pageTranslation->meta_author ?: '',
                 $pageTranslation->meta_copyright ?: '',
                 $pageTranslation->meta_image ?: '',
-                $pageTranslation->enabled
+                $pageTranslation->enabled,
+                $pageTranslation->created_at,
+                $pageTranslation->updated_at
             );
         }
         return self::getDefaultPageTranslation($page);
@@ -592,5 +641,37 @@ class PageTranslation extends DbModel
     public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param string $createdAt
+     */
+    public function setCreatedAt(string $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param string $updatedAt
+     */
+    public function setUpdatedAt(string $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

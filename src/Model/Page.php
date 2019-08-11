@@ -34,20 +34,42 @@ class Page extends DbModel
     private $language;
 
     /**
+     * @var string
+     */
+    private $createdAt;
+
+    /**
+     * @var string
+     */
+    private $updatedAt;
+
+    /**
      * Page constructor.
      * @param int $pageId
      * @param string $name
      * @param bool $enabled
      * @param bool $trash
      * @param Language $language
+     * @param string $createdAt
+     * @param string $updatedAt
      */
-    public function __construct(int $pageId = 0, string $name = '', bool $enabled = true, bool $trash = false, Language $language = null)
+    public function __construct(
+        int $pageId = 0,
+        string $name = '',
+        bool $enabled = true,
+        bool $trash = false,
+        Language $language = null,
+        string $createdAt = '',
+        string $updatedAt = ''
+    )
     {
         $this->pageId = $pageId;
         $this->name = $name;
         $this->enabled = $enabled;
         $this->trash = $trash;
         $this->language = $language;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -82,10 +104,14 @@ class Page extends DbModel
                 `p`.`name`,
                 `p`.`enabled`,
                 `p`.`trash`,
+                `p`.`created_at`,
+                `p`.`updated_at`,
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled` AS 'l_enabled'
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
             
             FROM `cms__page` `p`
               
@@ -109,8 +135,12 @@ class Page extends DbModel
                             $page->language_id,
                             $page->locale,
                             $page->description,
-                            $page->l_enabled
-                        )
+                            $page->l_enabled,
+                            $page->l_created_at,
+                            $page->l_updated_at
+                        ),
+                        $page->created_at,
+                        $page->updated_at
                     );
                 }
             }
@@ -131,10 +161,14 @@ class Page extends DbModel
                 `p`.`name`,
                 `p`.`enabled`,
                 `p`.`trash`,
+                `p`.`created_at`,
+                `p`.`updated_at`,
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
-                `l`.`enabled` AS 'l_enabled'
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
             
             FROM `cms__page` `p`
               
@@ -155,8 +189,12 @@ class Page extends DbModel
                     $page->language_id,
                     $page->locale,
                     $page->description,
-                    $page->l_enabled
-                )
+                    $page->l_enabled,
+                    $page->l_created_at,
+                    $page->l_updated_at
+                ),
+                $page->created_at,
+                $page->updated_at
             );
         }
         return new Page();
@@ -312,5 +350,37 @@ class Page extends DbModel
     public function setLanguage(Language $language): void
     {
         $this->language = $language;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param string $createdAt
+     */
+    public function setCreatedAt(string $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param string $updatedAt
+     */
+    public function setUpdatedAt(string $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

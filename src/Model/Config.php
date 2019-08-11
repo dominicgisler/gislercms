@@ -29,13 +29,32 @@ class Config extends DbModel
     private $value;
 
     /**
+     * @var string
+     */
+    private $createdAt;
+
+    /**
+     * @var string
+     */
+    private $updatedAt;
+
+    /**
      * Config constructor.
      * @param int $configId
      * @param string $name
      * @param string $type
-     * @param string $value
+     * @param mixed $value
+     * @param string $createdAt
+     * @param string $updatedAt
      */
-    public function __construct(int $configId = 0, string $name = '', string $type = '', $value = null)
+    public function __construct(
+        int $configId = 0,
+        string $name = '',
+        string $type = '',
+        $value = null,
+        string $createdAt = '',
+        string $updatedAt = ''
+    )
     {
         $this->configId = $configId;
         $this->name = $name;
@@ -55,6 +74,8 @@ class Config extends DbModel
             default:
                 $this->value = $value;
         }
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -64,7 +85,7 @@ class Config extends DbModel
     public static function getAll(): array
     {
         $arr = [];
-        $stmt = self::getPDO()->query("SELECT `config_id`, `name`, `type`, `value` FROM `cms__config`");
+        $stmt = self::getPDO()->query("SELECT * FROM `cms__config`");
         if ($stmt instanceof \PDOStatement) {
             $configs = $stmt->fetchAll(\PDO::FETCH_OBJ);
             if (sizeof($configs) > 0) {
@@ -73,7 +94,9 @@ class Config extends DbModel
                         $config->config_id,
                         $config->name,
                         $config->type,
-                        $config->value
+                        $config->value,
+                        $config->created_at,
+                        $config->updated_at
                     );
                 }
             }
@@ -96,7 +119,9 @@ class Config extends DbModel
                 $config->config_id,
                 $config->name,
                 $config->type,
-                $config->value
+                $config->value,
+                $config->created_at,
+                $config->updated_at
             );
         }
         return new Config();
@@ -117,7 +142,9 @@ class Config extends DbModel
                 $config->config_id,
                 $config->name,
                 $config->type,
-                $config->value
+                $config->value,
+                $config->created_at,
+                $config->updated_at
             );
         }
         return new Config();
@@ -238,5 +265,37 @@ class Config extends DbModel
                 $value = strval($this->value);
         }
         return $value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param string $createdAt
+     */
+    public function setCreatedAt(string $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param string $updatedAt
+     */
+    public function setUpdatedAt(string $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

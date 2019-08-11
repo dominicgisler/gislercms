@@ -54,6 +54,16 @@ class User extends DbModel
     private $resetKey;
 
     /**
+     * @var string
+     */
+    private $createdAt;
+
+    /**
+     * @var string
+     */
+    private $updatedAt;
+
+    /**
      * User constructor.
      * @param int $userId
      * @param string $username
@@ -64,6 +74,8 @@ class User extends DbModel
      * @param int $failedLogins
      * @param bool $locked
      * @param string $resetKey
+     * @param string $createdAt
+     * @param string $updatedAt
      */
     public function __construct(
         int $userId = 0,
@@ -74,8 +86,11 @@ class User extends DbModel
         string $password = '',
         int $failedLogins = 0,
         bool $locked = false,
-        string $resetKey = ''
-    ) {
+        string $resetKey = '',
+        string $createdAt = '',
+        string $updatedAt = ''
+    )
+    {
         $this->userId = $userId;
         $this->username = $username;
         $this->firstname = $firstname;
@@ -85,6 +100,8 @@ class User extends DbModel
         $this->failedLogins = $failedLogins;
         $this->locked = $locked;
         $this->resetKey = $resetKey;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -107,7 +124,9 @@ class User extends DbModel
                 $user->password,
                 $user->failed_logins,
                 $user->locked,
-                $user->reset_key ?: ''
+                $user->reset_key ?: '',
+                $user->created_at,
+                $user->updated_at
             );
         }
         return new User();
@@ -306,5 +325,37 @@ class User extends DbModel
             $this->username === $user->username &&
             $this->password === $user->password &&
             $this->locked === $user->locked;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param string $createdAt
+     */
+    public function setCreatedAt(string $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param string $updatedAt
+     */
+    public function setUpdatedAt(string $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

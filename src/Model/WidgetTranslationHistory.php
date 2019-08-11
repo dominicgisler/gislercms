@@ -34,25 +34,42 @@ class WidgetTranslationHistory extends DbModel
     private $user;
 
     /**
+     * @var string
+     */
+    private $createdAt;
+
+    /**
+     * @var string
+     */
+    private $updatedAt;
+
+    /**
      * WidgetTranslationHistory constructor.
      * @param int $widgetTranslationHistoryId
      * @param WidgetTranslation $widgetTranslation
      * @param string $content
      * @param bool $enabled
      * @param User $user
+     * @param string $createdAt
+     * @param string $updatedAt
      */
     public function __construct(
         int $widgetTranslationHistoryId = 0,
         WidgetTranslation $widgetTranslation = null,
         string $content = '',
         bool $enabled = false,
-        User $user = null
-    ) {
+        User $user = null,
+        string $createdAt = '',
+        string $updatedAt = ''
+    )
+    {
         $this->widgetTranslationHistoryId = $widgetTranslationHistoryId;
         $this->widgetTranslation = $widgetTranslation;
         $this->content = $content;
         $this->enabled = $enabled;
         $this->user = $user;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -68,6 +85,8 @@ class WidgetTranslationHistory extends DbModel
                 `t`.`fk_widget_translation_id`,
                 `t`.`content`,
                 `t`.`enabled`,
+                `t`.`created_at`,
+                `t`.`updated_at`,
                 `u`.`username`
             
             FROM `cms__widget_translation_history` `t`
@@ -85,7 +104,9 @@ class WidgetTranslationHistory extends DbModel
                 WidgetTranslation::get($widgetTranslation->fk_widget_translation_id),
                 $widgetTranslation->content ?: '',
                 $widgetTranslation->enabled,
-                User::getByUsername($widgetTranslation->username)
+                User::getByUsername($widgetTranslation->username),
+                $widgetTranslation->created_at,
+                $widgetTranslation->updated_at
             );
         }
         return new WidgetTranslationHistory();
@@ -208,5 +229,37 @@ class WidgetTranslationHistory extends DbModel
     public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param string $createdAt
+     */
+    public function setCreatedAt(string $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param string $updatedAt
+     */
+    public function setUpdatedAt(string $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }
