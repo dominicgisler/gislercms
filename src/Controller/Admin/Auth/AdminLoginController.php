@@ -20,7 +20,7 @@ class AdminLoginController extends AdminAbstractController
     const METHODS = ['GET', 'POST'];
 
     const HTTP_OK = 200;
-    const HTTP_FAIL = 403;
+    const HTTP_FAIL = 401;
 
     /**
      * @param Request $request
@@ -38,12 +38,21 @@ class AdminLoginController extends AdminAbstractController
             $password = $request->getParsedBodyParam('password');
 
             DbModel::init($this->get('pdo'));
-            $user = User::getByUsername($username);
+            $user = User::getByUsername($username, 'locked = 0');
             if ($user->getUserId() > 0) {
                 if (password_verify($password, $user->getPassword())) {
+                    $user->setFailedLogins(0);
+                    $user->setLastLogin(date('Y-m-d H:i:s'));
+                    $user = $user->save();
                     $cont = SessionHelper::getContainer();
                     $cont->offsetSet('user', $user);
                     return $response->withRedirect($this->get('base_url') . $this->get('settings')['admin_route']);
+                } else {
+                    $user->setFailedLogins($user->getFailedLogins() + 1);
+                    if ($user->getFailedLogins() >= $this->get('settings')['max_failed_logins']) {
+                        $user->setLocked(true);
+                    }
+                    $user->save();
                 }
             }
 
@@ -54,6 +63,6 @@ class AdminLoginController extends AdminAbstractController
             ];
         }
 
-        return $this->render($request, $response, 'admin/login.twig', $data);
+        return $this->render($request, $response->withStatus($status), 'admin/login.twig', $data);
     }
 }

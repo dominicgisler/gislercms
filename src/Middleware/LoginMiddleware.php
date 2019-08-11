@@ -49,6 +49,8 @@ class LoginMiddleware
             $dbUser = User::getByUsername($user->getUsername());
 
             if ($user->isEqual($dbUser)) {
+                $dbUser->setLastActivity(date('Y-m-d H:i:s'));
+                $dbUser->save();
                 $cont->offsetSet('user', $dbUser);
                 return $next($request, $response);
             }

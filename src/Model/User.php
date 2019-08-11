@@ -39,6 +39,11 @@ class User extends DbModel
     private $password;
 
     /**
+     * @var string
+     */
+    private $locale;
+
+    /**
      * @var int
      */
     private $failedLogins;
@@ -52,6 +57,16 @@ class User extends DbModel
      * @var string
      */
     private $resetKey;
+
+    /**
+     * @var string
+     */
+    private $lastLogin;
+
+    /**
+     * @var string
+     */
+    private $lastActivity;
 
     /**
      * @var string
@@ -71,9 +86,12 @@ class User extends DbModel
      * @param string $lastname
      * @param string $email
      * @param string $password
+     * @param string $locale
      * @param int $failedLogins
      * @param bool $locked
      * @param string $resetKey
+     * @param string $lastLogin
+     * @param string $lastActivity
      * @param string $createdAt
      * @param string $updatedAt
      */
@@ -84,9 +102,12 @@ class User extends DbModel
         string $lastname = '',
         string $email = '',
         string $password = '',
+        string $locale = '',
         int $failedLogins = 0,
         bool $locked = false,
         string $resetKey = '',
+        string $lastLogin = '',
+        string $lastActivity = '',
         string $createdAt = '',
         string $updatedAt = ''
     )
@@ -97,22 +118,29 @@ class User extends DbModel
         $this->lastname = $lastname;
         $this->email = $email;
         $this->password = $password;
+        $this->locale = $locale;
         $this->failedLogins = $failedLogins;
         $this->locked = $locked;
         $this->resetKey = $resetKey;
+        $this->lastLogin = $lastLogin;
+        $this->lastActivity = $lastActivity;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
 
     /**
-     * @param string $username
+     * @param string $where
+     * @param array $args
      * @return User
      * @throws \Exception
      */
-    public static function getByUsername(string $username): User
+    public static function getWhere(string $where = '', array $args = []): User
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__user` WHERE `username` = ?");
-        $stmt->execute([$username]);
+        $stmt = self::getPDO()->prepare("
+            SELECT * FROM `cms__user`
+            " . (!empty($where) ? 'WHERE ' . $where : '') . "
+        ");
+        $stmt->execute($args);
         $user = $stmt->fetchObject();
         if ($user) {
             return new User(
@@ -122,9 +150,12 @@ class User extends DbModel
                 $user->lastname ?: '',
                 $user->email,
                 $user->password,
+                $user->locale,
                 $user->failed_logins,
                 $user->locked,
                 $user->reset_key ?: '',
+                $user->last_login ?: '',
+                $user->last_activity ?: '',
                 $user->created_at,
                 $user->updated_at
             );
@@ -133,28 +164,85 @@ class User extends DbModel
     }
 
     /**
-     * @param User $user
+     * @param int $id
      * @return User
      * @throws \Exception
      */
-    public static function create(User $user): User
+    public static function get(int $id): User
     {
-        $sql = "INSERT INTO `cms__user` (`username`, `firstname`, `lastname`, `email`, `password`) VALUES (?, ?, ?, ?, ?)";
-        $stmt = self::getPDO()->prepare($sql);
-        $res = $stmt->execute([
-            $user->getUsername(),
-            $user->getFirstname(),
-            $user->getLastname(),
-            $user->getEmail(),
-            $user->getPassword()
-        ]);
-        if ($res === false) {
-            $err = $stmt->errorInfo();
-            if ($err[0] !== '00000' && $err[0] !== '01000') {
-                return new User();
-            }
+        return self::getWhere('`user_id` = ? ', [$id]);
+    }
+
+    /**
+     * @param string $username
+     * @param string $where
+     * @param array $args
+     * @return User
+     * @throws \Exception
+     */
+    public static function getByUsername(string $username, string $where = '', array $args = []): User
+    {
+        return self::getWhere(
+            '`username` = ? '. (!empty($where) ? 'AND ' . $where : ''),
+            array_merge([$username], $args)
+        );
+    }
+
+    /**
+     * @return User|null
+     * @throws \Exception
+     */
+    public function save(): ?User
+    {
+        $pdo = self::getPDO();
+        if ($this->getUserId() > 0) {
+            $stmt = $pdo->prepare("
+                UPDATE `cms__user`
+                SET `username` = ?, `firstname` = ?, `lastname` = ?, `email` = ?, `password` = ?, `locale` = ?,
+                `failed_logins` = ?, `locked` = ?, `reset_key` = ?, `last_login` = ?, `last_activity` = ?
+                WHERE `user_id` = ?
+            ");
+            $res = $stmt->execute([
+                $this->getUsername(),
+                $this->getFirstname(),
+                $this->getLastname(),
+                $this->getEmail(),
+                $this->getPassword(),
+                $this->getLocale(),
+                $this->getFailedLogins(),
+                $this->isLocked(),
+                $this->getResetKey() ?: null,
+                $this->getLastLogin() ?: null,
+                $this->getLastActivity() ?: null,
+                $this->getUserId()
+            ]);
+            return $res ? self::get($this->getUserId()) : null;
+        } else {
+            $stmt = $pdo->prepare("
+                INSERT INTO `cms__user` (
+                    `username`, `firstname`, `lastname`, `email`, `password`, `locale`,
+                    `failed_logins`, `locked`, `reset_key`, `last_login`, `last_activity`
+                )
+                VALUES (
+                    ?, ?, ?, ?, ?, ?,
+                    ?, ?, ?, ?, ?
+                )
+            ");
+            $res = $stmt->execute([
+                $this->getUsername(),
+                $this->getFirstname(),
+                $this->getLastname(),
+                $this->getEmail(),
+                $this->getPassword(),
+                $this->getLocale(),
+                $this->getFailedLogins(),
+                $this->isLocked(),
+                $this->getResetKey() ?: null,
+                $this->getLastLogin() ?: null,
+                $this->getLastActivity() ?: null
+            ]);
+            return $res ? self::get($pdo->lastInsertId()) : null;
         }
-        return self::getByUsername($user->getUsername());
     }
 
     /**
@@ -301,6 +389,9 @@ class User extends DbModel
         $this->resetKey = $resetKey;
     }
 
+    /**
+     * @return string
+     */
     public function getDisplayName(): string
     {
         if (!empty($this->firstname) && !empty($this->lastname)) {
@@ -357,5 +448,53 @@ class User extends DbModel
     public function setUpdatedAt(string $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function setLocale(string $locale): void
+    {
+        $this->locale = $locale;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastLogin(): string
+    {
+        return $this->lastLogin;
+    }
+
+    /**
+     * @param string $lastLogin
+     */
+    public function setLastLogin(string $lastLogin): void
+    {
+        $this->lastLogin = $lastLogin;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastActivity(): string
+    {
+        return $this->lastActivity;
+    }
+
+    /**
+     * @param string $lastActivity
+     */
+    public function setLastActivity(string $lastActivity): void
+    {
+        $this->lastActivity = $lastActivity;
     }
 }

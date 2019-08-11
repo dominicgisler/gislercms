@@ -65,14 +65,16 @@ class AdminSetupController extends AdminAbstractController
                     $data['error'] = true;
                 } else {
                     DbModel::init($pdo);
-                    $user = User::create(new User(
+                    $user = new User(
                         0,
                         $data['user_username'],
                         $data['user_firstname'],
                         $data['user_lastname'],
                         $data['user_email'],
-                        password_hash($data['user_password'], PASSWORD_DEFAULT)
-                    ));
+                        password_hash($data['user_password'], PASSWORD_DEFAULT),
+                        "de"
+                    );
+                    $user = $user->save();
                     if ($user->getUserId() === 0) {
                         $data['error'] = true;
                         $data['messages']['create_user'] = [
