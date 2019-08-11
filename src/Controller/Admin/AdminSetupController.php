@@ -85,6 +85,9 @@ class AdminSetupController extends AdminAbstractController
                         $cfg = "<?php" . PHP_EOL . PHP_EOL .
                             "return [" . PHP_EOL .
                             "    'settings' => [" . PHP_EOL .
+                            "        'renderer' => [" . PHP_EOL .
+                            "            'cache' => __DIR__ . '/../cache/'" . PHP_EOL .
+                            "        ]," . PHP_EOL . PHP_EOL .
                             "        'database' => [" . PHP_EOL .
                             "            'host' => '" . $data['db_host'] . "'," . PHP_EOL .
                             "            'user' => '" . $data['db_user'] . "'," . PHP_EOL .

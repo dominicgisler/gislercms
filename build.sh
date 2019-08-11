@@ -11,8 +11,9 @@ fi
 # prepare dist
 [[ -d ${tempdir} ]] && rm -rf ${tempdir}
 mkdir ${tempdir}
-cp -R config ${tempdir}/.
+mkdir ${tempdir}/cache
 mkdir ${tempdir}/logs
+cp -R config ${tempdir}/.
 cp -R mysql ${tempdir}/.
 cp -R public ${tempdir}/.
 cp -R src ${tempdir}/.
