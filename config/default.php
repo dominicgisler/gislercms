@@ -26,6 +26,8 @@ return [
 
         'admin_route' => '/admin',
 
-        'enable_setup' => true
+        'enable_setup' => true,
+
+        'version' => '0.1.0-alpha'
     ],
 ];

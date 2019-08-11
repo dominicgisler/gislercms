@@ -25,7 +25,7 @@ class AdminMiscSysInfoController extends AdminAbstractController
     public function __invoke($request, $response)
     {
         $data = [
-            'CMS Version' => '0.1.0',
+            'CMS Version' => $this->get('settings')['version'],
             'PHP Version' => phpversion(),
             'MySQL Version' => $this->get('pdo')->query('select version()')->fetchColumn(),
             'Webserver' => $_SERVER['SERVER_SOFTWARE'],
