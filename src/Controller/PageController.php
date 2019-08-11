@@ -12,7 +12,7 @@ use Slim\Http\Response;
  */
 class PageController extends AbstractController
 {
-    const NAME = 'index';
+    const NAME = 'page';
     const PATTERN = '/{page:.*}';
     const METHODS = ['GET', 'POST'];
 

@@ -1,0 +1,18 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/content.twig' %}
+
+{% block title %}Systeminformation{% endblock %}
+
+{% block content %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            {% for key, val in data %}
+                <tr>
+                    <th>{{ key }}</th>
+                    <td>{{ val|raw }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

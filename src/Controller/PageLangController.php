@@ -13,7 +13,7 @@ use Slim\Http\Response;
  */
 class PageLangController extends AbstractController
 {
-    const NAME = 'index';
+    const NAME = 'page-lang';
     const PATTERN = '/{lang:[a-z]{2}}/{page:.*}';
     const METHODS = ['GET', 'POST'];
 
