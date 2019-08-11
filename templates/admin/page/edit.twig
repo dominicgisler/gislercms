@@ -107,7 +107,7 @@
     {{ parent() }}
     <script>
         function autocompletePageWidgets() {
-            autocompleteWidgets([{% for widget in widgets %}'{{ widget.getName() }}'{% if not loop.last %},{% endif %}{% endfor %}]);
+            autocompleteWidgets([{% for widget in widgets %}{% if not widget.isTrash() %}'{{ widget.getName() }}',{% endif %}{% endfor %}]);
         }
         function autocompletePageModules() {
             autocompleteModules(['these','will','be','the','modules']);
