@@ -293,7 +293,27 @@ class PageTranslation extends DbModel
         } elseif (sizeof($elems) == 1) {
             $res = reset($elems);
         }
-        if ($replaceWidgets) {
+        if ($res->getPageTranslationId() > 0 && $replaceWidgets) {
+            $res->setContent(self::replaceWidgets($res->getContent(), $res->getLanguage()));
+        }
+        return $res;
+    }
+
+    /**
+     * @param string $name
+     * @param Language $language
+     * @param bool $replaceWidgets
+     * @return PageTranslation
+     * @throws \Exception
+     */
+    public static function getByName(string $name, Language $language, bool $replaceWidgets = false): PageTranslation
+    {
+        $res = new PageTranslation();
+        $elems = self::getWhere('`t`.`name` = ? AND `l`.`language_id` = ?', [$name, $language->getLanguageId()]);
+        if (sizeof($elems) > 0) {
+            $res = reset($elems);
+        }
+        if ($res->getPageTranslationId() > 0 && $replaceWidgets) {
             $res->setContent(self::replaceWidgets($res->getContent(), $res->getLanguage()));
         }
         return $res;

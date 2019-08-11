@@ -2,18 +2,19 @@
 
 namespace GislerCMS\Controller;
 
+use GislerCMS\Model\Language;
 use GislerCMS\Model\PageTranslation;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class PageControllerAdmin
+ * Class PageLangControllerAdmin
  * @package GislerCMS\Controller
  */
-class PageController extends AbstractController
+class PageLangController extends AbstractController
 {
     const NAME = 'index';
-    const PATTERN = '/{page:.*}';
+    const PATTERN = '/{lang:[a-z]{2}}/{page:.*}';
     const METHODS = ['GET', 'POST'];
 
     /**
@@ -24,8 +25,9 @@ class PageController extends AbstractController
      */
     public function __invoke($request, $response)
     {
+        $lang = $request->getAttribute('route')->getArgument('lang');
         $name = $request->getAttribute('route')->getArgument('page');
-        $page = PageTranslation::getDefaultByName($name, true);
+        $page = PageTranslation::getByName($name, Language::getLanguage($lang), true);
         if ($page->getPageTranslationId() == 0 || !$page->getPage()->isEnabled()) {
             $page = PageTranslation::getDefaultByName('error-404', true);
         }
