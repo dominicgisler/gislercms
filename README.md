@@ -1,5 +1,15 @@
 # gislercms
 
+![GitHub](https://img.shields.io/github/license/dominicgisler/gislercms)
+![GitHub issues](https://img.shields.io/github/issues/dominicgisler/gislercms)
+![GitHub last commit](https://img.shields.io/github/last-commit/dominicgisler/gislercms)
+![GitHub release](https://img.shields.io/github/release/dominicgisler/gislercms)
+![GitHub All Releases](https://img.shields.io/github/downloads/dominicgisler/gislercms/total)
+
+![GitHub forks](https://img.shields.io/github/forks/dominicgisler/gislercms?label=Fork&style=social)
+![GitHub stars](https://img.shields.io/github/stars/dominicgisler/gislercms?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/dominicgisler/gislercms?label=Watch&style=social)
+
 A simple CMS to manage your website contents
 
 ## Global requirements
