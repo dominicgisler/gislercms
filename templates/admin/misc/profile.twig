@@ -1,0 +1,52 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/content.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% set languageSelect = [] %}
+{% for key, language in languages %}
+    {% set selected = false %}
+    {% if key == data.locale %}
+        {% set selected = true %}
+    {% endif %}
+    {% set languageSelect = languageSelect|merge([{value: key, label: language, selected: selected}]) %}
+{% endfor %}
+
+{%
+    set messages = {
+        invalid_input: {
+            class: 'danger',
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+        },
+        save_error: {
+            class: 'danger',
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+        },
+        save_success: {
+            class: 'success',
+            message: 'Dein Profil wurde erfolgreich gespeichert.'
+        }
+    }
+%}
+
+{% block content %}
+    {% if message %}
+        <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
+            {{ messages[message].message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <form method="post" id="page-form">
+        {{ forms.form_group('text', 'username', data.username, 'Benutzername', '', 'username' in errors ? 'is-invalid' : '', 'Damit meldest du dich an, 3-128 Zeichen') }}
+        {{ forms.form_group('text', 'firstname', data.firstname, 'Vorname', '', 'firstname' in errors ? 'is-invalid' : '', 'max. 128 Zeichen') }}
+        {{ forms.form_group('text', 'lastname', data.lastname, 'Name', '', 'lastname' in errors ? 'is-invalid' : '', 'max. 128 Zeichen') }}
+        {{ forms.form_group('text', 'email', data.email, 'E-Mail', '', 'email' in errors ? 'is-invalid' : '', 'Die E-Mail Adresse benötigst du beispielsweise um dein Passwort zurückzusetzen') }}
+        {{ forms.form_group('select', 'locale', data.locale, 'Sprache', '', 'locale' in errors ? 'is-invalid' : '', 'In dieser Sprache wird das CMS angezeigt', languageSelect) }}
+        <div class="text-right mb-4">
+            <button class="btn btn-primary" name="save">Speichern</button>
+        </div>
+    </form>
+{% endblock %}

@@ -8,6 +8,7 @@ use GislerCMS\Controller\Admin\AdminSetupController;
 use GislerCMS\Controller\Admin\Auth\AdminLoginController;
 use GislerCMS\Controller\Admin\Auth\AdminLogoutController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscConfigController;
+use GislerCMS\Controller\Admin\Misc\AdminMiscProfileController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscSysInfoController;
 use GislerCMS\Controller\Admin\Page\AdminPageAddController;
 use GislerCMS\Controller\Admin\Page\AdminPageEditController;
@@ -137,7 +138,8 @@ class Application
                 AdminWidgetEditController::class,
                 AdminWidgetTrashController::class,
                 AdminMiscConfigController::class,
-                AdminMiscSysInfoController::class
+                AdminMiscSysInfoController::class,
+                AdminMiscProfileController::class
             ],
             'require_nologin' => [
                 AdminLoginController::class
