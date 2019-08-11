@@ -25,6 +25,11 @@ class IndexController extends AbstractController
      */
     public function __invoke($request, $response)
     {
+        $maint = Config::getConfig('maintenance_mode');
+        if ($maint->getValue()) {
+            return $this->render($request, $response, 'maintenance.twig');
+        }
+
         $cfg = Config::getConfig('default_page');
         $page = Page::get($cfg->getValue());
         return $this->render($request, $response, 'layout.twig', ['page' => $page->getDefaultPageTranslation(true)]);

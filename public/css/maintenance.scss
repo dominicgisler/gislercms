@@ -1,0 +1,22 @@
+@import '../../vendor/twbs/bootstrap/scss/bootstrap';
+
+body {
+  background: url('../img/maintenance/bg.jpeg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px !important;
+  }
+}
+
+.container {
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.6);
+}
