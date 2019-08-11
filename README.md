@@ -1,18 +1,18 @@
 # gislercms
 
-![GitHub](https://img.shields.io/github/license/dominicgisler/gislercms)
-![GitHub issues](https://img.shields.io/github/issues/dominicgisler/gislercms)
-![GitHub last commit](https://img.shields.io/github/last-commit/dominicgisler/gislercms)
-![GitHub release](https://img.shields.io/github/release/dominicgisler/gislercms)
-![GitHub All Releases](https://img.shields.io/github/downloads/dominicgisler/gislercms/total)
+[![GitHub](https://img.shields.io/github/license/dominicgisler/gislercms)](https://github.com/dominicgisler/gislercms/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/dominicgisler/gislercms)](https://github.com/dominicgisler/gislercms/issues)
+[![GitHub last commit](https://img.shields.io/github/last-commit/dominicgisler/gislercms)](https://github.com/dominicgisler/gislercms/commits/dev)
+[![GitHub release](https://img.shields.io/github/release/dominicgisler/gislercms)](https://github.com/dominicgisler/gislercms/releases)
+[![GitHub All Releases](https://img.shields.io/github/downloads/dominicgisler/gislercms/total)](https://github.com/dominicgisler/gislercms/releases)
 
 A simple CMS to manage your website contents
 
 ## Global requirements
 
 - PHP 7.3 (could also work with 7.1 or 7.2, but it's not tested)
-- PHP-PDO
-- MySQL
+- PDO
+- MySQL or MariaDB
 - Some kind of webserver
 - Setup vHost to access the application
 
@@ -20,8 +20,8 @@ Developed and tested with:
 
 - Ubuntu 18.04
 - Apache 2.4.29
-- PHP 7.3.3
-- MySQL 5.7.25
+- PHP 7.3.8
+- MariaDB 10.1.40
 
 ## How to install
 
@@ -46,6 +46,6 @@ Developed and tested with:
 
 ### Setup
 
-- Edit configuration in `config/[name].php`
 - Use `{URL}/admin/setup` to configure interactive (DB access and login data)
 - Login on `{URL}/admin/login`
+- Edit configuration in `config/{file}.php` if adjustments needed
