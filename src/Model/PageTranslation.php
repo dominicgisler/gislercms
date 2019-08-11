@@ -149,7 +149,7 @@ class PageTranslation extends DbModel
                 `t`.`meta_image`,
                 `t`.`enabled`,
                 `t`.`created_at`,
-                `t`.`updated_at`
+                `t`.`updated_at`,
                 `l`.`language_id`,
                 `l`.`locale`,
                 `l`.`description`,
