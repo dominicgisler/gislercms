@@ -11,7 +11,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminPageAddControllerAdmin
+ * Class AdminPageAddController
  * @package GislerCMS\Controller
  */
 class AdminPageAddController extends AdminAbstractController

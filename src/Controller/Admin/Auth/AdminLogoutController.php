@@ -8,7 +8,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminLogoutControllerAdmin
+ * Class AdminLogoutController
  * @package GislerCMS\Controller
  */
 class AdminLogoutController extends AdminAbstractController

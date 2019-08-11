@@ -9,7 +9,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminSetupControllerAdmin
+ * Class AdminSetupController
  * @package GislerCMS\Controller
  */
 class AdminSetupController extends AdminAbstractController

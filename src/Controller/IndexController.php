@@ -8,7 +8,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class IndexControllerAdmin
+ * Class IndexController
  * @package GislerCMS\Controller
  */
 class IndexController extends AbstractController

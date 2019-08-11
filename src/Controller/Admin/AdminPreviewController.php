@@ -6,7 +6,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminPreviewControllerAdmin
+ * Class AdminPreviewController
  * @package GislerCMS\Controller
  */
 class AdminPreviewController extends AdminAbstractController

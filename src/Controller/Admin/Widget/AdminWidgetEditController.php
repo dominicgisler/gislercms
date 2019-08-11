@@ -19,7 +19,7 @@ use Zend\Validator\NotEmpty;
 use Zend\Validator\StringLength;
 
 /**
- * Class AdminWidgetEditControllerAdmin
+ * Class AdminWidgetEditController
  * @package GislerCMS\Controller
  */
 class AdminWidgetEditController extends AdminAbstractController

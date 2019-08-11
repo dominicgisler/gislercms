@@ -8,7 +8,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class PageLangControllerAdmin
+ * Class PageLangController
  * @package GislerCMS\Controller
  */
 class PageLangController extends AbstractController

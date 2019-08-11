@@ -19,7 +19,7 @@ use Zend\InputFilter\Factory;
 use Zend\Validator\StringLength;
 
 /**
- * Class AdminMiscConfigControllerAdmin
+ * Class AdminMiscConfigController
  * @package GislerCMS\Controller
  */
 class AdminMiscConfigController extends AdminAbstractController

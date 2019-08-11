@@ -8,7 +8,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminPageTrashControllerAdmin
+ * Class AdminPageTrashController
  * @package GislerCMS\Controller
  */
 class AdminPageTrashController extends AdminAbstractController
