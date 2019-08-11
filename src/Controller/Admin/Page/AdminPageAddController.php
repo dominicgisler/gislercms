@@ -3,6 +3,7 @@
 namespace GislerCMS\Controller\Admin\Page;
 
 use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Model\Config;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\Page;
 use GislerCMS\Model\PageTranslation;
@@ -33,8 +34,19 @@ class AdminPageAddController extends AdminAbstractController
         $page = $page->save();
         if ($page instanceof Page) {
             foreach ($langs as $lang) {
-                $pageTranslation = new PageTranslation(0, $page, $lang, 'new_page', 'Neue Seite');
-                $pageTranslation->save();
+                $pageTranslation = new PageTranslation(
+                    0,
+                    $page,
+                    $lang,
+                    'new_page_' . microtime(true),
+                    'Neue Seite',
+                    '',
+                    Config::getConfig('page_meta_keywords')->getValue(),
+                    Config::getConfig('page_meta_description')->getValue(),
+                    Config::getConfig('page_meta_author')->getValue(),
+                    Config::getConfig('page_meta_copyright')->getValue()
+                );
+                $res = $pageTranslation->save();
             }
         }
         return $response->withRedirect($this->get('base_url') . $this->get('settings')['admin_route'] . '/page/' . $page->getPageId());

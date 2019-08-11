@@ -54,7 +54,7 @@
                                 {% set trash = trash + 1 %}
                             {% else %}
                                 <li class="nav-item">
-                                    <a class="nav-link {% if active %}active{% endif %} {% if not navPage.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/page/{{ navPage.getPageId() }}">
+                                    <a class="nav-link {% if active %}active{% elseif not navPage.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/page/{{ navPage.getPageId() }}">
                                         <i class="fa {% if navPage.isEnabled() %}fa-file-alt{% else %}fa-eye-slash{% endif %} fa-fw"></i>
                                         {{ navPage.getName() }}
                                     </a>
@@ -83,7 +83,7 @@
                                 {% set trash = trash + 1 %}
                             {% else %}
                                 <li class="nav-item">
-                                    <a class="nav-link {% if active %}active{% endif %} {% if not navWidget.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/widget/{{ navWidget.getWidgetId() }}">
+                                    <a class="nav-link {% if active %}active{% elseif not navWidget.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/widget/{{ navWidget.getWidgetId() }}">
                                         <i class="fa {% if navWidget.isEnabled() %}fa-file-alt{% else %}fa-eye-slash{% endif %} fa-fw"></i>
                                         {{ navWidget.getName() }}
                                     </a>
