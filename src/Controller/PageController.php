@@ -2,19 +2,18 @@
 
 namespace GislerCMS\Controller;
 
-use GislerCMS\Model\Config;
-use GislerCMS\Model\Page;
+use GislerCMS\Model\PageTranslation;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class IndexControllerAdmin
+ * Class PageControllerAdmin
  * @package GislerCMS\Controller
  */
-class IndexController extends AbstractController
+class PageController extends AbstractController
 {
     const NAME = 'index';
-    const PATTERN = '[/]';
+    const PATTERN = '/{page}';
     const METHODS = ['GET', 'POST'];
 
     /**
@@ -25,8 +24,8 @@ class IndexController extends AbstractController
      */
     public function __invoke($request, $response)
     {
-        $cfg = Config::getConfig('default_page');
-        $page = Page::get($cfg->getValue());
-        return $this->render($request, $response, 'layout.twig', ['page' => $page->getDefaultPageTranslation(true)]);
+        $name = $request->getAttribute('route')->getArgument('page');
+        $page = PageTranslation::getDefaultByName($name, true);
+        return $this->render($request, $response, 'layout.twig', ['page' => $page]);
     }
 }

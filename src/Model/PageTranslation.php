@@ -195,16 +195,18 @@ class PageTranslation extends DbModel
     }
 
     /**
-     * @param Page $page
+     * @param string $where
+     * @param array $args
      * @return PageTranslation[]
      * @throws \Exception
      */
-    public static function getPageTranslations(Page $page): array
+    public static function getWhere(string $where = '', array $args = []): array
     {
         $arr = [];
         $stmt = self::getPDO()->prepare("
             SELECT
                 `t`.`page_translation_id`,
+                `t`.`fk_page_id`,
                 `t`.`name`,
                 `t`.`title`,
                 `t`.`content`,
@@ -228,15 +230,15 @@ class PageTranslation extends DbModel
             INNER JOIN `cms__language` `l`
             ON `t`.fk_language_id = `l`.language_id
             
-            WHERE `t`.`fk_page_id` = ?
+            " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
-        $stmt->execute([$page->getPageId()]);
+        $stmt->execute($args);
         $pageTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
         if (sizeof($pageTranslations) > 0) {
             foreach ($pageTranslations as $pageTranslation) {
                 $arr[$pageTranslation->locale] = new PageTranslation(
                     $pageTranslation->page_translation_id,
-                    $page,
+                    Page::get($pageTranslation->fk_page_id),
                     new Language(
                         $pageTranslation->language_id,
                         $pageTranslation->locale,
@@ -260,6 +262,41 @@ class PageTranslation extends DbModel
             }
         }
         return $arr;
+    }
+
+    /**
+     * @param Page $page
+     * @return PageTranslation[]
+     * @throws \Exception
+     */
+    public static function getPageTranslations(Page $page): array
+    {
+        return self::getWhere('`t`.`fk_page_id` = ?', [$page->getPageId()]);
+    }
+
+    /**
+     * @param string $name
+     * @param bool $replaceWidgets
+     * @return PageTranslation
+     * @throws \Exception
+     */
+    public static function getDefaultByName(string $name, bool $replaceWidgets = false): PageTranslation
+    {
+        $res = new PageTranslation();
+        $elems = self::getWhere('`t`.`name` = ?', [$name]);
+        if (sizeof($elems) > 1) {
+            foreach ($elems as $trans) {
+                if ($trans->getLanguage()->getLanguageId() == $trans->getPage()->getLanguage()->getLanguageId()) {
+                    $res = $trans;
+                }
+            }
+        } elseif (sizeof($elems) == 1) {
+            $res = reset($elems);
+        }
+        if ($replaceWidgets) {
+            $res->setContent(self::replaceWidgets($res->getContent(), $res->getLanguage()));
+        }
+        return $res;
     }
 
     /**

@@ -15,6 +15,7 @@ use GislerCMS\Controller\Admin\Widget\AdminWidgetAddController;
 use GislerCMS\Controller\Admin\Widget\AdminWidgetEditController;
 use GislerCMS\Controller\Admin\Widget\AdminWidgetTrashController;
 use GislerCMS\Controller\IndexController;
+use GislerCMS\Controller\PageController;
 use GislerCMS\Middleware\LoginMiddleware;
 use GislerCMS\Middleware\NoLoginMiddleware;
 use Slim\App;
@@ -120,7 +121,8 @@ class Application
             'default' => [
                 AdminLogoutController::class,
                 AdminSetupController::class,
-                IndexController::class
+                IndexController::class,
+                PageController::class
             ],
             'require_login' => [
                 AdminIndexController::class,
@@ -139,9 +141,6 @@ class Application
         ];
         $adminRoute = $this->app->getContainer()['settings']['admin_route'];
 
-        foreach ($classes['default'] as $class) {
-            $this->app->map($class::METHODS, str_replace('{admin_route}', $adminRoute, $class::PATTERN), $class)->setName($class::NAME);
-        }
         foreach ($classes['require_login'] as $class) {
             $this->app->map($class::METHODS, str_replace('{admin_route}', $adminRoute, $class::PATTERN), $class)
                 ->add(LoginMiddleware::class)
@@ -151,6 +150,9 @@ class Application
             $this->app->map($class::METHODS, str_replace('{admin_route}', $adminRoute, $class::PATTERN), $class)
                 ->add(NoLoginMiddleware::class)
                 ->setName($class::NAME);
+        }
+        foreach ($classes['default'] as $class) {
+            $this->app->map($class::METHODS, str_replace('{admin_route}', $adminRoute, $class::PATTERN), $class)->setName($class::NAME);
         }
     }
 }
