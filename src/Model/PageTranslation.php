@@ -264,10 +264,11 @@ class PageTranslation extends DbModel
 
     /**
      * @param Page $page
+     * @param bool $replaceWidgets
      * @return PageTranslation
      * @throws \Exception
      */
-    public static function getDefaultPageTranslation(Page $page): PageTranslation
+    public static function getDefaultPageTranslation(Page $page, bool $replaceWidgets = false): PageTranslation
     {
         $stmt = self::getPDO()->prepare("
             SELECT
@@ -301,7 +302,7 @@ class PageTranslation extends DbModel
         $stmt->execute([$page->getPageId(), $page->getLanguage()->getLanguageId()]);
         $pageTranslation = $stmt->fetchObject();
         if ($pageTranslation) {
-            return new PageTranslation(
+            $trans = new PageTranslation(
                 $pageTranslation->page_translation_id,
                 $page,
                 new Language(
@@ -324,6 +325,10 @@ class PageTranslation extends DbModel
                 $pageTranslation->created_at,
                 $pageTranslation->updated_at
             );
+            if ($replaceWidgets) {
+                $trans->setContent(self::replaceWidgets($trans->getContent(), $trans->getLanguage()));
+            }
+            return $trans;
         }
         return new PageTranslation();
     }
@@ -331,10 +336,11 @@ class PageTranslation extends DbModel
     /**
      * @param Page $page
      * @param Language $language
+     * @param bool $replaceWidgets
      * @return PageTranslation
      * @throws \Exception
      */
-    public static function getPageTranslation(Page $page, Language $language): PageTranslation
+    public static function getPageTranslation(Page $page, Language $language, bool $replaceWidgets = false): PageTranslation
     {
         $stmt = self::getPDO()->prepare("
             SELECT
@@ -369,7 +375,7 @@ class PageTranslation extends DbModel
         $stmt->execute([$page->getPageId(), $language->getLanguageId()]);
         $pageTranslation = $stmt->fetchObject();
         if ($pageTranslation) {
-            return new PageTranslation(
+            $trans = new PageTranslation(
                 $pageTranslation->page_translation_id,
                 $page,
                 new Language(
@@ -392,6 +398,10 @@ class PageTranslation extends DbModel
                 $pageTranslation->created_at,
                 $pageTranslation->updated_at
             );
+            if ($replaceWidgets) {
+                $trans->setContent(self::replaceWidgets($trans->getContent(), $trans->getLanguage()));
+            }
+            return $trans;
         }
         return self::getDefaultPageTranslation($page);
     }
