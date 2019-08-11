@@ -13,3 +13,5 @@
 /public/editor
 /public/uploads
 /public/thumbs
+/dist
+*.zip
