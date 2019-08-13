@@ -12,4 +12,4 @@ cd admin
 sass login.scss login.css
 yuicompressor login.css -o login.min.css
 sass style.scss style.css
-yuicompressor login.css -o login.min.css
+yuicompressor style.css -o style.min.css
