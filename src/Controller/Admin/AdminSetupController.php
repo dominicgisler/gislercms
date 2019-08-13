@@ -19,6 +19,15 @@ class AdminSetupController extends AdminAbstractController
     const METHODS = ['GET', 'POST'];
 
     /**
+     * AdminSetupController constructor.
+     * @param $container
+     */
+    public function __construct($container)
+    {
+        parent::__construct($container, false);
+    }
+
+    /**
      * @param Request $request
      * @param Response $response
      * @return Response
