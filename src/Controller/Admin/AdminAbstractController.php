@@ -24,11 +24,14 @@ abstract class AdminAbstractController
 
     /**
      * @param \Slim\Container|\Psr\Container\ContainerInterface $container
+     * @param bool $initDBModel
      */
-    public function __construct($container)
+    public function __construct($container, $initDBModel = true)
     {
         $this->container = $container;
-        DbModel::init($this->get('pdo'));
+        if ($initDBModel) {
+            DbModel::init($this->get('pdo'));
+        }
     }
 
     /**
