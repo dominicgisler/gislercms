@@ -161,7 +161,7 @@ class AdminPageEditController extends AdminAbstractController
                         $page->setTrash(true);
                         $page->save();
                     }
-                    return $response->withRedirect($this->get('base_url') . $this->get('settings')['admin_route']);
+                    return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route']);
                 }
             }
             return $this->render($request, $response, 'admin/page/edit.twig', [

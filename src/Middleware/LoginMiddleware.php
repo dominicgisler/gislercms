@@ -56,6 +56,6 @@ class LoginMiddleware
             }
         }
 
-        return $response->withRedirect($this->container->get('base_url') . $this->container->get('settings')['admin_route'] . '/login');
+        return $response->withRedirect($this->container->get('base_url') . $this->container->get('settings')['global']['admin_route'] . '/login');
     }
 }

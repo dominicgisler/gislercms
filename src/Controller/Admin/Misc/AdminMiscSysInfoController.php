@@ -30,7 +30,7 @@ class AdminMiscSysInfoController extends AdminAbstractController
             'MySQL Version' => $this->get('pdo')->query('select version()')->fetchColumn(),
             'Webserver' => $_SERVER['SERVER_SOFTWARE'],
             'URL' => $this->get('base_url'),
-            'Verwaltungs-URL' => $this->get('base_url') . $this->get('settings')['admin_route'],
+            'Verwaltungs-URL' => $this->get('base_url') . $this->get('settings')['global']['admin_route'],
             'Verzeichnis' => $_SERVER['DOCUMENT_ROOT'],
             'PHP Erweiterungen' => '- ' . join('<br>- ', get_loaded_extensions()),
             'HTTP Protokoll' => $_SERVER['SERVER_PROTOCOL'],

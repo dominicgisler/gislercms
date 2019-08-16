@@ -70,7 +70,27 @@ class Application
             }
         }
 
-        return $config->toArray();
+        $cfg = $config->toArray();
+        if (isset($cfg['settings']['database'])) {
+            try {
+                $db = $cfg['settings']['database'];
+                $pdo = new \PDO(
+                    sprintf('mysql:host=%s;dbname=%s;port=3306', $db['host'], $db['data']),
+                    $db['user'],
+                    $db['pass']
+                );
+                $stmt = $pdo->query("SELECT * FROM `cms__config`");
+                $arr = $stmt->fetchAll(\PDO::FETCH_OBJ);
+                if (sizeof($arr) > 0) {
+                    foreach ($arr as $elem) {
+                        $cfg['settings'][$elem->section][$elem->name] = $elem->value;
+                    }
+                }
+            } catch(\PDOException $e) {
+            }
+        }
+
+        return $cfg;
     }
 
     /**
@@ -147,7 +167,7 @@ class Application
                 AdminLoginController::class
             ]
         ];
-        $adminRoute = $this->app->getContainer()['settings']['admin_route'];
+        $adminRoute = $this->app->getContainer()['settings']['global']['admin_route'];
 
         foreach ($classes['require_login'] as $class) {
             $this->app->map($class::METHODS, str_replace('{admin_route}', $adminRoute, $class::PATTERN), $class)

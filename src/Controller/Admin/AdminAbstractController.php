@@ -60,7 +60,7 @@ abstract class AdminAbstractController
         $route = $request->getAttribute('route');
         $arr = [
             'route' => $route->getName(),
-            'admin_url' => $this->get('base_url') . $this->get('settings')['admin_route'],
+            'admin_url' => $this->get('base_url') . $this->get('settings')['global']['admin_route'],
             'pages' => Page::getAll(),
             'widgets' => Widget::getAll(),
             'user' => $user

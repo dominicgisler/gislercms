@@ -24,12 +24,12 @@ return [
             'data' => 'gislercms'
         ],
 
-        'admin_route' => '/admin',
-
         'enable_setup' => true,
 
         'version' => '0.2.0',
 
-        'max_failed_logins' => 5
+        'global' => [
+            'admin_route' => '/admin'
+        ]
     ],
 ];

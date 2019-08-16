@@ -4,18 +4,19 @@ namespace GislerCMS\Controller\Admin\Misc;
 
 use GislerCMS\Controller\Admin\AdminAbstractController;
 use GislerCMS\Filter\ToBool;
-use GislerCMS\Filter\ToLanguage;
 use GislerCMS\Filter\ToPage;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Config;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\Page;
 use GislerCMS\Model\User;
-use GislerCMS\Validator\LanguageExists;
+use GislerCMS\Validator\DoesNotContain;
 use GislerCMS\Validator\PageExists;
+use GislerCMS\Validator\StartsWith;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Zend\InputFilter\Factory;
+use Zend\Validator\Between;
 use Zend\Validator\StringLength;
 
 /**
@@ -123,6 +124,30 @@ class AdminMiscConfigController extends AdminAbstractController
                 ],
                 'validators' => [
                     new PageExists()
+                ]
+            ],
+            [
+                'name' => 'admin_route',
+                'required' => true,
+                'filters' => [],
+                'validators' => [
+                    new StartsWith('/'),
+                    new DoesNotContain('//'),
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 128
+                    ])
+                ]
+            ],
+            [
+                'name' => 'max_failed_logins',
+                'required' => true,
+                'filters' => [],
+                'validators' => [
+                    new Between([
+                        'min' => 1,
+                        'max' => 1000
+                    ])
                 ]
             ]
         ]);

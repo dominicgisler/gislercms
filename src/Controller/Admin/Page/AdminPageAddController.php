@@ -49,6 +49,6 @@ class AdminPageAddController extends AdminAbstractController
                 $res = $pageTranslation->save();
             }
         }
-        return $response->withRedirect($this->get('base_url') . $this->get('settings')['admin_route'] . '/page/' . $page->getPageId());
+        return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/page/' . $page->getPageId());
     }
 }

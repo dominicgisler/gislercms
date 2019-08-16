@@ -37,6 +37,6 @@ class AdminWidgetAddController extends AdminAbstractController
                 $widgetTranslation->save();
             }
         }
-        return $response->withRedirect($this->get('base_url') . $this->get('settings')['admin_route'] . '/widget/' . $widget->getWidgetId());
+        return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/widget/' . $widget->getWidgetId());
     }
 }

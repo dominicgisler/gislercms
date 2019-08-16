@@ -46,10 +46,10 @@ class AdminLoginController extends AdminAbstractController
                     $user = $user->save();
                     $cont = SessionHelper::getContainer();
                     $cont->offsetSet('user', $user);
-                    return $response->withRedirect($this->get('base_url') . $this->get('settings')['admin_route']);
+                    return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route']);
                 } else {
                     $user->setFailedLogins($user->getFailedLogins() + 1);
-                    if ($user->getFailedLogins() >= $this->get('settings')['max_failed_logins']) {
+                    if ($user->getFailedLogins() >= $this->get('settings')['global']['max_failed_logins']) {
                         $user->setLocked(true);
                     }
                     $user->save();

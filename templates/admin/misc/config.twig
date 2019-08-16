@@ -25,7 +25,9 @@
         },
         save_success: {
             class: 'success',
-            message: 'Die Konfiguration wurde erfolgreich gespeichert.'
+            message: 'Die Konfiguration wurde erfolgreich gespeichert.<br>' ~
+                'Benutze folgenden Link, falls du den Admin-Pfad geändert hast: ' ~
+                '<a href="' ~ base_url() ~ config.admin_route ~ '/misc/config">' ~ base_url() ~ config.admin_route ~ '/misc/config</a>'
         }
     }
 %}
@@ -33,7 +35,7 @@
 {% block content %}
     {% if message %}
         <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
-            {{ messages[message].message }}
+            {{ messages[message].message|raw }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -42,6 +44,8 @@
     <form method="post" id="page-form">
         {{ forms.form_group('checkbox', 'maintenance_mode', config.maintenance_mode, 'Wartungsmodus', '', 'maintenance_mode' in errors ? 'is-invalid' : '', 'Im Wartungsmodus wird eine statische Seite angezeigt.') }}
         {{ forms.form_group('select', 'default_page', config.default_page, 'Startseite', '', 'default_page' in errors ? 'is-invalid' : '', 'Startseite deiner Webseite', pageSelect) }}
+        {{ forms.form_group('text', 'admin_route', config.admin_route, 'Admin-Pfad', '', 'admin_route' in errors ? 'is-invalid' : '', 'Pfad des Adminbereichs') }}
+        {{ forms.form_group('number', 'max_failed_logins', config.max_failed_logins, 'Login Fehlversuche', '', 'max_failed_logins' in errors ? 'is-invalid' : '', 'Maximale Anzahl Fehlversuche bevor ein Benutzer gesperrt wird') }}
         <div class="text-right mb-4">
             <button class="btn btn-primary" name="save">Speichern</button>
         </div>

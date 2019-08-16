@@ -49,7 +49,7 @@ class NoLoginMiddleware
             $dbUser = User::getByUsername($user->getUsername());
 
             if ($user->isEqual($dbUser)) {
-                return $response->withRedirect($this->container->get('base_url') . $this->container->get('settings')['admin_route']);
+                return $response->withRedirect($this->container->get('base_url') . $this->container->get('settings')['global']['admin_route']);
             }
         }
 

@@ -27,6 +27,6 @@ class AdminLogoutController extends AdminAbstractController
         $cont = SessionHelper::getContainer();
         $cont->offsetUnset('user');
 
-        return $response->withRedirect($this->get('base_url') . $this->get('settings')['admin_route']);
+        return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route']);
     }
 }

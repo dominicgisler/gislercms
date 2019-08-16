@@ -140,7 +140,7 @@ class AdminWidgetEditController extends AdminAbstractController
                         $widget->setTrash(true);
                         $widget->save();
                     }
-                    return $response->withRedirect($this->get('base_url') . $this->get('settings')['admin_route']);
+                    return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route']);
                 }
             }
             return $this->render($request, $response, 'admin/widget/edit.twig', [
