@@ -126,6 +126,8 @@ class AdminSetupController extends AdminAbstractController
             }
         }
 
-        return $this->render($request, $response, 'admin/setup.twig', $data);
+        return $this->get('view')->render($response, 'admin/setup.twig', array_merge([
+            'admin_url' => $this->get('base_url') . $this->get('settings')['admin_route']
+        ], $data));
     }
 }
