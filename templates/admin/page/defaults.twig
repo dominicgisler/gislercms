@@ -2,15 +2,15 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}Konfiguration{% endblock %}
+{% block title %}Standardwerte{% endblock %}
 
-{% set pageSelect = [] %}
-{% for page in pages %}
+{% set languageSelect = [] %}
+{% for language in languages %}
     {% set selected = false %}
-    {% if page.getPageId() == config.default_page %}
+    {% if language.getLanguageId() == config.page_default_language %}
         {% set selected = true %}
     {% endif %}
-    {% set pageSelect = pageSelect|merge([{value: page.getPageId(), label: page.name, selected: selected}]) %}
+    {% set languageSelect = languageSelect|merge([{value: language.locale, label: language.description, selected: selected}]) %}
 {% endfor %}
 
 {%
@@ -25,7 +25,7 @@
         },
         save_success: {
             class: 'success',
-            message: 'Die Konfiguration wurde erfolgreich gespeichert.'
+            message: 'Die Standartwerte wurden erfolgreich gespeichert.'
         }
     }
 %}
@@ -40,8 +40,11 @@
         </div>
     {% endif %}
     <form method="post" id="page-form">
-        {{ forms.form_group('checkbox', 'maintenance_mode', config.maintenance_mode, 'Wartungsmodus', '', 'maintenance_mode' in errors ? 'is-invalid' : '', 'Im Wartungsmodus wird eine statische Seite angezeigt.') }}
-        {{ forms.form_group('select', 'default_page', config.default_page, 'Startseite', '', 'default_page' in errors ? 'is-invalid' : '', 'Startseite deiner Webseite', pageSelect) }}
+        {{ forms.form_group('text', 'meta_keywords', config.meta_keywords, 'Suchbegriffe', '', 'meta_keywords' in errors ? 'is-invalid' : '') }}
+        {{ forms.form_group('text', 'meta_description', config.meta_description, 'Beschreibung', '', 'meta_description' in errors ? 'is-invalid' : '') }}
+        {{ forms.form_group('text', 'meta_author', config.meta_author, 'Autor', '', 'meta_author' in errors ? 'is-invalid' : '') }}
+        {{ forms.form_group('text', 'meta_copyright', config.meta_copyright, 'Copyright', '', 'meta_copyright' in errors ? 'is-invalid' : '') }}
+        {{ forms.form_group('select', 'default_language', config.default_language, 'Standardsprache', '', 'default_language' in errors ? 'is-invalid' : '', '', languageSelect) }}
         <div class="text-right mb-4">
             <button class="btn btn-primary" name="save">Speichern</button>
         </div>

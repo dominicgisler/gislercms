@@ -16,6 +16,11 @@ class Config extends DbModel
     /**
      * @var string
      */
+    private $section;
+
+    /**
+     * @var string
+     */
     private $name;
 
     /**
@@ -41,6 +46,7 @@ class Config extends DbModel
     /**
      * Config constructor.
      * @param int $configId
+     * @param string $section
      * @param string $name
      * @param string $type
      * @param mixed $value
@@ -49,6 +55,7 @@ class Config extends DbModel
      */
     public function __construct(
         int $configId = 0,
+        string $section = '',
         string $name = '',
         string $type = '',
         $value = null,
@@ -57,6 +64,7 @@ class Config extends DbModel
     )
     {
         $this->configId = $configId;
+        $this->section = $section;
         $this->name = $name;
         $this->type = $type;
         switch ($this->type) {
@@ -79,19 +87,23 @@ class Config extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
      * @return Config[]
      * @throws \Exception
      */
-    public static function getAll(): array
+    public static function getWhere(string $where = '', array $args = []): array
     {
         $arr = [];
-        $stmt = self::getPDO()->query("SELECT * FROM `cms__config`");
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__config` " . (!empty($where) ? 'WHERE ' . $where : ''));
         if ($stmt instanceof \PDOStatement) {
+            $stmt->execute($args);
             $configs = $stmt->fetchAll(\PDO::FETCH_OBJ);
             if (sizeof($configs) > 0) {
                 foreach ($configs as $config) {
                     $arr[] = new Config(
                         $config->config_id,
+                        $config->section,
                         $config->name,
                         $config->type,
                         $config->value,
@@ -102,6 +114,25 @@ class Config extends DbModel
             }
         }
         return $arr;
+    }
+
+    /**
+     * @return Config[]
+     * @throws \Exception
+     */
+    public static function getAll(): array
+    {
+        return self::getWhere();
+    }
+
+    /**
+     * @param string $section
+     * @return Config[]
+     * @throws \Exception
+     */
+    public static function getBySection(string $section): array
+    {
+        return self::getWhere('`section` = ?', [$section]);
     }
 
     /**
@@ -117,6 +148,7 @@ class Config extends DbModel
         if ($config) {
             return new Config(
                 $config->config_id,
+                $config->section,
                 $config->name,
                 $config->type,
                 $config->value,
@@ -140,6 +172,7 @@ class Config extends DbModel
         if ($config) {
             return new Config(
                 $config->config_id,
+                $config->section,
                 $config->name,
                 $config->type,
                 $config->value,
@@ -160,10 +193,11 @@ class Config extends DbModel
         if ($this->getConfigId() > 0) {
             $stmt = $pdo->prepare("
                 UPDATE `cms__config`
-                SET `name` = ?, `type` = ?, `value` = ?
+                SET `section` = ?, `name` = ?, `type` = ?, `value` = ?
                 WHERE `config_id` = ?
             ");
             $res = $stmt->execute([
+                $this->getSection(),
                 $this->getName(),
                 $this->getType(),
                 $this->getValueAsString(),
@@ -172,10 +206,11 @@ class Config extends DbModel
             return $res ? self::get($this->getConfigId()) : null;
         } else {
             $stmt = $pdo->prepare("
-                INSERT INTO `cms__config` (`name`, `type`, `value`)
-                VALUES (?, ?, ?)
+                INSERT INTO `cms__config` (`section`, `name`, `type`, `value`)
+                VALUES (?, ?, ?, ?)
             ");
             $res = $stmt->execute([
+                $this->getSection(),
                 $this->getName(),
                 $this->getType(),
                 $this->getValueAsString()
@@ -297,5 +332,21 @@ class Config extends DbModel
     public function setUpdatedAt(string $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSection(): string
+    {
+        return $this->section;
+    }
+
+    /**
+     * @param string $section
+     */
+    public function setSection(string $section): void
+    {
+        $this->section = $section;
     }
 }

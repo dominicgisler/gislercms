@@ -11,6 +11,7 @@ use GislerCMS\Controller\Admin\Misc\AdminMiscConfigController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscProfileController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscSysInfoController;
 use GislerCMS\Controller\Admin\Page\AdminPageAddController;
+use GislerCMS\Controller\Admin\Page\AdminPageDefaultsController;
 use GislerCMS\Controller\Admin\Page\AdminPageEditController;
 use GislerCMS\Controller\Admin\Page\AdminPageTrashController;
 use GislerCMS\Controller\Admin\Widget\AdminWidgetAddController;
@@ -132,6 +133,7 @@ class Application
                 AdminIndexController::class,
                 AdminPreviewController::class,
                 AdminPageAddController::class,
+                AdminPageDefaultsController::class,
                 AdminPageEditController::class,
                 AdminPageTrashController::class,
                 AdminWidgetAddController::class,

@@ -22,11 +22,11 @@ VALUES (1, 1, 1, '<p>Copyright &copy; 2019 by Gisler Software</p>', 1),
        (3, 2, 1, '<ul><li><a href="/de/startseite">Startseite</a></li></ul>', 1),
        (4, 2, 2, '<ul><li><a href="/en/home">Home</a></li></ul>', 1);
 
-INSERT INTO `cms__config` (`name`, `type`, `value`)
-VALUES ('maintenance_mode', 'boolean', '0'),
-       ('page_meta_keywords', 'string', 'cms, gisler, software, gislercms'),
-       ('page_meta_description', 'string', 'Meine eigene Webseite mit GislerCMS'),
-       ('page_meta_author', 'string', 'Max Muster'),
-       ('page_meta_copyright', 'string', 'Max Muster, domain.tld'),
-       ('page_default_language', 'integer', '1'),
-       ('default_page', 'integer', '1');
+INSERT INTO `cms__config` (`section`, `name`, `type`, `value`)
+VALUES ('global', 'maintenance_mode', 'boolean', '0'),
+       ('page', 'meta_keywords', 'string', 'cms, gisler, software, gislercms'),
+       ('page', 'meta_description', 'string', 'Meine eigene Webseite mit GislerCMS'),
+       ('page', 'meta_author', 'string', 'Max Muster'),
+       ('page', 'meta_copyright', 'string', 'Max Muster, domain.tld'),
+       ('page', 'default_language', 'integer', '1'),
+       ('global', 'default_page', 'integer', '1');

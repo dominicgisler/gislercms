@@ -61,6 +61,12 @@
                             {% endif %}
                         {% endfor %}
                         <li class="nav-item">
+                            <a class="nav-link {% if route == 'admin-page-defaults' %}active{% endif %}" href="{{ admin_url }}/page/defaults">
+                                <i class="fa fa-cog fa-fw"></i>
+                                Standardwerte
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {% if route == 'admin-page-trash' %}active{% endif %}" href="{{ admin_url }}/page/trash">
                                 <i class="fa fa-trash-alt fa-fw"></i>
                                 Papierkorb ({{ trash }})

@@ -1,31 +1,28 @@
 <?php
 
-namespace GislerCMS\Controller\Admin\Misc;
+namespace GislerCMS\Controller\Admin\Page;
 
 use GislerCMS\Controller\Admin\AdminAbstractController;
-use GislerCMS\Filter\ToBool;
 use GislerCMS\Filter\ToLanguage;
-use GislerCMS\Filter\ToPage;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Config;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\Page;
 use GislerCMS\Model\User;
 use GislerCMS\Validator\LanguageExists;
-use GislerCMS\Validator\PageExists;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Zend\InputFilter\Factory;
 use Zend\Validator\StringLength;
 
 /**
- * Class AdminMiscConfigController
+ * Class AdminPageDefaultsController
  * @package GislerCMS\Controller
  */
-class AdminMiscConfigController extends AdminAbstractController
+class AdminPageDefaultsController extends AdminAbstractController
 {
-    const NAME = 'admin-misc-config';
-    const PATTERN = '{admin_route}/misc/config';
+    const NAME = 'admin-page-defaults';
+    const PATTERN = '{admin_route}/page/defaults';
     const METHODS = ['GET', 'POST'];
 
     /**
@@ -41,7 +38,7 @@ class AdminMiscConfigController extends AdminAbstractController
         $user = $cont->offsetGet('user');
 
         $languages = Language::getAll();
-        $configs = Config::getBySection('global');
+        $configs = Config::getBySection('page');
         $data = [];
         foreach ($configs as $config) {
             $data[$config->getName()] = $config->getValue();
@@ -92,7 +89,7 @@ class AdminMiscConfigController extends AdminAbstractController
                 $msg = 'invalid_input';
             }
         }
-        return $this->render($request, $response, 'admin/misc/config.twig', [
+        return $this->render($request, $response, 'admin/page/defaults.twig', [
             'languages' => $languages,
             'config' => $data,
             'message' => $msg,
@@ -108,21 +105,57 @@ class AdminMiscConfigController extends AdminAbstractController
         $factory = new Factory();
         return $factory->createInputFilter([
             [
-                'name' => 'maintenance_mode',
+                'name' => 'meta_keywords',
                 'required' => false,
-                'filters' => [
-                    new ToBool()
-                ],
-                'validators' => []
+                'filters' => [],
+                'validators' => [
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 512
+                    ])
+                ]
             ],
             [
-                'name' => 'default_page',
+                'name' => 'meta_description',
+                'required' => false,
+                'filters' => [],
+                'validators' => [
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 512
+                    ])
+                ]
+            ],
+            [
+                'name' => 'meta_author',
+                'required' => false,
+                'filters' => [],
+                'validators' => [
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 255
+                    ])
+                ]
+            ],
+            [
+                'name' => 'meta_copyright',
+                'required' => false,
+                'filters' => [],
+                'validators' => [
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 255
+                    ])
+                ]
+            ],
+            [
+                'name' => 'default_language',
                 'required' => true,
                 'filters' => [
-                    new ToPage()
+                    new ToLanguage()
                 ],
                 'validators' => [
-                    new PageExists()
+                    new LanguageExists()
                 ]
             ]
         ]);
