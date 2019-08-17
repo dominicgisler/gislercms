@@ -5,26 +5,23 @@ namespace GislerCMS\Controller\Admin\Misc;
 use GislerCMS\Controller\Admin\AdminAbstractController;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\User;
+use GislerCMS\Validator\PasswordVerify;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Zend\InputFilter\Factory;
-use Zend\Validator\EmailAddress;
-use Zend\Validator\InArray;
+use Zend\Validator\Identical;
+use Zend\Validator\NotEmpty;
 use Zend\Validator\StringLength;
 
 /**
- * Class AdminMiscProfileController
+ * Class AdminMiscChangePasswordController
  * @package GislerCMS\Controller
  */
-class AdminMiscProfileController extends AdminAbstractController
+class AdminMiscChangePasswordController extends AdminAbstractController
 {
-    const NAME = 'admin-misc-profile';
-    const PATTERN = '{admin_route}/misc/profile';
+    const NAME = 'admin-misc-change-password';
+    const PATTERN = '{admin_route}/misc/change-password';
     const METHODS = ['GET', 'POST'];
-
-    const LANGUAGES = [
-        'de' => 'Deutsch'
-    ];
 
     /**
      * @param Request $request
@@ -44,17 +41,13 @@ class AdminMiscProfileController extends AdminAbstractController
 
         if ($request->isPost()) {
             $data = $request->getParsedBody();
-            $filter = $this->getInputFilter();
+            $filter = $this->getInputFilter($user);
             $filter->setData($data);
             if (!$filter->isValid()) {
                 $errors = array_merge($errors, array_keys($filter->getMessages()));
             }
             $data = $filter->getValues();
-            $user->setUsername($data['username']);
-            $user->setFirstname($data['firstname']);
-            $user->setLastname($data['lastname']);
-            $user->setEmail($data['email']);
-            $user->setLocale($data['locale']);
+            $user->setPassword(password_hash($data['password_new'], PASSWORD_DEFAULT));
 
             if (sizeof($errors) == 0) {
                 $saveError = false;
@@ -76,8 +69,7 @@ class AdminMiscProfileController extends AdminAbstractController
                 $msg = 'invalid_input';
             }
         }
-        return $this->render($request, $response, 'admin/misc/profile.twig', [
-            'languages' => self::LANGUAGES,
+        return $this->render($request, $response, 'admin/misc/change-password.twig', [
             'data' => $user,
             'message' => $msg,
             'errors' => $errors
@@ -85,64 +77,41 @@ class AdminMiscProfileController extends AdminAbstractController
     }
 
     /**
+     * @param User $user
      * @return \Zend\InputFilter\InputFilterInterface
      */
-    private function getInputFilter()
+    private function getInputFilter(User $user)
     {
         $factory = new Factory();
         return $factory->createInputFilter([
             [
-                'name' => 'username',
+                'name' => 'password',
                 'required' => true,
-                'filters' => [],
                 'validators' => [
-                    new StringLength([
-                        'min' => 3,
-                        'max' => 128
-                    ])
+                    new NotEmpty(),
+                    new PasswordVerify($user->getPassword())
                 ]
             ],
             [
-                'name' => 'firstname',
-                'required' => false,
-                'filters' => [],
-                'validators' => [
-                    new StringLength([
-                        'min' => 0,
-                        'max' => 128
-                    ])
-                ]
-            ],
-            [
-                'name' => 'lastname',
-                'required' => false,
-                'filters' => [],
-                'validators' => [
-                    new StringLength([
-                        'min' => 0,
-                        'max' => 128
-                    ])
-                ]
-            ],
-            [
-                'name' => 'email',
+                'name' => 'password_new',
                 'required' => true,
-                'filters' => [],
                 'validators' => [
+                    new NotEmpty(),
                     new StringLength([
-                        'min' => 1,
-                        'max' => 255
+                        'min' => 6
+                    ])
+                ]
+            ],
+            [
+                'name' => 'password_confirm',
+                'required' => true,
+                'validators' => [
+                    new NotEmpty(),
+                    new StringLength([
+                        'min' => 6
                     ]),
-                    new EmailAddress()
-                ]
-            ],
-            [
-                'name' => 'locale',
-                'required' => false,
-                'filters' => [],
-                'validators' => [
-                    new InArray([
-                        'haystack' => array_keys(self::LANGUAGES)
+                    new Identical([
+                        'token' => 'password_new'
                     ])
                 ]
             ]
