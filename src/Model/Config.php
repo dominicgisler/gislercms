@@ -136,14 +136,15 @@ class Config extends DbModel
     }
 
     /**
+     * @param string $section
      * @param string $name
      * @return Config
      * @throws \Exception
      */
-    public static function getConfig(string $name): Config
+    public static function getConfig(string $section, string $name): Config
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__config` WHERE `name` = ?");
-        $stmt->execute([$name]);
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__config` WHERE `section` = ? AND `name` = ?");
+        $stmt->execute([$section, $name]);
         $config = $stmt->fetchObject();
         if ($config) {
             return new Config(

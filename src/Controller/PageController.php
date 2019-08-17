@@ -25,7 +25,7 @@ class PageController extends AbstractController
      */
     public function __invoke($request, $response)
     {
-        $maint = Config::getConfig('maintenance_mode');
+        $maint = Config::getConfig('global', 'maintenance_mode');
         if ($maint->getValue()) {
             return $this->render($request, $response, 'maintenance.twig');
         }

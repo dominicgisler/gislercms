@@ -41,10 +41,10 @@ class AdminPageAddController extends AdminAbstractController
                     'new_page_' . microtime(true),
                     'Neue Seite',
                     '',
-                    Config::getConfig('page_meta_keywords')->getValue(),
-                    Config::getConfig('page_meta_description')->getValue(),
-                    Config::getConfig('page_meta_author')->getValue(),
-                    Config::getConfig('page_meta_copyright')->getValue()
+                    Config::getConfig('page', 'meta_keywords')->getValue(),
+                    Config::getConfig('page', 'meta_description')->getValue(),
+                    Config::getConfig('page', 'meta_author')->getValue(),
+                    Config::getConfig('page', 'meta_copyright')->getValue()
                 );
                 $res = $pageTranslation->save();
             }
