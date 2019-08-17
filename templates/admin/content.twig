@@ -2,12 +2,12 @@
 
 {% block body %}
     <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark flex-md-nowrap p-0 shadow justify-content-between">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0 p-2" href="{{ admin_url }}">
+        <a class="navbar-brand col-7 col-sm-4 col-md-3 col-lg-2 mr-0 p-2" href="{{ admin_url }}">
             <img src="{{ base_url() }}/img/admin/logo-white-small.png" width="32" height="32">
             <span class="align-middle ml-1">GislerCMS</span>
         </a>
-        <ul class="navbar-nav px-3">
-            <li class="nav-item dropdown">
+        <ul class="navbar-nav pl-3 pr-2">
+            <li class="nav-item dropdown d-none d-md-block">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ user.getDisplayName() }}
                 </a>
@@ -18,12 +18,15 @@
                     <a class="dropdown-item" href="{{ admin_url }}/logout">Abmelden</a>
                 </div>
             </li>
+            <li class="nav-item d-md-none">
+                <div class="btn btn-outline-secondary" id="toggle-side-navigation"><i class="fa fa-bars"></i></div>
+            </li>
         </ul>
     </nav>
 
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <nav class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar" id="side-navigation">
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
@@ -36,6 +39,24 @@
                             <a class="nav-link {% if route == 'admin-preview' %}active{% endif %}" href="{{ admin_url }}/preview">
                                 <i class="fa fa-file fa-fw"></i>
                                 Seitenvorschau {% if route == 'admin-preview' %}<span class="sr-only">(current)</span>{% endif %}
+                            </a>
+                        </li>
+                        <li class="nav-item d-md-none">
+                            <a class="nav-link {% if route == 'admin-misc-profile' %}active{% endif %}" href="{{ admin_url }}/misc/profile">
+                                <i class="fa fa-user fa-fw"></i>
+                                Profil
+                            </a>
+                        </li>
+                        <li class="nav-item d-md-none">
+                            <a class="nav-link {% if route == 'admin-misc-change-password' %}active{% endif %}" href="{{ admin_url }}/misc/change-password">
+                                <i class="fa fa-key fa-fw"></i>
+                                Passwort ändern
+                            </a>
+                        </li>
+                        <li class="nav-item d-md-none">
+                            <a class="nav-link" href="{{ admin_url }}/logout">
+                                <i class="fa fa-sign-out-alt fa-fw"></i>
+                                Abmelden
                             </a>
                         </li>
                     </ul>

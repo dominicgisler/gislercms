@@ -56,6 +56,16 @@
     tinymce.activeEditor.execCommand('mceInsertContent', false, '<pre class="widget">' + $('#input-widget-name').val() + '</pre>');
     $('#insertWidgetModal').modal('hide');
   });
+  $('#toggle-side-navigation').click(function() {
+    var $nav = $('#side-navigation');
+    if ($nav.hasClass('d-none')) {
+      $nav.removeClass('d-none');
+      $(this).addClass('active');
+    } else {
+      $nav.addClass('d-none');
+      $(this).removeClass('active');
+    }
+  });
 }());
 
 function autocompleteWidgets(widgets) {
