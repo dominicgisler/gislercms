@@ -41,6 +41,11 @@ class AdminLoginController extends AdminAbstractController
             $user = User::getByUsername($username, 'locked = 0');
             if ($user->getUserId() > 0) {
                 if (password_verify($password, $user->getPassword())) {
+
+                    if (password_needs_rehash($user->getPassword(), PASSWORD_DEFAULT)) {
+                        $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
+                    }
+
                     $user->setFailedLogins(0);
                     $user->setLastLogin(date('Y-m-d H:i:s'));
                     $user = $user->save();
