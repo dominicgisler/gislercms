@@ -58,8 +58,7 @@ class Application
     {
         $configPaths = [
             __DIR__ . '/../config/default.php',
-            __DIR__ . '/../config/' . APPLICATION_ENV . '.php',
-            __DIR__ . '/../config/global.php',
+            __DIR__ . '/../config/custom.php',
             __DIR__ . '/../config/local.php'
         ];
 
@@ -108,7 +107,14 @@ class Application
         $container['view'] = function ($container) {
             $cfg = $container['settings']['renderer'];
 
-            $twig = new Twig($cfg['template_path'], [
+            $paths = [];
+            foreach ($cfg['template_paths'] as $path) {
+                if (is_dir($path)) {
+                    $paths[] = $path;
+                }
+            }
+
+            $twig = new Twig($paths, [
                 'cache' => $cfg['cache']
             ]);
 
@@ -142,33 +148,7 @@ class Application
      */
     protected function registerRoutes()
     {
-        $classes = [
-            'default' => [
-                AdminLogoutController::class,
-                AdminSetupController::class,
-                IndexController::class,
-                PageLangController::class,
-                PageController::class
-            ],
-            'require_login' => [
-                AdminIndexController::class,
-                AdminPreviewController::class,
-                AdminPageAddController::class,
-                AdminPageDefaultsController::class,
-                AdminPageEditController::class,
-                AdminPageTrashController::class,
-                AdminWidgetAddController::class,
-                AdminWidgetEditController::class,
-                AdminWidgetTrashController::class,
-                AdminMiscConfigController::class,
-                AdminMiscSysInfoController::class,
-                AdminMiscProfileController::class,
-                AdminMiscChangePasswordController::class
-            ],
-            'require_nologin' => [
-                AdminLoginController::class
-            ]
-        ];
+        $classes = $this->app->getContainer()['settings']['classes'];
         $adminRoute = $this->app->getContainer()['settings']['global']['admin_route'];
 
         foreach ($classes['require_login'] as $class) {
