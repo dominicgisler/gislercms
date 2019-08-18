@@ -8,6 +8,14 @@
 
 A simple CMS to manage your website contents
 
+## Demo
+
+The current release is available as a demo on [demo.cms.gisler-software.ch](https://demo.cms.gisler-software.ch)
+
+Login on [/admin](https://demo.cms.gisler-software.ch/admin) with user `demo` and password `123456` to try it out.
+
+The demo will be reset to the latest release every hour.
+
 ## Global requirements
 
 - PHP 7.3 (could also work with 7.1 or 7.2, but it's not tested)
@@ -21,7 +29,7 @@ Developed and tested with:
 - Ubuntu 18.04
 - Apache 2.4.29
 - PHP 7.3.8
-- MariaDB 10.1.40
+- MariaDB 10.1.41
 
 ## How to install
 
@@ -48,4 +56,7 @@ Developed and tested with:
 
 - Use `{URL}/admin/setup` to configure interactive (DB access and login data)
 - Login on `{URL}/admin/login`
-- Edit configuration in `config/{file}.php` if adjustments needed
+
+## Custom adjustments
+
+To use this CMS in your projects with custom adjustments (mostly custom templates) you can use the [gislercms-custom](https://github.com/dominicgisler/gislercms) repo, which is prepared to download the latest release and use it with your custom changes.
