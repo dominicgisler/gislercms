@@ -12,10 +12,19 @@
                     {{ user.getDisplayName() }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ admin_url }}/misc/profile">Profil</a>
-                    <a class="dropdown-item" href="{{ admin_url }}/misc/change-password">Passwort ändern</a>
+                    <a class="dropdown-item" href="{{ admin_url }}/misc/profile">
+                        <i class="fa fa-user fa-fw mr-2"></i>
+                        Profil
+                    </a>
+                    <a class="dropdown-item" href="{{ admin_url }}/misc/change-password">
+                        <i class="fa fa-key fa-fw mr-2"></i>
+                        Passwort ändern
+                    </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ admin_url }}/logout">Abmelden</a>
+                    <a class="dropdown-item" href="{{ admin_url }}/logout">
+                        <i class="fa fa-sign-out-alt fa-fw mr-2"></i>
+                        Abmelden
+                    </a>
                 </div>
             </li>
             <li class="nav-item d-md-none">
