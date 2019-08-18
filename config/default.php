@@ -3,6 +3,7 @@
 use GislerCMS\Controller\Admin\AdminIndexController;
 use GislerCMS\Controller\Admin\AdminPreviewController;
 use GislerCMS\Controller\Admin\AdminSetupController;
+use GislerCMS\Controller\Admin\Auth\AdminForgotPasswordController;
 use GislerCMS\Controller\Admin\Auth\AdminLoginController;
 use GislerCMS\Controller\Admin\Auth\AdminLogoutController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscChangePasswordController;
@@ -80,7 +81,22 @@ return [
                 AdminMiscChangePasswordController::class
             ],
             'require_nologin' => [
-                AdminLoginController::class
+                AdminLoginController::class,
+                AdminForgotPasswordController::class
+            ]
+        ],
+
+        'mailer' => [
+            'smtp' => true,
+            'host' => 'mail.example.com',
+            'smtpauth' => true,
+            'username' => 'max.muster@example.com',
+            'password' => 'mypass',
+            'smtpsecure' => 'ssl',
+            'port' => 465,
+            'default_from' => [
+                'name' => 'GislerCMS',
+                'email' => 'max.muster@example.com'
             ]
         ]
     ],

@@ -68,6 +68,6 @@ class AdminLoginController extends AdminAbstractController
             ];
         }
 
-        return $this->render($request, $response->withStatus($status), 'admin/login.twig', $data);
+        return $this->render($request, $response->withStatus($status), 'admin/auth/login.twig', $data);
     }
 }
