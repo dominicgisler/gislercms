@@ -23,30 +23,30 @@ class MigrationHelper
         $response = [];
         $error = false;
         DbModel::init($pdo);
-        foreach (glob(self::MIGRATIONS) as $file) {
+        foreach (self::getMigrations() as $migration) {
             if ($error === false) {
-                $migration = pathinfo($file)['filename'];
-                $sql = file_get_contents($file);
-
-                if ($sql) {
-                    $res = $pdo->exec($sql);
-                    if ($res === false) {
-                        $err = $pdo->errorInfo();
-                        if ($err[0] !== '00000' && $err[0] !== '01000') {
-                            $error = 'SQLSTATE[' . $err[0] . '] [' . $err[1] . '] ' . $err[2];
+                $m = Migration::getMigration($migration['name']);
+                if ($m->getMigrationId() === 0) {
+                    if ($migration['sql']) {
+                        $res = $pdo->exec($migration['sql']);
+                        if ($res === false) {
+                            $err = $pdo->errorInfo();
+                            if ($err[0] !== '00000' && $err[0] !== '01000') {
+                                $error = 'SQLSTATE[' . $err[0] . '] [' . $err[1] . '] ' . $err[2];
+                            }
                         }
+                    } else {
+                        $error = 'Couldn\'t read file contents!';
                     }
-                } else {
-                    $error = 'Couldn\'t read file contents!';
-                }
-                $response[$migration] = [
-                    'type' => $error !== false ? 'error' : 'success',
-                    'message' => $error !== false ? $error : 'Success'
-                ];
+                    $response[$migration['name']] = [
+                        'type' => $error !== false ? 'error' : 'success',
+                        'message' => $error !== false ? $error : 'Success'
+                    ];
 
-                if ($error === false) {
-                    $mig = new Migration(0, $migration, '');
-                    $mig->save();
+                    if ($error === false) {
+                        $mig = new Migration(0, $migration['name'], $migration['description']);
+                        $mig->save();
+                    }
                 }
             }
         }
@@ -54,5 +54,26 @@ class MigrationHelper
             'status' => $error !== false ? 'error' : 'success',
             'migrations' => $response
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getMigrations(): array
+    {
+        $migrations = [];
+        foreach (glob(self::MIGRATIONS) as $file) {
+            $name = pathinfo($file)['filename'];
+            $sql = file_get_contents($file);
+            $comment = str_replace('-- ', '', strtok($sql, "\n"));
+
+            $migrations[$name] = [
+                'name' => $name,
+                'description' => $comment,
+                'path' => $file,
+                'sql' => $sql
+            ];
+        }
+        return $migrations;
     }
 }

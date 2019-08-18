@@ -85,7 +85,7 @@ class Migration extends DbModel
     }
 
     /**
-     * @return Config[]
+     * @return Migration[]
      * @throws \Exception
      */
     public static function getAll(): array
