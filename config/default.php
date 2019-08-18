@@ -6,6 +6,7 @@ use GislerCMS\Controller\Admin\AdminSetupController;
 use GislerCMS\Controller\Admin\Auth\AdminForgotPasswordController;
 use GislerCMS\Controller\Admin\Auth\AdminLoginController;
 use GislerCMS\Controller\Admin\Auth\AdminLogoutController;
+use GislerCMS\Controller\Admin\Auth\AdminResetController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscChangePasswordController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscConfigController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscProfileController;
@@ -82,7 +83,8 @@ return [
             ],
             'require_nologin' => [
                 AdminLoginController::class,
-                AdminForgotPasswordController::class
+                AdminForgotPasswordController::class,
+                AdminResetController::class
             ]
         ],
 
