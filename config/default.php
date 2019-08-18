@@ -52,7 +52,7 @@ return [
 
         'enable_setup' => true,
 
-        'version' => '0.4.0-dev',
+        'version' => '0.4.0',
 
         'global' => [
             'admin_route' => '/admin'
