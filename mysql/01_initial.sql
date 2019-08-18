@@ -11,10 +11,14 @@ DROP TABLE IF EXISTS `cms__migration`;
 
 CREATE TABLE `cms__migration`
 (
-  `migration`  VARCHAR(128) NOT NULL,
-  `created_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `migration_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name`         VARCHAR(128) NOT NULL,
+  `description`  VARCHAR(255) NULL     DEFAULT NULL,
+  `created_at`   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-  CONSTRAINT `pk_migration` PRIMARY KEY (`migration`)
+  CONSTRAINT `pk_migration` PRIMARY KEY (`migration_id`),
+  CONSTRAINT `uq_migration` UNIQUE (`name`)
 );
 
 CREATE TABLE `cms__config`

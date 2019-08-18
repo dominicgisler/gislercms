@@ -147,6 +147,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {% if route == 'admin-misc-migration' %}active{% endif %}" href="{{ admin_url }}/misc/migration">
+                                <i class="fa fa-database fa-fw"></i>
+                                Datenbank-Update
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {% if route == 'admin-misc-sysinfo' %}active{% endif %}" href="{{ admin_url }}/misc/sysinfo">
                                 <i class="fa fa-info-circle fa-fw"></i>
                                 Systeminformation

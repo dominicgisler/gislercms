@@ -9,6 +9,7 @@ use GislerCMS\Controller\Admin\Auth\AdminLogoutController;
 use GislerCMS\Controller\Admin\Auth\AdminResetController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscChangePasswordController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscConfigController;
+use GislerCMS\Controller\Admin\Misc\AdminMiscMigrationController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscProfileController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscSysInfoController;
 use GislerCMS\Controller\Admin\Page\AdminPageAddController;
@@ -79,7 +80,8 @@ return [
                 AdminMiscConfigController::class,
                 AdminMiscSysInfoController::class,
                 AdminMiscProfileController::class,
-                AdminMiscChangePasswordController::class
+                AdminMiscChangePasswordController::class,
+                AdminMiscMigrationController::class
             ],
             'require_nologin' => [
                 AdminLoginController::class,
