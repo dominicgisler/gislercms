@@ -53,7 +53,7 @@ return [
 
         'enable_setup' => true,
 
-        'version' => '0.5.0-dev',
+        'version' => '0.5.0',
 
         'global' => [
             'admin_route' => '/admin'
