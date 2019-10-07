@@ -80,10 +80,12 @@ class Application
                     $db['pass']
                 );
                 $stmt = $pdo->query("SELECT * FROM `cms__config`");
-                $arr = $stmt->fetchAll(\PDO::FETCH_OBJ);
-                if (sizeof($arr) > 0) {
-                    foreach ($arr as $elem) {
-                        $cfg['settings'][$elem->section][$elem->name] = $elem->value;
+                if ($stmt) {
+                    $arr = $stmt->fetchAll(\PDO::FETCH_OBJ);
+                    if (sizeof($arr) > 0) {
+                        foreach ($arr as $elem) {
+                            $cfg['settings'][$elem->section][$elem->name] = $elem->value;
+                        }
                     }
                 }
             } catch(\PDOException $e) {
