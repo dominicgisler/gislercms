@@ -2,7 +2,7 @@
 
 [![GitHub](https://img.shields.io/github/license/dominicgisler/gislercms)](https://github.com/dominicgisler/gislercms/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/dominicgisler/gislercms)](https://github.com/dominicgisler/gislercms/issues)
-[![GitHub last commit](https://img.shields.io/github/last-commit/dominicgisler/gislercms)](https://github.com/dominicgisler/gislercms/commits/dev)
+[![GitHub last commit](https://img.shields.io/github/last-commit/dominicgisler/gislercms/dev)](https://github.com/dominicgisler/gislercms/commits/dev)
 [![GitHub release](https://img.shields.io/github/release/dominicgisler/gislercms)](https://github.com/dominicgisler/gislercms/releases)
 [![GitHub All Releases](https://img.shields.io/github/downloads/dominicgisler/gislercms/total)](https://github.com/dominicgisler/gislercms/releases)
 
