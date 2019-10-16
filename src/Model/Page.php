@@ -255,23 +255,25 @@ class Page extends DbModel
 
     /**
      * @param bool $replaceWidgets
+     * @param bool $replaceModules
      * @return PageTranslation
      * @throws \Exception
      */
-    public function getDefaultPageTranslation(bool $replaceWidgets = false)
+    public function getDefaultPageTranslation(bool $replaceWidgets = false, bool $replaceModules = false)
     {
-        return PageTranslation::getDefaultPageTranslation($this, $replaceWidgets);
+        return PageTranslation::getDefaultPageTranslation($this, $replaceWidgets, $replaceModules);
     }
 
     /**
      * @param Language $language
      * @param bool $replaceWidgets
+     * @param bool $replaceModules
      * @return PageTranslation
      * @throws \Exception
      */
-    public function getPageTranslation(Language $language, bool $replaceWidgets = false)
+    public function getPageTranslation(Language $language, bool $replaceWidgets = false, bool $replaceModules = false)
     {
-        return PageTranslation::getPageTranslation($this, $language, $replaceWidgets);
+        return PageTranslation::getPageTranslation($this, $language, $replaceWidgets, $replaceModules);
     }
 
     /**

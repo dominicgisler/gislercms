@@ -277,10 +277,11 @@ class PageTranslation extends DbModel
     /**
      * @param string $name
      * @param bool $replaceWidgets
+     * @param bool $replaceModules
      * @return PageTranslation
      * @throws \Exception
      */
-    public static function getDefaultByName(string $name, bool $replaceWidgets = false): PageTranslation
+    public static function getDefaultByName(string $name, bool $replaceWidgets = false, bool $replaceModules = false): PageTranslation
     {
         $res = new PageTranslation();
         $elems = self::getWhere('`t`.`name` = ?', [$name]);
@@ -293,8 +294,13 @@ class PageTranslation extends DbModel
         } elseif (sizeof($elems) == 1) {
             $res = reset($elems);
         }
-        if ($res->getPageTranslationId() > 0 && $replaceWidgets) {
-            $res->setContent(self::replaceWidgets($res->getContent(), $res->getLanguage()));
+        if ($res->getPageTranslationId() > 0) {
+            if ($replaceWidgets) {
+                $res->setContent(self::replaceWidgets($res->getContent(), $res->getLanguage()));
+            }
+            if ($replaceModules) {
+                $res->setContent(self::replaceModules($res->getContent(), $res->getLanguage()));
+            }
         }
         return $res;
     }
@@ -303,18 +309,24 @@ class PageTranslation extends DbModel
      * @param string $name
      * @param Language $language
      * @param bool $replaceWidgets
+     * @param bool $replaceModules
      * @return PageTranslation
      * @throws \Exception
      */
-    public static function getByName(string $name, Language $language, bool $replaceWidgets = false): PageTranslation
+    public static function getByName(string $name, Language $language, bool $replaceWidgets = false, bool $replaceModules = false): PageTranslation
     {
         $res = new PageTranslation();
         $elems = self::getWhere('`t`.`name` = ? AND `l`.`language_id` = ?', [$name, $language->getLanguageId()]);
         if (sizeof($elems) > 0) {
             $res = reset($elems);
         }
-        if ($res->getPageTranslationId() > 0 && $replaceWidgets) {
-            $res->setContent(self::replaceWidgets($res->getContent(), $res->getLanguage()));
+        if ($res->getPageTranslationId() > 0) {
+            if ($replaceWidgets) {
+                $res->setContent(self::replaceWidgets($res->getContent(), $res->getLanguage()));
+            }
+            if ($replaceModules) {
+                $res->setContent(self::replaceModules($res->getContent(), $res->getLanguage()));
+            }
         }
         return $res;
     }
@@ -322,10 +334,11 @@ class PageTranslation extends DbModel
     /**
      * @param Page $page
      * @param bool $replaceWidgets
+     * @param bool $replaceModules
      * @return PageTranslation
      * @throws \Exception
      */
-    public static function getDefaultPageTranslation(Page $page, bool $replaceWidgets = false): PageTranslation
+    public static function getDefaultPageTranslation(Page $page, bool $replaceWidgets = false, bool $replaceModules = false): PageTranslation
     {
         $stmt = self::getPDO()->prepare("
             SELECT
@@ -385,6 +398,9 @@ class PageTranslation extends DbModel
             if ($replaceWidgets) {
                 $trans->setContent(self::replaceWidgets($trans->getContent(), $trans->getLanguage()));
             }
+            if ($replaceModules) {
+                $trans->setContent(self::replaceModules($trans->getContent(), $trans->getLanguage()));
+            }
             return $trans;
         }
         return new PageTranslation();
@@ -394,10 +410,11 @@ class PageTranslation extends DbModel
      * @param Page $page
      * @param Language $language
      * @param bool $replaceWidgets
+     * @param bool $replaceModules
      * @return PageTranslation
      * @throws \Exception
      */
-    public static function getPageTranslation(Page $page, Language $language, bool $replaceWidgets = false): PageTranslation
+    public static function getPageTranslation(Page $page, Language $language, bool $replaceWidgets = false, bool $replaceModules = false): PageTranslation
     {
         $stmt = self::getPDO()->prepare("
             SELECT
@@ -457,6 +474,9 @@ class PageTranslation extends DbModel
             );
             if ($replaceWidgets) {
                 $trans->setContent(self::replaceWidgets($trans->getContent(), $trans->getLanguage()));
+            }
+            if ($replaceModules) {
+                $trans->setContent(self::replaceModules($trans->getContent(), $trans->getLanguage()));
             }
             return $trans;
         }
