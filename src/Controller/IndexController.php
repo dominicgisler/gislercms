@@ -30,6 +30,12 @@ class IndexController extends AbstractController
             return $this->render($request, $response, 'maintenance.twig');
         }
 
+        if ($maint->getConfigId() == 0) {
+            return $this->render($request, $response, 'config-error.twig', [
+                'setup_url' => $this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/setup'
+            ]);
+        }
+
         $cfg = Config::getConfig('global', 'default_page');
         $page = Page::get($cfg->getValue());
         return $this->render($request, $response, 'layout.twig', ['page' => $page->getDefaultPageTranslation(true)]);
