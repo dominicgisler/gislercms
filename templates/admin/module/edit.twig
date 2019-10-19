@@ -2,7 +2,7 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}Modul bearbeiten{% endblock %}
+{% block title %}{% if module.new %}Neues Modul erstellen{% else %}Modul bearbeiten{% endif %}{% endblock %}
 
 {%
     set messages = {
@@ -17,6 +17,14 @@
         save_success: {
             class: 'success',
             message: 'Das Modul wurde erfolgreich gespeichert.'
+        },
+        delete_success: {
+            class: 'success',
+            message: 'Das Modul wurde erfolgreich gelöscht.'
+        },
+        delete_error: {
+            class: 'danger',
+            message: 'Beim Löschen ist ein Fehler aufgetreten, bitte versuche es später erneut.'
         }
     }
 %}
@@ -27,7 +35,7 @@
     {% if cont == module.controller %}
         {% set selected = true %}
     {% endif %}
-    {% set contSelect = contSelect|merge([{value: cont, label: cont, selected: selected}]) %}
+    {% set contSelect = contSelect|merge([{value: cont, label: cont|replace({'ModuleController': '', 'Controller': ''}), selected: selected}]) %}
 {% endfor %}
 
 {% block content %}
@@ -41,10 +49,32 @@
     {% endif %}
     <form method="post" id="page-form">
         {{ forms.form_group('text', 'name', module.name, 'Name', '', 'name' in errors ? 'is-invalid' : '', 'Interne Bezeichnung des Modules') }}
-        {{ forms.form_group('select', 'controller', module.controller, 'Controller', '', 'controller' in errors ? 'is-invalid' : '', '', contSelect) }}
+        {{ forms.form_group('select', 'controller', module.controller, 'Typ', '', 'controller' in errors ? 'is-invalid' : '', '', contSelect) }}
         {{ forms.form_group('json', 'config', module.config, 'Konfiguration', '', 'config' in errors ? 'is-invalid' : '') }}
         <div class="text-right mb-4">
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">Löschen</button>
             <button class="btn btn-primary" name="save">Speichern</button>
+        </div>
+
+        {# confirm delete modal #}
+        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteLabel">Modul löschen</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Möchtest du dieses Modul wirklich unwiderruflich löschen?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" name="delete" class="btn btn-danger">Ja, Modul löschen</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 {% endblock %}

@@ -221,6 +221,23 @@ class Config extends DbModel
     }
 
     /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete(): bool
+    {
+        $pdo = self::getPDO();
+        if ($this->getConfigId() > 0) {
+            $stmt = $pdo->prepare("
+                DELETE FROM `cms__config`
+                WHERE `config_id` = ?
+            ");
+            return $stmt->execute([$this->getConfigId()]);
+        }
+        return false;
+    }
+
+    /**
      * @return int
      */
     public function getConfigId(): int
