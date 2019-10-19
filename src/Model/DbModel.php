@@ -3,6 +3,8 @@
 namespace GislerCMS\Model;
 
 use GislerCMS\Controller\Module\AbstractModuleController;
+use Slim\Http\Request;
+use Slim\Views\Twig;
 
 /**
  * Class DbModel
@@ -38,7 +40,7 @@ abstract class DbModel
     /**
      * @param string $html
      * @param Language $language
-     * @return string|string[]|null
+     * @return string|null
      */
     protected static function replaceWidgetPlaceholders(string $html, Language $language): string
     {
@@ -61,22 +63,28 @@ abstract class DbModel
 
     /**
      * @param string $html
-     * @param Language $language
-     * @return string|string[]|null
+     * @param array $modules
+     * @param Request $request
+     * @param Twig $view
+     * @return string|null
      */
-    protected static function replaceModulePlaceholders(string $html, Language $language)
+    protected static function replaceModulePlaceholders(string $html, array $modules, Request $request, Twig $view): string
     {
         $pattern = '#<pre class="module">(.*?)</pre>#';
         while (preg_match($pattern, $html)) {
-            $html = preg_replace_callback($pattern, function ($match) use ($language) {
+            $html = preg_replace_callback($pattern, function ($match) use ($modules, $request, $view) {
                 $res = '';
                 if (isset($match[1])) {
-                    $mod = $match[1];
-                    if (class_exists($mod)) {
-                        /** @var AbstractModuleController $class */
-                        $class = new $mod;
-                        if ($class instanceof AbstractModuleController) {
-                            $res = $class->onGet();
+                    $name = $match[1];
+                    if (array_key_exists($name, $modules)) {
+                        $mod = $modules[$name];
+                        if (!empty($mod['controller']) && is_array($mod['config'])) {
+                            $cont = '\\GislerCMS\\Controller\\Module\\' . $mod['controller'];
+                            if (class_exists($cont) && is_subclass_of($cont, AbstractModuleController::class)) {
+                                /** @var AbstractModuleController $class */
+                                $class = new $cont($mod['config'], $view);
+                                $res = $class->execute($request);
+                            }
                         }
                     }
                 }

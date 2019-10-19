@@ -35,14 +35,27 @@ abstract class AbstractModuleController
     }
 
     /**
-     * Method called on GET-Request
-     *
      * @param Request $request
-     * @param Response $response
      * @return string
      * @throws LoaderError
      */
-    public function onGet($request, $response)
+    public function execute($request): string
+    {
+        if ($request->isPost()) {
+            return $this->onPost($request);
+        } else {
+            return $this->onGet($request);
+        }
+    }
+
+    /**
+     * Method called on GET-Request
+     *
+     * @param Request $request
+     * @return string
+     * @throws LoaderError
+     */
+    public function onGet($request)
     {
         return $this->view->fetch('module/not-implemented.twig');
     }
@@ -51,12 +64,11 @@ abstract class AbstractModuleController
      * Method called on POST-Request
      *
      * @param Request $request
-     * @param Response $response
      * @return string
      * @throws LoaderError
      */
-    public function onPost($request, $response)
+    public function onPost($request)
     {
-        return $this->view->fetch('module/not-implemented.twig');
+        return self::onGet($request);
     }
 }

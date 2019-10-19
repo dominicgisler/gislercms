@@ -2,6 +2,9 @@
 
 namespace GislerCMS\Model;
 
+use Slim\Http\Request;
+use Slim\Views\Twig;
+
 /**
  * Class PageTranslation
  * @package GislerCMS\Model
@@ -729,5 +732,15 @@ class PageTranslation extends DbModel
     public function replaceWidgets(): void
     {
         $this->setContent(self::replaceWidgetPlaceholders($this->getContent(), $this->getLanguage()));
+    }
+
+    /**
+     * @param array $modules
+     * @param Request $request
+     * @param Twig $view
+     */
+    public function replaceModules(array $modules, Request $request, Twig $view): void
+    {
+        $this->setContent(self::replaceModulePlaceholders($this->getContent(), $modules, $request, $view));
     }
 }

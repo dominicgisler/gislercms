@@ -102,6 +102,13 @@ return [
                 'name' => 'GislerCMS',
                 'email' => 'max.muster@example.com'
             ]
+        ],
+
+        'modules' => [
+            'test' => [
+                'controller' => 'TestModuleController',
+                'config' => []
+            ]
         ]
     ],
 ];
