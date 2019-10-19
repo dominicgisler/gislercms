@@ -3,7 +3,6 @@
 namespace GislerCMS\Controller\Module;
 
 use Slim\Http\Request;
-use Slim\Http\Response;
 use Slim\Views\Twig;
 use Twig\Error\LoaderError;
 
@@ -22,6 +21,11 @@ abstract class AbstractModuleController
      * @var Twig
      */
     protected $view;
+
+    /**
+     * @var array
+     */
+    protected static $exampleConfig = [];
 
     /**
      * AbstractModuleController constructor.
@@ -70,5 +74,13 @@ abstract class AbstractModuleController
     public function onPost($request)
     {
         return self::onGet($request);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getExampleConfig(): array
+    {
+        return static::$exampleConfig;
     }
 }

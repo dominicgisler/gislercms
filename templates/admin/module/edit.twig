@@ -30,7 +30,7 @@
 %}
 
 {% set contSelect = [] %}
-{% for cont in controllers %}
+{% for cont, desc in controllers %}
     {% set selected = false %}
     {% if cont == module.controller %}
         {% set selected = true %}
@@ -51,6 +51,7 @@
         {{ forms.form_group('text', 'name', module.name, 'Name', '', 'name' in errors ? 'is-invalid' : '', 'Interne Bezeichnung des Modules') }}
         {{ forms.form_group('select', 'controller', module.controller, 'Typ', '', 'controller' in errors ? 'is-invalid' : '', '', contSelect) }}
         {{ forms.form_group('json', 'config', module.config, 'Konfiguration', '', 'config' in errors ? 'is-invalid' : '') }}
+        <a href="#" onclick="return insertModuleConfig();">Beispiel-Konfiguration einfügen</a>
         <div class="text-right mb-4">
             <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">Löschen</button>
             <button class="btn btn-primary" name="save">Speichern</button>
@@ -77,4 +78,14 @@
             </div>
         </div>
     </form>
+
+    <script>
+        function insertModuleConfig() {
+            var desc = {
+                {% for cont, desc in controllers %}'{{ cont }}': `{{ desc|raw }}`,{% endfor %}
+            };
+            $('#input_config').val(desc[$('#input_controller').val()]);
+            return false;
+        }
+    </script>
 {% endblock %}

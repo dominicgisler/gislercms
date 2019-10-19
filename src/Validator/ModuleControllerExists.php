@@ -21,7 +21,7 @@ class ModuleControllerExists extends AbstractValidator
     {
         $this->setValue($value);
 
-        if (!in_array($value, self::getModuleControllers())) {
+        if (!array_key_exists($value, self::getModuleControllers())) {
             $this->error('module controller does not exist');
         }
 
@@ -37,9 +37,10 @@ class ModuleControllerExists extends AbstractValidator
         $conts = [];
         foreach (glob(__DIR__ . '/../Controller/Module/*.php') as $file) {
             $class = basename($file, '.php');
+            /** @var AbstractModuleController $cont */
             $cont = '\\GislerCMS\\Controller\\Module\\' . $class;
             if (is_subclass_of($cont, AbstractModuleController::class)) {
-                $conts[] = $class;
+                $conts[$class] = json_encode($cont::getExampleConfig(), JSON_PRETTY_PRINT);
             }
         }
         return $conts;
