@@ -33,11 +33,12 @@ class PageLangController extends AbstractController
 
         $lang = $request->getAttribute('route')->getArgument('lang');
         $name = $request->getAttribute('route')->getArgument('page');
-        $page = PageTranslation::getByName($name, Language::getLanguage($lang), true);
+        $page = PageTranslation::getByName($name, Language::getLanguage($lang));
         if ($page->getPageTranslationId() == 0 || !$page->getPage()->isEnabled()) {
-            $page = PageTranslation::getDefaultByName('error-404', true);
+            $page = PageTranslation::getDefaultByName('error-404');
             $response = $response->withStatus(404);
         }
+        $page->replaceWidgets();
         return $this->render($request, $response, 'layout.twig', ['page' => $page]);
     }
 }

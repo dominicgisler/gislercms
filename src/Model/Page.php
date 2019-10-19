@@ -254,26 +254,22 @@ class Page extends DbModel
     }
 
     /**
-     * @param bool $replaceWidgets
-     * @param bool $replaceModules
      * @return PageTranslation
      * @throws \Exception
      */
-    public function getDefaultPageTranslation(bool $replaceWidgets = false, bool $replaceModules = false)
+    public function getDefaultPageTranslation()
     {
-        return PageTranslation::getDefaultPageTranslation($this, $replaceWidgets, $replaceModules);
+        return PageTranslation::getDefaultPageTranslation($this);
     }
 
     /**
      * @param Language $language
-     * @param bool $replaceWidgets
-     * @param bool $replaceModules
      * @return PageTranslation
      * @throws \Exception
      */
-    public function getPageTranslation(Language $language, bool $replaceWidgets = false, bool $replaceModules = false)
+    public function getPageTranslation(Language $language)
     {
-        return PageTranslation::getPageTranslation($this, $language, $replaceWidgets, $replaceModules);
+        return PageTranslation::getPageTranslation($this, $language);
     }
 
     /**

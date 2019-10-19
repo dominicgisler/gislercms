@@ -40,7 +40,7 @@ abstract class DbModel
      * @param Language $language
      * @return string|string[]|null
      */
-    protected static function replaceWidgets(string $html, Language $language)
+    protected static function replaceWidgetPlaceholders(string $html, Language $language): string
     {
         $pattern = '#<pre class="widget">(.*?)</pre>#';
         while (preg_match($pattern, $html)) {
@@ -64,7 +64,7 @@ abstract class DbModel
      * @param Language $language
      * @return string|string[]|null
      */
-    protected static function replaceModules(string $html, Language $language)
+    protected static function replaceModulePlaceholders(string $html, Language $language)
     {
         $pattern = '#<pre class="module">(.*?)</pre>#';
         while (preg_match($pattern, $html)) {

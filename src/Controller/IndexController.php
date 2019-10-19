@@ -38,6 +38,8 @@ class IndexController extends AbstractController
 
         $cfg = Config::getConfig('global', 'default_page');
         $page = Page::get($cfg->getValue());
-        return $this->render($request, $response, 'layout.twig', ['page' => $page->getDefaultPageTranslation(true)]);
+        $pTrans = $page->getDefaultPageTranslation();
+        $pTrans->replaceWidgets();
+        return $this->render($request, $response, 'layout.twig', ['page' => $pTrans]);
     }
 }
