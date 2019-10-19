@@ -51,7 +51,7 @@
         {{ forms.form_group('text', 'name', module.name, 'Name', '', 'name' in errors ? 'is-invalid' : '', 'Interne Bezeichnung des Modules') }}
         {{ forms.form_group('select', 'controller', module.controller, 'Typ', '', 'controller' in errors ? 'is-invalid' : '', '', contSelect) }}
         {{ forms.form_group('json', 'config', module.config, 'Konfiguration', '', 'config' in errors ? 'is-invalid' : '') }}
-        <a href="#" onclick="return insertModuleConfig();">Beispiel-Konfiguration einfügen</a>
+        <a href="#" id="insertModuleConfig">Beispiel-Konfiguration einfügen</a>
         <div class="text-right mb-4">
             <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">Löschen</button>
             <button class="btn btn-primary" name="save">Speichern</button>
@@ -78,14 +78,28 @@
             </div>
         </div>
     </form>
+{% endblock %}
 
+{% block scripts %}
+    {{ parent() }}
+    <script src="{{ base_url() }}/editor/ace/src-min-noconflict/ace.js"></script>
     <script>
-        function insertModuleConfig() {
-            var desc = {
-                {% for cont, desc in controllers %}'{{ cont }}': `{{ desc|raw }}`,{% endfor %}
-            };
-            $('#input_config').val(desc[$('#input_controller').val()]);
-            return false;
-        }
+        $(document).ready(function() {
+            var editor = ace.edit("json-editor");
+            editor.session.setMode("ace/mode/json");
+            editor.session.on('change', function() {
+                $('#input_config').val(editor.getValue());
+            });
+
+            $('#insertModuleConfig').click(function() {
+                var desc = {
+                    {% for cont, desc in controllers %}'{{ cont }}': `{{ desc|raw }}`,{% endfor %}
+                };
+                var content = desc[$('#input_controller').val()];
+                $('#input_config').val(content);
+                editor.setValue(content);
+                return false;
+            });
+        });
     </script>
 {% endblock %}
