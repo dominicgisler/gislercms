@@ -77,7 +77,7 @@ class Config extends DbModel
                 $this->value = intval($value);
                 break;
             case 'json':
-                $this->value = json_decode($value);
+                $this->value = json_decode($value, true);
                 break;
             default:
                 $this->value = $value;

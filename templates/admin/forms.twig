@@ -7,6 +7,8 @@
             <label for="input_{{ name }}">{{ label }}</label>
             {% if type == 'textarea' %}
                 {{ forms.textarea(name, value, placeholder, class, hint) }}
+            {% elseif type == 'json' %}
+                {{ forms.json(name, value, placeholder, class, hint) }}
             {% elseif type == 'select' %}
                 {{ forms.select(name, value, options, placeholder, class, hint) }}
             {% else %}
@@ -19,6 +21,10 @@
 
 {% macro textarea(name, value, placeholder, class, hint) %}
     <textarea class="form-control {{ class }}" name="{{ name }}" id="input_{{ name }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %} placeholder="{{ placeholder }}">{{ value }}</textarea>
+{% endmacro %}
+
+{% macro json(name, value, placeholder, class, hint) %}
+    <textarea class="form-control {{ class }}" name="{{ name }}" id="input_{{ name }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %} placeholder="{{ placeholder }}" style="height: 300px;">{{ value }}</textarea>
 {% endmacro %}
 
 {% macro select(name, value, options, placeholder, class, hint) %}

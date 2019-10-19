@@ -63,6 +63,7 @@ abstract class AdminAbstractController
             'admin_url' => $this->get('base_url') . $this->get('settings')['global']['admin_route'],
             'pages' => Page::getAll(),
             'widgets' => Widget::getAll(),
+            'modules' => $this->get('settings')['module'],
             'user' => $user
         ];
         return $this->get('view')->render($response, $template, array_merge($arr, $data));

@@ -1,0 +1,16 @@
+{% extends 'admin/content.twig' %}
+
+{% block title %}Modul nicht gefunden{% endblock %}
+
+{% block content %}
+    <p>Das gewünschte gewünschte Modul wurde nicht gefunden, bitte wähle ein Modul aus der Liste aus:</p>
+    <ul>
+        {% for key, module in modules %}
+            <li>
+                <a href="{{ admin_url }}/module/{{ key }}">
+                    {{ key }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

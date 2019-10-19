@@ -39,7 +39,7 @@ class PageLangController extends AbstractController
             $response = $response->withStatus(404);
         }
         $page->replaceWidgets();
-        $page->replaceModules($this->get('settings')['modules'], $request, $this->get('view'));
+        $page->replaceModules($this->get('settings')['module'], $request, $this->get('view'));
         return $this->render($request, $response, 'layout.twig', ['page' => $page]);
     }
 }

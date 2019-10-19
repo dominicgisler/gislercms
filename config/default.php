@@ -12,6 +12,7 @@ use GislerCMS\Controller\Admin\Misc\AdminMiscConfigController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscMigrationController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscProfileController;
 use GislerCMS\Controller\Admin\Misc\AdminMiscSysInfoController;
+use GislerCMS\Controller\Admin\Module\AdminModuleEditController;
 use GislerCMS\Controller\Admin\Page\AdminPageAddController;
 use GislerCMS\Controller\Admin\Page\AdminPageDefaultsController;
 use GislerCMS\Controller\Admin\Page\AdminPageEditController;
@@ -81,7 +82,8 @@ return [
                 AdminMiscSysInfoController::class,
                 AdminMiscProfileController::class,
                 AdminMiscChangePasswordController::class,
-                AdminMiscMigrationController::class
+                AdminMiscMigrationController::class,
+                AdminModuleEditController::class
             ],
             'require_nologin' => [
                 AdminLoginController::class,
@@ -104,11 +106,6 @@ return [
             ]
         ],
 
-        'modules' => [
-            'test' => [
-                'controller' => 'TestModuleController',
-                'config' => []
-            ]
-        ]
+        'module' => []
     ],
 ];
