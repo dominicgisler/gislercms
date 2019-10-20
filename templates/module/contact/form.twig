@@ -1,0 +1,10 @@
+{% import "module/contact/inputs.twig" as forms %}
+
+<form method="post">
+    {% for key, field in fields %}
+        {{ forms.form_group(field.type, key, field.value, field.label) }}
+    {% endfor %}
+    {% for key, button in buttons %}
+        <button type="{{ button.type }}" name="{{ key }}">{{ button.label }}</button>
+    {% endfor %}
+</form>
