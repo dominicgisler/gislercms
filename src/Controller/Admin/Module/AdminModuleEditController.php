@@ -4,7 +4,7 @@ namespace GislerCMS\Controller\Admin\Module;
 
 use GislerCMS\Controller\Admin\AdminAbstractController;
 use GislerCMS\Helper\SessionHelper;
-use GislerCMS\Model\Config;
+use GislerCMS\Model\Module;
 use GislerCMS\Validator\ModuleControllerExists;
 use GislerCMS\Validator\ValidJson;
 use Slim\Http\Request;
@@ -19,7 +19,7 @@ use Zend\Validator\StringLength;
 class AdminModuleEditController extends AdminAbstractController
 {
     const NAME = 'admin-module-edit';
-    const PATTERN = '{admin_route}/module[/{name}]';
+    const PATTERN = '{admin_route}/module[/{id}]';
     const METHODS = ['GET', 'POST'];
 
     /**
@@ -30,23 +30,13 @@ class AdminModuleEditController extends AdminAbstractController
      */
     public function __invoke($request, $response)
     {
-        $name = $request->getAttribute('route')->getArgument('name');
+        $id = $request->getAttribute('route')->getArgument('id');
         $conts = ModuleControllerExists::getModuleControllers();
 
-        if (array_key_exists($name, $this->get('settings')['module'])) {
-            $mod = $this->get('settings')['module'][$name];
-            $data = [
-                'name' => $name,
-                'controller' => $mod['controller'],
-                'config' => json_encode($mod['config'], JSON_PRETTY_PRINT)
-            ];
+        if (intval($id) > 0) {
+            $mod = Module::get($id);
         } else {
-            $data = [
-                'new' => true,
-                'name' => $name,
-                'controller' => '',
-                'config' => json_encode([], JSON_PRETTY_PRINT)
-            ];
+            $mod = new Module();
         }
 
         $errors = [];
@@ -73,27 +63,14 @@ class AdminModuleEditController extends AdminAbstractController
                 $data = $filter->getValues();
 
                 if (sizeof($errors) == 0) {
-                    $value = [
-                        'controller' => $data['controller'],
-                        'config' => json_decode($data['config'], true)
-                    ];
+                    $mod->setName($data['name']);
+                    $mod->setController($data['controller']);
+                    $mod->setConfig($data['config']);
 
-                    $cfg = Config::getWhere('section = "module" AND name = ?', [$name]);
-                    if (sizeof($cfg) > 0) {
-                        $elem = $cfg[0];
-                    } else {
-                        $elem = new Config();
-                        $elem->setSection('module');
-                        $elem->setType('json');
-                    }
-
-                    $elem->setName($data['name']);
-                    $elem->setValue($value);
-
-                    $res = $elem->save();
+                    $res = $mod->save();
                     if (!is_null($res)) {
                         $cnt->offsetSet('module_saved', true);
-                        return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/module/' . $elem->getName());
+                        return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/module/' . $res->getModuleId());
                     } else {
                         $msg = 'save_error';
                     }
@@ -101,10 +78,8 @@ class AdminModuleEditController extends AdminAbstractController
                     $msg = 'invalid_input';
                 }
             } else {
-                $cfg = Config::getWhere('section = "module" AND name = ?', [$name]);
-                if (sizeof($cfg) > 0) {
-                    $elem = $cfg[0];
-                    if ($elem->delete()) {
+                if ($mod->getModuleId() > 0) {
+                    if ($mod->delete()) {
                         $cnt->offsetSet('module_deleted', true);
                         return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/module');
                     } else {
@@ -115,7 +90,7 @@ class AdminModuleEditController extends AdminAbstractController
         }
 
         return $this->render($request, $response, 'admin/module/edit.twig', [
-            'module' => $data,
+            'module' => $mod,
             'controllers' => $conts,
             'message' => $msg,
             'errors' => $errors

@@ -15,14 +15,20 @@ class MigrationHelper
 
     /**
      * @param \PDO $pdo
+     * @param bool $fresh
      * @return array
      * @throws \Exception
      */
-    public static function executeMigrations(\PDO $pdo): array
+    public static function executeMigrations(\PDO $pdo, bool $fresh = false): array
     {
         $response = [];
         $error = false;
         DbModel::init($pdo);
+
+        if ($fresh) {
+            Migration::deleteAll();
+        }
+
         foreach (self::getMigrations() as $migration) {
             if ($error === false) {
                 $m = Migration::getMigration($migration['name']);

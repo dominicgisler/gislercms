@@ -67,7 +67,7 @@ class AdminSetupController extends AdminAbstractController
                     $data['db_user'],
                     $data['db_password']
                 );
-                $res = MigrationHelper::executeMigrations($pdo);
+                $res = MigrationHelper::executeMigrations($pdo, true);
                 $data['messages'] = $res['migrations'];
 
                 if ($res['status'] === 'error') {

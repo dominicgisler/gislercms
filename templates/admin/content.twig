@@ -144,12 +144,12 @@
                     </h6>
                     <ul class="nav flex-column mb-2">
                         {% set trash = 0 %}
-                        {% for key, navModule in modules %}
-                            {% set active = (route == 'admin-module-edit' and module.name == key) %}
+                        {% for navModule in modules %}
+                            {% set active = (route == 'admin-module-edit' and module.getModuleId() == navModule.getModuleId()) %}
                             <li class="nav-item">
-                                <a class="nav-link {% if active %}active{% endif %}" href="{{ admin_url }}/module/{{ key }}">
+                                <a class="nav-link {% if active %}active{% endif %}" href="{{ admin_url }}/module/{{ navModule.getModuleId() }}">
                                     <i class="fa fa-file-code fa-fw"></i>
-                                    {{ key }}
+                                    {{ navModule.getName() }}
                                 </a>
                             </li>
                         {% endfor %}

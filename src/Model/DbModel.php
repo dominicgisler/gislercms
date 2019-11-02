@@ -63,26 +63,26 @@ abstract class DbModel
 
     /**
      * @param string $html
-     * @param array $modules
      * @param Request $request
      * @param Twig $view
      * @return string|null
      */
-    protected static function replaceModulePlaceholders(string $html, array $modules, Request $request, Twig $view): string
+    protected static function replaceModulePlaceholders(string $html, Request $request, Twig $view): string
     {
         $pattern = '#<pre class="module">(.*?)</pre>#';
         while (preg_match($pattern, $html)) {
-            $html = preg_replace_callback($pattern, function ($match) use ($modules, $request, $view) {
+            $html = preg_replace_callback($pattern, function ($match) use ($request, $view) {
                 $res = '';
                 if (isset($match[1])) {
                     $name = $match[1];
-                    if (array_key_exists($name, $modules)) {
-                        $mod = $modules[$name];
-                        if (!empty($mod['controller']) && is_array($mod['config'])) {
-                            $cont = '\\GislerCMS\\Controller\\Module\\' . $mod['controller'];
+                    $mod = Module::getByName($name);
+                    if ($mod->getModuleId() > 0) {
+                        $cfg = json_decode($mod->getConfig(), true);
+                        if (!empty($mod->getController()) && is_array($cfg)) {
+                            $cont = '\\GislerCMS\\Controller\\Module\\' . $mod->getController();
                             if (class_exists($cont) && is_subclass_of($cont, AbstractModuleController::class)) {
                                 /** @var AbstractModuleController $class */
-                                $class = new $cont($mod['config'], $view);
+                                $class = new $cont($cfg, $view);
                                 $res = $class->execute($request);
                             }
                         }

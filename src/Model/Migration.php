@@ -154,6 +154,17 @@ class Migration extends DbModel
     }
 
     /**
+     * @return bool
+     * @throws \Exception
+     */
+    public static function deleteAll(): bool
+    {
+        $pdo = self::getPDO();
+        $stmt = $pdo->prepare("DELETE FROM `cms__migration`");
+        return $stmt->execute();
+    }
+
+    /**
      * @return int
      */
     public function getMigrationId(): int

@@ -4,6 +4,7 @@ namespace GislerCMS\Controller\Admin;
 
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\DbModel;
+use GislerCMS\Model\Module;
 use GislerCMS\Model\Page;
 use GislerCMS\Model\User;
 use GislerCMS\Model\Widget;
@@ -63,7 +64,7 @@ abstract class AdminAbstractController
             'admin_url' => $this->get('base_url') . $this->get('settings')['global']['admin_route'],
             'pages' => Page::getAll(),
             'widgets' => Widget::getAll(),
-            'modules' => $this->get('settings')['module'],
+            'modules' => Module::getAll(),
             'user' => $user
         ];
         return $this->get('view')->render($response, $template, array_merge($arr, $data));

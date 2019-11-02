@@ -110,7 +110,7 @@
             autocompleteWidgets([{% for widget in widgets %}{% if not widget.isTrash() %}'{{ widget.getName() }}',{% endif %}{% endfor %}]);
         }
         function autocompletePageModules() {
-            autocompleteModules([{% for key, module in modules %}'{{ key }}',{% endfor %}]);
+            autocompleteModules([{% for module in modules %}{% if not module.isTrash() %}'{{ module.getName() }}',{% endif %}{% endfor %}]);
         }
     </script>
 {% endblock %}
