@@ -3,13 +3,12 @@
 namespace GislerCMS\Controller\Admin\Module;
 
 use GislerCMS\Controller\Admin\AbstractController;
+use GislerCMS\Controller\Module\AbstractModuleController;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Module;
 use GislerCMS\Validator\ModuleControllerExists;
-use GislerCMS\Validator\ValidJson;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Zend\InputFilter\Factory;
 
 /**
  * Class ManageController
@@ -39,76 +38,34 @@ class ManageController extends AbstractController
                 $msg = false;
 
                 $cnt = SessionHelper::getContainer();
-                if ($cnt->offsetExists('module_saved')) {
-                    $cnt->offsetUnset('module_saved');
-                    $msg = 'save_success';
-                }
-                if ($cnt->offsetExists('module_deleted')) {
-                    $cnt->offsetUnset('module_deleted');
-                    $msg = 'delete_success';
-                }
-
                 if ($request->isPost()) {
-                    if (is_null($request->getParsedBodyParam('delete'))) {
-                        $data = $request->getParsedBody();
-                        $filter = $this->getInputFilter();
-                        $filter->setData($data);
-                        if (!$filter->isValid()) {
-                            $errors = array_merge($errors, array_keys($filter->getMessages()));
-                        }
-                        $data = $filter->getValues();
-
-                        if (sizeof($errors) == 0) {
-                            $mod->setConfig($data['config']);
-
-                            $res = $mod->save();
-                            if (!is_null($res)) {
-                                $cnt->offsetSet('module_saved', true);
-                                return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/module/' . $res->getModuleId());
-                            } else {
-                                $msg = 'save_error';
-                            }
+                    if (!is_null($request->getParsedBodyParam('delete'))) {
+                        if ($mod->delete()) {
+                            $cnt->offsetSet('module_deleted', true);
+                            return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/module/add');
                         } else {
-                            $msg = 'invalid_input';
-                        }
-                    } else {
-                        if ($mod->getModuleId() > 0) {
-                            if ($mod->delete()) {
-                                $cnt->offsetSet('module_deleted', true);
-                                return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/module/add');
-                            } else {
-                                $msg = 'delete_error';
-                            }
+                            $msg = 'delete_error';
                         }
                     }
                 }
+
+                $cfg = json_decode($mod->getConfig(), true);
+                /** @var AbstractModuleController $cont */
+                $cont = '\\GislerCMS\\Controller\\Module\\' . $mod->getController();
+                $manageCont = $cont::getManageController();
+                /** @var \GislerCMS\Admin\Module\Manage\AbstractController $manageCont */
+                $manageCont = new $manageCont($cfg, $this->get('view'));
+                $modContent = $manageCont->manage($mod, $request);
 
                 return $this->render($request, $response, 'admin/module/manage.twig', [
                     'module' => $mod,
                     'controllers' => $conts,
                     'message' => $msg,
-                    'errors' => $errors
+                    'errors' => $errors,
+                    'module_content' => $modContent
                 ]);
             }
         }
         return $this->render($request, $response, 'admin/module/not-found.twig');
-    }
-
-    /**
-     * @return \Zend\InputFilter\InputFilterInterface
-     */
-    private function getInputFilter()
-    {
-        $factory = new Factory();
-        return $factory->createInputFilter([
-            [
-                'name' => 'config',
-                'required' => true,
-                'filters' => [],
-                'validators' => [
-                    new ValidJson()
-                ]
-            ]
-        ]);
     }
 }

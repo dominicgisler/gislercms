@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Module;
 
+use GislerCMS\Controller\Admin\Module\Manage\ContactController;
 use Slim\Http\Request;
 use Twig\Error\LoaderError;
 
@@ -101,6 +102,11 @@ class ContactModuleController extends AbstractModuleController
         'recaptcha_website_key' => '',
         'recaptcha_secret_key' => ''
     ];
+
+    /**
+     * @var string
+     */
+    protected static $manageController = ContactController::class;
 
     /**
      * Render FORM on GET-Request

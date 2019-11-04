@@ -1,0 +1,43 @@
+{% import "admin/forms.twig" as forms %}
+
+{%
+    set messages = {
+        invalid_input: {
+            class: 'danger',
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+        },
+        save_error: {
+            class: 'danger',
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+        },
+        save_success: {
+            class: 'success',
+            message: 'Die Konfiguration wurde erfolgreich gespeichert.'
+        }
+    }
+%}
+
+{% if message %}
+    <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
+        {{ messages[message].message|raw }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endif %}
+
+<form method="post" id="page-form">
+    {{ forms.form_group('json', 'config', module.config, 'Konfiguration', '', 'config' in errors ? 'is-invalid' : '') }}
+    <div class="text-right mb-4">
+        <button class="btn btn-primary" name="save">Speichern</button>
+    </div>
+</form>
+
+<script src="{{ base_url() }}/editor/ace/src-min-noconflict/ace.js"></script>
+<script>
+    var editor = ace.edit("json-editor");
+    editor.session.setMode("ace/mode/json");
+    editor.session.on('change', function () {
+        $('#input_config').val(editor.getValue());
+    });
+</script>

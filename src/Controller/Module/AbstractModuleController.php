@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Module;
 
+use GislerCMS\Controller\Admin\Module\Manage\AbstractController;
 use Slim\Http\Request;
 use Slim\Views\Twig;
 use Twig\Error\LoaderError;
@@ -26,6 +27,11 @@ abstract class AbstractModuleController
      * @var array
      */
     protected static $exampleConfig = [];
+
+    /**
+     * @var string
+     */
+    protected static $manageController = AbstractController::class;
 
     /**
      * AbstractModuleController constructor.
@@ -82,5 +88,13 @@ abstract class AbstractModuleController
     public static function getExampleConfig(): array
     {
         return static::$exampleConfig;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getManageController(): string
+    {
+        return static::$manageController;
     }
 }
