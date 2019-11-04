@@ -59,7 +59,8 @@ return [
                 \GislerCMS\Controller\Admin\Misc\ProfileController::class,
                 \GislerCMS\Controller\Admin\Misc\ChangePasswordController::class,
                 \GislerCMS\Controller\Admin\Misc\MigrationController::class,
-                \GislerCMS\Controller\Admin\Module\EditController::class
+                \GislerCMS\Controller\Admin\Module\AddController::class,
+                \GislerCMS\Controller\Admin\Module\ManageController::class
             ],
             'require_nologin' => [
                 \GislerCMS\Controller\Admin\Auth\LoginController::class,

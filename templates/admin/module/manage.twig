@@ -2,7 +2,7 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}{% if module.new %}Neues Modul erstellen{% else %}Modul bearbeiten{% endif %}{% endblock %}
+{% block title %}Modul "{{ module.getName() }}" verwalten{% endblock %}
 
 {%
     set messages = {
@@ -29,15 +29,6 @@
     }
 %}
 
-{% set contSelect = [] %}
-{% for cont, desc in controllers %}
-    {% set selected = false %}
-    {% if cont == module.controller %}
-        {% set selected = true %}
-    {% endif %}
-    {% set contSelect = contSelect|merge([{value: cont, label: cont|replace({'ModuleController': '', 'Controller': ''}), selected: selected}]) %}
-{% endfor %}
-
 {% block content %}
     {% if message %}
         <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
@@ -48,10 +39,7 @@
         </div>
     {% endif %}
     <form method="post" id="page-form">
-        {{ forms.form_group('text', 'name', module.name, 'Name', '', 'name' in errors ? 'is-invalid' : '', 'Interne Bezeichnung des Modules') }}
-        {{ forms.form_group('select', 'controller', module.controller, 'Typ', '', 'controller' in errors ? 'is-invalid' : '', '', contSelect) }}
         {{ forms.form_group('json', 'config', module.config, 'Konfiguration', '', 'config' in errors ? 'is-invalid' : '') }}
-        <a href="#" id="insertModuleConfig">Beispiel-Konfiguration einfügen</a>
         <div class="text-right mb-4">
             <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">Löschen</button>
             <button class="btn btn-primary" name="save">Speichern</button>
@@ -103,3 +91,4 @@
         });
     </script>
 {% endblock %}
+

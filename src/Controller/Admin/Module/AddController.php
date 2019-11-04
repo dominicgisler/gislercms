@@ -3,23 +3,23 @@
 namespace GislerCMS\Controller\Admin\Module;
 
 use GislerCMS\Controller\Admin\AbstractController;
+use GislerCMS\Controller\Module\AbstractModuleController;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Module;
 use GislerCMS\Validator\ModuleControllerExists;
-use GislerCMS\Validator\ValidJson;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Zend\InputFilter\Factory;
 use Zend\Validator\StringLength;
 
 /**
- * Class EditController
+ * Class AddController
  * @package GislerCMS\Controller\Admin\Module
  */
-class EditController extends AbstractController
+class AddController extends AbstractController
 {
-    const NAME = 'admin-module-edit';
-    const PATTERN = '{admin_route}/module[/{id}]';
+    const NAME = 'admin-module-add';
+    const PATTERN = '{admin_route}/module/add';
     const METHODS = ['GET', 'POST'];
 
     /**
@@ -65,7 +65,10 @@ class EditController extends AbstractController
                 if (sizeof($errors) == 0) {
                     $mod->setName($data['name']);
                     $mod->setController($data['controller']);
-                    $mod->setConfig($data['config']);
+
+                    /** @var AbstractModuleController $cont */
+                    $cont = '\\GislerCMS\\Controller\\Module\\' . $data['controller'];
+                    $mod->setConfig(json_encode($cont::getExampleConfig(), JSON_PRETTY_PRINT));
 
                     $res = $mod->save();
                     if (!is_null($res)) {
@@ -89,7 +92,7 @@ class EditController extends AbstractController
             }
         }
 
-        return $this->render($request, $response, 'admin/module/edit.twig', [
+        return $this->render($request, $response, 'admin/module/add.twig', [
             'module' => $mod,
             'controllers' => $conts,
             'message' => $msg,
@@ -121,14 +124,6 @@ class EditController extends AbstractController
                 'filters' => [],
                 'validators' => [
                     new ModuleControllerExists()
-                ]
-            ],
-            [
-                'name' => 'config',
-                'required' => true,
-                'filters' => [],
-                'validators' => [
-                    new ValidJson()
                 ]
             ]
         ]);

@@ -5,10 +5,10 @@
 {% block content %}
     <p>Das gewünschte gewünschte Modul wurde nicht gefunden, bitte wähle ein Modul aus der Liste aus:</p>
     <ul>
-        {% for key, module in modules %}
+        {% for module in modules %}
             <li>
-                <a href="{{ admin_url }}/module/{{ key }}">
-                    {{ key }}
+                <a href="{{ admin_url }}/module/{{ module.getModuleId() }}">
+                    {{ module.getName() }}
                 </a>
             </li>
         {% endfor %}
