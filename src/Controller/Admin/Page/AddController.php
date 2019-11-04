@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Page;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Model\Config;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\Page;
@@ -11,10 +11,10 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminPageAddController
- * @package GislerCMS\Controller
+ * Class AddController
+ * @package GislerCMS\Controller\Admin\Page
  */
-class AdminPageAddController extends AdminAbstractController
+class AddController extends AbstractController
 {
     const NAME = 'admin-page-add';
     const PATTERN = '{admin_route}/page/add';

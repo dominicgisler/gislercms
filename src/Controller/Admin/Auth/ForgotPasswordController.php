@@ -2,17 +2,17 @@
 
 namespace GislerCMS\Controller\Admin\Auth;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Model\Mailer;
 use GislerCMS\Model\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminForgotPasswordController
- * @package GislerCMS\Controller
+ * Class ForgotPasswordController
+ * @package GislerCMS\Controller\Admin\Auth
  */
-class AdminForgotPasswordController extends AdminAbstractController
+class ForgotPasswordController extends AbstractController
 {
     const NAME = 'admin-forgot-password';
     const PATTERN = '{admin_route}/forgot-password';

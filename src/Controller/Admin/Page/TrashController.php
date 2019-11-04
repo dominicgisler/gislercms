@@ -2,16 +2,16 @@
 
 namespace GislerCMS\Controller\Admin\Page;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Model\Page;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminPageTrashController
- * @package GislerCMS\Controller
+ * Class TrashController
+ * @package GislerCMS\Controller\Admin\Page
  */
-class AdminPageTrashController extends AdminAbstractController
+class TrashController extends AbstractController
 {
     const NAME = 'admin-page-trash';
     const PATTERN = '{admin_route}/page/trash';

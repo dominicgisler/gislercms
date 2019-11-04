@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Auth;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\User;
@@ -10,10 +10,10 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminLoginController
- * @package GislerCMS\Controller
+ * Class LoginController
+ * @package GislerCMS\Controller\Admin\Auth
  */
-class AdminLoginController extends AdminAbstractController
+class LoginController extends AbstractController
 {
     const NAME = 'admin-login';
     const PATTERN = '{admin_route}/login';

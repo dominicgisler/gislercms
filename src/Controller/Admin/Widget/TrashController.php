@@ -2,16 +2,16 @@
 
 namespace GislerCMS\Controller\Admin\Widget;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Model\Widget;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminWidgetTrashController
- * @package GislerCMS\Controller
+ * Class TrashController
+ * @package GislerCMS\Controller\Admin\Widget
  */
-class AdminWidgetTrashController extends AdminAbstractController
+class TrashController extends AbstractController
 {
     const NAME = 'admin-widget-trash';
     const PATTERN = '{admin_route}/widget/trash';

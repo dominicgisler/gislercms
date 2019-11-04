@@ -1,29 +1,5 @@
 <?php
 
-use GislerCMS\Controller\Admin\AdminIndexController;
-use GislerCMS\Controller\Admin\AdminPreviewController;
-use GislerCMS\Controller\Admin\AdminSetupController;
-use GislerCMS\Controller\Admin\Auth\AdminForgotPasswordController;
-use GislerCMS\Controller\Admin\Auth\AdminLoginController;
-use GislerCMS\Controller\Admin\Auth\AdminLogoutController;
-use GislerCMS\Controller\Admin\Auth\AdminResetController;
-use GislerCMS\Controller\Admin\Misc\AdminMiscChangePasswordController;
-use GislerCMS\Controller\Admin\Misc\AdminMiscConfigController;
-use GislerCMS\Controller\Admin\Misc\AdminMiscMigrationController;
-use GislerCMS\Controller\Admin\Misc\AdminMiscProfileController;
-use GislerCMS\Controller\Admin\Misc\AdminMiscSysInfoController;
-use GislerCMS\Controller\Admin\Module\AdminModuleEditController;
-use GislerCMS\Controller\Admin\Page\AdminPageAddController;
-use GislerCMS\Controller\Admin\Page\AdminPageDefaultsController;
-use GislerCMS\Controller\Admin\Page\AdminPageEditController;
-use GislerCMS\Controller\Admin\Page\AdminPageTrashController;
-use GislerCMS\Controller\Admin\Widget\AdminWidgetAddController;
-use GislerCMS\Controller\Admin\Widget\AdminWidgetEditController;
-use GislerCMS\Controller\Admin\Widget\AdminWidgetTrashController;
-use GislerCMS\Controller\IndexController;
-use GislerCMS\Controller\PageController;
-use GislerCMS\Controller\PageLangController;
-
 return [
     'settings' => [
         'displayErrorDetails' => true, // set to false in production
@@ -62,33 +38,33 @@ return [
 
         'classes' => [
             'default' => [
-                AdminLogoutController::class,
-                AdminSetupController::class,
-                IndexController::class,
-                PageLangController::class,
-                PageController::class
+                \GislerCMS\Controller\Admin\Auth\LogoutController::class,
+                \GislerCMS\Controller\Admin\SetupController::class,
+                \GislerCMS\Controller\IndexController::class,
+                \GislerCMS\Controller\PageLangController::class,
+                \GislerCMS\Controller\PageController::class
             ],
             'require_login' => [
-                AdminIndexController::class,
-                AdminPreviewController::class,
-                AdminPageAddController::class,
-                AdminPageDefaultsController::class,
-                AdminPageEditController::class,
-                AdminPageTrashController::class,
-                AdminWidgetAddController::class,
-                AdminWidgetEditController::class,
-                AdminWidgetTrashController::class,
-                AdminMiscConfigController::class,
-                AdminMiscSysInfoController::class,
-                AdminMiscProfileController::class,
-                AdminMiscChangePasswordController::class,
-                AdminMiscMigrationController::class,
-                AdminModuleEditController::class
+                \GislerCMS\Controller\Admin\IndexController::class,
+                \GislerCMS\Controller\Admin\PreviewController::class,
+                \GislerCMS\Controller\Admin\Page\AddController::class,
+                \GislerCMS\Controller\Admin\Page\DefaultsController::class,
+                \GislerCMS\Controller\Admin\Page\EditController::class,
+                \GislerCMS\Controller\Admin\Page\TrashController::class,
+                \GislerCMS\Controller\Admin\Widget\AddController::class,
+                \GislerCMS\Controller\Admin\Widget\EditController::class,
+                \GislerCMS\Controller\Admin\Widget\TrashController::class,
+                \GislerCMS\Controller\Admin\Misc\ConfigController::class,
+                \GislerCMS\Controller\Admin\Misc\SysInfoController::class,
+                \GislerCMS\Controller\Admin\Misc\ProfileController::class,
+                \GislerCMS\Controller\Admin\Misc\ChangePasswordController::class,
+                \GislerCMS\Controller\Admin\Misc\MigrationController::class,
+                \GislerCMS\Controller\Admin\Module\EditController::class
             ],
             'require_nologin' => [
-                AdminLoginController::class,
-                AdminForgotPasswordController::class,
-                AdminResetController::class
+                \GislerCMS\Controller\Admin\Auth\LoginController::class,
+                \GislerCMS\Controller\Admin\Auth\ForgotPasswordController::class,
+                \GislerCMS\Controller\Admin\Auth\ResetController::class
             ]
         ],
 

@@ -2,16 +2,16 @@
 
 namespace GislerCMS\Controller\Admin\Auth;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Helper\SessionHelper;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminLogoutController
- * @package GislerCMS\Controller
+ * Class LogoutController
+ * @package GislerCMS\Controller\Admin\Auth
  */
-class AdminLogoutController extends AdminAbstractController
+class LogoutController extends AbstractController
 {
     const NAME = 'admin-logout';
     const PATTERN = '{admin_route}/logout';

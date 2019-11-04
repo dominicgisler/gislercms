@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Misc;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Filter\ToBool;
 use GislerCMS\Filter\ToPage;
 use GislerCMS\Helper\SessionHelper;
@@ -20,10 +20,10 @@ use Zend\Validator\Between;
 use Zend\Validator\StringLength;
 
 /**
- * Class AdminMiscConfigController
- * @package GislerCMS\Controller
+ * Class ConfigController
+ * @package GislerCMS\Controller\Admin\Misc
  */
-class AdminMiscConfigController extends AdminAbstractController
+class ConfigController extends AbstractController
 {
     const NAME = 'admin-misc-config';
     const PATTERN = '{admin_route}/misc/config';

@@ -9,17 +9,17 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminSetupController
- * @package GislerCMS\Controller
+ * Class SetupController
+ * @package GislerCMS\Controller\Admin
  */
-class AdminSetupController extends AdminAbstractController
+class SetupController extends AbstractController
 {
     const NAME = 'admin-setup';
     const PATTERN = '{admin_route}/setup';
     const METHODS = ['GET', 'POST'];
 
     /**
-     * AdminSetupController constructor.
+     * SetupController constructor.
      * @param $container
      */
     public function __construct($container)

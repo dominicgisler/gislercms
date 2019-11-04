@@ -2,17 +2,17 @@
 
 namespace GislerCMS\Controller\Admin\Misc;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Helper\MigrationHelper;
 use GislerCMS\Model\Migration;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminMiscMigrationController
- * @package GislerCMS\Controller
+ * Class MigrationController
+ * @package GislerCMS\Controller\Admin\Misc
  */
-class AdminMiscMigrationController extends AdminAbstractController
+class MigrationController extends AbstractController
 {
     const NAME = 'admin-misc-migration';
     const PATTERN = '{admin_route}/misc/migration';

@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Misc;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\User;
 use Slim\Http\Request;
@@ -13,10 +13,10 @@ use Zend\Validator\InArray;
 use Zend\Validator\StringLength;
 
 /**
- * Class AdminMiscProfileController
- * @package GislerCMS\Controller
+ * Class ProfileController
+ * @package GislerCMS\Controller\Admin\Misc
  */
-class AdminMiscProfileController extends AdminAbstractController
+class ProfileController extends AbstractController
 {
     const NAME = 'admin-misc-profile';
     const PATTERN = '{admin_route}/misc/profile';

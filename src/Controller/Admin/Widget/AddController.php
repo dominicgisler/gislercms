@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Widget;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\Widget;
 use GislerCMS\Model\WidgetTranslation;
@@ -10,10 +10,10 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminWidgetAddController
- * @package GislerCMS\Controller
+ * Class AddController
+ * @package GislerCMS\Controller\Admin\Widget
  */
-class AdminWidgetAddController extends AdminAbstractController
+class AddController extends AbstractController
 {
     const NAME = 'admin-widget-add';
     const PATTERN = '{admin_route}/widget/add';

@@ -13,10 +13,10 @@ use Slim\Http\Response;
 use Slim\Route;
 
 /**
- * Class AdminAbstractController
- * @package GislerCMS\Controller
+ * Class AbstractController
+ * @package GislerCMS\Controller\Admin
  */
-abstract class AdminAbstractController
+abstract class AbstractController
 {
     /**
      * @var \Slim\Container|\Psr\Container\ContainerInterface

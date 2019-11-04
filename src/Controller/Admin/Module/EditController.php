@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Module;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Module;
 use GislerCMS\Validator\ModuleControllerExists;
@@ -13,10 +13,10 @@ use Zend\InputFilter\Factory;
 use Zend\Validator\StringLength;
 
 /**
- * Class AdminModuleEditController
+ * Class EditController
  * @package GislerCMS\Controller\Admin\Module
  */
-class AdminModuleEditController extends AdminAbstractController
+class EditController extends AbstractController
 {
     const NAME = 'admin-module-edit';
     const PATTERN = '{admin_route}/module[/{id}]';

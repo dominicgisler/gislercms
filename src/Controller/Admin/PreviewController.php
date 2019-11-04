@@ -6,10 +6,10 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminPreviewController
- * @package GislerCMS\Controller
+ * Class PreviewController
+ * @package GislerCMS\Controller\Admin
  */
-class AdminPreviewController extends AdminAbstractController
+class PreviewController extends AbstractController
 {
     const NAME = 'admin-preview';
     const PATTERN = '{admin_route}/preview';

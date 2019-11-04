@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Page;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Filter\ToLanguage;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Config;
@@ -16,10 +16,10 @@ use Zend\InputFilter\Factory;
 use Zend\Validator\StringLength;
 
 /**
- * Class AdminPageDefaultsController
- * @package GislerCMS\Controller
+ * Class DefaultsController
+ * @package GislerCMS\Controller\Admin\Page
  */
-class AdminPageDefaultsController extends AdminAbstractController
+class DefaultsController extends AbstractController
 {
     const NAME = 'admin-page-defaults';
     const PATTERN = '{admin_route}/page/defaults';

@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Misc;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\User;
 use GislerCMS\Validator\PasswordVerify;
@@ -14,10 +14,10 @@ use Zend\Validator\NotEmpty;
 use Zend\Validator\StringLength;
 
 /**
- * Class AdminMiscChangePasswordController
- * @package GislerCMS\Controller
+ * Class ChangePasswordController
+ * @package GislerCMS\Controller\Admin\Misc
  */
-class AdminMiscChangePasswordController extends AdminAbstractController
+class ChangePasswordController extends AbstractController
 {
     const NAME = 'admin-misc-change-password';
     const PATTERN = '{admin_route}/misc/change-password';

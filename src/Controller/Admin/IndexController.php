@@ -6,10 +6,10 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminIndexController
- * @package GislerCMS\Controller
+ * Class IndexController
+ * @package GislerCMS\Controller\Admin
  */
-class AdminIndexController extends AdminAbstractController
+class IndexController extends AbstractController
 {
     const NAME = 'admin-index';
     const PATTERN = '{admin_route}[/]';

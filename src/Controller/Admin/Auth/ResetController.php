@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Auth;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Model\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -12,10 +12,10 @@ use Zend\Validator\NotEmpty;
 use Zend\Validator\StringLength;
 
 /**
- * Class AdminResetController
- * @package GislerCMS\Controller
+ * Class ResetController
+ * @package GislerCMS\Controller\Admin\Auth
  */
-class AdminResetController extends AdminAbstractController
+class ResetController extends AbstractController
 {
     const NAME = 'admin-reset';
     const PATTERN = '{admin_route}/reset/{key}';

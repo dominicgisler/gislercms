@@ -1,15 +1,15 @@
 <?php
 
-namespace GislerCMS\Controller\Admin\Widget;
+namespace GislerCMS\Controller\Admin\Page;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Filter\ToBool;
 use GislerCMS\Filter\ToLanguage;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Language;
-use GislerCMS\Model\Widget;
-use GislerCMS\Model\WidgetTranslation;
-use GislerCMS\Model\WidgetTranslationHistory;
+use GislerCMS\Model\Page;
+use GislerCMS\Model\PageTranslation;
+use GislerCMS\Model\PageTranslationHistory;
 use GislerCMS\Model\User;
 use GislerCMS\Validator\LanguageExists;
 use Slim\Http\Request;
@@ -19,13 +19,13 @@ use Zend\Validator\NotEmpty;
 use Zend\Validator\StringLength;
 
 /**
- * Class AdminWidgetEditController
- * @package GislerCMS\Controller
+ * Class EditController
+ * @package GislerCMS\Controller\Admin\Page
  */
-class AdminWidgetEditController extends AdminAbstractController
+class EditController extends AbstractController
 {
-    const NAME = 'admin-widget-edit';
-    const PATTERN = '{admin_route}/widget/{id:[0-9]+}';
+    const NAME = 'admin-page-edit';
+    const PATTERN = '{admin_route}/page/{id:[0-9]+}';
     const METHODS = ['GET', 'POST'];
 
     /**
@@ -41,28 +41,28 @@ class AdminWidgetEditController extends AdminAbstractController
         $user = $cont->offsetGet('user');
 
         $id = (int) $request->getAttribute('route')->getArgument('id');
-        $widget = Widget::get($id);
+        $page = Page::get($id);
         $languages = Language::getAll();
 
         $msg = false;
 
-        if ($widget->getWidgetId() > 0) {
-            $translations = WidgetTranslation::getWidgetTranslations($widget);
+        if ($page->getPageId() > 0) {
+            $translations = PageTranslation::getPageTranslations($page);
             $translationsHistory = [];
             $errors = [];
             if ($request->isPost()) {
                 if (is_null($request->getParsedBodyParam('delete'))) {
-                    $widgetData = $request->getParsedBodyParam('widget');
-                    $filter = $this->getWidgetInputFilter();
-                    $filter->setData($widgetData);
+                    $pageData = $request->getParsedBodyParam('page');
+                    $filter = $this->getPageInputFilter();
+                    $filter->setData($pageData);
                     if (!$filter->isValid()) {
                         $errors = array_merge($errors, array_keys($filter->getMessages()));
                     }
-                    $widgetData = $filter->getValues();
-                    $widget->setName($widgetData['name']);
-                    $widget->setEnabled($widgetData['enabled']);
-                    $widget->setLanguage($widgetData['language']);
-                    $widget->setTrash(false);
+                    $pageData = $filter->getValues();
+                    $page->setName($pageData['name']);
+                    $page->setEnabled($pageData['enabled']);
+                    $page->setLanguage($pageData['language']);
+                    $page->setTrash(false);
 
                     $translationData = $request->getParsedBodyParam('translation');
                     $filter = $this->getTranslationInputFilter();
@@ -75,33 +75,54 @@ class AdminWidgetEditController extends AdminAbstractController
                         }
                         $data = $filter->getValues();
                         if (isset($translations[$key])) {
-                            if ($translations[$key]->getContent() !== $data['content'] ||
+                            if ($translations[$key]->getName() !== $data['name'] ||
+                                $translations[$key]->getTitle() !== $data['title'] ||
+                                $translations[$key]->getContent() !== $data['content'] ||
+                                $translations[$key]->getMetaKeywords() !== $data['meta_keywords'] ||
+                                $translations[$key]->getMetaDescription() !== $data['meta_description'] ||
+                                $translations[$key]->getMetaAuthor() !== $data['meta_author'] ||
+                                $translations[$key]->getMetaCopyright() !== $data['meta_copyright'] ||
+                                $translations[$key]->getMetaImage() !== $data['meta_image'] ||
                                 $translations[$key]->isEnabled() !== $data['enabled']
                             ) {
-                                // create WidgetTranslationHistory if there are changes
-                                $translationsHistory[$key] = new WidgetTranslationHistory(
+                                // create PageTranslationHistory if there are changes
+                                $translationsHistory[$key] = new PageTranslationHistory(
                                     0,
                                     $translations[$key],
+                                    $translations[$key]->getName(),
+                                    $translations[$key]->getTitle(),
                                     $translations[$key]->getContent(),
+                                    $translations[$key]->getMetaKeywords(),
+                                    $translations[$key]->getMetaDescription(),
+                                    $translations[$key]->getMetaAuthor(),
+                                    $translations[$key]->getMetaCopyright(),
+                                    $translations[$key]->getMetaImage(),
                                     $translations[$key]->isEnabled(),
                                     $user
                                 );
                             }
                         } else {
-                            $translations[$key] = new WidgetTranslation();
+                            $translations[$key] = new PageTranslation();
                             $translations[$key]->setLanguage(Language::getLanguage($key));
-                            $translations[$key]->setWidget($widget);
+                            $translations[$key]->setPage($page);
                         }
                         $translations[$key]->setEnabled($data['enabled']);
+                        $translations[$key]->setName($data['name']);
+                        $translations[$key]->setTitle($data['title']);
+                        $translations[$key]->setMetaKeywords($data['meta_keywords']);
+                        $translations[$key]->setMetaDescription($data['meta_description']);
+                        $translations[$key]->setMetaAuthor($data['meta_author']);
+                        $translations[$key]->setMetaCopyright($data['meta_copyright']);
+                        $translations[$key]->setMetaImage($data['meta_image']);
                         $translations[$key]->setContent($data['content']);
                     }
 
                     if (sizeof($errors) == 0) {
                         $saveError = false;
 
-                        $res = $widget->save();
+                        $res = $page->save();
                         if (!is_null($res)) {
-                            $widget = $res;
+                            $page = $res;
                         } else {
                             $saveError = true;
                         }
@@ -115,7 +136,7 @@ class AdminWidgetEditController extends AdminAbstractController
                             }
                         }
 
-                        /** @var WidgetTranslationHistory $translationHistory */
+                        /** @var PageTranslationHistory $translationHistory */
                         foreach ($translationsHistory as &$translationHistory) {
                             $res = $translationHistory->save();
                             if (!is_null($res)) {
@@ -134,17 +155,17 @@ class AdminWidgetEditController extends AdminAbstractController
                         $msg = 'invalid_input';
                     }
                 } else {
-                    if ($widget->isTrash()) {
-                        $widget->delete();
+                    if ($page->isTrash()) {
+                        $page->delete();
                     } else {
-                        $widget->setTrash(true);
-                        $widget->save();
+                        $page->setTrash(true);
+                        $page->save();
                     }
                     return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route']);
                 }
             }
-            return $this->render($request, $response, 'admin/widget/edit.twig', [
-                'widget' => $widget,
+            return $this->render($request, $response, 'admin/page/edit.twig', [
+                'page' => $page,
                 'languages' => $languages,
                 'translations' => $translations,
                 'errors' => $errors,
@@ -152,13 +173,13 @@ class AdminWidgetEditController extends AdminAbstractController
             ]);
         }
 
-        return $this->render($request, $response->withStatus(404), 'admin/widget/not-found.twig');
+        return $this->render($request, $response->withStatus(404), 'admin/page/not-found.twig');
     }
 
     /**
      * @return \Zend\InputFilter\InputFilterInterface
      */
-    private function getWidgetInputFilter()
+    private function getPageInputFilter()
     {
         $factory = new Factory();
         return $factory->createInputFilter([
@@ -208,6 +229,77 @@ class AdminWidgetEditController extends AdminAbstractController
                     new ToBool()
                 ],
                 'validators' => []
+            ],
+            [
+                'name' => 'name',
+                'required' => true,
+                'validators' => [
+                    new NotEmpty(),
+                    new StringLength([
+                        'min' => 1,
+                        'max' => 128
+                    ])
+                ]
+            ],
+            [
+                'name' => 'title',
+                'required' => false,
+                'validators' => [
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 128
+                    ])
+                ]
+            ],
+            [
+                'name' => 'meta_keywords',
+                'required' => false,
+                'validators' => [
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 512
+                    ])
+                ]
+            ],
+            [
+                'name' => 'meta_description',
+                'required' => false,
+                'validators' => [
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 512
+                    ])
+                ]
+            ],
+            [
+                'name' => 'meta_author',
+                'required' => false,
+                'validators' => [
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 255
+                    ])
+                ]
+            ],
+            [
+                'name' => 'meta_copyright',
+                'required' => false,
+                'validators' => [
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 255
+                    ])
+                ]
+            ],
+            [
+                'name' => 'meta_image',
+                'required' => false,
+                'validators' => [
+                    new StringLength([
+                        'min' => 0,
+                        'max' => 255
+                    ])
+                ]
             ],
             [
                 'name' => 'content',

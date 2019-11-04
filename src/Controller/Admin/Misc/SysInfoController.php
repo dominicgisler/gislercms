@@ -2,15 +2,15 @@
 
 namespace GislerCMS\Controller\Admin\Misc;
 
-use GislerCMS\Controller\Admin\AdminAbstractController;
+use GislerCMS\Controller\Admin\AbstractController;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class AdminMiscSysInfoController
- * @package GislerCMS\Controller
+ * Class SysInfoController
+ * @package GislerCMS\Controller\Admin\Misc
  */
-class AdminMiscSysInfoController extends AdminAbstractController
+class SysInfoController extends AbstractController
 {
     const NAME = 'admin-misc-sysinfo';
     const PATTERN = '{admin_route}/misc/sysinfo';
