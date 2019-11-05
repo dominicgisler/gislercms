@@ -25,7 +25,7 @@
 
 {% macro json(name, value, placeholder, class, hint) %}
     <textarea name="{{ name }}" class="d-none" placeholder="{{ placeholder }}" id="input_{{ name }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %}>{{ value }}</textarea>
-    <div id="json-editor" class="form-control {{ class }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %} style="height: 300px;">{{ value }}</div>
+    <div id="json-editor" class="form-control {{ class }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %} style="height: 410px;">{{ value }}</div>
 {% endmacro %}
 
 {% macro select(name, value, options, placeholder, class, hint) %}
