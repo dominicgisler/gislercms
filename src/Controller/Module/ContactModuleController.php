@@ -3,8 +3,17 @@
 namespace GislerCMS\Controller\Module;
 
 use GislerCMS\Controller\Admin\Module\Manage\ContactController;
+use GislerCMS\Model\Mailer;
 use Slim\Http\Request;
 use Twig\Error\LoaderError;
+use Zend\InputFilter\Factory;
+use Zend\Validator\Between;
+use Zend\Validator\Date;
+use Zend\Validator\EmailAddress;
+use Zend\Validator\InArray;
+use Zend\Validator\NotEmpty;
+use Zend\Validator\Regex;
+use Zend\Validator\StringLength;
 
 /**
  * Class ContactModuleController
@@ -132,6 +141,19 @@ class ContactModuleController extends AbstractModuleController
     ];
 
     /**
+     * @var array
+     */
+    private $validatorMap = [
+        'not_empty' => NotEmpty::class,
+        'string_length' => StringLength::class,
+        'email_address' => EmailAddress::class,
+        'between' => Between::class,
+        'date' => Date::class,
+        'in_array' => InArray::class,
+        'regex' => Regex::class
+    ];
+
+    /**
      * @var string
      */
     protected static $manageController = ContactController::class;
@@ -148,11 +170,14 @@ class ContactModuleController extends AbstractModuleController
         $html = $this->getForm($elems);
         return $html;
     }
+
     /**
      * Handle POST-Request
      *
      * @param Request $request
      * @return string
+     * @throws LoaderError
+     * @throws \PHPMailer\PHPMailer\Exception
      */
     public function onPost($request)
     {
@@ -160,66 +185,61 @@ class ContactModuleController extends AbstractModuleController
         $elems = $this->config['elements'];
         $postData = $request->getParsedBody();
         $errors = [];
-        foreach($postData as $key => $input) {
-            $elem = $elems[$key];
-            if($elem['required']) {
-                if(isset($elem['min_length'])) {
-                    if(strlen($input) < $elem['min_length']) {
-                        $errors[$key] = true;
-                    }
-                }
-                if(isset($elem['max_length'])) {
-                    if(strlen($input) > $elem['max_length']) {
-                        $errors[$key] = true;
-                    }
-                }
-                if($elem['type'] == 'email') {
-                    if(!filter_var($input, FILTER_VALIDATE_EMAIL)) {
-                        $errors[$key] = true;
-                    }
-                }
-            }
+
+        $filter = $this->getInputFilter($elems);
+        $filter->setData($postData);
+        if (!$filter->isValid()) {
+            $errors = array_merge($errors, array_keys($filter->getMessages()));
         }
-        if ($this->config['use_recaptcha']) {
+        $postData = $filter->getValues();
+
+        if ($this->config['recaptcha']['enable']) {
             $recaptchaResponse = $request->getParsedBodyParam('g-recaptcha-response');
-            $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $this->config['recaptcha_secret_key'] . '&response=' . $recaptchaResponse;
+            $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $this->config['recaptcha']['secret_key'] . '&response=' . $recaptchaResponse;
             $checkCaptcha = json_decode(file_get_contents($verifyUrl));
             if (!$checkCaptcha->success) {
                 $errors['recaptcha'] = true;
             }
         }
         $html = '';
-        if(empty($errors)) {
+        if (empty($errors)) {
             $from = $this->config['from'];
             $to = $this->config['to'];
             $subject = $this->config['subject'];
+
             $message = $subject . PHP_EOL . PHP_EOL;
-            foreach($postData as $key => $input) {
-                if($elems[$key]) {
-                    if($elems[$key]['type'] == 'checkbox') {
-                        $message .= $elems[$key]['description'] . PHP_EOL;
-                    } else {
-                        $message .= $elems[$key]['description'] . ': ' . $input . PHP_EOL;
-                    }
+            foreach ($postData as $key => $input) {
+                if ($elems[$key]) {
+                    $label = !empty($elems[$key]['label']) ? $elems[$key]['label'] : $key;
+                    $message .= $label . ': ' . $input . PHP_EOL;
                 }
             }
-//            $mailHelper = new MailHelper();
-//            $mail = $mailHelper->getMail();
-//            $mail->setFrom($from['email'], $from['name']);
-//            $mail->addAddress($to['email'], $to['name']);
-//            $mail->Subject = $subject;
-//            $mail->Body = $message;
-//            if($mail->send()) {
-//                $postData = [];
-//                $html .= '<strong>' . $this->options['success_message'] . '</strong>';
-//            } else {
-//                $html .= '<strong>' . $this->options['failed_message'] . '</strong>';
-//            }
+
+            $mailer = new Mailer($this->config['mailer']);
+            $mailer->setFrom($from['email'], $from['name']);
+            $mailer->addAddress($to['email'], $to['name']);
+            $mailer->Subject = $subject;
+            $mailer->Body = $message;
+
+            if ($mailer->send()) {
+                $postData = [];
+                $msg = [
+                    'class' => 'success',
+                    'text' => $this->config['success_message']
+                ];
+            } else {
+                $msg = [
+                    'class' => 'danger',
+                    'text' => $this->config['failed_message']
+                ];
+            }
         } else {
-            // show error
-            $html .= '<strong>' . $this->config['error_message'] . '</strong>';
+            $msg = [
+                'class' => 'danger',
+                'text' => $this->config['error_message']
+            ];
         }
-        $html .= $this->getForm($elems, $postData, $errors);
+        $html .= $this->getForm($elems, $postData, $errors, $msg);
         return $html;
     }
 
@@ -227,15 +247,49 @@ class ContactModuleController extends AbstractModuleController
      * @param array $elems
      * @param array $postData
      * @param array $errors
+     * @param array $message
      * @return string
      * @throws LoaderError
      */
-    private function getForm(array $elems, $postData = [], array $errors = []): string
+    private function getForm(array $elems, $postData = [], array $errors = [], array $message = []): string
     {
         return $this->view->fetch('module/contact/form.twig', [
             'elements' => $elems,
             'data' => $postData,
-            'errors' => $errors
+            'errors' => $errors,
+            'message' => $message
         ]);
+    }
+
+    /**
+     * @param array $elems
+     * @return \Zend\InputFilter\InputFilterInterface
+     */
+    private function getInputFilter(array $elems)
+    {
+        $spec = [];
+        foreach ($elems as $key => $elem) {
+            if (in_array($elem['type'], ['divider', 'spacer', 'title', 'submit', 'button', 'reset'])) {
+                continue;
+            }
+
+            $validators = [];
+            if (is_array($elem['validators'])) {
+                foreach ($elem['validators'] as $name => $opt) {
+                    if (array_key_exists($name, $this->validatorMap)) {
+                        $validators[] = new $this->validatorMap[$name]($opt);
+                    }
+                }
+            }
+
+            $spec[] = [
+                'name' => $key,
+                'required' => boolval($elem['required']),
+                'validators' => $validators
+            ];
+        }
+
+        $factory = new Factory();
+        return $factory->createInputFilter($spec);
     }
 }

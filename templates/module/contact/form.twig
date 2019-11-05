@@ -1,5 +1,11 @@
 {% import "module/contact/inputs.twig" as forms %}
 
+{% if message %}
+    <div class="alert alert-{{ message.class }} fade show" role="alert">
+        {{ message.text }}
+    </div>
+{% endif %}
+
 <form method="post">
     {% for key, elem in elements %}
         {% if elem.type == 'divider' %}
@@ -17,15 +23,15 @@
                 {% endif %}
 
                 {% if elem.type == 'textarea' %}
-                    {{ forms.textarea(key, elem.value, elem.placeholder, elem.class) }}
+                    {{ forms.textarea(key, data[key], elem.placeholder, elem.class ~ (key in errors ? ' is-invalid' : '')) }}
                 {% elseif elem.type == 'select' %}
-                    {{ forms.select(key, elem.value, elem.options, elem.placeholder, elem.class) }}
+                    {{ forms.select(key, data[key], elem.options, elem.placeholder, elem.class ~ (key in errors ? ' is-invalid' : '')) }}
                 {% elseif elem.type == 'radio' %}
-                    {{ forms.radio(key, elem.value, elem.options, elem.placeholder, elem.class) }}
+                    {{ forms.radio(key, data[key], elem.options, elem.placeholder, elem.class ~ (key in errors ? ' is-invalid' : '')) }}
                 {% elseif elem.type == 'checkbox' %}
-                    {{ forms.checkbox(key, elem.value, elem.label, elem.class) }}
+                    {{ forms.checkbox(key, data[key], elem.label, elem.class ~ (key in errors ? ' is-invalid' : '')) }}
                 {% else %}
-                    {{ forms.input(elem.type, key, elem.value, elem.placeholder, elem.class) }}
+                    {{ forms.input(elem.type, key, data[key], elem.placeholder, elem.class ~ (key in errors ? ' is-invalid' : '')) }}
                 {% endif %}
 
                 {% if elem.hint %}<small id="hint_{{ elem.name }}" class="form-text text-muted">{{ elem.hint }}</small>{% endif %}
