@@ -37,52 +37,78 @@ class ContactModuleController extends AbstractModuleController
         'fields' => [
             'name' => [
                 'label' => 'Name',
+                'placeholder' => 'Name',
                 'type' => 'text',
                 'required' => true,
-                'min_length' => 3,
-                'max_length' => 20
+                'validators' => [
+                    'string_length' => [
+                        'min' => 3,
+                        'max' => 20
+                    ]
+                ]
+            ],
+            'divider' => [
+                'type' => 'divider'
             ],
             'email' => [
-                'label' => 'E-Mail',
                 'type' => 'email',
+                'label' => 'E-Mail',
+                'placeholder' => 'E-Mail',
                 'required' => true,
-                'min_length' => 5,
-                'max_length' => 50
+                'validators' => [
+                    'string_length' => [
+                        'min' => 5,
+                        'max' => 50
+                    ],
+                    'email_address' => true
+                ]
+            ],
+            'title' => [
+                'type' => 'title',
+                'label' => 'Ein Zwischentitel',
+                'class' => 'mb-2'
             ],
             'checkbox1' => [
-                'label' => 'Check 1',
                 'type' => 'checkbox',
-                'value' => 'check1'
+                'label' => 'Check 1'
             ],
             'checkbox2' => [
-                'label' => 'Check 2',
                 'type' => 'checkbox',
-                'value' => 'check2'
+                'label' => 'Check 2'
             ],
             'radio' => [
-                'label' => 'RADIO',
                 'type' => 'radio',
+                'label' => 'RADIO',
                 'options' => [
-                    'Auswahl 1',
-                    'Auswahl 2',
-                    'Auswahl 3'
+                    'radio1' => 'Auswahl 1',
+                    'radio2' => 'Auswahl 2',
+                    'radio3' => 'Auswahl 3'
                 ]
             ],
             'dropdown' => [
-                'label' => 'Dropdooown',
                 'type' => 'select',
+                'label' => 'Dropdooown',
                 'options' => [
-                    'Auswahl 1',
-                    'Auswahl 2',
-                    'Auswahl 3'
+                    'drop1' => 'Auswahl 1',
+                    'drop2' => 'Auswahl 2',
+                    'drop3' => 'Auswahl 3'
                 ]
             ],
+            'spacer' => [
+                'type' => 'spacer'
+            ],
             'message' => [
-                'label' => 'Nachricht',
                 'type' => 'textarea',
+                'label' => 'Nachricht',
+                'placeholder' => 'Nachricht',
+                'hint' => 'Ihre Nachricht',
                 'required' => true,
-                'min_length' => 10,
-                'max_length' => 1000
+                'validators' => [
+                    'string_length' => [
+                        'min' => 10,
+                        'max' => 1000
+                    ]
+                ]
             ]
         ],
         'error_message' => 'Bitte überprüfe deine Eingaben',
@@ -91,16 +117,20 @@ class ContactModuleController extends AbstractModuleController
         'buttons' => [
             'send' => [
                 'label' => 'Senden',
-                'type' => 'submit'
+                'type' => 'submit',
+                'class' => 'primary'
             ],
             'reset' => [
                 'label' => 'Abbrechen',
-                'type' => 'reset'
+                'type' => 'reset',
+                'class' => 'secondary'
             ]
         ],
-        'use_recaptcha' => false,
-        'recaptcha_website_key' => '',
-        'recaptcha_secret_key' => ''
+        'recaptcha' => [
+            'enable' => false,
+            'website_key' => '',
+            'secret_key' => ''
+        ]
     ];
 
     /**

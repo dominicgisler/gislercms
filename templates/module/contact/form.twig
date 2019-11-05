@@ -2,7 +2,33 @@
 
 <form method="post">
     {% for key, field in fields %}
-        {{ forms.form_group(field.type, key, field.value, field.label) }}
+        {% if field.type == 'divider' %}
+            <hr class="{{ field.class }}">
+        {% elseif field.type == 'spacer' %}
+            <div class="mx-1 {{ field.class }}">&nbsp;</div>
+        {% elseif field.type == 'title' %}
+            <div class="font-weight-bold {{ field.class }}">{{ field.label }}</div>
+        {% else %}
+            <div class="form-group">
+                {% if field.type != 'checkbox' %}
+                    <label for="input_{{ key }}">{{ field.label }}</label>
+                {% endif %}
+
+                {% if field.type == 'textarea' %}
+                    {{ forms.textarea(key, field.value, field.placeholder) }}
+                {% elseif field.type == 'select' %}
+                    {{ forms.select(key, field.value, field.options, field.placeholder) }}
+                {% elseif field.type == 'radio' %}
+                    {{ forms.radio(key, field.value, field.options, field.placeholder) }}
+                {% elseif field.type == 'checkbox' %}
+                    {{ forms.checkbox(key, field.value, field.label) }}
+                {% else %}
+                    {{ forms.input(field.type, key, field.value, field.placeholder) }}
+                {% endif %}
+
+                {% if field.hint %}<small id="hint_{{ field.name }}" class="form-text text-muted">{{ field.hint }}</small>{% endif %}
+            </div>
+        {% endif %}
     {% endfor %}
     {% for key, button in buttons %}
         <button type="{{ button.type }}" name="{{ key }}">{{ button.label }}</button>

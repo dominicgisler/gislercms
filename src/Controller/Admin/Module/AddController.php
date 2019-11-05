@@ -68,7 +68,7 @@ class AddController extends AbstractController
 
                     /** @var AbstractModuleController $cont */
                     $cont = '\\GislerCMS\\Controller\\Module\\' . $data['controller'];
-                    $mod->setConfig(json_encode($cont::getExampleConfig(), JSON_PRETTY_PRINT));
+                    $mod->setConfig(json_encode($cont::getExampleConfig(), JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
 
                     $res = $mod->save();
                     if (!is_null($res)) {
