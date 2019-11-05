@@ -1,36 +1,38 @@
 {% import "module/contact/inputs.twig" as forms %}
 
 <form method="post">
-    {% for key, field in fields %}
-        {% if field.type == 'divider' %}
-            <hr class="{{ field.class }}">
-        {% elseif field.type == 'spacer' %}
-            <div class="mx-1 {{ field.class }}">&nbsp;</div>
-        {% elseif field.type == 'title' %}
-            <div class="font-weight-bold {{ field.class }}">{{ field.label }}</div>
+    {% for key, elem in elements %}
+        {% if elem.type == 'divider' %}
+            <hr class="{{ elem.class }}">
+        {% elseif elem.type == 'spacer' %}
+            <div class="mx-1 {{ elem.class }}">&nbsp;</div>
+        {% elseif elem.type == 'title' %}
+            <div class="font-weight-bold {{ elem.class }}">{{ elem.label }}</div>
+        {% elseif elem.type == 'submit' or elem.type == 'button' or elem.type == 'reset' %}
+            {{ forms.button(elem.type, key, elem.label, elem.value, elem.class) }}
         {% else %}
             <div class="form-group">
-                {% if field.type != 'checkbox' %}
-                    <label for="input_{{ key }}">{{ field.label }}</label>
+                {% if elem.type != 'checkbox' %}
+                    <label for="input_{{ key }}">{{ elem.label }}</label>
                 {% endif %}
 
-                {% if field.type == 'textarea' %}
-                    {{ forms.textarea(key, field.value, field.placeholder) }}
-                {% elseif field.type == 'select' %}
-                    {{ forms.select(key, field.value, field.options, field.placeholder) }}
-                {% elseif field.type == 'radio' %}
-                    {{ forms.radio(key, field.value, field.options, field.placeholder) }}
-                {% elseif field.type == 'checkbox' %}
-                    {{ forms.checkbox(key, field.value, field.label) }}
+                {% if elem.type == 'textarea' %}
+                    {{ forms.textarea(key, elem.value, elem.placeholder, elem.class) }}
+                {% elseif elem.type == 'select' %}
+                    {{ forms.select(key, elem.value, elem.options, elem.placeholder, elem.class) }}
+                {% elseif elem.type == 'radio' %}
+                    {{ forms.radio(key, elem.value, elem.options, elem.placeholder, elem.class) }}
+                {% elseif elem.type == 'checkbox' %}
+                    {{ forms.checkbox(key, elem.value, elem.label, elem.class) }}
                 {% else %}
-                    {{ forms.input(field.type, key, field.value, field.placeholder) }}
+                    {{ forms.input(elem.type, key, elem.value, elem.placeholder, elem.class) }}
                 {% endif %}
 
-                {% if field.hint %}<small id="hint_{{ field.name }}" class="form-text text-muted">{{ field.hint }}</small>{% endif %}
+                {% if elem.hint %}<small id="hint_{{ elem.name }}" class="form-text text-muted">{{ elem.hint }}</small>{% endif %}
             </div>
         {% endif %}
     {% endfor %}
     {% for key, button in buttons %}
-        <button type="{{ button.type }}" name="{{ key }}">{{ button.label }}</button>
+        <button type="{{ button.type }}" name="{{ key }}" class="btn {{ button.class }}">{{ button.label }}</button>
     {% endfor %}
 </form>

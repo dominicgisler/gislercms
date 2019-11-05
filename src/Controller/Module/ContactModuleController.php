@@ -34,7 +34,7 @@ class ContactModuleController extends AbstractModuleController
             'name' => 'Max Muster'
         ],
         'subject' => 'Anfrage',
-        'fields' => [
+        'elements' => [
             'name' => [
                 'label' => 'Name',
                 'placeholder' => 'Name',
@@ -109,23 +109,21 @@ class ContactModuleController extends AbstractModuleController
                         'max' => 1000
                     ]
                 ]
+            ],
+            'send' => [
+                'type' => 'submit',
+                'label' => 'Senden',
+                'class' => 'btn-primary'
+            ],
+            'reset' => [
+                'type' => 'reset',
+                'label' => 'Abbrechen',
+                'class' => 'btn-secondary'
             ]
         ],
         'error_message' => 'Bitte überprüfe deine Eingaben',
         'success_message' => 'Nachricht wurde versendet',
         'failed_message' => 'Es ist ein Fehler aufgetreten, bitte versuche es später erneut',
-        'buttons' => [
-            'send' => [
-                'label' => 'Senden',
-                'type' => 'submit',
-                'class' => 'primary'
-            ],
-            'reset' => [
-                'label' => 'Abbrechen',
-                'type' => 'reset',
-                'class' => 'secondary'
-            ]
-        ],
         'recaptcha' => [
             'enable' => false,
             'website_key' => '',
@@ -146,9 +144,8 @@ class ContactModuleController extends AbstractModuleController
      */
     public function onGet($request)
     {
-        $fields = $this->config['fields'];
-        $buttons = $this->config['buttons'];
-        $html = $this->getForm($fields, $buttons);
+        $elems = $this->config['elements'];
+        $html = $this->getForm($elems);
         return $html;
     }
     /**
@@ -160,24 +157,23 @@ class ContactModuleController extends AbstractModuleController
     public function onPost($request)
     {
         // handle post-request
-        $fields = $this->config['fields'];
-        $buttons = $this->config['buttons'];
-        $postData = $request->getParsedBodyParam('contact');
+        $elems = $this->config['elements'];
+        $postData = $request->getParsedBody();
         $errors = [];
         foreach($postData as $key => $input) {
-            $field = $fields[$key];
-            if($field['required']) {
-                if(isset($field['min_length'])) {
-                    if(strlen($input) < $field['min_length']) {
+            $elem = $elems[$key];
+            if($elem['required']) {
+                if(isset($elem['min_length'])) {
+                    if(strlen($input) < $elem['min_length']) {
                         $errors[$key] = true;
                     }
                 }
-                if(isset($field['max_length'])) {
-                    if(strlen($input) > $field['max_length']) {
+                if(isset($elem['max_length'])) {
+                    if(strlen($input) > $elem['max_length']) {
                         $errors[$key] = true;
                     }
                 }
-                if($field['type'] == 'email') {
+                if($elem['type'] == 'email') {
                     if(!filter_var($input, FILTER_VALIDATE_EMAIL)) {
                         $errors[$key] = true;
                     }
@@ -199,11 +195,11 @@ class ContactModuleController extends AbstractModuleController
             $subject = $this->config['subject'];
             $message = $subject . PHP_EOL . PHP_EOL;
             foreach($postData as $key => $input) {
-                if($fields[$key]) {
-                    if($fields[$key]['type'] == 'checkbox') {
-                        $message .= $fields[$key]['description'] . PHP_EOL;
+                if($elems[$key]) {
+                    if($elems[$key]['type'] == 'checkbox') {
+                        $message .= $elems[$key]['description'] . PHP_EOL;
                     } else {
-                        $message .= $fields[$key]['description'] . ': ' . $input . PHP_EOL;
+                        $message .= $elems[$key]['description'] . ': ' . $input . PHP_EOL;
                     }
                 }
             }
@@ -223,23 +219,21 @@ class ContactModuleController extends AbstractModuleController
             // show error
             $html .= '<strong>' . $this->config['error_message'] . '</strong>';
         }
-        $html .= $this->getForm($fields, $buttons, $postData, $errors);
+        $html .= $this->getForm($elems, $postData, $errors);
         return $html;
     }
 
     /**
-     * @param $fields
-     * @param $buttons
+     * @param array $elems
      * @param array $postData
      * @param array $errors
      * @return string
      * @throws LoaderError
      */
-    private function getForm($fields, $buttons, $postData = [], $errors = [])
+    private function getForm(array $elems, $postData = [], array $errors = []): string
     {
         return $this->view->fetch('module/contact/form.twig', [
-            'fields' => $fields,
-            'buttons' => $buttons,
+            'elements' => $elems,
             'data' => $postData,
             'errors' => $errors
         ]);

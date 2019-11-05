@@ -26,6 +26,10 @@
     </div>
 {% endmacro %}
 
+{% macro button(type, name, label, value, class) %}
+    <button type="{{ type }}" name="{{ name }}" class="btn {{ class }}" value="{{ value }}">{{ label }}</button>
+{% endmacro %}
+
 {% macro input(type, name, value, placeholder, class) %}
     <input type="{{ type }}" name="{{ name }}" class="form-control {{ class }}" id="input_{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}">
 {% endmacro %}
