@@ -284,7 +284,7 @@ class ContactModuleController extends AbstractModuleController
     {
         $spec = [];
         foreach ($elems as $key => $elem) {
-            if (in_array($elem['type'], ['divider', 'spacer', 'title', 'submit', 'button', 'reset'])) {
+            if (in_array($elem['type'], ['divider', 'spacer', 'title', 'submit', 'button', 'reset', 'recaptcha'])) {
                 continue;
             }
 
