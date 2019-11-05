@@ -16,6 +16,9 @@
             <div class="font-weight-bold {{ elem.class }}">{{ elem.label }}</div>
         {% elseif elem.type == 'submit' or elem.type == 'button' or elem.type == 'reset' %}
             {{ forms.button(elem.type, key, elem.label, elem.value, elem.class) }}
+        {% elseif elem.type == 'recaptcha' %}
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+            <div class="g-recaptcha mb-2 {{ key in errors ? 'border-left border-danger' : '' }}" data-sitekey="{{ elem.website_key }}"></div>
         {% else %}
             <div class="form-group">
                 {% if elem.type != 'checkbox' %}
@@ -37,8 +40,5 @@
                 {% if elem.hint %}<small id="hint_{{ elem.name }}" class="form-text text-muted">{{ elem.hint }}</small>{% endif %}
             </div>
         {% endif %}
-    {% endfor %}
-    {% for key, button in buttons %}
-        <button type="{{ button.type }}" name="{{ key }}" class="btn {{ button.class }}">{{ button.label }}</button>
     {% endfor %}
 </form>

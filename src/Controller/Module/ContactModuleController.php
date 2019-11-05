@@ -119,6 +119,11 @@ class ContactModuleController extends AbstractModuleController
                     ]
                 ]
             ],
+            'recaptcha' => [
+                'type' => 'recaptcha',
+                'website_key' => '',
+                'secret_key' => ''
+            ],
             'send' => [
                 'type' => 'submit',
                 'label' => 'Senden',
@@ -130,13 +135,10 @@ class ContactModuleController extends AbstractModuleController
                 'class' => 'btn-secondary'
             ]
         ],
-        'error_message' => 'Bitte überprüfe deine Eingaben',
-        'success_message' => 'Nachricht wurde versendet',
-        'failed_message' => 'Es ist ein Fehler aufgetreten, bitte versuche es später erneut',
-        'recaptcha' => [
-            'enable' => false,
-            'website_key' => '',
-            'secret_key' => ''
+        'messages' => [
+            'error' => 'Bitte überprüfe deine Eingaben',
+            'success' => 'Nachricht wurde versendet',
+            'failed' => 'Es ist ein Fehler aufgetreten, bitte versuche es später erneut',
         ]
     ];
 
@@ -193,12 +195,24 @@ class ContactModuleController extends AbstractModuleController
         }
         $postData = $filter->getValues();
 
-        if ($this->config['recaptcha']['enable']) {
+        if (isset($elems['recaptcha'])) {
             $recaptchaResponse = $request->getParsedBodyParam('g-recaptcha-response');
-            $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $this->config['recaptcha']['secret_key'] . '&response=' . $recaptchaResponse;
-            $checkCaptcha = json_decode(file_get_contents($verifyUrl));
+
+            $url = 'https://www.google.com/recaptcha/api/siteverify';
+            $options = [
+                'http' => [
+                    'method' => 'POST',
+                    'content' => http_build_query([
+                        'secret' => $elems['recaptcha']['secret_key'],
+                        'response' => $recaptchaResponse
+                    ])
+                ]
+            ];
+            $context = stream_context_create($options);
+            $verify = file_get_contents($url, false, $context);
+            $checkCaptcha = json_decode($verify);
             if (!$checkCaptcha->success) {
-                $errors['recaptcha'] = true;
+                $errors[] = 'recaptcha';
             }
         }
         $html = '';
@@ -225,18 +239,18 @@ class ContactModuleController extends AbstractModuleController
                 $postData = [];
                 $msg = [
                     'class' => 'success',
-                    'text' => $this->config['success_message']
+                    'text' => $this->config['messages']['success']
                 ];
             } else {
                 $msg = [
                     'class' => 'danger',
-                    'text' => $this->config['failed_message']
+                    'text' => $this->config['messages']['failed']
                 ];
             }
         } else {
             $msg = [
                 'class' => 'danger',
-                'text' => $this->config['error_message']
+                'text' => $this->config['messages']['error']
             ];
         }
         $html .= $this->getForm($elems, $postData, $errors, $msg);
@@ -254,6 +268,7 @@ class ContactModuleController extends AbstractModuleController
     private function getForm(array $elems, $postData = [], array $errors = [], array $message = []): string
     {
         return $this->view->fetch('module/contact/form.twig', [
+            'recaptcha' => $this->config['recaptcha'],
             'elements' => $elems,
             'data' => $postData,
             'errors' => $errors,
