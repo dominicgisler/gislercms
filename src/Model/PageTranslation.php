@@ -307,7 +307,7 @@ class PageTranslation extends DbModel
     public static function getByName(string $name, Language $language): PageTranslation
     {
         $res = new PageTranslation();
-        $elems = self::getWhere('`t`.`name` = ? AND `l`.`language_id` = ?', [$name, $language->getLanguageId()]);
+        $elems = self::getWhere('`t`.`name` = ? AND `l`.`language_id` = ? AND `t`.`enabled` = 1', [$name, $language->getLanguageId()]);
         if (sizeof($elems) > 0) {
             $res = reset($elems);
         }

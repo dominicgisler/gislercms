@@ -1,0 +1,38 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/content.twig' %}
+
+{% block title %}Sprachen{% endblock %}
+
+{% block content %}
+    {% set hasUpdate = false %}
+    <div class="table-responsive">
+        <table class="table table-hover border">
+            <thead class="thead-light">
+                <tr>
+                    <th>Sprache</th>
+                    <th>Abkürzung</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, val in languages %}
+                    <tr style="cursor: pointer;" onclick="window.location.href='{{ admin_url }}/misc/language/{{ val.getLanguageId() }}';">
+                        <td>{{ val.getDescription() }}</td>
+                        <td>{{ val.getLocale() }}</td>
+                        <td>
+                            {% if val.isEnabled() %}
+                                <i class="fa fa-check fa-fw text-success"></i> Aktiv
+                            {% else %}
+                                <i class="fa fa-times fa-fw text-danger"></i> Inaktiv
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-right">
+        <a href="{{ admin_url }}/misc/language" class="btn btn-primary">Neue Sprache</a>
+    </div>
+{% endblock %}

@@ -59,6 +59,8 @@ return [
                 \GislerCMS\Controller\Admin\Misc\ProfileController::class,
                 \GislerCMS\Controller\Admin\Misc\ChangePasswordController::class,
                 \GislerCMS\Controller\Admin\Misc\MigrationController::class,
+                \GislerCMS\Controller\Admin\Misc\Language\ListController::class,
+                \GislerCMS\Controller\Admin\Misc\Language\EditController::class,
                 \GislerCMS\Controller\Admin\Module\AddController::class,
                 \GislerCMS\Controller\Admin\Module\ManageController::class
             ],

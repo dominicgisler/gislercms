@@ -166,6 +166,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {% if route == 'admin-misc-language-list' or route == 'admin-misc-language-edit' %}active{% endif %}" href="{{ admin_url }}/misc/language/list">
+                                <i class="fa fa-language fa-fw"></i>
+                                Sprachen
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {% if route == 'admin-misc-migration' %}active{% endif %}" href="{{ admin_url }}/misc/migration">
                                 <i class="fa fa-database fa-fw"></i>
                                 Datenbank-Update

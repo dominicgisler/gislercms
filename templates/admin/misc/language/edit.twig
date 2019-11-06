@@ -1,0 +1,69 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/content.twig' %}
+
+{% block title %}Sprache {% if language.getLanguageId() > 0 %}bearbeiten{% else %}hinzufügen{% endif %}{% endblock %}
+
+{%
+    set messages = {
+        invalid_input: {
+            class: 'danger',
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+        },
+        save_error: {
+            class: 'danger',
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+        },
+        save_success: {
+            class: 'success',
+            message: 'Die Sprache wurde erfolgreich gespeichert.'
+        },
+        delete_error: {
+            class: 'danger',
+            message: 'Beim Löschen ist ein Fehler aufgetreten, bitte prüfe alle Verknüpfungen oder versuche es später erneut.'
+        }
+    }
+%}
+
+{% block content %}
+    {% if message %}
+        <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
+            {{ messages[message].message|raw }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <form method="post" id="page-form">
+        {{ forms.form_group('text', 'description', language.description, 'Sprache', '', 'description' in errors ? 'is-invalid' : '', 'Beschreibung zur internen Identifikation') }}
+        {{ forms.form_group('text', 'locale', language.locale, 'Abkürzung', '', 'locale' in errors ? 'is-invalid' : '', 'Wird in der Seiten-URL verwendet, zwei Zeichen') }}
+        {{ forms.form_group('checkbox', 'enabled', language.enabled, 'Sprache aktiviert', '', 'enabled' in errors ? 'is-invalid' : '') }}
+        <div class="text-right mb-4">
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">Löschen</button>
+            <button class="btn btn-primary" name="save">Speichern</button>
+        </div>
+
+        {# confirm delete modal #}
+        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteLabel">Sprache löschen</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Möchtest du die Sprache wirklich unwiderruflich löschen?<br>
+                        Alle verknüpfen Übersetzungen werden damit auch gelöscht.<br>
+                        Falls die Sprache noch bei einer Seite als Standardsprache ausgewählt ist kann sie nicht gelöscht werden.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" name="delete" class="btn btn-danger">Ja, Sprache löschen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

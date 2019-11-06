@@ -97,7 +97,7 @@ class Language extends DbModel
      */
     public static function getLanguage(string $locale): Language
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__language` WHERE `locale` = ?");
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__language` WHERE `locale` = ? AND `enabled` = 1");
         $stmt->execute([$locale]);
         $language = $stmt->fetchObject();
         if ($language) {
@@ -111,6 +111,80 @@ class Language extends DbModel
             );
         }
         return new Language();
+    }
+
+    /**
+     * @param int $id
+     * @return Language
+     * @throws \Exception
+     */
+    public static function get(int $id): Language
+    {
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__language` WHERE `language_id` = ?");
+        $stmt->execute([$id]);
+        $language = $stmt->fetchObject();
+        if ($language) {
+            return new Language(
+                $language->language_id,
+                $language->locale,
+                $language->description,
+                $language->enabled,
+                $language->created_at,
+                $language->updated_at
+            );
+        }
+        return new Language();
+    }
+
+    /**
+     * @return Language|null
+     * @throws \Exception
+     */
+    public function save(): ?Language
+    {
+        $pdo = self::getPDO();
+        if ($this->getLanguageId() > 0) {
+            $stmt = $pdo->prepare("
+                UPDATE `cms__language`
+                SET `locale` = ?, `description` = ?, `enabled` = ?
+                WHERE `language_id` = ?
+            ");
+            $res = $stmt->execute([
+                $this->getLocale(),
+                $this->getDescription(),
+                $this->isEnabled(),
+                $this->getLanguageId()
+            ]);
+            return $res ? self::get($this->getLanguageId()) : null;
+        } else {
+            $stmt = $pdo->prepare("
+                INSERT INTO `cms__language` (`locale`, `description`, `enabled`)
+                VALUES (?, ?, ?)
+            ");
+            $res = $stmt->execute([
+                $this->getLocale(),
+                $this->getDescription(),
+                $this->isEnabled()
+            ]);
+            return $res ? self::get($pdo->lastInsertId()) : null;
+        }
+    }
+
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete(): bool
+    {
+        $pdo = self::getPDO();
+        if ($this->getLanguageId() > 0) {
+            $stmt = $pdo->prepare("
+                DELETE FROM `cms__language`
+                WHERE `language_id` = ?
+            ");
+            return $stmt->execute([$this->getLanguageId()]);
+        }
+        return false;
     }
 
     /**
