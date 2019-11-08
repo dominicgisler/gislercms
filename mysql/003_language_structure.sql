@@ -10,5 +10,5 @@ CREATE TABLE `cms__language`
   `updated_at`  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   CONSTRAINT `pk_language` PRIMARY KEY (`language_id`),
-  CONSTRAINT `uq_language` UNIQUE (`locale`),
+  CONSTRAINT `uq_language` UNIQUE (`locale`)
 );
