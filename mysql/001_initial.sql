@@ -1,5 +1,9 @@
 -- Datenbank aufräumen
 
+DROP TABLE IF EXISTS `cms__visit`;
+DROP TABLE IF EXISTS `cms__session`;
+DROP TABLE IF EXISTS `cms__client`;
+DROP TABLE IF EXISTS `cms__module`;
 DROP TABLE IF EXISTS `cms__widget_translation_history`;
 DROP TABLE IF EXISTS `cms__widget_translation`;
 DROP TABLE IF EXISTS `cms__widget`;

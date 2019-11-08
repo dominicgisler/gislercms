@@ -1,7 +1,5 @@
 -- Struktur der Modul-Tabelle
 
-DROP TABLE IF EXISTS `cms__module`;
-
 CREATE TABLE `cms__module`
 (
   `module_id`  INT UNSIGNED NOT NULL AUTO_INCREMENT,
