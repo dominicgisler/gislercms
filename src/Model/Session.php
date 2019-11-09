@@ -196,6 +196,15 @@ class Session extends DbModel
     }
 
     /**
+     * @return Session[]
+     * @throws \Exception
+     */
+    public static function getAll(): array
+    {
+        return self::getWhere();
+    }
+
+    /**
      * @return int
      */
     public function getSessionId(): int

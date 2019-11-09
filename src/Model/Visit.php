@@ -150,6 +150,15 @@ class Visit extends DbModel
     }
 
     /**
+     * @return Visit[]
+     * @throws \Exception
+     */
+    public static function getAll(): array
+    {
+        return self::getWhere();
+    }
+
+    /**
      * @return int
      */
     public function getVisitId(): int

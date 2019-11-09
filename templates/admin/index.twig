@@ -3,4 +3,42 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-xl-3 col-sm-6">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body text-right">
+                    <i class="fa fa-file-alt fa-5x float-left"></i>
+                    <p class="card-title h2">{{ pages|length }}</p>
+                    <p class="card-text h6">Erstellte Seiten</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body text-right">
+                    <i class="fa fa-user fa-5x float-left"></i>
+                    <p class="card-title h2">{{ clients|length }}</p>
+                    <p class="card-text h6">Eindeutige Besucher</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body text-right">
+                    <i class="fa fa-eye fa-5x float-left"></i>
+                    <p class="card-title h2">{{ sessions|length }}</p>
+                    <p class="card-text h6">Seitenbesuche</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-body text-right">
+                    <i class="fa fa-chart-line fa-5x float-left"></i>
+                    <p class="card-title h2">{{ visits|length }}</p>
+                    <p class="card-text h6">Seitenaufrufe</p>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

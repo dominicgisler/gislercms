@@ -148,6 +148,15 @@ class Client extends DbModel
     }
 
     /**
+     * @return Client[]
+     * @throws \Exception
+     */
+    public static function getAll(): array
+    {
+        return self::getWhere();
+    }
+
+    /**
      * @return int
      */
     public function getClientId(): int
