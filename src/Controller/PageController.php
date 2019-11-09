@@ -38,6 +38,9 @@ class PageController extends AbstractController
         }
         $page->replaceWidgets();
         $page->replaceModules($request, $this->get('view'));
+
+        $response = $this->trackPage($request, $response, $page);
+
         return $this->render($request, $response, 'layout.twig', ['page' => $page]);
     }
 }

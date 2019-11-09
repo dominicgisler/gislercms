@@ -57,6 +57,99 @@ class Visit extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return Visit[]
+     * @throws \Exception
+     */
+    public static function getWhere(string $where = '', array $args = []): array
+    {
+        $arr = [];
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__visit` " . (!empty($where) ? 'WHERE ' . $where : ''));
+        if ($stmt instanceof \PDOStatement) {
+            $stmt->execute($args);
+            $visits = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            if (sizeof($visits) > 0) {
+                foreach ($visits as $visit) {
+                    $arr[] = new Visit(
+                        $visit->visit_id,
+                        PageTranslation::get($visit->fk_page_translation_id),
+                        Session::get($visit->fk_session_id),
+                        $visit->created_at,
+                        $visit->updated_at
+                    );
+                }
+            }
+        }
+        return $arr;
+    }
+
+    /**
+     * @param string $where
+     * @param array $args
+     * @return Visit
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): Visit
+    {
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__visit` " . (!empty($where) ? 'WHERE ' . $where : ''));
+        $stmt->execute($args);
+        $visit = $stmt->fetchObject();
+        if ($visit) {
+            return new Visit(
+                $visit->visit_id,
+                PageTranslation::get($visit->fk_page_translation_id),
+                Session::get($visit->fk_session_id),
+                $visit->created_at,
+                $visit->updated_at
+            );
+        }
+        return new Visit();
+    }
+
+    /**
+     * @return Visit|null
+     * @throws \Exception
+     */
+    public function save(): ?Visit
+    {
+        $pdo = self::getPDO();
+        if ($this->getVisitId() > 0) {
+            $stmt = $pdo->prepare("
+                UPDATE `cms__visit`
+                SET `fk_page_translation_id` = ?, `fk_session_id` = ?
+                WHERE `visit_id` = ?
+            ");
+            $res = $stmt->execute([
+                $this->getPageTranslation()->getPageTranslationId(),
+                $this->getSession()->getSessionId(),
+                $this->getVisitId()
+            ]);
+            return $res ? self::get($this->getVisitId()) : null;
+        } else {
+            $stmt = $pdo->prepare("
+                INSERT INTO `cms__visit` (`fk_page_translation_id`, `fk_session_id`)
+                VALUES (?, ?)
+            ");
+            $res = $stmt->execute([
+                $this->getPageTranslation()->getPageTranslationId(),
+                $this->getSession()->getSessionId()
+            ]);
+            return $res ? self::get($pdo->lastInsertId()) : null;
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return Visit
+     * @throws \Exception
+     */
+    public static function get(int $id): Visit
+    {
+        return self::getObjectWhere('`visit_id` = ?', [$id]);
+    }
+
+    /**
      * @return int
      */
     public function getVisitId(): int

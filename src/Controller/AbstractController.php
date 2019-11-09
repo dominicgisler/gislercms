@@ -10,6 +10,7 @@ use GislerCMS\Model\Client;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\PageTranslation;
 use GislerCMS\Model\Session;
+use GislerCMS\Model\Visit;
 use GislerCMS\Model\Widget;
 use GislerCMS\Model\WidgetTranslation;
 use Psr\Http\Message\ResponseInterface;
@@ -102,6 +103,11 @@ abstract class AbstractController
             $session->setClient($client);
             $session->save();
         }
+
+        $visit = new Visit();
+        $visit->setPageTranslation($pTrans);
+        $visit->setSession($session);
+        $visit->save();
 
         return $response;
     }
