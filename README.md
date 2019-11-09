@@ -59,4 +59,4 @@ Developed and tested with:
 
 ## Custom adjustments
 
-To use this CMS in your projects with custom adjustments (mostly custom templates) you can use the [gislercms-custom](https://github.com/dominicgisler/gislercms) repo, which is prepared to download the latest release and use it with your custom changes.
+To use this CMS in your projects with custom adjustments (mostly custom templates) you can use the [gislercms-custom](https://github.com/dominicgisler/gislercms-custom) repo, which is prepared to download the latest release and use it with your custom changes.
