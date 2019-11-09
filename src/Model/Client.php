@@ -49,6 +49,105 @@ class Client extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return Client[]
+     * @throws \Exception
+     */
+    public static function getWhere(string $where = '', array $args = []): array
+    {
+        $arr = [];
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__client` " . (!empty($where) ? 'WHERE ' . $where : ''));
+        if ($stmt instanceof \PDOStatement) {
+            $stmt->execute($args);
+            $clients = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            if (sizeof($clients) > 0) {
+                foreach ($clients as $client) {
+                    $arr[] = new Client(
+                        $client->client_id,
+                        $client->uuid,
+                        $client->created_at,
+                        $client->updated_at
+                    );
+                }
+            }
+        }
+        return $arr;
+    }
+
+    /**
+     * @param string $where
+     * @param array $args
+     * @return Client
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): Client
+    {
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__client` " . (!empty($where) ? 'WHERE ' . $where : ''));
+        $stmt->execute($args);
+        $client = $stmt->fetchObject();
+        if ($client) {
+            return new Client(
+                $client->client_id,
+                $client->uuid,
+                $client->created_at,
+                $client->updated_at
+            );
+        }
+        return new Client();
+    }
+
+    /**
+     * @return Client|null
+     * @throws \Exception
+     */
+    public function save(): ?Client
+    {
+        $pdo = self::getPDO();
+        if ($this->getClientId() > 0) {
+            $stmt = $pdo->prepare("
+                UPDATE `cms__client`
+                SET `uuid` = ?, `updated_at` = CURRENT_TIMESTAMP()
+                WHERE `client_id` = ?
+            ");
+            $res = $stmt->execute([
+                $this->getUuid(),
+                $this->getClientId()
+            ]);
+            return $res ? self::get($this->getClientId()) : null;
+        } else {
+            $stmt = $pdo->prepare("
+                INSERT INTO `cms__client` (`uuid`)
+                VALUES (?)
+            ");
+            $res = $stmt->execute([
+                $this->getUuid()
+            ]);
+            return $res ? self::get($pdo->lastInsertId()) : null;
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return Client
+     * @throws \Exception
+     */
+    public static function get(int $id): Client
+    {
+        return self::getObjectWhere('`client_id` = ?', [$id]);
+    }
+
+    /**
+     * @param string $uuid
+     * @return Client
+     * @throws \Exception
+     */
+    public static function getClient(string $uuid): Client
+    {
+        return self::getObjectWhere('`uuid` = ?', [$uuid]);
+    }
+
+    /**
      * @return int
      */
     public function getClientId(): int

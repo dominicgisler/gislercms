@@ -81,6 +81,121 @@ class Session extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return Session[]
+     * @throws \Exception
+     */
+    public static function getWhere(string $where = '', array $args = []): array
+    {
+        $arr = [];
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__session` " . (!empty($where) ? 'WHERE ' . $where : ''));
+        if ($stmt instanceof \PDOStatement) {
+            $stmt->execute($args);
+            $sessions = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            if (sizeof($sessions) > 0) {
+                foreach ($sessions as $session) {
+                    $arr[] = new Session(
+                        $session->session_id,
+                        Client::get($session->fk_client_id),
+                        $session->uuid,
+                        $session->ip,
+                        $session->platform,
+                        $session->browser,
+                        $session->created_at,
+                        $session->updated_at
+                    );
+                }
+            }
+        }
+        return $arr;
+    }
+
+    /**
+     * @param string $where
+     * @param array $args
+     * @return Session
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): Session
+    {
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__session` " . (!empty($where) ? 'WHERE ' . $where : ''));
+        $stmt->execute($args);
+        $session = $stmt->fetchObject();
+        if ($session) {
+            return new Session(
+                $session->session_id,
+                Client::get($session->fk_client_id),
+                $session->uuid,
+                $session->ip,
+                $session->platform,
+                $session->browser,
+                $session->created_at,
+                $session->updated_at
+            );
+        }
+        return new Session();
+    }
+
+    /**
+     * @return Session|null
+     * @throws \Exception
+     */
+    public function save(): ?Session
+    {
+        $pdo = self::getPDO();
+        if ($this->getSessionId() > 0) {
+            $stmt = $pdo->prepare("
+                UPDATE `cms__session`
+                SET `fk_client_id` = ?, `uuid` = ?, `ip` = ?, `platform` = ?, `browser` = ?, `updated_at` = CURRENT_TIMESTAMP()
+                WHERE `session_id` = ?
+            ");
+            $res = $stmt->execute([
+                $this->getClient()->getClientId(),
+                $this->getUuid(),
+                $this->getIp(),
+                $this->getPlatform(),
+                $this->getBrowser(),
+                $this->getSessionId()
+            ]);
+            return $res ? self::get($this->getSessionId()) : null;
+        } else {
+            $stmt = $pdo->prepare("
+                INSERT INTO `cms__session` (`fk_client_id`, `uuid`, `ip`, `platform`, `browser`)
+                VALUES (?, ?, ?, ?, ?)
+            ");
+            $res = $stmt->execute([
+                $this->getClient()->getClientId(),
+                $this->getUuid(),
+                $this->getIp(),
+                $this->getPlatform(),
+                $this->getBrowser()
+            ]);
+            return $res ? self::get($pdo->lastInsertId()) : null;
+        }
+    }
+
+    /**
+     * @param int Session
+     * @return Session
+     * @throws \Exception
+     */
+    public static function get(int $id): Session
+    {
+        return self::getObjectWhere('`session_id` = ?', [$id]);
+    }
+
+    /**
+     * @param string $uuid
+     * @return Session
+     * @throws \Exception
+     */
+    public static function getSession(string $uuid): Session
+    {
+        return self::getObjectWhere('`uuid` = ?', [$uuid]);
+    }
+
+    /**
      * @return int
      */
     public function getSessionId(): int

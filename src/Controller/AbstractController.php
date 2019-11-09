@@ -3,11 +3,16 @@
 namespace GislerCMS\Controller;
 
 use Dflydev\FigCookies\FigRequestCookies;
+use Dflydev\FigCookies\FigResponseCookies;
+use Dflydev\FigCookies\SetCookie;
+use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Client;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\PageTranslation;
+use GislerCMS\Model\Session;
 use GislerCMS\Model\Widget;
 use GislerCMS\Model\WidgetTranslation;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Route;
@@ -43,12 +48,12 @@ abstract class AbstractController
 
     /**
      * @param Request $request
-     * @param Response $response
+     * @param ResponseInterface $response
      * @param string $template
      * @param array $data
      * @return Response
      */
-    protected function render(Request $request, Response $response, string $template, array $data = []): Response
+    protected function render(Request $request, ResponseInterface $response, string $template, array $data = []): Response
     {
         /** @var Route $route */
         $route = $request->getAttribute('route');
@@ -64,14 +69,25 @@ abstract class AbstractController
      * @param Request $request
      * @param Response $response
      * @param PageTranslation $pTrans
-     * @return Response
+     * @return ResponseInterface
      * @throws \Exception
      */
-    protected function trackPage(Request $request, Response $response, PageTranslation $pTrans): Response
+    protected function trackPage(Request $request, Response $response, PageTranslation $pTrans): ResponseInterface
     {
         $cUuid = FigRequestCookies::get($request, 'client', $this->uuidv4())->getValue();
+        $sUuid = SessionHelper::getContainer()->offsetGet('session_uuid') ?: $this->uuidv4();
+
+        $client = Client::getClient($cUuid);
+        $client->setUuid($cUuid);
+        $response = FigResponseCookies::set($response, SetCookie::create('client')->withValue($cUuid)->withExpires(strtotime('+1 year')));
+
+        $session = Session::getSession($sUuid);
+        $session->setUuid($sUuid);
+        SessionHelper::getContainer()->offsetSet('session_uuid', $sUuid);
 
         $browserData = parse_user_agent();
+        $session->setPlatform($browserData['platform']);
+        $session->setBrowser($browserData['browser']);
 
         if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -79,8 +95,13 @@ abstract class AbstractController
             $ip = $_SERVER['REMOTE_ADDR'];
         }
         $ip = preg_replace('/[0-9]+\z/', '0', $ip);
+        $session->setIp($ip);
 
-        $client = new Client(0, $cUuid);
+        $client = $client->save();
+        if ($client->getClientId() > 0) {
+            $session->setClient($client);
+            $session->save();
+        }
 
         return $response;
     }
