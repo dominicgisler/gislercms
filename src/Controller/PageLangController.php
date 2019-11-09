@@ -37,11 +37,11 @@ class PageLangController extends AbstractController
         if ($page->getPageTranslationId() == 0 || !$page->getPage()->isEnabled()) {
             $page = PageTranslation::getDefaultByName('error-404');
             $response = $response->withStatus(404);
+        } else {
+            $response = $this->trackPage($request, $response, $page);
         }
         $page->replaceWidgets();
         $page->replaceModules($request, $this->get('view'));
-
-        $response = $this->trackPage($request, $response, $page);
 
         return $this->render($request, $response, 'layout.twig', ['page' => $page]);
     }
