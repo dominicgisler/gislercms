@@ -40,8 +40,11 @@ class PageLangController extends AbstractController
         } else {
             $response = $this->trackPage($request, $response, $page);
         }
+
+        $arguments = str_replace([$page->getName() . '/', $page->getName()], '', $name);
+
         $page->replaceWidgets();
-        $page->replaceModules($request, $this->get('view'));
+        $page->replaceModules($request->withAttribute('arguments', $arguments), $this->get('view'));
 
         return $this->render($request, $response, 'layout.twig', ['page' => $page]);
     }

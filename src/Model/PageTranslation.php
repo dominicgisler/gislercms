@@ -295,6 +295,13 @@ class PageTranslation extends DbModel
         } elseif (sizeof($elems) == 1) {
             $res = reset($elems);
         }
+
+        $parts = explode('/', $name);
+        if (sizeof($parts) > 1 && $res->getPageTranslationId() == 0) {
+            unset($parts[sizeof($parts) - 1]);
+            return self::getDefaultByName(join('/', $parts));
+        }
+
         return $res;
     }
 
@@ -311,6 +318,13 @@ class PageTranslation extends DbModel
         if (sizeof($elems) > 0) {
             $res = reset($elems);
         }
+
+        $parts = explode('/', $name);
+        if (sizeof($parts) > 1 && $res->getPageTranslationId() == 0) {
+            unset($parts[sizeof($parts) - 1]);
+            return self::getByName(join('/', $parts), $language);
+        }
+
         return $res;
     }
 
