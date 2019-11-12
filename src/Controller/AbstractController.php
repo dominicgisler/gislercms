@@ -101,7 +101,7 @@ abstract class AbstractController
         $client = $client->save();
         if ($client->getClientId() > 0) {
             $session->setClient($client);
-            $session->save();
+            $session = $session->save();
         }
 
         $visit = new Visit();
