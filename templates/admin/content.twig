@@ -35,156 +35,184 @@
         </ul>
     </nav>
 
+    {% set page_trash = 0 %}
+    {% for page in pages %}
+        {% if page.isTrash() %}
+            {% set page_trash = page_trash + 1 %}
+        {% endif %}
+    {% endfor %}
+
+    {% set widget_trash = 0 %}
+    {% for widget in widgets %}
+        {% if widget.isTrash() %}
+            {% set widget_trash = widget_trash + 1 %}
+        {% endif %}
+    {% endfor %}
+
+    {%
+        set navigation = [
+            {
+                items: [
+                    {
+                        route: 'admin-index',
+                        label: 'Dashboard',
+                        icon: 'fa-home',
+                        href: admin_url
+                    },
+                    {
+                        route: 'admin-preview',
+                        label: 'Seitenvorschau',
+                        icon: 'fa-eye',
+                        href: admin_url ~ '/preview'
+                    }
+                ]
+            },
+            {
+                class: 'd-md-none',
+                items: [
+                    {
+                        route: 'admin-misc-profile',
+                        label: 'Profil',
+                        icon: 'fa-user',
+                        href: admin_url ~ '/misc/profile'
+                    },
+                    {
+                        route: 'admin-misc-change-password',
+                        label: 'Passwort ändern',
+                        icon: 'fa-key',
+                        href: admin_url ~ '/misc/change-password'
+                    },
+                    {
+                        label: 'Abmelden',
+                        icon: 'fa-sign-out-alt',
+                        href: admin_url ~ '/logout'
+                    }
+                ]
+            },
+            {
+                title: 'Seiten',
+                items: [
+                    {
+                        route: 'admin-page-all',
+                        label: 'Alle Seiten',
+                        icon: 'fa-copy',
+                        href: admin_url ~ '/page/all',
+                        count: pages|length
+                    },
+                    {
+                        label: 'Neue Seite',
+                        icon: 'fa-plus',
+                        href: admin_url ~ '/page/add'
+                    },
+                    {
+                        route: 'admin-page-defaults',
+                        label: 'Standardwerte',
+                        icon: 'fa-cog',
+                        href: admin_url ~ '/page/defaults'
+                    },
+                    {
+                        route: 'admin-page-trash',
+                        label: 'Papierkorb',
+                        icon: 'fa-trash-alt',
+                        href: admin_url ~ '/page/trash',
+                        count: page_trash
+                    }
+                ]
+            },
+            {
+                title: 'Widgets',
+                items: [
+                    {
+                        route: 'admin-widget-all',
+                        label: 'Alle Widgets',
+                        icon: 'fa-copy',
+                        href: admin_url ~ '/widget/all',
+                        count: widgets|length
+                    },
+                    {
+                        label: 'Neues Widget',
+                        icon: 'fa-plus',
+                        href: admin_url ~ '/widget/add'
+                    },
+                    {
+                        route: 'admin-widget-trash',
+                        label: 'Papierkorb',
+                        icon: 'fa-trash-alt',
+                        href: admin_url ~ '/widget/trash',
+                        count: widget_trash
+                    }
+                ]
+            },
+            {
+                title: 'Module',
+                items: [
+                    {
+                        route: 'admin-module-all',
+                        label: 'Alle Module',
+                        icon: 'fa-copy',
+                        href: admin_url ~ '/module/all',
+                        count: modules|length
+                    },
+                    {
+                        label: 'Neues Modul',
+                        icon: 'fa-plus',
+                        href: admin_url ~ '/module/add'
+                    }
+                ]
+            },
+            {
+                title: 'Verschiedenes',
+                items: [
+                    {
+                        route: 'admin-misc-config',
+                        label: 'Konfiguration',
+                        icon: 'fa-cogs',
+                        href: admin_url ~ '/misc/config'
+                    },
+                    {
+                        route: 'admin-misc-language-list',
+                        label: 'Sprachen',
+                        icon: 'fa-language',
+                        href: admin_url ~ '/misc/language/list'
+                    },
+                    {
+                        route: 'admin-misc-migration',
+                        label: 'Datenbank-Update',
+                        icon: 'fa-database',
+                        href: admin_url ~ '/misc/migration'
+                    },
+                    {
+                        route: 'admin-misc-sysinfo',
+                        label: 'Systeminformation',
+                        icon: 'fa-info-circle',
+                        href: admin_url ~ '/misc/sysinfo'
+                    }
+                ]
+            }
+        ]
+    %}
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar" id="side-navigation">
-                <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link {% if route == 'admin-index' %}active{% endif %}" href="{{ admin_url }}">
-                                <i class="fa fa-home fa-fw"></i>
-                                Dashboard {% if route == 'admin-index' %}<span class="sr-only">(current)</span>{% endif %}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if route == 'admin-preview' %}active{% endif %}" href="{{ admin_url }}/preview">
-                                <i class="fa fa-file fa-fw"></i>
-                                Seitenvorschau {% if route == 'admin-preview' %}<span class="sr-only">(current)</span>{% endif %}
-                            </a>
-                        </li>
-                        <li class="nav-item d-md-none">
-                            <a class="nav-link {% if route == 'admin-misc-profile' %}active{% endif %}" href="{{ admin_url }}/misc/profile">
-                                <i class="fa fa-user fa-fw"></i>
-                                Profil
-                            </a>
-                        </li>
-                        <li class="nav-item d-md-none">
-                            <a class="nav-link {% if route == 'admin-misc-change-password' %}active{% endif %}" href="{{ admin_url }}/misc/change-password">
-                                <i class="fa fa-key fa-fw"></i>
-                                Passwort ändern
-                            </a>
-                        </li>
-                        <li class="nav-item d-md-none">
-                            <a class="nav-link" href="{{ admin_url }}/logout">
-                                <i class="fa fa-sign-out-alt fa-fw"></i>
-                                Abmelden
-                            </a>
-                        </li>
-                    </ul>
-
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>Seiten</span>
-                        <a class="d-flex align-items-center text-muted p-0" href="{{ admin_url }}/page/add">
-                            <i class="fa fa-plus-circle fa-fw"></i>
-                        </a>
-                    </h6>
-                    <ul class="nav flex-column mb-2">
-                        {% set trash = 0 %}
-                        {% for navPage in pages %}
-                            {% set active = (route == 'admin-page-edit' and page.getPageId() == navPage.getPageId()) %}
-                            {% if navPage.isTrash() %}
-                                {% set trash = trash + 1 %}
-                            {% else %}
-                                <li class="nav-item">
-                                    <a class="nav-link {% if active %}active{% elseif not navPage.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/page/{{ navPage.getPageId() }}">
-                                        <i class="fa {% if navPage.isEnabled() %}fa-file-alt{% else %}fa-eye-slash{% endif %} fa-fw"></i>
-                                        {{ navPage.getName() }}
-                                    </a>
-                                </li>
+            <nav class="col-md-3 col-lg-2 d-none d-md-block sidebar bg-white" id="side-navigation">
+                <div class="sidenav">
+                    {% for group in navigation %}
+                        <div class="list-group list-group-flush {{ group.class }}">
+                            {% if group.title|length > 0 %}
+                                <div class="list-group-item font-weight-bold">{{ group.title }}</div>
                             {% endif %}
-                        {% endfor %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if route == 'admin-page-defaults' %}active{% endif %}" href="{{ admin_url }}/page/defaults">
-                                <i class="fa fa-cog fa-fw"></i>
-                                Standardwerte
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if route == 'admin-page-trash' %}active{% endif %}" href="{{ admin_url }}/page/trash">
-                                <i class="fa fa-trash-alt fa-fw"></i>
-                                Papierkorb ({{ trash }})
-                            </a>
-                        </li>
-                    </ul>
-
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>Widgets</span>
-                        <a class="d-flex align-items-center text-muted p-0" href="{{ admin_url }}/widget/add">
-                            <i class="fa fa-plus-circle fa-fw"></i>
-                        </a>
-                    </h6>
-                    <ul class="nav flex-column mb-2">
-                        {% set trash = 0 %}
-                        {% for navWidget in widgets %}
-                            {% set active = (route == 'admin-widget-edit' and widget.getWidgetId() == navWidget.getWidgetId()) %}
-                            {% if navWidget.isTrash() %}
-                                {% set trash = trash + 1 %}
-                            {% else %}
-                                <li class="nav-item">
-                                    <a class="nav-link {% if active %}active{% elseif not navWidget.isEnabled() %}text-muted{% endif %}" href="{{ admin_url }}/widget/{{ navWidget.getWidgetId() }}">
-                                        <i class="fa {% if navWidget.isEnabled() %}fa-file-alt{% else %}fa-eye-slash{% endif %} fa-fw"></i>
-                                        {{ navWidget.getName() }}
-                                    </a>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if route == 'admin-widget-trash' %}active{% endif %}" href="{{ admin_url }}/widget/trash">
-                                <i class="fa fa-trash-alt fa-fw"></i>
-                                Papierkorb ({{ trash }})
-                            </a>
-                        </li>
-                    </ul>
-
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>Module</span>
-                        <a class="d-flex align-items-center text-muted p-0" href="{{ admin_url }}/module/add">
-                            <i class="fa fa-plus-circle fa-fw"></i>
-                        </a>
-                    </h6>
-                    <ul class="nav flex-column mb-2">
-                        {% set trash = 0 %}
-                        {% for navModule in modules %}
-                            {% set active = (route == 'admin-module-manage' and module.getModuleId() == navModule.getModuleId()) %}
-                            <li class="nav-item">
-                                <a class="nav-link {% if active %}active{% endif %}" href="{{ admin_url }}/module/{{ navModule.getModuleId() }}">
-                                    <i class="fa fa-file-code fa-fw"></i>
-                                    {{ navModule.getName() }}
+                            {% for item in group.items %}
+                                <a href="{{ item.href }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {% if route == item.route %}active{% endif %}">
+                                    <span>
+                                        <i class="fa {{ item.icon }} fa-fw mr-2"></i>
+                                        {{ item.label }} {% if route == item.route %}<span class="sr-only">(current)</span>{% endif %}
+                                    </span>
+                                    {% if item.count > 0 %}
+                                        <span class="badge badge-dark badge-pill">{{ item.count }}</span>
+                                    {% endif %}
                                 </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>Verschiedenes</span>
-                    </h6>
-                    <ul class="nav flex-column mb-2">
-                        <li class="nav-item">
-                            <a class="nav-link {% if route == 'admin-misc-config' %}active{% endif %}" href="{{ admin_url }}/misc/config">
-                                <i class="fa fa-cogs fa-fw"></i>
-                                Konfiguration
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if route == 'admin-misc-language-list' or route == 'admin-misc-language-edit' %}active{% endif %}" href="{{ admin_url }}/misc/language/list">
-                                <i class="fa fa-language fa-fw"></i>
-                                Sprachen
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if route == 'admin-misc-migration' %}active{% endif %}" href="{{ admin_url }}/misc/migration">
-                                <i class="fa fa-database fa-fw"></i>
-                                Datenbank-Update
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if route == 'admin-misc-sysinfo' %}active{% endif %}" href="{{ admin_url }}/misc/sysinfo">
-                                <i class="fa fa-info-circle fa-fw"></i>
-                                Systeminformation
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="mt-4 pt-2"></div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
                 </div>
             </nav>
 
