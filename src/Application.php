@@ -40,6 +40,7 @@ class Application
     {
         $configPaths = [
             __DIR__ . '/../config/default.php',
+            __DIR__ . '/../config/navigation.php',
             __DIR__ . '/../config/custom.php',
             __DIR__ . '/../config/local.php'
         ];
