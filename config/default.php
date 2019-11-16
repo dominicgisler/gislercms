@@ -50,9 +50,11 @@ return [
                 \GislerCMS\Controller\Admin\Page\AddController::class,
                 \GislerCMS\Controller\Admin\Page\DefaultsController::class,
                 \GislerCMS\Controller\Admin\Page\EditController::class,
+                \GislerCMS\Controller\Admin\Page\ListController::class,
                 \GislerCMS\Controller\Admin\Page\TrashController::class,
                 \GislerCMS\Controller\Admin\Widget\AddController::class,
                 \GislerCMS\Controller\Admin\Widget\EditController::class,
+                \GislerCMS\Controller\Admin\Widget\ListController::class,
                 \GislerCMS\Controller\Admin\Widget\TrashController::class,
                 \GislerCMS\Controller\Admin\Misc\ConfigController::class,
                 \GislerCMS\Controller\Admin\Misc\SysInfoController::class,
@@ -62,6 +64,7 @@ return [
                 \GislerCMS\Controller\Admin\Misc\Language\ListController::class,
                 \GislerCMS\Controller\Admin\Misc\Language\EditController::class,
                 \GislerCMS\Controller\Admin\Module\AddController::class,
+                \GislerCMS\Controller\Admin\Module\ListController::class,
                 \GislerCMS\Controller\Admin\Module\ManageController::class
             ],
             'require_nologin' => [

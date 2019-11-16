@@ -43,10 +43,6 @@ class AddController extends AbstractController
         $msg = false;
 
         $cnt = SessionHelper::getContainer();
-        if ($cnt->offsetExists('module_saved')) {
-            $cnt->offsetUnset('module_saved');
-            $msg = 'save_success';
-        }
         if ($cnt->offsetExists('module_deleted')) {
             $cnt->offsetUnset('module_deleted');
             $msg = 'delete_success';
@@ -72,7 +68,6 @@ class AddController extends AbstractController
 
                     $res = $mod->save();
                     if (!is_null($res)) {
-                        $cnt->offsetSet('module_saved', true);
                         return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/module/' . $res->getModuleId());
                     } else {
                         $msg = 'save_error';

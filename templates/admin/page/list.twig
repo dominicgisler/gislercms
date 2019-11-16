@@ -1,0 +1,43 @@
+{% extends 'admin/content.twig' %}
+
+{% block title %}Seiten{% endblock %}
+
+{% block content %}
+    <div class="table-responsive">
+        <table class="table table-hover border">
+            <thead class="thead-light">
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Standardsprache</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for key, val in pages %}
+                <tr style="cursor: pointer;" onclick="window.location.href='{{ admin_url }}/page/{{ val.getPageId() }}';">
+                    <td style="width: 40px;" class="text-center">
+                        {% if val.isEnabled() %}
+                            <i class="fa fa-file-alt"></i>
+                        {% else %}
+                            <i class="fa fa-eye-slash"></i>
+                        {% endif %}
+                    </td>
+                    <td>{{ val.getName() }}</td>
+                    <td>{{ val.getLanguage().getDescription() }}</td>
+                    <td>
+                        {% if val.isEnabled() %}
+                            <i class="fa fa-check fa-fw text-success"></i> Aktiv
+                        {% else %}
+                            <i class="fa fa-times fa-fw text-danger"></i> Inaktiv
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-right">
+        <a href="{{ admin_url }}/page/add" class="btn btn-primary">Neue Seite</a>
+    </div>
+{% endblock %}

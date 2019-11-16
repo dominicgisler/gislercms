@@ -85,6 +85,15 @@ class Widget extends DbModel
      * @return Widget[]
      * @throws \Exception
      */
+    public static function getAvailable(): array
+    {
+        return self::getWhere('`w`.`trash` = 0');
+    }
+
+    /**
+     * @return Widget[]
+     * @throws \Exception
+     */
     public static function getTrash(): array
     {
         return self::getWhere('`w`.`trash` = 1');

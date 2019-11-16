@@ -85,6 +85,15 @@ class Page extends DbModel
      * @return Page[]
      * @throws \Exception
      */
+    public static function getAvailable(): array
+    {
+        return self::getWhere('`p`.`trash` = 0');
+    }
+
+    /**
+     * @return Page[]
+     * @throws \Exception
+     */
     public static function getTrash(): array
     {
         return self::getWhere('`p`.`trash` = 1');

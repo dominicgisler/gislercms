@@ -45,7 +45,7 @@
                                 <div class="list-group-item font-weight-bold">{{ group.title }}</div>
                             {% endif %}
                             {% for item in group.items %}
-                                <a href="{{ item.href }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {% if route == item.route %}active{% endif %}">
+                                <a href="{{ item.href }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {% if route in item.route %}active{% endif %}">
                                     <span>
                                         <i class="fa {{ item.icon }} fa-fw mr-2"></i>
                                         {{ item.label }} {% if route == item.route %}<span class="sr-only">(current)</span>{% endif %}

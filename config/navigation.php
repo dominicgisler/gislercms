@@ -45,10 +45,10 @@ return [
                 'title' => 'Seiten',
                 'items' => [
                     [
-                        'route' => 'admin-page-all',
+                        'route' => ['admin-page-list', 'admin-page-edit'],
                         'label' => 'Alle Seiten',
                         'icon' => 'fa-copy',
-                        'href' => '{admin_url}/page/all',
+                        'href' => '{admin_url}/page/list',
                         'count' => '{pages_count}'
                     ],
                     [
@@ -75,10 +75,10 @@ return [
                 'title' => 'Widgets',
                 'items' => [
                     [
-                        'route' => 'admin-widget-all',
+                        'route' => ['admin-widget-list', 'admin-widget-edit'],
                         'label' => 'Alle Widgets',
                         'icon' => 'fa-copy',
-                        'href' => '{admin_url}/widget/all',
+                        'href' => '{admin_url}/widget/list',
                         'count' => '{widgets_count}'
                     ],
                     [
@@ -91,7 +91,7 @@ return [
                         'label' => 'Papierkorb',
                         'icon' => 'fa-trash-alt',
                         'href' => '{admin_url}/widget/trash',
-                        'count' => '{widget_trash_count}'
+                        'count' => '{widgets_trash_count}'
                     ]
                 ]
             ],
@@ -99,13 +99,14 @@ return [
                 'title' => 'Module',
                 'items' => [
                     [
-                        'route' => 'admin-module-all',
+                        'route' => ['admin-module-list', 'admin-module-manage'],
                         'label' => 'Alle Module',
                         'icon' => 'fa-copy',
-                        'href' => '{admin_url}/module/all',
+                        'href' => '{admin_url}/module/list',
                         'count' => '{modules_count}'
                     ],
                     [
+                        'route' => 'admin-module-add',
                         'label' => 'Neues Modul',
                         'icon' => 'fa-plus',
                         'href' => '{admin_url}/module/add'
