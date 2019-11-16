@@ -3,15 +3,15 @@
 namespace GislerCMS\Model;
 
 /**
- * Class Page
+ * Class Post
  * @package GislerCMS\Model
  */
-class Page extends DbModel
+class Post extends DbModel
 {
     /**
      * @var int
      */
-    private $pageId;
+    private $postId;
 
     /**
      * @var string
@@ -36,6 +36,21 @@ class Page extends DbModel
     /**
      * @var string
      */
+    private $publishAt;
+
+    /**
+     * @var string[]
+     */
+    private $categories;
+
+    /**
+     * @var string[]
+     */
+    private $attributes;
+
+    /**
+     * @var string
+     */
     private $createdAt;
 
     /**
@@ -44,36 +59,45 @@ class Page extends DbModel
     private $updatedAt;
 
     /**
-     * Page constructor.
-     * @param int $pageId
+     * Post constructor.
+     * @param int $postId
      * @param string $name
      * @param bool $enabled
      * @param bool $trash
      * @param Language $language
+     * @param string $publishAt
+     * @param string[] $categories
+     * @param string[] $attributes
      * @param string $createdAt
      * @param string $updatedAt
      */
     public function __construct(
-        int $pageId = 0,
+        int $postId = 0,
         string $name = '',
         bool $enabled = true,
         bool $trash = false,
         Language $language = null,
+        string $publishAt = '',
+        array $categories = [],
+        array $attributes = [],
         string $createdAt = '',
         string $updatedAt = ''
     )
     {
-        $this->pageId = $pageId;
+        $this->postId = $postId;
         $this->name = $name;
         $this->enabled = $enabled;
         $this->trash = $trash;
         $this->language = $language;
+        $this->publishAt = $publishAt;
+        $this->categories = $categories;
+        $this->attributes = $attributes;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
 
     /**
-     * @return Page[]
+     * @return Post[]
      * @throws \Exception
      */
     public static function getAll(): array
@@ -82,7 +106,7 @@ class Page extends DbModel
     }
 
     /**
-     * @return Page[]
+     * @return Post[]
      * @throws \Exception
      */
     public static function getAvailable(): array
@@ -91,7 +115,7 @@ class Page extends DbModel
     }
 
     /**
-     * @return Page[]
+     * @return Post[]
      * @throws \Exception
      */
     public static function getTrash(): array
@@ -101,7 +125,7 @@ class Page extends DbModel
 
     /**
      * @param string $where
-     * @return Page[]
+     * @return Post[]
      * @throws \Exception
      */
     private static function getWhere($where = ''): array
@@ -109,10 +133,11 @@ class Page extends DbModel
         $arr = [];
         $stmt = self::getPDO()->query("
             SELECT
-                `p`.`page_id`,
+                `p`.`post_id`,
                 `p`.`name`,
                 `p`.`enabled`,
                 `p`.`trash`,
+                `p`.`publish_at`,
                 `p`.`created_at`,
                 `p`.`updated_at`,
                 `l`.`language_id`,
@@ -122,7 +147,7 @@ class Page extends DbModel
                 `l`.`created_at` AS 'l_created_at',
                 `l`.`updated_at` AS 'l_updated_at'
             
-            FROM `cms__page` `p`
+            FROM `cms__post` `p`
               
             INNER JOIN `cms__language` `l`
             ON `p`.fk_language_id = `l`.language_id
@@ -132,24 +157,27 @@ class Page extends DbModel
             ORDER BY `enabled` DESC, `name` ASC
         ");
         if ($stmt instanceof \PDOStatement) {
-            $pages = $stmt->fetchAll(\PDO::FETCH_OBJ);
-            if (sizeof($pages) > 0) {
-                foreach ($pages as $page) {
-                    $arr[] = new Page(
-                        $page->page_id,
-                        $page->name,
-                        $page->enabled,
-                        $page->trash,
+            $posts = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            if (sizeof($posts) > 0) {
+                foreach ($posts as $post) {
+                    $arr[] = new Post(
+                        $post->post_id,
+                        $post->name,
+                        $post->enabled,
+                        $post->trash,
                         new Language(
-                            $page->language_id,
-                            $page->locale,
-                            $page->description,
-                            $page->l_enabled,
-                            $page->l_created_at,
-                            $page->l_updated_at
+                            $post->language_id,
+                            $post->locale,
+                            $post->description,
+                            $post->l_enabled,
+                            $post->l_created_at,
+                            $post->l_updated_at
                         ),
-                        $page->created_at,
-                        $page->updated_at
+                        $post->publish_at,
+                        [], // TODO: add categories
+                        [], // TODO: add attributes
+                        $post->created_at,
+                        $post->updated_at
                     );
                 }
             }
@@ -159,17 +187,18 @@ class Page extends DbModel
 
     /**
      * @param int $id
-     * @return Page
+     * @return Post
      * @throws \Exception
      */
-    public static function get(int $id): Page
+    public static function get(int $id): Post
     {
         $stmt = self::getPDO()->prepare("
             SELECT
-                `p`.`page_id`,
+                `p`.`post_id`,
                 `p`.`name`,
                 `p`.`enabled`,
                 `p`.`trash`,
+                `p`.`publish_at`,
                 `p`.`created_at`,
                 `p`.`updated_at`,
                 `l`.`language_id`,
@@ -179,67 +208,72 @@ class Page extends DbModel
                 `l`.`created_at` AS 'l_created_at',
                 `l`.`updated_at` AS 'l_updated_at'
             
-            FROM `cms__page` `p`
+            FROM `cms__post` `p`
               
             INNER JOIN `cms__language` `l`
             ON `p`.fk_language_id = `l`.language_id
             
-            WHERE `p`.`page_id` = ?
+            WHERE `p`.`post_id` = ?
         ");
         $stmt->execute([$id]);
-        $page = $stmt->fetchObject();
-        if ($page) {
-            return new Page(
-                $page->page_id,
-                $page->name,
-                $page->enabled,
-                $page->trash,
+        $post = $stmt->fetchObject();
+        if ($post) {
+            return new Post(
+                $post->post_id,
+                $post->name,
+                $post->enabled,
+                $post->trash,
                 new Language(
-                    $page->language_id,
-                    $page->locale,
-                    $page->description,
-                    $page->l_enabled,
-                    $page->l_created_at,
-                    $page->l_updated_at
+                    $post->language_id,
+                    $post->locale,
+                    $post->description,
+                    $post->l_enabled,
+                    $post->l_created_at,
+                    $post->l_updated_at
                 ),
-                $page->created_at,
-                $page->updated_at
+                $post->publish_at,
+                [], // TODO: add categories
+                [], // TODO: add attributes
+                $post->created_at,
+                $post->updated_at
             );
         }
-        return new Page();
+        return new Post();
     }
 
     /**
-     * @return Page|null
+     * @return Post|null
      * @throws \Exception
      */
-    public function save(): ?Page
+    public function save(): ?Post
     {
         $pdo = self::getPDO();
-        if ($this->getPageId() > 0) {
+        if ($this->getPostId() > 0) {
             $stmt = $pdo->prepare("
-                UPDATE `cms__page`
-                SET `name` = ?, `enabled` = ?, `trash` = ?, `fk_language_id` = ?
-                WHERE `page_id` = ?
+                UPDATE `cms__post`
+                SET `name` = ?, `enabled` = ?, `trash` = ?, `fk_language_id` = ?, `publish_at` = ?
+                WHERE `post_id` = ?
             ");
             $res = $stmt->execute([
                 $this->getName(),
                 $this->isEnabled(),
                 $this->isTrash(),
                 $this->getLanguage()->getLanguageId(),
-                $this->getPageId()
+                $this->getPublishAt(),
+                $this->getPostId()
             ]);
-            return $res ? self::get($this->getPageId()) : null;
+            return $res ? self::get($this->getPostId()) : null;
         } else {
             $stmt = $pdo->prepare("
-                INSERT INTO `cms__page` (`name`, `enabled`, `trash`, `fk_language_id`)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO `cms__post` (`name`, `enabled`, `trash`, `fk_language_id`, `publish_at`)
+                VALUES (?, ?, ?, ?, ?)
             ");
             $res = $stmt->execute([
                 $this->getName(),
                 $this->isEnabled(),
                 $this->isTrash(),
-                $this->getLanguage()->getLanguageId()
+                $this->getLanguage()->getLanguageId(),
+                $this->getPublishAt()
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;
         }
@@ -252,49 +286,49 @@ class Page extends DbModel
     public function delete(): bool
     {
         $pdo = self::getPDO();
-        if ($this->getPageId() > 0) {
+        if ($this->getPostId() > 0) {
             $stmt = $pdo->prepare("
-                DELETE FROM `cms__page`
-                WHERE `page_id` = ?
+                DELETE FROM `cms__post`
+                WHERE `post_id` = ?
             ");
-            return $stmt->execute([$this->getPageId()]);
+            return $stmt->execute([$this->getPostId()]);
         }
         return false;
     }
 
     /**
-     * @return PageTranslation
+     * @return PostTranslation
      * @throws \Exception
      */
-    public function getDefaultPageTranslation()
+    public function getDefaultPostTranslation()
     {
-        return PageTranslation::getDefaultPageTranslation($this);
+        return PostTranslation::getDefaultPostTranslation($this);
     }
 
     /**
      * @param Language $language
-     * @return PageTranslation
+     * @return PostTranslation
      * @throws \Exception
      */
-    public function getPageTranslation(Language $language)
+    public function getPostTranslation(Language $language)
     {
-        return PageTranslation::getPageTranslation($this, $language);
+        return PostTranslation::getPostTranslation($this, $language);
     }
 
     /**
      * @return int
      */
-    public function getPageId(): int
+    public function getPostId(): int
     {
-        return $this->pageId;
+        return $this->postId;
     }
 
     /**
-     * @param int $pageId
+     * @param int $postId
      */
-    public function setPageId(int $pageId): void
+    public function setPostId(int $postId): void
     {
-        $this->pageId = $pageId;
+        $this->postId = $postId;
     }
 
     /**
@@ -359,6 +393,54 @@ class Page extends DbModel
     public function setLanguage(Language $language): void
     {
         $this->language = $language;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublishAt(): string
+    {
+        return $this->publishAt;
+    }
+
+    /**
+     * @param string $publishAt
+     */
+    public function setPublishAt(string $publishAt): void
+    {
+        $this->publishAt = $publishAt;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getCategories(): array
+    {
+        return $this->categories;
+    }
+
+    /**
+     * @param string[] $categories
+     */
+    public function setCategories(array $categories): void
+    {
+        $this->categories = $categories;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @param string[] $attributes
+     */
+    public function setAttributes(array $attributes): void
+    {
+        $this->attributes = $attributes;
     }
 
     /**

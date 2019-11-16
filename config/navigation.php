@@ -72,6 +72,30 @@ return [
                 ]
             ],
             [
+                'title' => 'Beiträge',
+                'items' => [
+                    [
+                        'route' => ['admin-post-list', 'admin-post-edit'],
+                        'label' => 'Alle Beiträge',
+                        'icon' => 'fa-copy',
+                        'href' => '{admin_url}/post/list',
+                        'count' => '{posts_count}'
+                    ],
+                    [
+                        'label' => 'Neuer Beitrag',
+                        'icon' => 'fa-plus',
+                        'href' => '{admin_url}/post/add'
+                    ],
+                    [
+                        'route' => 'admin-post-trash',
+                        'label' => 'Papierkorb',
+                        'icon' => 'fa-trash-alt',
+                        'href' => '{admin_url}/post/trash',
+                        'count' => '{posts_trash_count}'
+                    ]
+                ]
+            ],
+            [
                 'title' => 'Widgets',
                 'items' => [
                     [

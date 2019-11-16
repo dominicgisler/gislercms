@@ -6,6 +6,7 @@ use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\Module;
 use GislerCMS\Model\Page;
+use GislerCMS\Model\Post;
 use GislerCMS\Model\User;
 use GislerCMS\Model\Widget;
 use Slim\Http\Request;
@@ -83,6 +84,8 @@ abstract class AbstractController
             $val = str_replace('{admin_url}', $this->get('base_url') . $this->get('settings')['global']['admin_route'], $val);
             $val = str_replace('{pages_count}', sizeof(Page::getAvailable()), $val);
             $val = str_replace('{pages_trash_count}', sizeof(Page::getTrash()), $val);
+            $val = str_replace('{posts_count}', sizeof(Post::getAvailable()), $val);
+            $val = str_replace('{posts_trash_count}', sizeof(Post::getTrash()), $val);
             $val = str_replace('{widgets_count}', sizeof(Widget::getAvailable()), $val);
             $val = str_replace('{widgets_trash_count}', sizeof(Widget::getTrash()), $val);
             $val = str_replace('{modules_count}', sizeof(Module::getAll()), $val);

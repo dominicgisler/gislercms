@@ -6,20 +6,20 @@ use Slim\Http\Request;
 use Slim\Views\Twig;
 
 /**
- * Class PageTranslation
+ * Class PostTranslation
  * @package GislerCMS\Model
  */
-class PageTranslation extends DbModel
+class PostTranslation extends DbModel
 {
     /**
      * @var int
      */
-    private $pageTranslationId;
+    private $postTranslationId;
 
     /**
-     * @var Page
+     * @var Post
      */
-    private $page;
+    private $post;
 
     /**
      * @var Language
@@ -82,9 +82,9 @@ class PageTranslation extends DbModel
     private $updatedAt;
 
     /**
-     * PageTranslation constructor.
-     * @param int $pageTranslationId
-     * @param Page $page
+     * PostTranslation constructor.
+     * @param int $postTranslationId
+     * @param Post $post
      * @param Language $language
      * @param string $name
      * @param string $title
@@ -99,8 +99,8 @@ class PageTranslation extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $pageTranslationId = 0,
-        Page $page = null,
+        int $postTranslationId = 0,
+        Post $post = null,
         Language $language = null,
         string $name = '',
         string $title = '',
@@ -115,8 +115,8 @@ class PageTranslation extends DbModel
         string $updatedAt = ''
     )
     {
-        $this->pageTranslationId = $pageTranslationId;
-        $this->page = $page;
+        $this->postTranslationId = $postTranslationId;
+        $this->post = $post;
         $this->language = $language;
         $this->name = $name;
         $this->title = $title;
@@ -133,15 +133,15 @@ class PageTranslation extends DbModel
 
     /**
      * @param int $id
-     * @return PageTranslation
+     * @return PostTranslation
      * @throws \Exception
      */
-    public static function get(int $id): PageTranslation
+    public static function get(int $id): PostTranslation
     {
         $stmt = self::getPDO()->prepare("
             SELECT
-                `t`.`page_translation_id`,
-                `t`.`fk_page_id`,
+                `t`.`post_translation_id`,
+                `t`.`fk_post_id`,
                 `t`.`name`,
                 `t`.`title`,
                 `t`.`content`,
@@ -160,47 +160,47 @@ class PageTranslation extends DbModel
                 `l`.`created_at` AS 'l_created_at',
                 `l`.`updated_at` AS 'l_updated_at'
             
-            FROM `cms__page_translation` `t`
+            FROM `cms__post_translation` `t`
               
             INNER JOIN `cms__language` `l`
             ON `t`.fk_language_id = `l`.language_id
             
-            WHERE `t`.`page_translation_id` = ?
+            WHERE `t`.`post_translation_id` = ?
         ");
         $stmt->execute([$id]);
-        $pageTranslation = $stmt->fetchObject();
-        if ($pageTranslation) {
-            return new PageTranslation(
-                $pageTranslation->page_translation_id,
-                Page::get($pageTranslation->fk_page_id),
+        $postTranslation = $stmt->fetchObject();
+        if ($postTranslation) {
+            return new PostTranslation(
+                $postTranslation->post_translation_id,
+                Post::get($postTranslation->fk_post_id),
                 new Language(
-                    $pageTranslation->language_id,
-                    $pageTranslation->locale,
-                    $pageTranslation->description,
-                    $pageTranslation->l_enabled,
-                    $pageTranslation->l_created_at,
-                    $pageTranslation->l_updated_at
+                    $postTranslation->language_id,
+                    $postTranslation->locale,
+                    $postTranslation->description,
+                    $postTranslation->l_enabled,
+                    $postTranslation->l_created_at,
+                    $postTranslation->l_updated_at
                 ),
-                $pageTranslation->name,
-                $pageTranslation->title ?: '',
-                $pageTranslation->content ?: '',
-                $pageTranslation->meta_keywords ?: '',
-                $pageTranslation->meta_description ?: '',
-                $pageTranslation->meta_author ?: '',
-                $pageTranslation->meta_copyright ?: '',
-                $pageTranslation->meta_image ?: '',
-                $pageTranslation->enabled,
-                $pageTranslation->created_at,
-                $pageTranslation->updated_at
+                $postTranslation->name,
+                $postTranslation->title ?: '',
+                $postTranslation->content ?: '',
+                $postTranslation->meta_keywords ?: '',
+                $postTranslation->meta_description ?: '',
+                $postTranslation->meta_author ?: '',
+                $postTranslation->meta_copyright ?: '',
+                $postTranslation->meta_image ?: '',
+                $postTranslation->enabled,
+                $postTranslation->created_at,
+                $postTranslation->updated_at
             );
         }
-        return new PageTranslation();
+        return new PostTranslation();
     }
 
     /**
      * @param string $where
      * @param array $args
-     * @return PageTranslation[]
+     * @return PostTranslation[]
      * @throws \Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
@@ -208,8 +208,8 @@ class PageTranslation extends DbModel
         $arr = [];
         $stmt = self::getPDO()->prepare("
             SELECT
-                `t`.`page_translation_id`,
-                `t`.`fk_page_id`,
+                `t`.`post_translation_id`,
+                `t`.`fk_post_id`,
                 `t`.`name`,
                 `t`.`title`,
                 `t`.`content`,
@@ -228,7 +228,7 @@ class PageTranslation extends DbModel
                 `l`.`created_at` AS 'l_created_at',
                 `l`.`updated_at` AS 'l_updated_at'
             
-            FROM `cms__page_translation` `t`
+            FROM `cms__post_translation` `t`
               
             INNER JOIN `cms__language` `l`
             ON `t`.fk_language_id = `l`.language_id
@@ -236,31 +236,31 @@ class PageTranslation extends DbModel
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
         $stmt->execute($args);
-        $pageTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
-        if (sizeof($pageTranslations) > 0) {
-            foreach ($pageTranslations as $pageTranslation) {
-                $arr[$pageTranslation->locale] = new PageTranslation(
-                    $pageTranslation->page_translation_id,
-                    Page::get($pageTranslation->fk_page_id),
+        $postTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
+        if (sizeof($postTranslations) > 0) {
+            foreach ($postTranslations as $postTranslation) {
+                $arr[$postTranslation->locale] = new PostTranslation(
+                    $postTranslation->post_translation_id,
+                    Post::get($postTranslation->fk_post_id),
                     new Language(
-                        $pageTranslation->language_id,
-                        $pageTranslation->locale,
-                        $pageTranslation->description,
-                        $pageTranslation->l_enabled,
-                        $pageTranslation->l_created_at,
-                        $pageTranslation->l_updated_at
+                        $postTranslation->language_id,
+                        $postTranslation->locale,
+                        $postTranslation->description,
+                        $postTranslation->l_enabled,
+                        $postTranslation->l_created_at,
+                        $postTranslation->l_updated_at
                     ),
-                    $pageTranslation->name,
-                    $pageTranslation->title ?: '',
-                    $pageTranslation->content ?: '',
-                    $pageTranslation->meta_keywords ?: '',
-                    $pageTranslation->meta_description ?: '',
-                    $pageTranslation->meta_author ?: '',
-                    $pageTranslation->meta_copyright ?: '',
-                    $pageTranslation->meta_image ?: '',
-                    $pageTranslation->enabled,
-                    $pageTranslation->created_at,
-                    $pageTranslation->updated_at
+                    $postTranslation->name,
+                    $postTranslation->title ?: '',
+                    $postTranslation->content ?: '',
+                    $postTranslation->meta_keywords ?: '',
+                    $postTranslation->meta_description ?: '',
+                    $postTranslation->meta_author ?: '',
+                    $postTranslation->meta_copyright ?: '',
+                    $postTranslation->meta_image ?: '',
+                    $postTranslation->enabled,
+                    $postTranslation->created_at,
+                    $postTranslation->updated_at
                 );
             }
         }
@@ -268,27 +268,27 @@ class PageTranslation extends DbModel
     }
 
     /**
-     * @param Page $page
-     * @return PageTranslation[]
+     * @param Post $post
+     * @return PostTranslation[]
      * @throws \Exception
      */
-    public static function getPageTranslations(Page $page): array
+    public static function getPostTranslations(Post $post): array
     {
-        return self::getWhere('`t`.`fk_page_id` = ?', [$page->getPageId()]);
+        return self::getWhere('`t`.`fk_post_id` = ?', [$post->getPostId()]);
     }
 
     /**
      * @param string $name
-     * @return PageTranslation
+     * @return PostTranslation
      * @throws \Exception
      */
-    public static function getDefaultByName(string $name): PageTranslation
+    public static function getDefaultByName(string $name): PostTranslation
     {
-        $res = new PageTranslation();
+        $res = new PostTranslation();
         $elems = self::getWhere('`t`.`name` = ?', [$name]);
         if (sizeof($elems) > 1) {
             foreach ($elems as $trans) {
-                if ($trans->getLanguage()->getLanguageId() == $trans->getPage()->getLanguage()->getLanguageId()) {
+                if ($trans->getLanguage()->getLanguageId() == $trans->getPost()->getLanguage()->getLanguageId()) {
                     $res = $trans;
                 }
             }
@@ -297,7 +297,7 @@ class PageTranslation extends DbModel
         }
 
         $parts = explode('/', $name);
-        if (sizeof($parts) > 1 && $res->getPageTranslationId() == 0) {
+        if (sizeof($parts) > 1 && $res->getPostTranslationId() == 0) {
             unset($parts[sizeof($parts) - 1]);
             return self::getDefaultByName(join('/', $parts));
         }
@@ -308,19 +308,19 @@ class PageTranslation extends DbModel
     /**
      * @param string $name
      * @param Language $language
-     * @return PageTranslation
+     * @return PostTranslation
      * @throws \Exception
      */
-    public static function getByName(string $name, Language $language): PageTranslation
+    public static function getByName(string $name, Language $language): PostTranslation
     {
-        $res = new PageTranslation();
+        $res = new PostTranslation();
         $elems = self::getWhere('`t`.`name` = ? AND `l`.`language_id` = ? AND `t`.`enabled` = 1', [$name, $language->getLanguageId()]);
         if (sizeof($elems) > 0) {
             $res = reset($elems);
         }
 
         $parts = explode('/', $name);
-        if (sizeof($parts) > 1 && $res->getPageTranslationId() == 0) {
+        if (sizeof($parts) > 1 && $res->getPostTranslationId() == 0) {
             unset($parts[sizeof($parts) - 1]);
             return self::getByName(join('/', $parts), $language);
         }
@@ -329,15 +329,15 @@ class PageTranslation extends DbModel
     }
 
     /**
-     * @param Page $page
-     * @return PageTranslation
+     * @param Post $post
+     * @return PostTranslation
      * @throws \Exception
      */
-    public static function getDefaultPageTranslation(Page $page): PageTranslation
+    public static function getDefaultPostTranslation(Post $post): PostTranslation
     {
         $stmt = self::getPDO()->prepare("
             SELECT
-                `t`.`page_translation_id`,
+                `t`.`post_translation_id`,
                 `t`.`name`,
                 `t`.`title`,
                 `t`.`content`,
@@ -356,56 +356,56 @@ class PageTranslation extends DbModel
                 `l`.`created_at` AS 'l_created_at',
                 `l`.`updated_at` AS 'l_updated_at'
             
-            FROM `cms__page_translation` `t`
+            FROM `cms__post_translation` `t`
               
             INNER JOIN `cms__language` `l`
             ON `t`.fk_language_id = `l`.language_id
             
-            WHERE `t`.`fk_page_id` = ?
+            WHERE `t`.`fk_post_id` = ?
             AND `l`.`language_id` = ?
         ");
-        $stmt->execute([$page->getPageId(), $page->getLanguage()->getLanguageId()]);
-        $pageTranslation = $stmt->fetchObject();
-        if ($pageTranslation) {
-            $trans = new PageTranslation(
-                $pageTranslation->page_translation_id,
-                $page,
+        $stmt->execute([$post->getPostId(), $post->getLanguage()->getLanguageId()]);
+        $postTranslation = $stmt->fetchObject();
+        if ($postTranslation) {
+            $trans = new PostTranslation(
+                $postTranslation->post_translation_id,
+                $post,
                 new Language(
-                    $pageTranslation->language_id,
-                    $pageTranslation->locale,
-                    $pageTranslation->description,
-                    $pageTranslation->l_enabled,
-                    $pageTranslation->l_created_at,
-                    $pageTranslation->l_updated_at
+                    $postTranslation->language_id,
+                    $postTranslation->locale,
+                    $postTranslation->description,
+                    $postTranslation->l_enabled,
+                    $postTranslation->l_created_at,
+                    $postTranslation->l_updated_at
                 ),
-                $pageTranslation->name,
-                $pageTranslation->title ?: '',
-                $pageTranslation->content ?: '',
-                $pageTranslation->meta_keywords ?: '',
-                $pageTranslation->meta_description ?: '',
-                $pageTranslation->meta_author ?: '',
-                $pageTranslation->meta_copyright ?: '',
-                $pageTranslation->meta_image ?: '',
-                $pageTranslation->enabled,
-                $pageTranslation->created_at,
-                $pageTranslation->updated_at
+                $postTranslation->name,
+                $postTranslation->title ?: '',
+                $postTranslation->content ?: '',
+                $postTranslation->meta_keywords ?: '',
+                $postTranslation->meta_description ?: '',
+                $postTranslation->meta_author ?: '',
+                $postTranslation->meta_copyright ?: '',
+                $postTranslation->meta_image ?: '',
+                $postTranslation->enabled,
+                $postTranslation->created_at,
+                $postTranslation->updated_at
             );
             return $trans;
         }
-        return new PageTranslation();
+        return new PostTranslation();
     }
 
     /**
-     * @param Page $page
+     * @param Post $post
      * @param Language $language
-     * @return PageTranslation
+     * @return PostTranslation
      * @throws \Exception
      */
-    public static function getPageTranslation(Page $page, Language $language): PageTranslation
+    public static function getPostTranslation(Post $post, Language $language): PostTranslation
     {
         $stmt = self::getPDO()->prepare("
             SELECT
-                `t`.`page_translation_id`,
+                `t`.`post_translation_id`,
                 `t`.`name`,
                 `t`.`title`,
                 `t`.`content`,
@@ -424,59 +424,59 @@ class PageTranslation extends DbModel
                 `l`.`created_at` AS 'l_created_at',
                 `l`.`updated_at` AS 'l_updated_at'
             
-            FROM `cms__page_translation` `t`
+            FROM `cms__post_translation` `t`
               
             INNER JOIN `cms__language` `l`
             ON `t`.fk_language_id = `l`.language_id
             
             WHERE `t`.`enabled` = 1
-            AND `t`.`fk_page_id` = ?
+            AND `t`.`fk_post_id` = ?
             AND `l`.`language_id` = ?
         ");
-        $stmt->execute([$page->getPageId(), $language->getLanguageId()]);
-        $pageTranslation = $stmt->fetchObject();
-        if ($pageTranslation) {
-            $trans = new PageTranslation(
-                $pageTranslation->page_translation_id,
-                $page,
+        $stmt->execute([$post->getPostId(), $language->getLanguageId()]);
+        $postTranslation = $stmt->fetchObject();
+        if ($postTranslation) {
+            $trans = new PostTranslation(
+                $postTranslation->post_translation_id,
+                $post,
                 new Language(
-                    $pageTranslation->language_id,
-                    $pageTranslation->locale,
-                    $pageTranslation->description,
-                    $pageTranslation->l_enabled,
-                    $pageTranslation->l_created_at,
-                    $pageTranslation->l_updated_at
+                    $postTranslation->language_id,
+                    $postTranslation->locale,
+                    $postTranslation->description,
+                    $postTranslation->l_enabled,
+                    $postTranslation->l_created_at,
+                    $postTranslation->l_updated_at
                 ),
-                $pageTranslation->name,
-                $pageTranslation->title ?: '',
-                $pageTranslation->content ?: '',
-                $pageTranslation->meta_keywords ?: '',
-                $pageTranslation->meta_description ?: '',
-                $pageTranslation->meta_author ?: '',
-                $pageTranslation->meta_copyright ?: '',
-                $pageTranslation->meta_image ?: '',
-                $pageTranslation->enabled,
-                $pageTranslation->created_at,
-                $pageTranslation->updated_at
+                $postTranslation->name,
+                $postTranslation->title ?: '',
+                $postTranslation->content ?: '',
+                $postTranslation->meta_keywords ?: '',
+                $postTranslation->meta_description ?: '',
+                $postTranslation->meta_author ?: '',
+                $postTranslation->meta_copyright ?: '',
+                $postTranslation->meta_image ?: '',
+                $postTranslation->enabled,
+                $postTranslation->created_at,
+                $postTranslation->updated_at
             );
             return $trans;
         }
-        return self::getDefaultPageTranslation($page);
+        return self::getDefaultPostTranslation($post);
     }
 
     /**
-     * @return PageTranslation|null
+     * @return PostTranslation|null
      * @throws \Exception
      */
-    public function save(): ?PageTranslation
+    public function save(): ?PostTranslation
     {
         $pdo = self::getPDO();
-        if ($this->getPageTranslationId() > 0) {
+        if ($this->getPostTranslationId() > 0) {
             $stmt = $pdo->prepare("
-                UPDATE `cms__page_translation`
+                UPDATE `cms__post_translation`
                 SET `name` = ?, `title` = ?, `content` = ?, `meta_keywords` = ?, `meta_description` = ?,
                     `meta_author` = ?, `meta_copyright` = ?, `meta_image` = ?, `enabled` = ?
-                WHERE `page_translation_id` = ?
+                WHERE `post_translation_id` = ?
             ");
             $res = $stmt->execute([
                 $this->getName(),
@@ -488,13 +488,13 @@ class PageTranslation extends DbModel
                 $this->getMetaCopyright(),
                 $this->getMetaImage(),
                 $this->isEnabled(),
-                $this->getPageTranslationId()
+                $this->getPostTranslationId()
             ]);
-            return $res ? self::get($this->getPageTranslationId()) : null;
+            return $res ? self::get($this->getPostTranslationId()) : null;
         } else {
             $stmt = $pdo->prepare("
-                INSERT INTO `cms__page_translation` (
-                    `fk_page_id`, `fk_language_id`, `name`, `title`, `content`, `meta_keywords`,
+                INSERT INTO `cms__post_translation` (
+                    `fk_post_id`, `fk_language_id`, `name`, `title`, `content`, `meta_keywords`,
                     `meta_description`, `meta_author`, `meta_copyright`, `meta_image`, `enabled`
                 )
                 VALUES (
@@ -503,7 +503,7 @@ class PageTranslation extends DbModel
                 )
             ");
             $res = $stmt->execute([
-                $this->getPage()->getPageId(),
+                $this->getPost()->getPostId(),
                 $this->getLanguage()->getLanguageId(),
                 $this->getName(),
                 $this->getTitle(),
@@ -522,33 +522,33 @@ class PageTranslation extends DbModel
     /**
      * @return int
      */
-    public function getPageTranslationId(): int
+    public function getPostTranslationId(): int
     {
-        return $this->pageTranslationId;
+        return $this->postTranslationId;
     }
 
     /**
-     * @param int $pageTranslationId
+     * @param int $postTranslationId
      */
-    public function setPageTranslationId(int $pageTranslationId): void
+    public function setPostTranslationId(int $postTranslationId): void
     {
-        $this->pageTranslationId = $pageTranslationId;
+        $this->postTranslationId = $postTranslationId;
     }
 
     /**
-     * @return Page
+     * @return Post
      */
-    public function getPage(): Page
+    public function getPost(): Post
     {
-        return $this->page;
+        return $this->post;
     }
 
     /**
-     * @param Page $page
+     * @param Post $post
      */
-    public function setPage(Page $page): void
+    public function setPost(Post $post): void
     {
-        $this->page = $page;
+        $this->post = $post;
     }
 
     /**

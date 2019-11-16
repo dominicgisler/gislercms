@@ -1,0 +1,122 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/content.twig' %}
+
+{% block title %}{% if post.getPostId() == 0 %}Neuer Beitrag{% else %}Beitrag "{{ post.name }}" bearbeiten{% endif %}{% endblock %}
+
+{% set languageSelect = [] %}
+{% for language in languages %}
+    {% if language.isEnabled() %}
+        {% set selected = false %}
+        {% if language.getLanguageId() == post.language.getLanguageId() %}
+            {% set selected = true %}
+        {% endif %}
+        {% set languageSelect = languageSelect|merge([{value: language.locale, label: language.description, selected: selected}]) %}
+    {% endif %}
+{% endfor %}
+
+{%
+    set messages = {
+        invalid_input: {
+            class: 'danger',
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+        },
+        save_error: {
+            class: 'danger',
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+        },
+        save_success: {
+            class: 'success',
+            message: 'Der Beitrag wurde erfolgreich gespeichert.'
+        },
+        is_trash: {
+            class: 'warning',
+            message: 'Dieser Beitrag befindet sich im Papierkorb, speichere ihn um sie wiederherzustellen.'
+        }
+    }
+%}
+{% if post.isTrash() %}
+    {% set message = 'is_trash' %}
+{% endif %}
+
+{% block content %}
+    {% if message %}
+        <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
+            {{ messages[message].message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <form method="post" id="post-form">
+        {{ forms.form_group('text', 'post[name]', post.name, 'Name', '', 'name' in errors ? 'is-invalid' : '', 'Nur als interne Bezeichnung') }}
+        {{ forms.form_group('select', 'post[language]', post.language, 'Standardsprache', '', 'language' in errors ? 'is-invalid' : '', '', languageSelect) }}
+        {{ forms.form_group('checkbox', 'post[enabled]', post.enabled, 'Beitrag aktiviert') }}
+        <h2 class="h4 mt-4">Sprachen</h2>
+        <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+            {% for language in languages %}
+                {% if language.isEnabled() %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if loop.first %}active{% endif %}" id="{{ language.locale }}-tab" data-toggle="tab" href="#lang-{{ language.locale }}" role="tab" aria-controls="lang-{{ language.locale }}" aria-selected="true">{{ language.description }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <div class="tab-content mt-4" id="myTabContent">
+            {% for language in languages %}
+                {% if language.isEnabled() %}
+                    <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="lang-{{ language.locale }}" role="tabpanel" aria-labelledby="{{ language.locale }}-tab">
+                        {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', translations[language.locale].enabled, 'Übersetzung aktiviert') }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][name]', translations[language.locale].name, 'Beitragsname', '', language.locale ~ '_name' in errors ? 'is-invalid' : '', 'Der Name, welcher in der URL verwendet wird') }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][title]', translations[language.locale].title, 'Beitragstitel', '', language.locale ~ '_title' in errors ? 'is-invalid' : '', 'Der Titel, welcher im Browser angezeigt wird') }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_keywords]', translations[language.locale].metaKeywords, 'Suchbegriffe', '', language.locale ~ '_keywords' in errors ? 'is-invalid' : '', 'Begriffe, über welche dieser Beitrag gefunden werden soll (SEO)') }}
+                        {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][meta_description]', translations[language.locale].metaDescription, 'Beschreibung', '', language.locale ~ '_description' in errors ? 'is-invalid' : '', 'Eine kurze Beschreibung des Beitraginhalts (SEO)') }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_author]', translations[language.locale].metaAuthor, 'Autor', '', language.locale ~ '_author' in errors ? 'is-invalid' : '', 'Metadaten') }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_copyright]', translations[language.locale].metaCopyright, 'Copyright', '', language.locale ~ '_copyright' in errors ? 'is-invalid' : '', 'Metadaten') }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_image]', translations[language.locale].metaImage, 'Titelbild', '', language.locale ~ '_image' in errors ? 'is-invalid' : '', 'Titelbild, wird z.B. beim Teilen auf Facebook dargestellt') }}
+                        {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt', '', language.locale ~ '_content' in errors ? 'tinymce is-invalid' : 'tinymce') }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="text-right mb-4">
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if post.isTrash() %}Endgültig löschen{% else %}Löschen{% endif %}</button>
+            <button class="btn btn-primary" name="save">{% if post.isTrash() %}Wiederherstellen{% else %}Speichern{% endif %}</button>
+        </div>
+
+        {# confirm delete modal #}
+        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteLabel">Beitrag löschen</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Möchtest du den Beitrag wirklich{% if post.isTrash() %} unwiderruflich{% endif %} löschen?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" name="delete" class="btn btn-danger">Ja, Beitrag löschen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    {% include 'admin/partial/insert-widget-modal.twig' %}
+    {% include 'admin/partial/insert-module-modal.twig' %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script>
+        function autocompletePostWidgets() {
+            autocompleteWidgets([{% for widget in widgets %}{% if not widget.isTrash() %}'{{ widget.getName() }}',{% endif %}{% endfor %}]);
+        }
+        function autocompletePostModules() {
+            autocompleteModules([{% for module in modules %}{% if not module.isTrash() %}'{{ module.getName() }}',{% endif %}{% endfor %}]);
+        }
+    </script>
+{% endblock %}

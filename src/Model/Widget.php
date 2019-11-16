@@ -402,7 +402,7 @@ class Widget extends DbModel
      */
     public function getLanguage(): Language
     {
-        return $this->language;
+        return $this->language ?: new Language();
     }
 
     /**

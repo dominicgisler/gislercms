@@ -3,6 +3,7 @@
 namespace GislerCMS\Controller\Admin;
 
 use GislerCMS\Model\Client;
+use GislerCMS\Model\Page;
 use GislerCMS\Model\Session;
 use GislerCMS\Model\Visit;
 use Slim\Http\Request;
@@ -29,7 +30,8 @@ class IndexController extends AbstractController
         return $this->render($request, $response, 'admin/index.twig', [
             'clients' => Client::getAll(),
             'sessions' => Session::getAll(),
-            'visits' => Visit::getAll()
+            'visits' => Visit::getAll(),
+            'pages' => Page::getAll()
         ]);
     }
 }
