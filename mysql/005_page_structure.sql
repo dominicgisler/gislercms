@@ -11,6 +11,7 @@ CREATE TABLE `cms__page`
   `updated_at`     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   CONSTRAINT `pk_page` PRIMARY KEY (`page_id`),
+  CONSTRAINT `uq_page` UNIQUE (`name`),
   CONSTRAINT `fk_page_language` FOREIGN KEY (`fk_language_id`) REFERENCES `cms__language` (`language_id`)
     ON UPDATE CASCADE
     ON DELETE RESTRICT

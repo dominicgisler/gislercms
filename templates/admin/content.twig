@@ -42,7 +42,12 @@
                     {% for group in navigation %}
                         <div class="list-group list-group-flush {{ group.class }}">
                             {% if group.title|length > 0 %}
-                                <div class="list-group-item font-weight-bold">{{ group.title }}</div>
+                                <div class="list-group-item font-weight-bold">
+                                    {{ group.title }}
+                                    {% if group.link %}
+                                        <a href="{{ group.link.href }}" class="float-right text-dark mr-1"><i class="fa {{ group.link.icon }}"></i></a>
+                                    {% endif %}
+                                </div>
                             {% endif %}
                             {% for item in group.items %}
                                 <a href="{{ item.href }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {% if route in item.route %}active{% endif %}">

@@ -26,7 +26,7 @@ use Zend\Validator\StringLength;
 class EditController extends AbstractController
 {
     const NAME = 'admin-post-edit';
-    const PATTERN = '{admin_route}/post[/{id}]';
+    const PATTERN = '{admin_route}/post/{id}';
     const METHODS = ['GET', 'POST'];
 
     /**
@@ -46,6 +46,12 @@ class EditController extends AbstractController
         $languages = Language::getAll();
 
         $msg = false;
+
+        $cnt = SessionHelper::getContainer();
+        if ($cnt->offsetExists('page_saved')) {
+            $cnt->offsetUnset('page_saved');
+            $msg = 'save_success';
+        }
 
         $translations = PostTranslation::getPostTranslations($post);
         $errors = [];
@@ -112,7 +118,8 @@ class EditController extends AbstractController
                     if ($saveError) {
                         $msg = 'save_error';
                     } else {
-                        $msg = 'save_success';
+                        $cnt->offsetSet('page_saved', true);
+                        return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/post/' . $post->getPostId());
                     }
                 } else {
                     $msg = 'invalid_input';

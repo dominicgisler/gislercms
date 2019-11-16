@@ -22,7 +22,7 @@ abstract class AbstractController
     /**
      * @var \Slim\Container|\Psr\Container\ContainerInterface
      */
-    private $container;
+    protected $container;
 
     /**
      * @param \Slim\Container|\Psr\Container\ContainerInterface $container

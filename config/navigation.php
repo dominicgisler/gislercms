@@ -43,6 +43,10 @@ return [
             ],
             [
                 'title' => 'Seiten',
+                'link' => [
+                    'icon' => 'fa fa-plus',
+                    'href' => '{admin_url}/page/add'
+                ],
                 'items' => [
                     [
                         'route' => ['admin-page-list', 'admin-page-edit'],
@@ -50,11 +54,6 @@ return [
                         'icon' => 'fa-copy',
                         'href' => '{admin_url}/page/list',
                         'count' => '{pages_count}'
-                    ],
-                    [
-                        'label' => 'Neue Seite',
-                        'icon' => 'fa-plus',
-                        'href' => '{admin_url}/page/add'
                     ],
                     [
                         'route' => 'admin-page-defaults',
@@ -73,6 +72,10 @@ return [
             ],
             [
                 'title' => 'Beiträge',
+                'link' => [
+                    'icon' => 'fa fa-plus',
+                    'href' => '{admin_url}/post/add'
+                ],
                 'items' => [
                     [
                         'route' => ['admin-post-list', 'admin-post-edit'],
@@ -80,11 +83,6 @@ return [
                         'icon' => 'fa-copy',
                         'href' => '{admin_url}/post/list',
                         'count' => '{posts_count}'
-                    ],
-                    [
-                        'label' => 'Neuer Beitrag',
-                        'icon' => 'fa-plus',
-                        'href' => '{admin_url}/post/add'
                     ],
                     [
                         'route' => 'admin-post-trash',
@@ -97,6 +95,10 @@ return [
             ],
             [
                 'title' => 'Widgets',
+                'link' => [
+                    'icon' => 'fa fa-plus',
+                    'href' => '{admin_url}/widget/add'
+                ],
                 'items' => [
                     [
                         'route' => ['admin-widget-list', 'admin-widget-edit'],
@@ -104,11 +106,6 @@ return [
                         'icon' => 'fa-copy',
                         'href' => '{admin_url}/widget/list',
                         'count' => '{widgets_count}'
-                    ],
-                    [
-                        'label' => 'Neues Widget',
-                        'icon' => 'fa-plus',
-                        'href' => '{admin_url}/widget/add'
                     ],
                     [
                         'route' => 'admin-widget-trash',
@@ -121,6 +118,10 @@ return [
             ],
             [
                 'title' => 'Module',
+                'link' => [
+                    'icon' => 'fa fa-plus',
+                    'href' => '{admin_url}/module/add'
+                ],
                 'items' => [
                     [
                         'route' => ['admin-module-list', 'admin-module-manage'],
@@ -128,12 +129,6 @@ return [
                         'icon' => 'fa-copy',
                         'href' => '{admin_url}/module/list',
                         'count' => '{modules_count}'
-                    ],
-                    [
-                        'route' => 'admin-module-add',
-                        'label' => 'Neues Modul',
-                        'icon' => 'fa-plus',
-                        'href' => '{admin_url}/module/add'
                     ]
                 ]
             ],

@@ -13,14 +13,14 @@
                 </tr>
             </thead>
             <tbody>
-                {% for Post in trashPosts %}
+                {% for post in trashPosts %}
                     <tr onclick="toggleRow.apply(this, arguments);">
                         <th scope="row" class="text-center" style="width: 50px;">
-                            <input type="checkbox" class="select-Post" name="Post[{{ Post.getPostId() }}]">
+                            <input type="checkbox" class="select-post" name="post[{{ post.getPostId() }}]">
                         </th>
-                        <td>{{ Post.getName() }}</td>
+                        <td>{{ post.getName() }}</td>
                         <td class="text-center" style="width: 50px;">
-                            <a href="{{ admin_url }}/Post/{{ Post.getPostId() }}">
+                            <a href="{{ admin_url }}/post/{{ post.getPostId() }}">
                                 <i class="fa fa-edit"></i>
                             </a>
                         </td>
@@ -85,8 +85,8 @@
 
     <script>
         function toggleRow(e) {
-            if (!e.target.classList.contains('select-Post')) {
-                var elems = this.getElementsByClassName('select-Post');
+            if (!e.target.classList.contains('select-post')) {
+                var elems = this.getElementsByClassName('select-post');
                 if (elems.length === 1) {
                     elems[0].checked = !elems[0].checked;
                 }
