@@ -11,6 +11,8 @@
                 {{ forms.json(name, value, placeholder, class, hint) }}
             {% elseif type == 'select' %}
                 {{ forms.select(name, value, options, placeholder, class, hint) }}
+            {% elseif type == 'multiselect' %}
+                {{ forms.multiselect(name, value, options, placeholder, class, hint) }}
             {% else %}
                 {{ forms.input(type, name, value, placeholder, class, hint) }}
             {% endif %}
@@ -30,6 +32,14 @@
 
 {% macro select(name, value, options, placeholder, class, hint) %}
     <select class="form-control {{ class }}" id="input_{{ name }}" name="{{ name }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %}>
+        {% for elem in options %}
+            <option value="{{ elem.value }}"{% if elem.selected %} selected{% endif %}>{{ elem.label }}</option>
+        {% endfor %}
+    </select>
+{% endmacro %}
+
+{% macro multiselect(name, value, options, placeholder, class, hint) %}
+    <select class="form-control {{ class }}" id="input_{{ name }}" name="{{ name }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %} multiple="multiple">
         {% for elem in options %}
             <option value="{{ elem.value }}"{% if elem.selected %} selected{% endif %}>{{ elem.label }}</option>
         {% endfor %}

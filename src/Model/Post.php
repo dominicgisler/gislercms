@@ -44,7 +44,7 @@ class Post extends DbModel
     private $categories;
 
     /**
-     * @var string[]
+     * @var array
      */
     private $attributes;
 
@@ -67,7 +67,7 @@ class Post extends DbModel
      * @param Language $language
      * @param string $publishAt
      * @param string[] $categories
-     * @param string[] $attributes
+     * @param array $attributes
      * @param string $createdAt
      * @param string $updatedAt
      */
@@ -206,18 +206,26 @@ class Post extends DbModel
                 `l`.`description`,
                 `l`.`enabled` AS 'l_enabled',
                 `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at'
+                `l`.`updated_at` AS 'l_updated_at',
+                GROUP_CONCAT(`c`.`name` SEPARATOR 0x0) AS `categories`
             
             FROM `cms__post` `p`
               
             INNER JOIN `cms__language` `l`
             ON `p`.fk_language_id = `l`.language_id
             
+            LEFT JOIN `cms__post_category` `c`
+            ON `p`.`post_id` = `c`.`fk_post_id`
+            
             WHERE `p`.`post_id` = ?
         ");
         $stmt->execute([$id]);
         $post = $stmt->fetchObject();
-        if ($post) {
+        if ($post && $post->post_id > 0) {
+            $cats = explode("\0", $post->categories);
+            if (sizeof($cats) == 1 && $cats[0] == '') {
+                $cats = [];
+            }
             return new Post(
                 $post->post_id,
                 $post->name,
@@ -232,7 +240,7 @@ class Post extends DbModel
                     $post->l_updated_at
                 ),
                 $post->publish_at,
-                [], // TODO: add categories
+                $cats,
                 [], // TODO: add attributes
                 $post->created_at,
                 $post->updated_at
@@ -428,7 +436,7 @@ class Post extends DbModel
     }
 
     /**
-     * @return string[]
+     * @return array
      */
     public function getAttributes(): array
     {
@@ -436,7 +444,7 @@ class Post extends DbModel
     }
 
     /**
-     * @param string[] $attributes
+     * @param array $attributes
      */
     public function setAttributes(array $attributes): void
     {
