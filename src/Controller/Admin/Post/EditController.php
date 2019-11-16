@@ -7,9 +7,11 @@ use GislerCMS\Filter\ToBool;
 use GislerCMS\Filter\ToLanguage;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Language;
+use GislerCMS\Model\Module;
 use GislerCMS\Model\Post;
 use GislerCMS\Model\PostTranslation;
 use GislerCMS\Model\User;
+use GislerCMS\Model\Widget;
 use GislerCMS\Validator\LanguageExists;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -130,7 +132,9 @@ class EditController extends AbstractController
             'languages' => $languages,
             'translations' => $translations,
             'errors' => $errors,
-            'message' => $msg
+            'message' => $msg,
+            'widgets' => Widget::getAvailable(),
+            'modules' => Module::getAll()
         ]);
     }
 

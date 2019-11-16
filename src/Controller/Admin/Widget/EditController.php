@@ -7,6 +7,7 @@ use GislerCMS\Filter\ToBool;
 use GislerCMS\Filter\ToLanguage;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Language;
+use GislerCMS\Model\Module;
 use GislerCMS\Model\Widget;
 use GislerCMS\Model\WidgetTranslation;
 use GislerCMS\Model\WidgetTranslationHistory;
@@ -148,7 +149,9 @@ class EditController extends AbstractController
                 'languages' => $languages,
                 'translations' => $translations,
                 'errors' => $errors,
-                'message' => $msg
+                'message' => $msg,
+                'widgets' => Widget::getAvailable(),
+                'modules' => Module::getAll()
             ]);
         }
 
