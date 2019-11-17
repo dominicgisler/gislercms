@@ -1,0 +1,4 @@
+<h2>{{ pTrans.getTitle() }}</h2>
+{% for item in list %}
+    {% include 'posts/item.twig' with { pTrans: pTrans, post: item.post, trans: item.trans } %}
+{% endfor %}

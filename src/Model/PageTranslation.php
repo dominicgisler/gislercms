@@ -749,7 +749,6 @@ class PageTranslation extends DbModel
     }
 
     /**
-     * @param array $modules
      * @param Request $request
      * @param Twig $view
      * @throws \Exception
@@ -757,5 +756,15 @@ class PageTranslation extends DbModel
     public function replaceModules(Request $request, Twig $view): void
     {
         $this->setContent(self::replaceModulePlaceholders($this->getContent(), $request, $view));
+    }
+
+    /**
+     * @param Request $request
+     * @param Twig $view
+     * @throws \Exception
+     */
+    public function replacePosts(Request $request, Twig $view): void
+    {
+        $this->setContent(self::replacePostsPlaceholders($this->getContent(), $this, $this->getLanguage(), $request, $view));
     }
 }

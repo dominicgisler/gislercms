@@ -1,0 +1,15 @@
+<div class="post overflow-hidden border-top pt-2">
+    {% if trans.getMetaImage()|length > 0 %}
+        <img class="float-right w-25 mr-2" src="{{ trans.getMetaImage() }}">
+    {% endif %}
+    <h4>{{ trans.getTitle() }}</h4>
+    {% if post.getPublishAt() > 0 %}<span>Veröffentlicht am {{ post.getPublishAt()|date('d.m.Y') }} um {{ post.getPublishAt()|date('H:i') }} Uhr</span>{% endif %}
+    <div>
+        {% if trans.getMetaDescription()|length > 0 %}
+            {{ trans.getMetaDescription()|nl2br }}
+        {% else %}
+            {{ trans.getContent() }}
+        {% endif %}
+    </div>
+    <a href="{{ base_url() }}/{{ pTrans.getLanguage().getLocale() }}/{{ pTrans.getName() }}/{{ trans.getName() }}" class="mt-2 btn btn-primary">Weiterlesen</a>
+</div>

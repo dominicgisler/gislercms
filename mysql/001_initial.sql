@@ -1,5 +1,8 @@
 -- Datenbank aufräumen
 
+DROP TABLE IF EXISTS `cms__post_attribute`;
+DROP TABLE IF EXISTS `cms__post_translation`;
+DROP TABLE IF EXISTS `cms__post`;
 DROP TABLE IF EXISTS `cms__visit`;
 DROP TABLE IF EXISTS `cms__session`;
 DROP TABLE IF EXISTS `cms__client`;

@@ -2,14 +2,15 @@
 
 CREATE TABLE `cms__post`
 (
-  `post_id`        INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name`           VARCHAR(128) NOT NULL,
-  `enabled`        TINYINT(1)   NOT NULL DEFAULT 1,
-  `trash`          TINYINT(1)   NOT NULL DEFAULT 0,
-  `fk_language_id` INT UNSIGNED NOT NULL,
-  `publish_at`     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_at`     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `post_id`        INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `name`           VARCHAR(128)  NOT NULL,
+  `enabled`        TINYINT(1)    NOT NULL DEFAULT 1,
+  `trash`          TINYINT(1)    NOT NULL DEFAULT 0,
+  `fk_language_id` INT UNSIGNED  NOT NULL,
+  `categories`     VARCHAR(1024) NOT NULL,
+  `publish_at`     TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at`     TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`     TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   CONSTRAINT `pk_post` PRIMARY KEY (`post_id`),
   CONSTRAINT `fk_post_language` FOREIGN KEY (`fk_language_id`) REFERENCES `cms__language` (`language_id`)
@@ -43,19 +44,6 @@ CREATE TABLE `cms__post_translation`
   CONSTRAINT `fk_post_translation_language` FOREIGN KEY (`fk_language_id`) REFERENCES `cms__language` (`language_id`)
     ON UPDATE CASCADE
     ON DELETE CASCADE
-);
-
-CREATE TABLE `cms__post_category` (
-  `post_category_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `fk_post_id`       INT UNSIGNED NOT NULL,
-  `name`             VARCHAR(255) NOT NULL,
-  `created_at`       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-
-  CONSTRAINT `pk_post_category` PRIMARY KEY (`post_category_id`),
-  CONSTRAINT `fk_post_category_post` FOREIGN KEY (`fk_post_id`) REFERENCES `cms__post` (`post_id`)
-    ON UPDATE CASCADE
-    ON DELETE RESTRICT
 );
 
 CREATE TABLE `cms__post_attribute` (

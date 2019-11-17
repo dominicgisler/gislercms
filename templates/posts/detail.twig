@@ -1,0 +1,10 @@
+<div class="post">
+    {% if trans.getMetaImage()|length > 0 %}
+        <img class="mw-100" src="{{ trans.getMetaImage() }}">
+    {% endif %}
+    <h2 class="mt-2">{{ trans.getTitle() }}</h2>
+    {% if post.getPublishAt() > 0 %}<span>Veröffentlicht am {{ post.getPublishAt()|date('d.m.Y') }} um {{ post.getPublishAt()|date('H:i') }} Uhr</span>{% endif %}
+    <div>
+        {{ trans.getContent()|raw }}
+    </div>
+</div>

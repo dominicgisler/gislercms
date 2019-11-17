@@ -93,4 +93,50 @@ abstract class DbModel
         }
         return $html;
     }
+
+    /**
+     * @param string $html
+     * @param PageTranslation $pTrans
+     * @param Language $language
+     * @param Request $request
+     * @param Twig $view
+     * @return string|null
+     */
+    protected static function replacePostsPlaceholders(string $html, PageTranslation $pTrans, Language $language, Request $request, Twig $view): string
+    {
+        $pattern = '#<pre class="posts">(.*?)</pre>#';
+        while (preg_match($pattern, $html)) {
+            $html = preg_replace_callback($pattern, function ($match) use ($pTrans, $language, $request, $view) {
+                $res = '';
+                if (isset($match[1])) {
+                    $name = $match[1];
+                    $args = $request->getAttribute('arguments');
+                    if (strlen($args) > 0) {
+                        $post = Post::getPost($name, $args);
+                        $trans = PostTranslation::getPostTranslation($post, $language);
+                        $res = $view->fetch('posts/detail.twig', [
+                            'post' => $post,
+                            'trans' => $trans
+                        ]);
+                    } else {
+                        $posts = Post::getByCategory($name);
+                        $transList = [];
+                        foreach ($posts as $post) {
+                            $trans = PostTranslation::getPostTranslation($post, $language);
+                            $transList[] = [
+                                'post' => $post,
+                                'trans' => $trans
+                            ];
+                        }
+                        $res = $view->fetch('posts/list.twig', [
+                            'pTrans' => $pTrans,
+                            'list' => $transList
+                        ]);
+                    }
+                }
+                return $res;
+            }, $html);
+        }
+        return $html;
+    }
 }

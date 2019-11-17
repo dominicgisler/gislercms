@@ -43,6 +43,7 @@ class PageController extends AbstractController
 
         $page->replaceWidgets();
         $page->replaceModules($request->withAttribute('arguments', $arguments), $this->get('view'));
+        $page->replacePosts($request->withAttribute('arguments', $arguments), $this->get('view'));
 
         return $this->render($request, $response, 'layout.twig', ['page' => $page]);
     }

@@ -124,19 +124,46 @@ class Post extends DbModel
     }
 
     /**
-     * @param string $where
+     * @param string $name
      * @return Post[]
      * @throws \Exception
      */
-    private static function getWhere($where = ''): array
+    public static function getByCategory(string $name): array
+    {
+        return self::getWhere('`p`.`categories` LIKE "%' . $name . '%"');
+    }
+
+    /**
+     * @param string $category
+     * @param string $name
+     * @return Post
+     * @throws \Exception
+     */
+    public static function getPost(string $category, string $name): Post
+    {
+        $arr = self::getWhere('`p`.`categories` LIKE "%' . $category . '%" AND `p`.`name` = ?', [$name]);
+        if (sizeof($arr) > 0) {
+            return $arr[0];
+        }
+        return new Post();
+    }
+
+    /**
+     * @param string $where
+     * @param array $args
+     * @return Post[]
+     * @throws \Exception
+     */
+    private static function getWhere($where = '', array $args = []): array
     {
         $arr = [];
-        $stmt = self::getPDO()->query("
+        $stmt = self::getPDO()->prepare("
             SELECT
                 `p`.`post_id`,
                 `p`.`name`,
                 `p`.`enabled`,
                 `p`.`trash`,
+                `p`.`categories`,
                 `p`.`publish_at`,
                 `p`.`created_at`,
                 `p`.`updated_at`,
@@ -157,9 +184,14 @@ class Post extends DbModel
             ORDER BY `enabled` DESC, `name` ASC
         ");
         if ($stmt instanceof \PDOStatement) {
+            $stmt->execute($args);
             $posts = $stmt->fetchAll(\PDO::FETCH_OBJ);
             if (sizeof($posts) > 0) {
                 foreach ($posts as $post) {
+                    $cats = explode("\0", $post->categories);
+                    if (sizeof($cats) == 1 && $cats[0] == '') {
+                        $cats = [];
+                    }
                     $arr[] = new Post(
                         $post->post_id,
                         $post->name,
@@ -174,7 +206,7 @@ class Post extends DbModel
                             $post->l_updated_at
                         ),
                         $post->publish_at,
-                        [], // TODO: add categories
+                        $cats,
                         [], // TODO: add attributes
                         $post->created_at,
                         $post->updated_at
@@ -198,6 +230,7 @@ class Post extends DbModel
                 `p`.`name`,
                 `p`.`enabled`,
                 `p`.`trash`,
+                `p`.`categories`,
                 `p`.`publish_at`,
                 `p`.`created_at`,
                 `p`.`updated_at`,
@@ -206,16 +239,12 @@ class Post extends DbModel
                 `l`.`description`,
                 `l`.`enabled` AS 'l_enabled',
                 `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at',
-                GROUP_CONCAT(`c`.`name` SEPARATOR 0x0) AS `categories`
+                `l`.`updated_at` AS 'l_updated_at'
             
             FROM `cms__post` `p`
               
             INNER JOIN `cms__language` `l`
             ON `p`.fk_language_id = `l`.language_id
-            
-            LEFT JOIN `cms__post_category` `c`
-            ON `p`.`post_id` = `c`.`fk_post_id`
             
             WHERE `p`.`post_id` = ?
         ");
@@ -259,7 +288,7 @@ class Post extends DbModel
         if ($this->getPostId() > 0) {
             $stmt = $pdo->prepare("
                 UPDATE `cms__post`
-                SET `name` = ?, `enabled` = ?, `trash` = ?, `fk_language_id` = ?, `publish_at` = ?
+                SET `name` = ?, `enabled` = ?, `trash` = ?, `fk_language_id` = ?, `categories` = ?, `publish_at` = ?
                 WHERE `post_id` = ?
             ");
             $res = $stmt->execute([
@@ -267,20 +296,22 @@ class Post extends DbModel
                 $this->isEnabled(),
                 $this->isTrash(),
                 $this->getLanguage()->getLanguageId(),
+                join("\0", $this->getCategories()),
                 $this->getPublishAt(),
                 $this->getPostId()
             ]);
             return $res ? self::get($this->getPostId()) : null;
         } else {
             $stmt = $pdo->prepare("
-                INSERT INTO `cms__post` (`name`, `enabled`, `trash`, `fk_language_id`, `publish_at`)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO `cms__post` (`name`, `enabled`, `trash`, `fk_language_id`, `categories`, `publish_at`)
+                VALUES (?, ?, ?, ?, ?, ?)
             ");
             $res = $stmt->execute([
                 $this->getName(),
                 $this->isEnabled(),
                 $this->isTrash(),
                 $this->getLanguage()->getLanguageId(),
+                join("\0", $this->getCategories()),
                 $this->getPublishAt()
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;

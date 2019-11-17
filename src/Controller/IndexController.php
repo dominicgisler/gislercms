@@ -41,6 +41,7 @@ class IndexController extends AbstractController
         $pTrans = $page->getDefaultPageTranslation();
         $pTrans->replaceWidgets();
         $pTrans->replaceModules($request, $this->get('view'));
+        $pTrans->replacePosts($request, $this->get('view'));
 
         $response = $this->trackPage($request, $response, $pTrans);
 
