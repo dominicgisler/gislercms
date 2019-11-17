@@ -130,22 +130,7 @@ class Post extends DbModel
      */
     public static function getByCategory(string $name): array
     {
-        return self::getWhere('`p`.`categories` LIKE "%' . $name . '%"');
-    }
-
-    /**
-     * @param string $category
-     * @param string $name
-     * @return Post
-     * @throws \Exception
-     */
-    public static function getPost(string $category, string $name): Post
-    {
-        $arr = self::getWhere('`p`.`categories` LIKE "%' . $category . '%" AND `p`.`name` = ?', [$name]);
-        if (sizeof($arr) > 0) {
-            return $arr[0];
-        }
-        return new Post();
+        return self::getWhere('`p`.`categories` LIKE "%' . $name . '%" AND `p`.`publish_at` <= CURRENT_TIMESTAMP');
     }
 
     /**
@@ -181,7 +166,7 @@ class Post extends DbModel
             
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
             
-            ORDER BY `enabled` DESC, `name` ASC
+            ORDER BY `enabled` DESC, `p`.`publish_at` DESC, `name` ASC
         ");
         if ($stmt instanceof \PDOStatement) {
             $stmt->execute($args);

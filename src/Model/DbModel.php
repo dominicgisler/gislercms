@@ -112,27 +112,28 @@ abstract class DbModel
                     $name = $match[1];
                     $args = $request->getAttribute('arguments');
                     if (strlen($args) > 0) {
-                        $post = Post::getPost($name, $args);
-                        $trans = PostTranslation::getPostTranslation($post, $language);
-                        $res = $view->fetch('posts/detail.twig', [
-                            'post' => $post,
-                            'trans' => $trans
-                        ]);
-                    } else {
-                        $posts = Post::getByCategory($name);
-                        $transList = [];
-                        foreach ($posts as $post) {
-                            $trans = PostTranslation::getPostTranslation($post, $language);
-                            $transList[] = [
+                        $trans = PostTranslation::getByName($args, $language);
+                        $post = $trans->getPost();
+                        if ($post->getPostId() > 0 && (new \DateTime($post->getPublishAt())) < (new \DateTime())) {
+                            return $view->fetch('posts/detail.twig', [
                                 'post' => $post,
                                 'trans' => $trans
-                            ];
+                            ]);
                         }
-                        $res = $view->fetch('posts/list.twig', [
-                            'pTrans' => $pTrans,
-                            'list' => $transList
-                        ]);
                     }
+                    $posts = Post::getByCategory($name);
+                    $transList = [];
+                    foreach ($posts as $post) {
+                        $trans = PostTranslation::getPostTranslation($post, $language);
+                        $transList[] = [
+                            'post' => $post,
+                            'trans' => $trans
+                        ];
+                    }
+                    $res = $view->fetch('posts/list.twig', [
+                        'pTrans' => $pTrans,
+                        'list' => $transList
+                    ]);
                 }
                 return $res;
             }, $html);

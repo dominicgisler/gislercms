@@ -9,7 +9,8 @@
             <tr>
                 <th></th>
                 <th>Name</th>
-                <th>Standardsprache</th>
+                <th>Veröffentlicht am</th>
+                <th>Kategorien</th>
                 <th>Status</th>
             </tr>
             </thead>
@@ -24,7 +25,8 @@
                         {% endif %}
                     </td>
                     <td>{{ val.getName() }}</td>
-                    <td>{{ val.getLanguage().getDescription() }}</td>
+                    <td>{{ val.getPublishAt()|date('d.m.Y H:i') }}</td>
+                    <td>{{ val.getCategories()|join(', ') }}</td>
                     <td>
                         {% if val.isEnabled() %}
                             <i class="fa fa-check fa-fw text-success"></i> Aktiv

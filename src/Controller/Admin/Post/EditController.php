@@ -13,6 +13,7 @@ use GislerCMS\Model\PostTranslation;
 use GislerCMS\Model\User;
 use GislerCMS\Model\Widget;
 use GislerCMS\Validator\LanguageExists;
+use GislerCMS\Validator\ValidDateTime;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Zend\InputFilter\Factory;
@@ -68,6 +69,8 @@ class EditController extends AbstractController
                 $post->setEnabled($postData['enabled']);
                 $post->setLanguage($postData['language']);
                 $post->setTrash(false);
+                $post->setCategories($postData['categories'] ?: []);
+                $post->setPublishAt(date('Y-m-d H:i:s', strtotime($postData['publish_at'] ?: 'now')));
 
                 $translationData = $request->getParsedBodyParam('translation');
                 $filter = $this->getTranslationInputFilter();
@@ -164,6 +167,10 @@ class EditController extends AbstractController
                 ]
             ],
             [
+                'name' => 'publish_at',
+                'required' => false
+            ],
+            [
                 'name' => 'language',
                 'required' => true,
                 'filters' => [
@@ -171,6 +178,13 @@ class EditController extends AbstractController
                 ],
                 'validators' => [
                     new LanguageExists()
+                ]
+            ],
+            [
+                'name' => 'categories',
+                'required' => true,
+                'validators' => [
+                    new NotEmpty()
                 ]
             ],
             [

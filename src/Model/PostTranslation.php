@@ -540,7 +540,7 @@ class PostTranslation extends DbModel
      */
     public function getPost(): Post
     {
-        return $this->post;
+        return $this->post ?: new Post();
     }
 
     /**
