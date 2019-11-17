@@ -66,6 +66,13 @@
       $(this).removeClass('active');
     }
   });
+
+  $('#filemanagerModal').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget);
+    var field = button.data('field');
+    var modal = $(this);
+    modal.find('iframe').attr('src', modal.find('iframe').attr('src').replace(/field_id=.*/, 'field_id=' + field));
+  });
 }());
 
 function autocompleteWidgets(widgets) {

@@ -73,7 +73,7 @@
                         {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][meta_description]', translations[language.locale].metaDescription, 'Beschreibung', '', language.locale ~ '_description' in errors ? 'is-invalid' : '', 'Eine kurze Beschreibung des Seiteninhalts (SEO)') }}
                         {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_author]', translations[language.locale].metaAuthor, 'Autor', '', language.locale ~ '_author' in errors ? 'is-invalid' : '', 'Metadaten') }}
                         {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_copyright]', translations[language.locale].metaCopyright, 'Copyright', '', language.locale ~ '_copyright' in errors ? 'is-invalid' : '', 'Metadaten') }}
-                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_image]', translations[language.locale].metaImage, 'Titelbild', '', language.locale ~ '_image' in errors ? 'is-invalid' : '', 'Titelbild, wird z.B. beim Teilen auf Facebook dargestellt') }}
+                        {{ forms.form_group('fileurl', 'translation[' ~ language.locale ~ '][meta_image]', translations[language.locale].metaImage, 'Titelbild', '', language.locale ~ '_image' in errors ? 'is-invalid' : '', 'Titelbild, wird z.B. beim Teilen auf Facebook dargestellt') }}
                         {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt', '', language.locale ~ '_content' in errors ? 'tinymce is-invalid' : 'tinymce') }}
                     </div>
                 {% endif %}

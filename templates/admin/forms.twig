@@ -13,6 +13,8 @@
                 {{ forms.select(name, value, options, placeholder, class, hint) }}
             {% elseif type == 'multiselect' %}
                 {{ forms.multiselect(name, value, options, placeholder, class, hint) }}
+            {% elseif type == 'fileurl' %}
+                {{ forms.fileurl(name, value, placeholder, class, hint) }}
             {% else %}
                 {{ forms.input(type, name, value, placeholder, class, hint) }}
             {% endif %}
@@ -57,4 +59,14 @@
 
 {% macro input(type, name, value, placeholder, class, hint) %}
     <input type="{{ type }}" name="{{ name }}" class="form-control {{ class }}" id="input_{{ name }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %} value="{{ value }}" placeholder="{{ placeholder }}">
+{% endmacro %}
+
+{% macro fileurl(name, value, placeholder, class, hint) %}
+    {% set id = name|replace({'[': '_', ']': '_'}) %}
+    <div class="input-group">
+        <input type="text" name="{{ name }}" class="form-control {{ class }}" id="input_{{ id }}" {% if hint %}aria-describedby="hint_{{ name }}"{% endif %} value="{{ value }}" placeholder="{{ placeholder }}">
+        <div class="input-group-append">
+            <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#filemanagerModal" data-field="input_{{ id }}">Auswählen</button>
+        </div>
+    </div>
 {% endmacro %}
