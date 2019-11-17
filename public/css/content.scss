@@ -4,7 +4,7 @@ body {
   margin: 10px;
 }
 
-pre.widget, pre.module {
+pre.widget, pre.module, pre.posts {
   display: block;
   width: 100%;
   height: auto;
@@ -14,7 +14,7 @@ pre.widget, pre.module {
   background: #E6E6E6;
 }
 
-pre.widget:before, pre.module:before {
+pre.widget:before, pre.module:before, pre.posts:before {
   font-weight: bold;
   display: block;
   font-size: 14px;
@@ -27,4 +27,8 @@ pre.widget:before {
 
 pre.module:before {
   content: 'Modul';
+}
+
+pre.posts:before {
+  content: 'Beiträge';
 }

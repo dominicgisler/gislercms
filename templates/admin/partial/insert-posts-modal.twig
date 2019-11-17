@@ -1,18 +1,16 @@
-<div class="modal fade" id="insertWidgetModal" tabindex="-1" role="dialog" aria-labelledby="insertWidgetModalLabel" aria-hidden="true">
+<div class="modal fade" id="insertPostsModal" tabindex="-1" role="dialog" aria-labelledby="insertPostsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="insertWidgetModalLabel">Widget einfügen</h5>
+                <h5 class="modal-title" id="insertPostsModalLabel">Beiträge einfügen</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="input-widget-name">Name</label>
-                    <input type="text" name="widget_name" autocomplete="off" class="form-control" id="input-widget-name" onkeyup="autocompletePageWidgets();" onfocus="autocompleteWidgetsShow();" onfocusout="autocompleteWidgetsHide();">
-                    <ul class="list-group position-absolute w-100 pr-4" id="autocomplete-widget-list">
-                    </ul>
+                    <label for="input-category">Name</label>
+                    <input type="text" name="category" autocomplete="off" class="form-control" id="input-category">
                 </div>
             </div>
             <div class="modal-footer">

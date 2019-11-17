@@ -13,7 +13,7 @@
       "emoticons template paste textcolor colorpicker textpattern responsivefilemanager imagetools"
     ],
     toolbar1: "undo redo | styleselect fontselect fontsizeselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-    toolbar2: "insertWidget insertModule | print preview media | forecolor backcolor emoticons | responsivefilemanager",
+    toolbar2: "addElement | print preview media | forecolor backcolor emoticons | responsivefilemanager",
     image_advtab: true,
     content_css: "/css/content.css",
     extended_valid_elements : "widget,module",
@@ -24,25 +24,42 @@
     external_plugins: { "filemanager" : "/editor/filemanager/plugin.min.js"},
     convert_urls: false,
     setup: function(editor) {
-      // additional buttons
-      editor.ui.registry.addButton('insertWidget', {
-        text: 'Widget+',
-        tooltip: 'Widget hinzufügen',
-        onAction: function() {
-          var elem = $('#insertWidgetModal');
-          if (elem) {
-            elem.modal();
-          }
-        }
-      });
-      editor.ui.registry.addButton('insertModule', {
-        text: 'Modul+',
-        tooltip: 'Modul hinzufügen',
-        onAction: function() {
-          var elem = $('#insertModuleModal');
-          if (elem) {
-            elem.modal();
-          }
+      editor.ui.registry.addMenuButton('addElement', {
+        text: 'Element hinzufügen',
+        fetch: function (callback) {
+          var items = [
+            {
+              type: 'menuitem',
+              text: 'Beiträge',
+              onAction: function () {
+                var elem = $('#insertPostsModal');
+                if (elem) {
+                  elem.modal();
+                }
+              }
+            },
+            {
+              type: 'menuitem',
+              text: 'Modul',
+              onAction: function () {
+                var elem = $('#insertModuleModal');
+                if (elem) {
+                  elem.modal();
+                }
+              }
+            },
+            {
+              type: 'menuitem',
+              text: 'Widget',
+              onAction: function () {
+                var elem = $('#insertWidgetModal');
+                if (elem) {
+                  elem.modal();
+                }
+              }
+            },
+          ];
+          callback(items);
         }
       });
     }
@@ -55,6 +72,10 @@
   $('body').on('click', '#insertWidgetModal .modal-footer .btn-primary', function() {
     tinymce.activeEditor.execCommand('mceInsertContent', false, '<pre class="widget">' + $('#input-widget-name').val() + '</pre>');
     $('#insertWidgetModal').modal('hide');
+  });
+  $('body').on('click', '#insertPostsModal .modal-footer .btn-primary', function() {
+    tinymce.activeEditor.execCommand('mceInsertContent', false, '<pre class="posts">' + $('#input-category').val() + '</pre>');
+    $('#insertPostsModal').modal('hide');
   });
   $('#toggle-side-navigation').click(function() {
     var $nav = $('#side-navigation');

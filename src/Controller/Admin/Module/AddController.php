@@ -61,6 +61,7 @@ class AddController extends AbstractController
                 if (sizeof($errors) == 0) {
                     $mod->setName($data['name']);
                     $mod->setController($data['controller']);
+                    $mod->setEnabled(true);
 
                     /** @var AbstractModuleController $cont */
                     $cont = '\\GislerCMS\\Controller\\Module\\' . $data['controller'];
