@@ -7,7 +7,7 @@
         <table class="table table-hover border">
             <thead class="thead-light">
             <tr>
-                <th></th>
+                <th style="width: 40px;"></th>
                 <th>Name</th>
                 <th>Veröffentlicht am</th>
                 <th>Kategorien</th>
@@ -17,7 +17,7 @@
             <tbody>
             {% for key, val in posts %}
                 <tr style="cursor: pointer;" onclick="window.location.href='{{ admin_url }}/post/{{ val.getPostId() }}';">
-                    <td style="width: 40px;" class="text-center">
+                    <td class="text-center">
                         {% if val.isEnabled() %}
                             <i class="fa fa-file-alt"></i>
                         {% else %}
@@ -34,6 +34,11 @@
                             <i class="fa fa-times fa-fw text-danger"></i> Inaktiv
                         {% endif %}
                     </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td></td>
+                    <td colspan="4">Keine Beiträge gefunden</td>
                 </tr>
             {% endfor %}
             </tbody>

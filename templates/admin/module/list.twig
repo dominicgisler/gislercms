@@ -7,7 +7,7 @@
         <table class="table table-hover border">
             <thead class="thead-light">
             <tr>
-                <th></th>
+                <th style="width: 40px;"></th>
                 <th>Name</th>
                 <th>Typ</th>
             </tr>
@@ -15,11 +15,16 @@
             <tbody>
             {% for key, val in modules %}
                 <tr style="cursor: pointer;" onclick="window.location.href='{{ admin_url }}/module/{{ val.getModuleId() }}';">
-                    <td style="width: 40px;" class="text-center">
+                    <td class="text-center">
                         <i class="fa fa-code"></i>
                     </td>
                     <td>{{ val.getName() }}</td>
                     <td>{{ val.getController()|replace({'ModuleController': '', 'Controller': ''}) }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td></td>
+                    <td colspan="4">Keine Module gefunden</td>
                 </tr>
             {% endfor %}
             </tbody>
