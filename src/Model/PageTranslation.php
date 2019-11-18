@@ -765,6 +765,47 @@ class PageTranslation extends DbModel
      */
     public function replacePosts(Request $request, Twig $view): void
     {
-        $this->setContent(self::replacePostsPlaceholders($this->getContent(), $this, $this->getLanguage(), $request, $view));
+        $html = $this->getContent();
+        $pattern = '#<pre class="posts">(.*?)</pre>#';
+        while (preg_match($pattern, $html)) {
+            $html = preg_replace_callback($pattern, function ($match) use ($request, $view) {
+                $res = '';
+                if (isset($match[1])) {
+                    $name = $match[1];
+                    $args = $request->getAttribute('arguments');
+                    if (strlen($args) > 0) {
+                        $trans = PostTranslation::getByName($args, $this->getLanguage());
+                        $post = $trans->getPost();
+                        if ($post->getPostId() > 0 && (new \DateTime($post->getPublishAt())) < (new \DateTime())) {
+                            // TODO: set metadata of translation
+                            // $this->setMetaAuthor();
+                            // $this->setMetaCopyright();
+                            // $this->setMetaDescription();
+                            // $this->setMetaImage();
+                            // $this->setMetaKeywords();
+                            return $view->fetch('posts/detail.twig', [
+                                'post' => $post,
+                                'trans' => $trans
+                            ]);
+                        }
+                    }
+                    $posts = Post::getByCategory($name);
+                    $transList = [];
+                    foreach ($posts as $post) {
+                        $trans = PostTranslation::getPostTranslation($post, $this->getLanguage());
+                        $transList[] = [
+                            'post' => $post,
+                            'trans' => $trans
+                        ];
+                    }
+                    $res = $view->fetch('posts/list.twig', [
+                        'pTrans' => $this,
+                        'list' => $transList
+                    ]);
+                }
+                return $res;
+            }, $html);
+        }
+        $this->setContent($html);
     }
 }
