@@ -776,13 +776,22 @@ class PageTranslation extends DbModel
                     if (strlen($args) > 0) {
                         $trans = PostTranslation::getByName($args, $this->getLanguage());
                         $post = $trans->getPost();
-                        if ($post->getPostId() > 0 && (new \DateTime($post->getPublishAt())) < (new \DateTime())) {
-                            // TODO: set metadata of translation
-                            // $this->setMetaAuthor();
-                            // $this->setMetaCopyright();
-                            // $this->setMetaDescription();
-                            // $this->setMetaImage();
-                            // $this->setMetaKeywords();
+                        if ($post->getPostId() > 0) {
+                            if (!empty($trans->getMetaAuthor())) {
+                                $this->setMetaAuthor(str_replace('{page}', $this->getMetaAuthor(), $trans->getMetaAuthor()));
+                            }
+                            if (!empty($trans->getMetaCopyright())) {
+                                $this->setMetaCopyright(str_replace('{page}', $this->getMetaCopyright(), $trans->getMetaCopyright()));
+                            }
+                            if (!empty($trans->getMetaDescription())) {
+                                $this->setMetaDescription($trans->getMetaDescription());
+                            }
+                            if (!empty($trans->getMetaImage())) {
+                                $this->setMetaImage($trans->getMetaImage());
+                            }
+                            if (!empty($trans->getMetaKeywords())) {
+                                $this->setMetaKeywords(str_replace('{page}', $this->getMetaKeywords(), $trans->getMetaKeywords()));
+                            }
                             return $view->fetch('posts/detail.twig', [
                                 'post' => $post,
                                 'trans' => $trans

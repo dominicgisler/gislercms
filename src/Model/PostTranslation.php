@@ -742,20 +742,4 @@ class PostTranslation extends DbModel
     {
         $this->updatedAt = $updatedAt;
     }
-
-    public function replaceWidgets(): void
-    {
-        $this->setContent(self::replaceWidgetPlaceholders($this->getContent(), $this->getLanguage()));
-    }
-
-    /**
-     * @param array $modules
-     * @param Request $request
-     * @param Twig $view
-     * @throws \Exception
-     */
-    public function replaceModules(Request $request, Twig $view): void
-    {
-        $this->setContent(self::replaceModulePlaceholders($this->getContent(), $request, $view));
-    }
 }
