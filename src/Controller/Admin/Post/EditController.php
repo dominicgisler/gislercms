@@ -72,6 +72,8 @@ class EditController extends AbstractController
                 $post->setCategories($postData['categories'] ?: []);
                 $post->setPublishAt(date('Y-m-d H:i:s', strtotime($postData['publish_at'] ?: 'now')));
 
+                // TODO: use $postData['attributes']
+
                 $translationData = $request->getParsedBodyParam('translation');
                 $filter = $this->getTranslationInputFilter();
                 foreach ($translationData as $key => $translation) {
@@ -194,6 +196,10 @@ class EditController extends AbstractController
                     new ToBool()
                 ],
                 'validators' => []
+            ],
+            [
+                'name' => 'attributes',
+                'required' => false
             ]
         ]);
     }

@@ -1,4 +1,5 @@
 {% import "admin/forms.twig" as forms %}
+{% import "admin/post/attribute-row.twig" as attrRow %}
 
 {% extends 'admin/content.twig' %}
 
@@ -59,6 +60,10 @@
         {{ forms.form_group('select', 'post[language]', post.language, 'Standardsprache', '', 'language' in errors ? 'is-invalid' : '', '', languageSelect) }}
         {{ forms.form_group('multiselect', 'post[categories][]', post.categories, 'Kategorien', '', 'categories' in errors ? 'select2 is-invalid' : 'select2', 'Kategorien dieses Beitrages', categorySelect) }}
         {{ forms.form_group('checkbox', 'post[enabled]', post.enabled, 'Beitrag aktiviert') }}
+        <h2 class="h4 mt-4">Attribute</h2>
+        {{ attrRow.initialRow('post[attributes][0]', '', '') }}
+        {{ attrRow.additionalRow('post[attributes][1]', '', '') }}
+        {{ attrRow.additionalRow('post[attributes][2]', '', '') }}
         <h2 class="h4 mt-4">Sprachen</h2>
         <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
             {% for language in languages %}
