@@ -6,5 +6,12 @@
     {% if post.getPublishAt() > 0 %}<span>Veröffentlicht am {{ post.getPublishAt()|date('d.m.Y') }} um {{ post.getPublishAt()|date('H:i') }} Uhr</span>{% endif %}
     <div>
         {{ trans.getContent()|raw }}
+        {% for attribute in post.attributes %}
+            {% if attribute.name == 'galerie' %}
+                {% for img in glob('../public/uploads/' ~ attribute.value ~ '/*.*') %}
+                    <img src="{{ base_url() }}/{{ img|replace({ '../public/': '' }) }}" style="width: 100px;">
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
     </div>
 </div>

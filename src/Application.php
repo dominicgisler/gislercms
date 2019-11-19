@@ -2,6 +2,7 @@
 
 namespace GislerCMS;
 
+use GislerCMS\TwigExtension\TwigGlob;
 use GislerCMS\Middleware\LoginMiddleware;
 use GislerCMS\Middleware\NoLoginMiddleware;
 use GislerCMS\Model\DbModel;
@@ -100,6 +101,7 @@ class Application
 
             // Instantiate and add Slim specific extension
             $twig->addExtension(new TwigExtension($container['router'], $container['base_url']));
+            $twig->addExtension(new TwigGlob());
 
             return $twig;
         };
