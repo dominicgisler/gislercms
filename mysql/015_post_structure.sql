@@ -49,7 +49,7 @@ CREATE TABLE `cms__post_translation`
 CREATE TABLE `cms__post_attribute` (
   `post_attribute_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `fk_post_id`        INT UNSIGNED NOT NULL,
-  `name`              VARCHAR(255) NOT NULL,
+  `name`              VARCHAR(128) NOT NULL,
   `value`             TEXT         NOT NULL,
   `created_at`        TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at`        TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -57,5 +57,6 @@ CREATE TABLE `cms__post_attribute` (
   CONSTRAINT `pk_post_attribute` PRIMARY KEY (`post_attribute_id`),
   CONSTRAINT `fk_post_attribute_post` FOREIGN KEY (`fk_post_id`) REFERENCES `cms__post` (`post_id`)
     ON UPDATE CASCADE
-    ON DELETE RESTRICT
+    ON DELETE RESTRICT,
+  CONSTRAINT `uq_post_attribute` UNIQUE (`fk_post_id`, `name`)
 );

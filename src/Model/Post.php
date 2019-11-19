@@ -44,7 +44,7 @@ class Post extends DbModel
     private $categories;
 
     /**
-     * @var array
+     * @var PostAttribute[]
      */
     private $attributes;
 
@@ -192,7 +192,7 @@ class Post extends DbModel
                         ),
                         $post->publish_at,
                         $cats,
-                        [], // TODO: add attributes
+                        PostAttribute::getByPostId($post->post_id),
                         $post->created_at,
                         $post->updated_at
                     );
@@ -255,7 +255,7 @@ class Post extends DbModel
                 ),
                 $post->publish_at,
                 $cats,
-                [], // TODO: add attributes
+                PostAttribute::getByPostId($post->post_id),
                 $post->created_at,
                 $post->updated_at
             );
@@ -452,7 +452,7 @@ class Post extends DbModel
     }
 
     /**
-     * @return array
+     * @return PostAttribute[]
      */
     public function getAttributes(): array
     {
@@ -460,7 +460,7 @@ class Post extends DbModel
     }
 
     /**
-     * @param array $attributes
+     * @param PostAttribute[] $attributes
      */
     public function setAttributes(array $attributes): void
     {

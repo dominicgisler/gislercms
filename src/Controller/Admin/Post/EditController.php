@@ -9,11 +9,11 @@ use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\Module;
 use GislerCMS\Model\Post;
+use GislerCMS\Model\PostAttribute;
 use GislerCMS\Model\PostTranslation;
 use GislerCMS\Model\User;
 use GislerCMS\Model\Widget;
 use GislerCMS\Validator\LanguageExists;
-use GislerCMS\Validator\ValidDateTime;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Zend\InputFilter\Factory;
@@ -72,8 +72,6 @@ class EditController extends AbstractController
                 $post->setCategories($postData['categories'] ?: []);
                 $post->setPublishAt(date('Y-m-d H:i:s', strtotime($postData['publish_at'] ?: 'now')));
 
-                // TODO: use $postData['attributes']
-
                 $translationData = $request->getParsedBodyParam('translation');
                 $filter = $this->getTranslationInputFilter();
                 foreach ($translationData as $key => $translation) {
@@ -117,6 +115,39 @@ class EditController extends AbstractController
                             $translation = $res;
                         } else {
                             $saveError = true;
+                        }
+                    }
+
+                    $postAttributes = PostAttribute::getPostAttributes($post);
+                    foreach ($postData['attributes'] as $attribute) {
+                        if (empty($attribute['name'])) {
+                            continue;
+                        }
+
+                        $postAttr = new PostAttribute();
+                        foreach ($postAttributes as $attr) {
+                            if ($attribute['name'] == $attr->getName()) {
+                                $postAttr = $attr;
+                            }
+                        }
+                        $postAttr->setPost($post);
+                        $postAttr->setName($attribute['name']);
+                        $postAttr->setValue($attribute['value'] ?: '');
+                        $res = $postAttr->save();
+                        if (is_null($res)) {
+                            $saveError = true;
+                        }
+                    }
+
+                    foreach ($postAttributes as $attr) {
+                        $exists = false;
+                        foreach ($postData['attributes'] as $postAttr) {
+                            if ($attr->getName() == $postAttr['name']) {
+                                $exists = true;
+                            }
+                        }
+                        if (!$exists) {
+                            $attr->delete();
                         }
                     }
 

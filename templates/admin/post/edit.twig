@@ -61,9 +61,15 @@
         {{ forms.form_group('multiselect', 'post[categories][]', post.categories, 'Kategorien', '', 'categories' in errors ? 'select2 is-invalid' : 'select2', 'Kategorien dieses Beitrages', categorySelect) }}
         {{ forms.form_group('checkbox', 'post[enabled]', post.enabled, 'Beitrag aktiviert') }}
         <h2 class="h4 mt-4">Attribute</h2>
-        {{ attrRow.initialRow('post[attributes][0]', '', '') }}
-        {{ attrRow.additionalRow('post[attributes][1]', '', '') }}
-        {{ attrRow.additionalRow('post[attributes][2]', '', '') }}
+        <div id="attributes">
+            {{ attrRow.initialRow('post[attributes][0]', post.attributes[0].name, post.attributes[0].value) }}
+            {% for key, attribute in post.attributes %}
+                {% if key > 0 %}
+                    {{ attrRow.additionalRow('post[attributes][' ~ key ~']', attribute.name, attribute.value) }}
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div id="attribute-template" class="d-none">{{ attrRow.additionalRow('post[attributes][X]', '', '') }}</div>
         <h2 class="h4 mt-4">Sprachen</h2>
         <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
             {% for language in languages %}
@@ -128,5 +134,23 @@
         $('.select2').select2({
             tags: true
         });
+        $('.add-attribute').click(function() {
+            var num = $('#attributes .form-group').length;
+            var $row = $($('#attribute-template').html());
+            $('#attributes').append($row);
+            numAttributes();
+        });
+        $('body').on('click', '.remove-attribute', function() {
+            $(this).closest('.form-group').remove();
+            numAttributes();
+        });
+        function numAttributes() {
+            var num = 0;
+            $('#attributes .form-group').each(function() {
+                $($(this).find('input')[0]).attr('name', 'post[attributes][' + num + '][name]');
+                $($(this).find('input')[1]).attr('name', 'post[attributes][' + num + '][value]');
+                num++;
+            });
+        }
     </script>
 {% endblock %}

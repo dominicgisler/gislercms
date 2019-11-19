@@ -3,14 +3,14 @@
         <div class="form-row">
             <div class="col-3">
                 <label>Name</label>
-                <input type="text" name="{{ name }}[key]" class="form-control {{ class }}" id="input_{{ name }}_key" value="{{ key }}" placeholder="">
+                <input type="text" name="{{ name }}[name]" class="form-control {{ class }}" id="input_{{ name }}_key" value="{{ key }}" placeholder="">
             </div>
             <div class="col-9">
                 <label>Wert</label>
                 <div class="input-group">
                     <input type="text" name="{{ name }}[value]" class="form-control {{ class }}" id="input_{{ name }}_value" value="{{ value }}" placeholder="{{ placeholder }}">
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-outline-secondary"><i class="fa fa-plus"></i></button>
+                        <button type="button" class="btn btn-outline-secondary add-attribute"><i class="fa fa-plus"></i></button>
                     </div>
                 </div>
             </div>
@@ -22,13 +22,13 @@
     <div class="form-group">
         <div class="form-row">
             <div class="col-3">
-                <input type="text" name="{{ name }}[key]" class="form-control {{ class }}" id="input_{{ name }}_key" value="{{ key }}" placeholder="">
+                <input type="text" name="{{ name }}[name]" class="form-control {{ class }}" value="{{ key }}" placeholder="">
             </div>
             <div class="col-9">
                 <div class="input-group">
-                    <input type="text" name="{{ name }}[value]" class="form-control {{ class }}" id="input_{{ name }}_value" value="{{ value }}" placeholder="{{ placeholder }}">
+                    <input type="text" name="{{ name }}[value]" class="form-control {{ class }}" value="{{ value }}" placeholder="{{ placeholder }}">
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-outline-secondary"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="btn btn-outline-secondary remove-attribute"><i class="fa fa-trash"></i></button>
                     </div>
                 </div>
             </div>
