@@ -792,6 +792,9 @@ class PageTranslation extends DbModel
                             if (!empty($trans->getMetaKeywords())) {
                                 $this->setMetaKeywords(str_replace('{page}', $this->getMetaKeywords(), $trans->getMetaKeywords()));
                             }
+                            if (!empty($trans->getTitle())) {
+                                $this->setTitle(str_replace('{page}', $this->getTitle(), $trans->getTitle()));
+                            }
                             return $view->fetch('posts/detail.twig', [
                                 'post' => $post,
                                 'trans' => $trans
