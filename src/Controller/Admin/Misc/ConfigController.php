@@ -95,6 +95,7 @@ class ConfigController extends AbstractController
         }
         return $this->render($request, $response, 'admin/misc/config.twig', [
             'languages' => $languages,
+            'pages' => Page::getAll(),
             'config' => $data,
             'message' => $msg,
             'errors' => $errors
