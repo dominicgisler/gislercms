@@ -276,8 +276,8 @@ class Widget extends DbModel
             ");
             $res = $stmt->execute([
                 $this->getName(),
-                $this->isEnabled(),
-                $this->isTrash(),
+                $this->isEnabled() ? 1 : 0,
+                $this->isTrash() ? 1 : 0,
                 $this->getLanguage()->getLanguageId(),
                 $this->getWidgetId()
             ]);
@@ -289,8 +289,8 @@ class Widget extends DbModel
             ");
             $res = $stmt->execute([
                 $this->getName(),
-                $this->isEnabled(),
-                $this->isTrash(),
+                $this->isEnabled() ? 1 : 0,
+                $this->isTrash() ? 1 : 0,
                 $this->getLanguage()->getLanguageId()
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;

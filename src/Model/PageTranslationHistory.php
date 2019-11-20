@@ -205,7 +205,7 @@ class PageTranslationHistory extends DbModel
                 $this->getMetaAuthor(),
                 $this->getMetaCopyright(),
                 $this->getMetaImage(),
-                $this->isEnabled(),
+                $this->isEnabled() ? 1 : 0,
                 $this->getUser()->getUserId(),
                 $this->getPageTranslationHistoryId()
             ]);
@@ -231,7 +231,7 @@ class PageTranslationHistory extends DbModel
                 $this->getMetaAuthor(),
                 $this->getMetaCopyright(),
                 $this->getMetaImage(),
-                $this->isEnabled(),
+                $this->isEnabled() ? 1 : 0,
                 $this->getUser()->getUserId()
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;

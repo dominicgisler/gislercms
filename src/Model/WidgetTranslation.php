@@ -299,7 +299,7 @@ class WidgetTranslation extends DbModel
             ");
             $res = $stmt->execute([
                 $this->getContent(),
-                $this->isEnabled(),
+                $this->isEnabled() ? 1 : 0,
                 $this->getWidgetTranslationId()
             ]);
             return $res ? self::get($this->getWidgetTranslationId()) : null;
@@ -316,7 +316,7 @@ class WidgetTranslation extends DbModel
                 $this->getWidget()->getWidgetId(),
                 $this->getLanguage()->getLanguageId(),
                 $this->getContent(),
-                $this->isEnabled()
+                $this->isEnabled() ? 1 : 0
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;
         }

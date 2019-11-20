@@ -210,7 +210,7 @@ class User extends DbModel
                 $this->getPassword(),
                 $this->getLocale(),
                 $this->getFailedLogins(),
-                $this->isLocked(),
+                $this->isLocked() ? 1 : 0,
                 $this->getResetKey() ?: null,
                 $this->getLastLogin() ?: null,
                 $this->getLastActivity() ?: null,
@@ -236,7 +236,7 @@ class User extends DbModel
                 $this->getPassword(),
                 $this->getLocale(),
                 $this->getFailedLogins(),
-                $this->isLocked(),
+                $this->isLocked() ? 1 : 0,
                 $this->getResetKey() ?: null,
                 $this->getLastLogin() ?: null,
                 $this->getLastActivity() ?: null

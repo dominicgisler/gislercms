@@ -127,7 +127,7 @@ class WidgetTranslationHistory extends DbModel
             ");
             $res = $stmt->execute([
                 $this->getContent(),
-                $this->isEnabled(),
+                $this->isEnabled() ? 1 : 0,
                 $this->getUser()->getUserId(),
                 $this->getWidgetTranslationHistoryId()
             ]);
@@ -144,7 +144,7 @@ class WidgetTranslationHistory extends DbModel
             $res = $stmt->execute([
                 $this->getWidgetTranslation()->getWidgetTranslationId(),
                 $this->getContent(),
-                $this->isEnabled(),
+                $this->isEnabled() ? 1 : 0,
                 $this->getUser()->getUserId()
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;

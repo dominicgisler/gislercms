@@ -487,7 +487,7 @@ class PostTranslation extends DbModel
                 $this->getMetaAuthor(),
                 $this->getMetaCopyright(),
                 $this->getMetaImage(),
-                $this->isEnabled(),
+                $this->isEnabled() ? 1 : 0,
                 $this->getPostTranslationId()
             ]);
             return $res ? self::get($this->getPostTranslationId()) : null;
@@ -513,7 +513,7 @@ class PostTranslation extends DbModel
                 $this->getMetaAuthor(),
                 $this->getMetaCopyright(),
                 $this->getMetaImage(),
-                $this->isEnabled()
+                $this->isEnabled() ? 1 : 0
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;
         }

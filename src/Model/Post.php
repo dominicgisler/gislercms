@@ -278,8 +278,8 @@ class Post extends DbModel
             ");
             $res = $stmt->execute([
                 $this->getName(),
-                $this->isEnabled(),
-                $this->isTrash(),
+                $this->isEnabled() ? 1 : 0,
+                $this->isTrash() ? 1 : 0,
                 $this->getLanguage()->getLanguageId(),
                 join("\0", $this->getCategories()),
                 $this->getPublishAt(),
@@ -293,8 +293,8 @@ class Post extends DbModel
             ");
             $res = $stmt->execute([
                 $this->getName(),
-                $this->isEnabled(),
-                $this->isTrash(),
+                $this->isEnabled() ? 1 : 0,
+                $this->isTrash() ? 1 : 0,
                 $this->getLanguage()->getLanguageId(),
                 join("\0", $this->getCategories()),
                 $this->getPublishAt()

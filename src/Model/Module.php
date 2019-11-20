@@ -185,8 +185,8 @@ class Module extends DbModel
             ");
             $res = $stmt->execute([
                 $this->getName(),
-                $this->isEnabled(),
-                $this->isTrash(),
+                $this->isEnabled() ? 1 : 0,
+                $this->isTrash() ? 1 : 0,
                 $this->getController(),
                 $this->getConfig(),
                 $this->getModuleId()
@@ -199,8 +199,8 @@ class Module extends DbModel
             ");
             $res = $stmt->execute([
                 $this->getName(),
-                $this->isEnabled(),
-                $this->isTrash(),
+                $this->isEnabled() ? 1 : 0,
+                $this->isTrash() ? 1 : 0,
                 $this->getController(),
                 $this->getConfig()
             ]);

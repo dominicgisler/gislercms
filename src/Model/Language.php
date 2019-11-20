@@ -152,7 +152,7 @@ class Language extends DbModel
             $res = $stmt->execute([
                 $this->getLocale(),
                 $this->getDescription(),
-                $this->isEnabled(),
+                $this->isEnabled() ? 1 : 0,
                 $this->getLanguageId()
             ]);
             return $res ? self::get($this->getLanguageId()) : null;
@@ -164,7 +164,7 @@ class Language extends DbModel
             $res = $stmt->execute([
                 $this->getLocale(),
                 $this->getDescription(),
-                $this->isEnabled()
+                $this->isEnabled() ? 1 : 0
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;
         }

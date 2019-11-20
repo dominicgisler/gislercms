@@ -487,7 +487,7 @@ class PageTranslation extends DbModel
                 $this->getMetaAuthor(),
                 $this->getMetaCopyright(),
                 $this->getMetaImage(),
-                $this->isEnabled(),
+                $this->isEnabled() ? 1 : 0,
                 $this->getPageTranslationId()
             ]);
             return $res ? self::get($this->getPageTranslationId()) : null;
@@ -513,7 +513,7 @@ class PageTranslation extends DbModel
                 $this->getMetaAuthor(),
                 $this->getMetaCopyright(),
                 $this->getMetaImage(),
-                $this->isEnabled()
+                $this->isEnabled() ? 1 : 0
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;
         }
