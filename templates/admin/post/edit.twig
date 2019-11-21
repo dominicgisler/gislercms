@@ -56,7 +56,7 @@
     {% endif %}
     <form method="post" id="post-form">
         {{ forms.form_group('text', 'post[name]', post.name, 'Name', '', 'name' in errors ? 'is-invalid' : '', 'Nur als interne Bezeichnung') }}
-        {{ forms.form_group('datetime-local', 'post[publish_at]', post.getPublishAt()|date('Y-m-d') ~ 'T' ~ post.getPublishAt()|date('H:i:s'), 'Veröffentlichen am', '', 'publish_at' in errors ? 'datetimepicker is-invalid' : 'datetimepicker', 'Ab diesem Zeitpunkt ist der Beitrag sichtbar') }}
+        {{ forms.form_group('datetime-local', 'post[publish_at]', post.getPublishAt()|date('Y-m-d') ~ 'T' ~ post.getPublishAt()|date('H:i'), 'Veröffentlichen am', '', 'publish_at' in errors ? 'datetimepicker is-invalid' : 'datetimepicker', 'Ab diesem Zeitpunkt ist der Beitrag sichtbar') }}
         {{ forms.form_group('select', 'post[language]', post.language, 'Standardsprache', '', 'language' in errors ? 'is-invalid' : '', '', languageSelect) }}
         {{ forms.form_group('multiselect', 'post[categories][]', post.categories, 'Kategorien', '', 'categories' in errors ? 'select2 is-invalid' : 'select2', 'Kategorien dieses Beitrages', categorySelect) }}
         {{ forms.form_group('checkbox', 'post[enabled]', post.enabled, 'Beitrag aktiviert') }}
