@@ -130,7 +130,7 @@ class Post extends DbModel
      */
     public static function getByCategory(string $name): array
     {
-        return self::getWhere('`p`.`categories` LIKE "%' . $name . '%" AND `p`.`publish_at` <= CURRENT_TIMESTAMP');
+        return self::getWhere('`p`.`categories` LIKE "%' . $name . '%" AND `p`.`trash` = 0 AND `p`.`publish_at` <= CURRENT_TIMESTAMP');
     }
 
     /**

@@ -87,8 +87,8 @@ abstract class AbstractController
         SessionHelper::getContainer()->offsetSet('session_uuid', $sUuid);
 
         $browserData = parse_user_agent();
-        $session->setPlatform($browserData['platform']);
-        $session->setBrowser($browserData['browser']);
+        $session->setPlatform($browserData['platform'] ?: '');
+        $session->setBrowser($browserData['browser'] ?: '');
 
         if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];

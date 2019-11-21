@@ -317,7 +317,7 @@ class PostTranslation extends DbModel
     public static function getByName(string $name, Language $language): PostTranslation
     {
         $res = new PostTranslation();
-        $elems = self::getWhere('`t`.`name` = ? AND `l`.`language_id` = ? AND `t`.`enabled` = 1 AND `p`.`publish_at` <= CURRENT_TIMESTAMP', [$name, $language->getLanguageId()]);
+        $elems = self::getWhere('`t`.`name` = ? AND `l`.`language_id` = ? AND `t`.`enabled` = 1 AND `p`.`trash` = 0 AND `p`.`publish_at` <= CURRENT_TIMESTAMP', [$name, $language->getLanguageId()]);
         if (sizeof($elems) > 0) {
             $res = reset($elems);
         }
