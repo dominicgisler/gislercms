@@ -27,7 +27,12 @@ class Application
      */
     public function run()
     {
-        $this->app = new App($this->getSettings());
+        $cfg = $this->getSettings();
+        if (!empty($cfg['settings']['timezone'])) {
+            date_default_timezone_set($cfg['settings']['timezone']);
+        }
+
+        $this->app = new App($cfg);
         $this->registerServices();
         $this->registerMiddleware();
         $this->registerRoutes();
