@@ -80,7 +80,14 @@ abstract class AbstractController
 
         $client = Client::getClient($cUuid);
         $client->setUuid($cUuid);
-        $response = FigResponseCookies::set($response, SetCookie::create('client')->withValue($cUuid)->withExpires(strtotime('+1 year')));
+        $response = FigResponseCookies::set(
+            $response,
+            SetCookie::create('client')
+                ->withValue($cUuid)
+                ->withExpires(strtotime('+1 year'))
+                ->withPath('/')
+                ->withHttpOnly(true)
+        );
 
         $session = Session::getSession($sUuid);
         $session->setUuid($sUuid);
