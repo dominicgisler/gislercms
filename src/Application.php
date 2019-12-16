@@ -6,6 +6,7 @@ use GislerCMS\TwigExtension\TwigGlob;
 use GislerCMS\Middleware\LoginMiddleware;
 use GislerCMS\Middleware\NoLoginMiddleware;
 use GislerCMS\Model\DbModel;
+use GislerCMS\TwigExtension\TwigJsonDecode;
 use Slim\App;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
@@ -107,6 +108,7 @@ class Application
             // Instantiate and add Slim specific extension
             $twig->addExtension(new TwigExtension($container['router'], $container['base_url']));
             $twig->addExtension(new TwigGlob());
+            $twig->addExtension(new TwigJsonDecode());
 
             return $twig;
         };
