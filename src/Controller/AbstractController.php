@@ -8,6 +8,7 @@ use Dflydev\FigCookies\SetCookie;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Client;
 use GislerCMS\Model\DbModel;
+use GislerCMS\Model\Module;
 use GislerCMS\Model\PageTranslation;
 use GislerCMS\Model\Session;
 use GislerCMS\Model\Visit;
@@ -61,7 +62,8 @@ abstract class AbstractController
         $arr = [
             'route' => $route->getName(),
             'widget' => new Widget(),
-            'widget_translation' => new WidgetTranslation()
+            'widget_translation' => new WidgetTranslation(),
+            'module' => new Module()
         ];
         return $this->get('view')->render($response, $template, array_merge($arr, $data));
     }
