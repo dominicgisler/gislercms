@@ -94,6 +94,7 @@ class SetupController extends AbstractController
                         $cfg = "<?php" . PHP_EOL . PHP_EOL .
                             "return [" . PHP_EOL .
                             "    'settings' => [" . PHP_EOL .
+                            "        'displayErrorDetails' => false," . PHP_EOL .
                             "        'renderer' => [" . PHP_EOL .
                             "            'cache' => __DIR__ . '/../cache/'" . PHP_EOL .
                             "        ]," . PHP_EOL . PHP_EOL .
