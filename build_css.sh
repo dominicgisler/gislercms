@@ -2,14 +2,14 @@
 
 cd public/css
 sass style.scss style.css
-yuicompressor style.css -o style.min.css
+uglifycss style.css --output style.min.css
 sass content.scss content.css
-yuicompressor content.css -o content.min.css
+uglifycss content.css --output content.min.css
 sass maintenance.scss maintenance.css
-yuicompressor maintenance.css -o maintenance.min.css
+uglifycss maintenance.css --output maintenance.min.css
 
 cd admin
 sass login.scss login.css
-yuicompressor login.css -o login.min.css
+uglifycss login.css --output login.min.css
 sass style.scss style.css
-yuicompressor style.css -o style.min.css
+uglifycss style.css --output style.min.css

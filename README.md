@@ -44,7 +44,7 @@ Developed and tested with:
 
 - See `Global requirements`
 - npm sass (`npm install -g sass`)
-- npm yuicompressor (`npm install -g yuicompressor`)
+- npm uglifycss (`npm install -g uglifycss`)
 - [composer](https://getcomposer.org/download/)
 
 #### Install
