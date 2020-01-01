@@ -1,1 +1,13 @@
 @import '../../vendor/twbs/bootstrap/scss/bootstrap';
+@import '../../vendor/fortawesome/font-awesome/css/all';
+
+.background-cover {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 200px;
+}
+
+.gallery-item {
+  height: 150px;
+}

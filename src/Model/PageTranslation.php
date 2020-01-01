@@ -755,7 +755,7 @@ class PageTranslation extends DbModel
      */
     public function replaceModules(Request $request, Twig $view): void
     {
-        $this->setContent(self::replaceModulePlaceholders($this->getContent(), $request, $view));
+        $this->setContent(self::replaceModulePlaceholders($this->getContent(), $request->withAttribute('page', $this), $view));
     }
 
     /**
