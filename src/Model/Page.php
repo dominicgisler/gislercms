@@ -104,7 +104,7 @@ class Page extends DbModel
      * @return Page[]
      * @throws \Exception
      */
-    private static function getWhere($where = ''): array
+    public static function getWhere($where = ''): array
     {
         $arr = [];
         $stmt = self::getPDO()->query("
