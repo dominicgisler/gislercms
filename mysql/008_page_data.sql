@@ -1,8 +1,8 @@
 -- Einfügen der Standardseiten
 
-INSERT INTO `cms__page` (`page_id`, `name`, `fk_language_id`)
-VALUES (1, 'Startseite', 1),
-       (2, 'Error 404', 1);
+INSERT INTO `cms__page` (`page_id`, `name`, `enabled`, `fk_language_id`)
+VALUES (1, 'Startseite', 1, 1),
+       (2, 'Error 404', 0, 1);
 
 INSERT INTO `cms__page_translation` (`page_translation_id`, `fk_page_id`, `fk_language_id`, `name`, `title`, `content`, `enabled`)
 VALUES (1, 1, 1, 'startseite', 'Startseite', '<h1>Willkommen auf deiner Webseite!</h1>', 1),
