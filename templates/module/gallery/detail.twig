@@ -4,8 +4,12 @@
 {% endif %}
 <div class="form-row">
     {% for img in glob('../public/uploads/' ~ gallery.path ~ '/*.*') %}
+        {% set path = img|replace({ '../public/': '' }) %}
+        {% if img|replace({ 'public/uploads': 'public/thumbs' })|file_exists %}
+            {% set path = img|replace({ '../public/uploads': 'thumbs' }) %}
+        {% endif %}
         <div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
-            <a href="#" class="d-block background-cover gallery-item" style="background-image: url('{{ base_url() }}/{{ img|replace({ '../public/': '' }) }}');" data-toggle="modal" data-target="#item-modal" data-item="{{ loop.index0 }}"></a>
+            <a href="#" class="d-block background-cover gallery-item" style="background-image: url('{{ base_url() }}/{{ path }}');" data-toggle="modal" data-target="#item-modal" data-item="{{ loop.index0 }}"></a>
         </div>
     {% endfor %}
 </div>
@@ -17,7 +21,7 @@
                     <div class="carousel-inner">
                         {% for img in glob('../public/uploads/' ~ gallery.path ~ '/*.*') %}
                             <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                <img src="{{ base_url() }}/{{ img|replace({ '../public/': '' }) }}" class="d-block w-100" alt="...">
+                                <img data-src="{{ base_url() }}/{{ img|replace({ '../public/': '' }) }}" class="d-block w-100">
                             </div>
                         {% endfor %}
                     </div>
@@ -42,7 +46,17 @@
                 var item = target.data('item');
                 var modal = $(this);
 
+                var img = modal.find('#galleryCarousel').find('.carousel-item img')[item];
+                if (!$(img).attr('src')) {
+                    $(img).attr('src', $(img).data('src'));
+                }
                 modal.find('#galleryCarousel').carousel(item);
+            });
+            $('#galleryCarousel').on('slide.bs.carousel', function(e) {
+                var $img = $(e.relatedTarget).find('img');
+                if (!$img.attr('src')) {
+                    $img.attr('src', $img.data('src'));
+                }
             });
         } else {
             window.setTimeout(modalListener, 100);

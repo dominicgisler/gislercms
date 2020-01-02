@@ -2,6 +2,7 @@
 
 namespace GislerCMS;
 
+use GislerCMS\TwigExtension\TwigFileExists;
 use GislerCMS\TwigExtension\TwigGlob;
 use GislerCMS\Middleware\LoginMiddleware;
 use GislerCMS\Middleware\NoLoginMiddleware;
@@ -109,6 +110,7 @@ class Application
             $twig->addExtension(new TwigExtension($container['router'], $container['base_url']));
             $twig->addExtension(new TwigGlob());
             $twig->addExtension(new TwigJsonDecode());
+            $twig->addExtension(new TwigFileExists());
 
             return $twig;
         };
