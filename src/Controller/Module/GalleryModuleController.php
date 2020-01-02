@@ -3,6 +3,7 @@
 namespace GislerCMS\Controller\Module;
 
 use GislerCMS\Controller\Admin\Module\Manage\GalleryController;
+use GislerCMS\Model\PageTranslation;
 use Slim\Http\Request;
 use Twig\Error\LoaderError;
 
@@ -47,15 +48,28 @@ class GalleryModuleController extends AbstractModuleController
     {
         $gallery = $request->getAttribute('arguments');
 
+        /** @var PageTranslation $page */
         $page = $request->getAttribute('page');
 
         $html = '';
         if (!empty($gallery)) {
             if (isset($this->config['galleries'][$gallery])) {
+                $gall = $this->config['galleries'][$gallery];
                 $html = $this->view->fetch('module/gallery/detail.twig', [
                     'page' => $page,
-                    'gallery' => $this->config['galleries'][$gallery]
+                    'gallery' => $gall
                 ]);
+
+                $page->setName($page->getName() . '/' . $gallery);
+                if (!empty($gall['title'])) {
+                    $page->setTitle($gall['title']);
+                }
+                if (!empty($gall['description'])) {
+                    $page->setMetaDescription($gall['description']);
+                }
+                if (!empty($gall['cover'])) {
+                    $page->setMetaImage($gall['cover']);
+                }
             }
         }
 
