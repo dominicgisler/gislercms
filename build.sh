@@ -29,6 +29,7 @@ rm -rf ${tempdir}/public/css/webfonts
 rm -rf ${tempdir}/public/editor
 rm -rf ${tempdir}/public/uploads
 rm -rf ${tempdir}/public/thumbs
+rm ${tempdir}/config/local.php
 
 # build composer
 cd ${tempdir}
