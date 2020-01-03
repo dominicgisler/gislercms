@@ -12,5 +12,6 @@
 /public/editor
 /public/uploads
 /public/thumbs
+/public/thumb
 /dist
 *.zip
