@@ -49,6 +49,7 @@ return [
             'require_login' => [
                 \GislerCMS\Controller\Admin\IndexController::class,
                 \GislerCMS\Controller\Admin\PreviewController::class,
+                \GislerCMS\Controller\Admin\FilemanagerController::class,
                 \GislerCMS\Controller\Admin\Page\AddController::class,
                 \GislerCMS\Controller\Admin\Page\DefaultsController::class,
                 \GislerCMS\Controller\Admin\Page\EditController::class,

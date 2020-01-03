@@ -16,6 +16,12 @@ return [
                         'label' => 'Seitenvorschau',
                         'icon' => 'fa-eye',
                         'href' => '{admin_url}/preview'
+                    ],
+                    [
+                        'route' => 'admin-filemanager',
+                        'label' => 'Filemanager',
+                        'icon' => 'fa-folder-open',
+                        'href' => '{admin_url}/filemanager'
                     ]
                 ]
             ],
