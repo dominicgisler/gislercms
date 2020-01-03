@@ -7,7 +7,7 @@
         {% set path = img|replace({ '../public/': '' }) %}
         {% if img|replace({ 'public/uploads': 'public/thumb' })|file_exists %}
             {% set path = img|replace({ '../public/uploads': 'thumb' }) %}
-        {% else if img|replace({ 'public/uploads': 'public/thumbs' })|file_exists %}
+        {% elseif img|replace({ 'public/uploads': 'public/thumbs' })|file_exists %}
             {% set path = img|replace({ '../public/uploads': 'thumbs' }) %}
         {% endif %}
         <div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
