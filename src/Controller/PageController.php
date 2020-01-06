@@ -3,6 +3,7 @@
 namespace GislerCMS\Controller;
 
 use GislerCMS\Model\Config;
+use GislerCMS\Model\Language;
 use GislerCMS\Model\PageTranslation;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -31,7 +32,13 @@ class PageController extends AbstractController
         }
 
         $name = $request->getAttribute('route')->getArgument('page');
-        $page = PageTranslation::getDefaultByName($name);
+
+        $locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        $page = PageTranslation::getByName($name, Language::getLanguage($locale));
+        if ($page->getPageTranslationId() == 0) {
+            $page = PageTranslation::getDefaultByName($name);
+        }
+
         if ($page->getPageTranslationId() == 0 || !$page->getPage()->isEnabled()) {
             $page = PageTranslation::getDefaultByName('error-404');
             $response = $response->withStatus(404);

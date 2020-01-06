@@ -3,6 +3,7 @@
 namespace GislerCMS\Controller;
 
 use GislerCMS\Model\Config;
+use GislerCMS\Model\Language;
 use GislerCMS\Model\Page;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -38,7 +39,13 @@ class IndexController extends AbstractController
 
         $cfg = Config::getConfig('global', 'default_page');
         $page = Page::get($cfg->getValue());
-        $pTrans = $page->getDefaultPageTranslation();
+
+        $locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        $pTrans = $page->getPageTranslation(Language::getLanguage($locale));
+        if ($pTrans->getPageTranslationId() == 0) {
+            $pTrans = $page->getDefaultPageTranslation();
+        }
+
         $pTrans->replaceWidgets();
         $pTrans->replaceModules($request, $this->get('view'));
         $pTrans->replacePosts($request, $this->get('view'));
