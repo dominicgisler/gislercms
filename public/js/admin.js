@@ -94,6 +94,8 @@
     var modal = $(this);
     modal.find('iframe').attr('src', modal.find('iframe').attr('src').replace(/field_id=.*/, 'field_id=' + field));
   });
+
+  $('.datatable').DataTable();
 }());
 
 function autocompleteWidgets(widgets) {

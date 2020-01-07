@@ -40,7 +40,8 @@
     "phpmailer/phpmailer": "^6.0",
     "donatj/phpuseragentparser": "^0.14.0",
     "dflydev/fig-cookies": "^2.0",
-    "select2/select2": "^4.0"
+    "select2/select2": "^4.0",
+    "datatables/datatables": "^1.10"
   },
   "autoload": {
     "psr-4": {
@@ -53,6 +54,8 @@
       "cp -r vendor/twbs/bootstrap/dist/js/* public/js/.",
       "cp -r vendor/components/jquery/*.js public/js/.",
       "cp -r vendor/select2/select2/dist/js/*.min.js public/js/.",
+      "cp -r vendor/datatables/datatables/media/js/jquery.dataTables.min.js public/js/.",
+      "cp -r vendor/datatables/datatables/media/js/dataTables.bootstrap4.min.js public/js/.",
       "./build_css.sh",
       "cp -r vendor/dominicgisler/gislercms-editor public/editor",
       "mkdir public/uploads && chmod 755 public/uploads",
