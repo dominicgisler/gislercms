@@ -30,19 +30,23 @@ class IndexController extends AbstractController
         $clients = Client::getAll();
         $sessions = Session::getAll();
         $visits = Visit::getAll();
-        $pages = Page::getAll();
         $stats = [
             'counts' => [
                 'clients' => sizeof($clients),
+                'real_clients' => 0,
                 'sessions' => sizeof($sessions),
-                'visits' => sizeof($visits),
-                'pages' => sizeof($pages)
+                'visits' => sizeof($visits)
             ],
             'pages' => [],
             'platforms' => [],
-            'browsers' => [],
-            'sessions' => []
+            'browsers' => []
         ];
+
+        foreach ($clients as $client) {
+            if ($client->getCreatedAt() != $client->getUpdatedAt()) {
+                $stats['counts']['real_clients']++;
+            }
+        }
 
         foreach ($visits as $visit) {
             $pt = $visit->getPageTranslation();
@@ -66,19 +70,6 @@ class IndexController extends AbstractController
                 $stats['browsers'][$session->getBrowser()] = 0;
             }
             $stats['browsers'][$session->getBrowser()]++;
-
-            $time = strtotime($session->getUpdatedAt()) - strtotime($session->getCreatedAt());
-            $hours = round($time / 3600);
-            $mins = round(($time % 3600) / 60);
-            $secs = ($time % 3600 % 60);
-            $duration = ($hours < 10 ? '0' . $hours : $hours) . ':' . ($mins < 10 ? '0' . $mins : $mins) . ':' . ($secs < 10 ? '0' . $secs : $secs);
-
-            $stats['sessions'][] = [
-                'ip' => $session->getIp(),
-                'platform' => $session->getPlatform(),
-                'browser' => $session->getBrowser(),
-                'duration' => $duration
-            ];
         }
 
         return $this->render($request, $response, 'admin/index.twig', [

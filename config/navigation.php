@@ -6,7 +6,7 @@ return [
             [
                 'items' => [
                     [
-                        'route' => 'admin-index',
+                        'route' => ['admin-index', 'admin-stats-clients', 'admin-stats-sessions', 'admin-stats-visits'],
                         'label' => 'Dashboard',
                         'icon' => 'fa-home',
                         'href' => '{admin_url}'

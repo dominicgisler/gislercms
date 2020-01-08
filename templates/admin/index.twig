@@ -5,42 +5,42 @@
 {% block content %}
     <div class="row">
         <div class="col-xl-3 col-sm-6">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-body text-right">
-                    <i class="fa fa-file-alt fa-5x float-left"></i>
-                    <p class="card-title h2">{{ stats.counts.pages }}</p>
-                    <p class="card-text h6">Erstellte Seiten</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6">
-            <div class="card text-white bg-success mb-3">
+            <a href="{{ admin_url }}/stats/clients" class="card text-white bg-primary mb-3 card-link">
                 <div class="card-body text-right">
                     <i class="fa fa-user fa-5x float-left"></i>
                     <p class="card-title h2">{{ stats.counts.clients }}</p>
                     <p class="card-text h6">Besucher</p>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-xl-3 col-sm-6">
-            <div class="card text-white bg-info mb-3">
+            <a href="{{ admin_url }}/stats/clients/real" class="card text-white bg-success mb-3 card-link">
+                <div class="card-body text-right">
+                    <i class="fa fa-user fa-5x float-left"></i>
+                    <p class="card-title h2">{{ stats.counts.real_clients }}</p>
+                    <p class="card-text h6">Echte Besucher</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <a href="{{ admin_url }}/stats/sessions" class="card text-white bg-info mb-3 card-link">
                 <div class="card-body text-right">
                     <i class="fa fa-eye fa-5x float-left"></i>
                     <p class="card-title h2">{{ stats.counts.sessions }}</p>
                     <p class="card-text h6">Seitenbesuche</p>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-xl-3 col-sm-6">
-            <div class="card text-white bg-secondary mb-3">
+            <a href="{{ admin_url }}/stats/visits" class="card text-white bg-secondary mb-3 card-link">
                 <div class="card-body text-right">
                     <i class="fa fa-chart-line fa-5x float-left"></i>
                     <p class="card-title h2">{{ stats.counts.visits }}</p>
                     <p class="card-text h6">Seitenaufrufe</p>
                 </div>
-            </div>
+            </a>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-6">
             <div class="card mb-3">
                 <div class="card-body">
                     <h3>Seiten</h3>
@@ -89,36 +89,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h3>Besuche</h3>
-                    <table class="table table-bordered table-responsive-xs datatable" data-order='[[ 4, "desc" ]]'
-                           id="sessions">
-                        <thead>
-                        <tr>
-                            <th>IP</th>
-                            <th>Land</th>
-                            <th>Betriebssystem</th>
-                            <th>Browser</th>
-                            <th>Dauer (hh:mm:ss)</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for vis in stats.sessions %}
-                            <tr>
-                                <td class="ip">{{ vis.ip }}</td>
-                                <td class="country">-</td>
-                                <td>{{ vis.platform }}</td>
-                                <td>{{ vis.browser }}</td>
-                                <td>{{ vis.duration }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
         <div class="col-xl-3 col-sm-6">
             <div class="card mb-3">
                 <div class="card-body">
@@ -144,28 +114,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block scripts %}
-    {{ parent() }}
-    <script>
-        var ips = [];
-        setInterval(function() {
-            $('#sessions tbody tr').each(function () {
-                var ip = $(this).find('td.ip').text();
-                var $country = $(this).find('td.country');
-                if (ips[ip]) {
-                    $country.text(ips[ip].country);
-                } else {
-                    ips[ip] = {country: '-'};
-                    $.get('https://ipinfo.io/' + ip + '/geo', function (data) {
-                        if (data.country) {
-                            ips[ip].country = data.country;
-                            $country.text(data.country);
-                        }
-                    });
-                }
-            });
-        }, 1000);
-    </script>
 {% endblock %}

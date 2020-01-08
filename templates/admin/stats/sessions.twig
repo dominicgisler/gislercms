@@ -1,0 +1,69 @@
+{% extends 'admin/content.twig' %}
+
+{% block title %}Seitenbesuche{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-responsive-xs datatable" data-order='[[ 0, "desc" ]]' id="sessions">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Zeitpunkt von</th>
+            <th>Zeitpunkt bis</th>
+            <th>Besucher</th>
+            <th>IP</th>
+            <th>Land</th>
+            <th>Betriebssystem</th>
+            <th>Browser</th>
+            <th>Dauer (hh:mm:ss)</th>
+            <th>Seitenaufrufe</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ses in stats %}
+            <tr>
+                <td>{{ ses.session_id }}</td>
+                <td>{{ ses.created_at }}</td>
+                <td>{{ ses.updated_at }}</td>
+                <td><a href="{{ admin_url }}/stats/sessions/{{ ses.client_id }}">#{{ ses.client_id }}</a></td>
+                <td class="ip">{{ ses.ip }}</td>
+                <td class="country">-</td>
+                <td>{{ ses.platform }}</td>
+                <td>{{ ses.browser }}</td>
+                <td>{{ ses.duration }}</td>
+                <td><a href="{{ admin_url }}/stats/visits/{{ ses.session_id }}">{{ ses.visits }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script>
+        var ips = [];
+        setInterval(function () {
+            var hasChange = false;
+            $('#sessions tbody tr').each(function () {
+                var ip = $(this).find('td.ip').text();
+                var $country = $(this).find('td.country');
+                if (ips[ip]) {
+                    if ($country.text() !== ips[ip].country) {
+                        hasChange = true;
+                        $country.text(ips[ip].country);
+                    }
+                } else {
+                    ips[ip] = {country: '-'};
+                    $.get('https://ipinfo.io/' + ip + '/geo', function (data) {
+                        if (data.country) {
+                            ips[ip].country = data.country;
+                        }
+                    });
+                }
+            });
+            if (hasChange) {
+                $('#sessions').DataTable().destroy();
+                $('#sessions').DataTable();
+            }
+        }, 1000);
+    </script>
+{% endblock %}

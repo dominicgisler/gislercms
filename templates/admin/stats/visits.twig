@@ -1,0 +1,30 @@
+{% extends 'admin/content.twig' %}
+
+{% block title %}Seitenaufrufe{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-responsive-xs datatable" data-order='[[ 0, "desc" ]]'>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Zeitpunkt</th>
+            <th>Seite</th>
+            <th>Sprache</th>
+            <th>Besucher</th>
+            <th>Besuch</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for vis in visits %}
+            <tr>
+                <td>{{ vis.getVisitId() }}</td>
+                <td>{{ vis.getCreatedAt() }}</td>
+                <td><a href="{{ admin_url }}/page/{{ vis.getPageTranslation().getPage().getPageId() }}">{{ vis.getPageTranslation().getPage().getName() }}</a></td>
+                <td>{{ vis.getPageTranslation().getLanguage().getDescription() }}</td>
+                <td><a href="{{ admin_url }}/stats/sessions/{{ vis.getSession().getClient().getClientId() }}">#{{ vis.getSession().getClient().getClientId() }}</a></td>
+                <td><a href="{{ admin_url }}/stats/visits/{{ vis.getSession().getSessionId() }}">#{{ vis.getSession().getSessionId() }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
