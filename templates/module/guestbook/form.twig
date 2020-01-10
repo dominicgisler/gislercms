@@ -46,7 +46,7 @@
     {% for entry in entries|reverse %}
         {% set input = entry.getInput()|json_decode %}
         <div class="border-top py-2">
-            <strong>{{ input.name }}</strong> <small>am {{ entry.getCreatedAt()|date('d.m.Y') }} um {{ entry.getCreatedAt()|date('H:i:s') }}</small><br>
+            <strong>{{ input.name }}</strong> <small>{{ messages.timestamp|format(entry.getCreatedAt()|date('d.m.Y'), entry.getCreatedAt()|date('H:i:s')) }}</small><br>
             {{ input.message|nl2br }}
         </div>
     {% else %}

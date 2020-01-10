@@ -74,7 +74,8 @@ class GuestbookModuleController extends AbstractModuleController
             'error' => 'Bitte überprüfe deine Eingaben',
             'success' => 'Eintrag wurde gespeichert',
             'failed' => 'Es ist ein Fehler aufgetreten, bitte versuche es später erneut',
-            'empty' => 'Bisher keine Einträge'
+            'empty' => 'Bisher keine Einträge',
+            'timestamp' => 'am %s um %s'
         ]
     ];
 
