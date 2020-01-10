@@ -1,0 +1,35 @@
+{% macro textarea(name, value, placeholder, class) %}
+    <textarea class="form-control {{ class }}" name="{{ name }}" id="input_{{ name }}" placeholder="{{ placeholder }}">{{ value }}</textarea>
+{% endmacro %}
+
+{% macro select(name, value, options, placeholder, class) %}
+    <select class="form-control {{ class }}" id="input_{{ name }}" name="{{ name }}">
+        {% for key, elem in options %}
+            <option value="{{ key }}"{% if value == key %} selected{% endif %}>{{ elem }}</option>
+        {% endfor %}
+    </select>
+{% endmacro %}
+
+{% macro radio(name, value, options, placeholder, class) %}
+    {% for key, elem in options %}
+        <div class="form-check form-check">
+            <input class="form-check-input" type="radio" name="{{ name }}" id="input_{{ name }}_{{ key }}" value="{{ key }}" {% if value == key %} checked{% endif %}>
+            <label class="form-check-label" for="input_{{ name }}_{{ key }}">{{ elem }}</label>
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{% macro checkbox(name, value, label, class) %}
+    <div class="form-check {{ class }}">
+        <input class="form-check-input" type="checkbox" name="{{ name }}" id="input_{{ name }}" {% if value %}checked{% endif %}>
+        <label class="form-check-label" for="input_{{ name }}">{{ label }}</label>
+    </div>
+{% endmacro %}
+
+{% macro button(type, name, label, value, class) %}
+    <button type="{{ type }}" name="{{ name }}" class="btn {{ class }}" value="{{ value }}">{{ label }}</button>
+{% endmacro %}
+
+{% macro input(type, name, value, placeholder, class) %}
+    <input type="{{ type }}" name="{{ name }}" class="form-control {{ class }}" id="input_{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}">
+{% endmacro %}

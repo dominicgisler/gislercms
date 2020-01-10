@@ -1,0 +1,57 @@
+{% import "module/guestbook/inputs.twig" as forms %}
+
+{% if message %}
+    <div class="alert alert-{{ message.class }} fade show" role="alert">
+        {{ message.text }}
+    </div>
+{% endif %}
+
+<form method="post">
+    {% for key, elem in elements %}
+        {% if elem.type == 'divider' %}
+            <hr class="{{ elem.class }}">
+        {% elseif elem.type == 'spacer' %}
+            <div class="mx-1 {{ elem.class }}">&nbsp;</div>
+        {% elseif elem.type == 'title' %}
+            <div class="font-weight-bold {{ elem.class }}">{{ elem.label }}</div>
+        {% elseif elem.type == 'submit' or elem.type == 'button' or elem.type == 'reset' %}
+            {{ forms.button(elem.type, key, elem.label, elem.value, elem.class) }}
+        {% elseif elem.type == 'recaptcha' %}
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+            <div class="g-recaptcha mb-2 {{ key in errors ? 'border-left border-danger' : '' }}" data-sitekey="{{ elem.website_key }}"></div>
+        {% else %}
+            <div class="form-group">
+                {% if elem.type != 'checkbox' %}
+                    <label for="input_{{ key }}">{{ elem.label }}</label>
+                {% endif %}
+
+                {% if elem.type == 'textarea' %}
+                    {{ forms.textarea(key, data[key], elem.placeholder, elem.class ~ (key in errors ? ' is-invalid' : '')) }}
+                {% elseif elem.type == 'select' %}
+                    {{ forms.select(key, data[key], elem.options, elem.placeholder, elem.class ~ (key in errors ? ' is-invalid' : '')) }}
+                {% elseif elem.type == 'radio' %}
+                    {{ forms.radio(key, data[key], elem.options, elem.placeholder, elem.class ~ (key in errors ? ' is-invalid' : '')) }}
+                {% elseif elem.type == 'checkbox' %}
+                    {{ forms.checkbox(key, data[key], elem.label, elem.class ~ (key in errors ? ' is-invalid' : '')) }}
+                {% else %}
+                    {{ forms.input(elem.type, key, data[key], elem.placeholder, elem.class ~ (key in errors ? ' is-invalid' : '')) }}
+                {% endif %}
+
+                {% if elem.hint %}<small id="hint_{{ elem.name }}" class="form-text text-muted">{{ elem.hint }}</small>{% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+</form>
+<div class="mt-3">
+    {% for entry in entries|reverse %}
+        {% set input = entry.getInput()|json_decode %}
+        <div class="border-top py-2">
+            <strong>{{ input.name }}</strong> <small>am {{ entry.getCreatedAt()|date('d.m.Y') }} um {{ entry.getCreatedAt()|date('H:i:s') }}</small><br>
+            {{ input.message|nl2br }}
+        </div>
+    {% else %}
+        <div class="border-top py-2">
+            {{ messages.empty }}
+        </div>
+    {% endfor %}
+</div>

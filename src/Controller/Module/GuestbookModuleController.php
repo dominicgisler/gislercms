@@ -2,7 +2,9 @@
 
 namespace GislerCMS\Controller\Module;
 
+use Exception;
 use GislerCMS\Controller\Admin\Module\Manage\GuestbookController;
+use GislerCMS\Model\GuestbookEntry;
 use Slim\Http\Request;
 use Twig\Error\LoaderError;
 use Zend\InputFilter\Factory;
@@ -25,6 +27,7 @@ class GuestbookModuleController extends AbstractModuleController
      * @var array
      */
     protected static $exampleConfig = [
+        'identifier' => 'guestbook',
         'elements' => [
             'name' => [
                 'label' => 'Name',
@@ -47,7 +50,7 @@ class GuestbookModuleController extends AbstractModuleController
                 'validators' => [
                     'string_length' => [
                         'min' => 10,
-                        'max' => 1000
+                        'max' => 500
                     ]
                 ]
             ],
@@ -71,6 +74,7 @@ class GuestbookModuleController extends AbstractModuleController
             'error' => 'Bitte überprüfe deine Eingaben',
             'success' => 'Eintrag wurde gespeichert',
             'failed' => 'Es ist ein Fehler aufgetreten, bitte versuche es später erneut',
+            'empty' => 'Bisher keine Einträge'
         ]
     ];
 
@@ -112,6 +116,7 @@ class GuestbookModuleController extends AbstractModuleController
      * @param Request $request
      * @return string
      * @throws LoaderError
+     * @throws Exception
      */
     public function onPost($request)
     {
@@ -149,7 +154,11 @@ class GuestbookModuleController extends AbstractModuleController
         }
         $html = '';
         if (empty($errors)) {
-            if (true) {
+            $entry = new GuestbookEntry();
+            $entry->setGuestbookIdentifier($this->config['identifier']);
+            $entry->setInput(json_encode($filter->getValues()));
+
+            if ($entry->save()) {
                 $postData = [];
                 $msg = [
                     'class' => 'success',
@@ -178,6 +187,7 @@ class GuestbookModuleController extends AbstractModuleController
      * @param array $message
      * @return string
      * @throws LoaderError
+     * @throws Exception
      */
     private function getForm(array $elems, $postData = [], array $errors = [], array $message = []): string
     {
@@ -186,7 +196,9 @@ class GuestbookModuleController extends AbstractModuleController
             'elements' => $elems,
             'data' => $postData,
             'errors' => $errors,
-            'message' => $message
+            'message' => $message,
+            'messages' => $this->config['messages'],
+            'entries' => GuestbookEntry::getGuestbookEntries($this->config['identifier'])
         ]);
     }
 
