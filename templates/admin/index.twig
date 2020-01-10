@@ -113,5 +113,80 @@
                 </div>
             </div>
         </div>
+        <div class="col-12">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3>Statistiken</h3>
+                    <ul class="nav nav-tabs" id="tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="year-tab" data-toggle="tab" href="#year-tab-content" role="tab" aria-controls="year" aria-selected="true">Jahre</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="month-tab" data-toggle="tab" href="#month-tab-content" role="tab" aria-controls="month" aria-selected="false">Monate</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="day-tab" data-toggle="tab" href="#day-tab-content" role="tab" aria-controls="day" aria-selected="false">Tage</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="hour-tab" data-toggle="tab" href="#hour-tab-content" role="tab" aria-controls="hour" aria-selected="false">Stunden</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="statistics-tabs">
+                        <div class="tab-pane fade" id="year-tab-content" role="tabpanel" aria-labelledby="year-tab">
+                            <canvas class="my-4 w-100" data-labels="{{ graph.year.labels|json_encode }}" data-counts="{{ graph.year.data|json_encode }}"></canvas>
+                        </div>
+                        <div class="tab-pane fade" id="month-tab-content" role="tabpanel" aria-labelledby="month-tab">
+                            <canvas class="my-4 w-100" data-labels="{{ graph.month.labels|json_encode }}" data-counts="{{ graph.month.data|json_encode }}"></canvas>
+                        </div>
+                        <div class="tab-pane fade" id="day-tab-content" role="tabpanel" aria-labelledby="day-tab">
+                            <canvas class="my-4 w-100" data-labels="{{ graph.day.labels|json_encode }}" data-counts="{{ graph.day.data|json_encode }}"></canvas>
+                        </div>
+                        <div class="tab-pane fade" id="hour-tab-content" role="tabpanel" aria-labelledby="hour-tab">
+                            <canvas class="my-4 w-100" data-labels="{{ graph.hour.labels|json_encode }}" data-counts="{{ graph.hour.data|json_encode }}"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script src="{{ base_url() }}/js/Chart.min.js"></script>
+    <script>
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var ctx = $('#' + $(e.target).attr('id') + '-content').find('canvas');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ctx.data('labels'),
+                    datasets: [
+                        {
+                            label: 'Neue Besucher',
+                            data: ctx.data('counts').clients,
+                            lineTension: 0,
+                            backgroundColor: '#007bff',
+                            borderWidth: 4
+                        },
+                        {
+                            label: 'Besuche',
+                            data: ctx.data('counts').sessions,
+                            lineTension: 0,
+                            backgroundColor: '#17a2b8',
+                            borderWidth: 4
+                        },
+                        {
+                            label: 'Aufrufe',
+                            data: ctx.data('counts').visits,
+                            lineTension: 0,
+                            backgroundColor: '#6c757d',
+                            borderWidth: 4
+                        }
+                    ]
+                }
+            });
+        });
+        $('#day-tab').tab('show');
+    </script>
 {% endblock %}
