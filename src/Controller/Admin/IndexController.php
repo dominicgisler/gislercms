@@ -52,7 +52,7 @@ class IndexController extends AbstractController
             $pt = $visit->getPageTranslation();
             if (!isset($stats['pages'][$pt->getPageTranslationId()])) {
                 $stats['pages'][$pt->getPageTranslationId()] = [
-                    'name' => $pt->getName(),
+                    'page' => $pt->getPage(),
                     'language' => $pt->getLanguage(),
                     'visits' => 0
                 ];
