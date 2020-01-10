@@ -5,6 +5,7 @@ namespace GislerCMS\Controller;
 use Dflydev\FigCookies\FigRequestCookies;
 use Dflydev\FigCookies\FigResponseCookies;
 use Dflydev\FigCookies\SetCookie;
+use Exception;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Client;
 use GislerCMS\Model\DbModel;
@@ -14,7 +15,9 @@ use GislerCMS\Model\Session;
 use GislerCMS\Model\Visit;
 use GislerCMS\Model\Widget;
 use GislerCMS\Model\WidgetTranslation;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Route;
@@ -26,12 +29,12 @@ use Slim\Route;
 abstract class AbstractController
 {
     /**
-     * @var \Slim\Container|\Psr\Container\ContainerInterface
+     * @var Container|ContainerInterface
      */
     private $container;
 
     /**
-     * @param \Slim\Container|\Psr\Container\ContainerInterface $container
+     * @param Container|ContainerInterface $container
      */
     public function __construct($container)
     {
@@ -73,7 +76,7 @@ abstract class AbstractController
      * @param Response $response
      * @param PageTranslation $pTrans
      * @return ResponseInterface
-     * @throws \Exception
+     * @throws Exception
      */
     protected function trackPage(Request $request, Response $response, PageTranslation $pTrans): ResponseInterface
     {
@@ -123,7 +126,7 @@ abstract class AbstractController
 
     /**
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     private function uuidv4(): string
     {
