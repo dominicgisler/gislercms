@@ -101,6 +101,7 @@ abstract class AbstractController
         $browserData = parse_user_agent();
         $session->setPlatform($browserData['platform'] ?: '');
         $session->setBrowser($browserData['browser'] ?: '');
+        $session->setUserAgent($_SERVER['HTTP_USER_AGENT'] ?: '');
 
         if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];

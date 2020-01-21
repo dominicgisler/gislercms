@@ -41,6 +41,11 @@ class Session extends DbModel
     /**
      * @var string
      */
+    private $userAgent;
+
+    /**
+     * @var string
+     */
     private $createdAt;
 
     /**
@@ -56,6 +61,7 @@ class Session extends DbModel
      * @param string $ip
      * @param string $platform
      * @param string $browser
+     * @param string $userAgent
      * @param string $createdAt
      * @param string $updatedAt
      */
@@ -66,6 +72,7 @@ class Session extends DbModel
         string $ip = '',
         string $platform = '',
         string $browser = '',
+        string $userAgent = '',
         string $createdAt = '',
         string $updatedAt = ''
     )
@@ -76,6 +83,7 @@ class Session extends DbModel
         $this->ip = $ip;
         $this->platform = $platform;
         $this->browser = $browser;
+        $this->userAgent = $userAgent;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
@@ -102,6 +110,7 @@ class Session extends DbModel
                         $session->ip,
                         $session->platform,
                         $session->browser,
+                        $session->user_agent ?: '',
                         $session->created_at,
                         $session->updated_at
                     );
@@ -130,6 +139,7 @@ class Session extends DbModel
                 $session->ip,
                 $session->platform,
                 $session->browser,
+                $session->user_agent ?: '',
                 $session->created_at,
                 $session->updated_at
             );
@@ -147,7 +157,7 @@ class Session extends DbModel
         if ($this->getSessionId() > 0) {
             $stmt = $pdo->prepare("
                 UPDATE `cms__session`
-                SET `fk_client_id` = ?, `uuid` = ?, `ip` = ?, `platform` = ?, `browser` = ?, `updated_at` = CURRENT_TIMESTAMP()
+                SET `fk_client_id` = ?, `uuid` = ?, `ip` = ?, `platform` = ?, `browser` = ?, `user_agent` = ?, `updated_at` = CURRENT_TIMESTAMP()
                 WHERE `session_id` = ?
             ");
             $res = $stmt->execute([
@@ -156,20 +166,22 @@ class Session extends DbModel
                 $this->getIp(),
                 $this->getPlatform(),
                 $this->getBrowser(),
+                $this->getUserAgent(),
                 $this->getSessionId()
             ]);
             return $res ? self::get($this->getSessionId()) : null;
         } else {
             $stmt = $pdo->prepare("
-                INSERT INTO `cms__session` (`fk_client_id`, `uuid`, `ip`, `platform`, `browser`)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO `cms__session` (`fk_client_id`, `uuid`, `ip`, `platform`, `browser`, `user_agent`)
+                VALUES (?, ?, ?, ?, ?, ?)
             ");
             $res = $stmt->execute([
                 $this->getClient()->getClientId(),
                 $this->getUuid(),
                 $this->getIp(),
                 $this->getPlatform(),
-                $this->getBrowser()
+                $this->getBrowser(),
+                $this->getUserAgent()
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;
         }
@@ -298,6 +310,22 @@ class Session extends DbModel
     public function setBrowser(string $browser): void
     {
         $this->browser = $browser;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserAgent(): string
+    {
+        return $this->userAgent;
+    }
+
+    /**
+     * @param string $userAgent
+     */
+    public function setUserAgent(string $userAgent): void
+    {
+        $this->userAgent = $userAgent;
     }
 
     /**

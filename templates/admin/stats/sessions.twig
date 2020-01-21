@@ -3,7 +3,7 @@
 {% block title %}Seitenbesuche{% endblock %}
 
 {% block content %}
-    <table class="table table-bordered table-responsive-xs datatable" data-order='[[ 0, "desc" ]]' id="sessions">
+    <table class="table table-bordered table-responsive datatable" data-order='[[ 0, "desc" ]]' id="sessions">
         <thead>
         <tr>
             <th>#</th>
@@ -14,6 +14,7 @@
             <th>Land</th>
             <th>Betriebssystem</th>
             <th>Browser</th>
+            <th>User Agent</th>
             <th>Dauer (hh:mm:ss)</th>
             <th>Seitenaufrufe</th>
         </tr>
@@ -27,8 +28,9 @@
                 <td><a href="{{ admin_url }}/stats/sessions/{{ ses.client_id }}">#{{ ses.client_id }}</a></td>
                 <td class="ip">{{ ses.ip }}</td>
                 <td class="country">-</td>
-                <td>{{ ses.platform }}</td>
-                <td>{{ ses.browser }}</td>
+                <td>{{ ses.platform ?: 'Unbekannt' }}</td>
+                <td>{{ ses.browser ?: 'Unbekannt' }}</td>
+                <td>{{ ses.user_agent }}</td>
                 <td>{{ ses.duration }}</td>
                 <td><a href="{{ admin_url }}/stats/visits/{{ ses.session_id }}">{{ ses.visits }}</a></td>
             </tr>

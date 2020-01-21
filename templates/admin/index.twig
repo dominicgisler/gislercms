@@ -80,7 +80,7 @@
                         <tbody>
                         {% for platform, visits in stats.platforms %}
                             <tr>
-                                <td>{{ platform }}</td>
+                                <td>{{ platform ?: 'Unbekannt' }}</td>
                                 <td>{{ visits }}</td>
                             </tr>
                         {% endfor %}
@@ -104,7 +104,7 @@
                         <tbody>
                         {% for browser, visits in stats.browsers %}
                             <tr>
-                                <td>{{ browser }}</td>
+                                <td>{{ browser ?: 'Unbekannt' }}</td>
                                 <td>{{ visits }}</td>
                             </tr>
                         {% endfor %}

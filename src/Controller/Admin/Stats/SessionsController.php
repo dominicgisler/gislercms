@@ -49,6 +49,7 @@ class SessionsController extends AbstractController
                 'ip' => $session->getIp(),
                 'platform' => $session->getPlatform(),
                 'browser' => $session->getBrowser(),
+                'user_agent' => $session->getUserAgent(),
                 'duration' => $duration,
                 'visits' => sizeof(Visit::getWhere('`fk_session_id` = ?', [$session->getSessionId()]))
             ];
