@@ -84,7 +84,7 @@ return [
         ],
 
         'mailer' => [
-            'smtp' => true,
+            'smtp' => false,
             'host' => 'mail.example.com',
             'smtpauth' => true,
             'username' => 'max.muster@example.com',
@@ -93,7 +93,7 @@ return [
             'port' => 465,
             'default_from' => [
                 'name' => 'GislerCMS',
-                'email' => 'max.muster@example.com'
+                'email' => 'gislercms@example.com'
             ]
         ],
 
