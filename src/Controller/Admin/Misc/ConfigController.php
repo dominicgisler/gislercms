@@ -118,6 +118,14 @@ class ConfigController extends AbstractController
                 'validators' => []
             ],
             [
+                'name' => 'enable_tracking',
+                'required' => false,
+                'filters' => [
+                    new ToBool()
+                ],
+                'validators' => []
+            ],
+            [
                 'name' => 'default_page',
                 'required' => true,
                 'filters' => [

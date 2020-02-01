@@ -8,6 +8,7 @@ use Dflydev\FigCookies\SetCookie;
 use Exception;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Client;
+use GislerCMS\Model\Config;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\Module;
 use GislerCMS\Model\PageTranslation;
@@ -80,6 +81,11 @@ abstract class AbstractController
      */
     protected function trackPage(Request $request, Response $response, PageTranslation $pTrans): ResponseInterface
     {
+        $track = Config::getConfig('global', 'enable_tracking');
+        if (!$track->getValue()) {
+            return $response;
+        }
+
         $cUuid = FigRequestCookies::get($request, 'client', $this->uuidv4())->getValue();
         $sUuid = SessionHelper::getContainer()->offsetGet('session_uuid') ?: $this->uuidv4();
 
@@ -103,11 +109,7 @@ abstract class AbstractController
         $session->setBrowser($browserData['browser'] ?: '');
         $session->setUserAgent($_SERVER['HTTP_USER_AGENT'] ?: '');
 
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else {
-            $ip = $_SERVER['REMOTE_ADDR'];
-        }
+        $ip = $_SERVER['REMOTE_ADDR'];
         $ip = preg_replace('/[0-9]+\z/', '0', $ip);
         $session->setIp($ip);
 

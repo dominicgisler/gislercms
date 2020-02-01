@@ -3,6 +3,11 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+    {% if not tracking %}
+        <div class="alert alert-warning" role="alert">
+            Die Aufzeichung von Statistiken ist deaktiviert! Dies kann in der <a href="{{ admin_url }}/misc/config">Konfiguration</a> angepasst werden.
+        </div>
+    {% endif %}
     <div class="row">
         <div class="col-xl-3 col-sm-6">
             <a href="{{ admin_url }}/stats/clients" class="card text-white bg-primary mb-3 card-link">

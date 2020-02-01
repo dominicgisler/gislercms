@@ -3,7 +3,7 @@
 namespace GislerCMS\Controller\Admin;
 
 use GislerCMS\Model\Client;
-use GislerCMS\Model\Page;
+use GislerCMS\Model\Config;
 use GislerCMS\Model\Session;
 use GislerCMS\Model\Visit;
 use Slim\Http\Request;
@@ -27,6 +27,8 @@ class IndexController extends AbstractController
      */
     public function __invoke($request, $response)
     {
+        $track = Config::getConfig('global', 'enable_tracking')->getValue();
+
         $clients = Client::getAll();
         $sessions = Session::getAll();
         $visits = Visit::getAll();
@@ -83,6 +85,7 @@ class IndexController extends AbstractController
         }
 
         return $this->render($request, $response, 'admin/index.twig', [
+            'tracking' => $track,
             'stats' => $stats,
             'graph' => $this->mapGraphData($graph)
         ]);

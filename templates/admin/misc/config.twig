@@ -43,6 +43,7 @@
     {% endif %}
     <form method="post" id="page-form">
         {{ forms.form_group('checkbox', 'maintenance_mode', config.maintenance_mode, 'Wartungsmodus', '', 'maintenance_mode' in errors ? 'is-invalid' : '', 'Im Wartungsmodus wird eine statische Seite angezeigt.') }}
+        {{ forms.form_group('checkbox', 'enable_tracking', config.enable_tracking, 'Statistiken', '', 'enable_tracking' in errors ? 'is-invalid' : '', 'Seitenbesuche werden aufgezeichnet und in Statistiken auf dem Dashboard zusammengefasst') }}
         {{ forms.form_group('select', 'default_page', config.default_page, 'Startseite', '', 'default_page' in errors ? 'is-invalid' : '', 'Startseite deiner Webseite', pageSelect) }}
         {{ forms.form_group('text', 'admin_route', config.admin_route, 'Admin-Pfad', '', 'admin_route' in errors ? 'is-invalid' : '', 'Pfad des Adminbereichs') }}
         {{ forms.form_group('number', 'max_failed_logins', config.max_failed_logins, 'Login Fehlversuche', '', 'max_failed_logins' in errors ? 'is-invalid' : '', 'Maximale Anzahl Fehlversuche bevor ein Benutzer gesperrt wird') }}
