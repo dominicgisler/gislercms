@@ -38,8 +38,6 @@ class ConfigController extends AbstractController
     public function __invoke($request, $response)
     {
         $cont = SessionHelper::getContainer();
-        /** @var User $user */
-        $user = $cont->offsetGet('user');
 
         $languages = Language::getAll();
         $configs = Config::getBySection('global');
@@ -50,6 +48,10 @@ class ConfigController extends AbstractController
 
         $errors = [];
         $msg = false;
+        if ($cont->offsetExists('config_saved')) {
+            $cont->offsetUnset('config_saved');
+            $msg = 'save_success';
+        }
 
         if ($request->isPost()) {
             $data = $request->getParsedBody();
@@ -84,10 +86,8 @@ class ConfigController extends AbstractController
                 if ($saveError) {
                     $msg = 'save_error';
                 } else {
-                    $msg = 'save_success';
-                    foreach (Config::getAll() as $config) {
-                        $data[$config->getName()] = $config->getValue();
-                    }
+                    $cont->offsetSet('config_saved', true);
+                    return $response->withRedirect($this->get('base_url') . $data['admin_route'] . '/misc/config');
                 }
             } else {
                 $msg = 'invalid_input';
