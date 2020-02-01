@@ -38,10 +38,6 @@ class EditController extends AbstractController
      */
     public function __invoke($request, $response)
     {
-        $cont = SessionHelper::getContainer();
-        /** @var User $user */
-        $user = $cont->offsetGet('user');
-
         $id = (int) $request->getAttribute('route')->getArgument('id');
         $post = Post::get($id);
         $languages = Language::getAll();
@@ -49,8 +45,8 @@ class EditController extends AbstractController
         $msg = false;
 
         $cnt = SessionHelper::getContainer();
-        if ($cnt->offsetExists('page_saved')) {
-            $cnt->offsetUnset('page_saved');
+        if ($cnt->offsetExists('post_saved')) {
+            $cnt->offsetUnset('post_saved');
             $msg = 'save_success';
         }
 
@@ -154,7 +150,7 @@ class EditController extends AbstractController
                     if ($saveError) {
                         $msg = 'save_error';
                     } else {
-                        $cnt->offsetSet('page_saved', true);
+                        $cnt->offsetSet('post_saved', true);
                         return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/post/' . $post->getPostId());
                     }
                 } else {

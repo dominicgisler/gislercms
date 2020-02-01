@@ -3,7 +3,7 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}{% if post.getPostId() == 0 %}Neuer Beitrag{% else %}Beitrag "{{ post.name }}" bearbeiten{% endif %}{% endblock %}
+{% block title %}{% if post.getPostId() == 0 %}Neuer Beitrag{% else %}Beitrag bearbeiten{% endif %}{% endblock %}
 
 {% set languageSelect = [] %}
 {% for language in languages %}

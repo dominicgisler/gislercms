@@ -27,7 +27,7 @@ use Zend\Validator\StringLength;
 class EditController extends AbstractController
 {
     const NAME = 'admin-page-edit';
-    const PATTERN = '{admin_route}/page/{id:[0-9]+}';
+    const PATTERN = '{admin_route}/page/{id}';
     const METHODS = ['GET', 'POST'];
 
     /**
@@ -42,142 +42,148 @@ class EditController extends AbstractController
         /** @var User $user */
         $user = $cont->offsetGet('user');
 
+        $msg = false;
+        if ($cont->offsetExists('page_saved')) {
+            $cont->offsetUnset('page_saved');
+            $msg = 'save_success';
+        }
+
         $id = (int) $request->getAttribute('route')->getArgument('id');
         $page = Page::get($id);
         $languages = Language::getAll();
 
-        $msg = false;
 
-        if ($page->getPageId() > 0) {
-            $translations = PageTranslation::getPageTranslations($page);
-            $translationsHistory = [];
-            $errors = [];
-            if ($request->isPost()) {
-                if (is_null($request->getParsedBodyParam('delete'))) {
-                    $pageData = $request->getParsedBodyParam('page');
-                    $filter = $this->getPageInputFilter();
-                    $filter->setData($pageData);
+        $translations = PageTranslation::getPageTranslations($page);
+        $translationsHistory = [];
+        $errors = [];
+        if ($request->isPost()) {
+            if (is_null($request->getParsedBodyParam('delete'))) {
+                $pageData = $request->getParsedBodyParam('page');
+                $filter = $this->getPageInputFilter();
+                $filter->setData($pageData);
+                if (!$filter->isValid()) {
+                    $errors = array_merge($errors, array_keys($filter->getMessages()));
+                }
+                $pageData = $filter->getValues();
+                $page->setName($pageData['name']);
+                $page->setEnabled($pageData['enabled']);
+                $page->setLanguage($pageData['language']);
+                $page->setTrash(false);
+
+                $translationData = $request->getParsedBodyParam('translation');
+                $filter = $this->getTranslationInputFilter();
+                foreach ($translationData as $key => $translation) {
+                    if (count(array_filter($translation)) == 0) {
+                        continue; // skip empty translations
+                    }
+                    $filter->setData($translation);
                     if (!$filter->isValid()) {
-                        $errors = array_merge($errors, array_keys($filter->getMessages()));
+                        foreach ($filter->getMessages() as $field => $msg) {
+                            $errors[] = $key . '_' . $field;
+                        }
                     }
-                    $pageData = $filter->getValues();
-                    $page->setName($pageData['name']);
-                    $page->setEnabled($pageData['enabled']);
-                    $page->setLanguage($pageData['language']);
-                    $page->setTrash(false);
+                    $data = $filter->getValues();
+                    if (isset($translations[$key])) {
+                        if ($translations[$key]->getName() !== $data['name'] ||
+                            $translations[$key]->getTitle() !== $data['title'] ||
+                            $translations[$key]->getContent() !== $data['content'] ||
+                            $translations[$key]->getMetaKeywords() !== $data['meta_keywords'] ||
+                            $translations[$key]->getMetaDescription() !== $data['meta_description'] ||
+                            $translations[$key]->getMetaAuthor() !== $data['meta_author'] ||
+                            $translations[$key]->getMetaCopyright() !== $data['meta_copyright'] ||
+                            $translations[$key]->getMetaImage() !== $data['meta_image'] ||
+                            $translations[$key]->isEnabled() !== $data['enabled']
+                        ) {
+                            // create PageTranslationHistory if there are changes
+                            $translationsHistory[$key] = new PageTranslationHistory(
+                                0,
+                                $translations[$key],
+                                $translations[$key]->getName(),
+                                $translations[$key]->getTitle(),
+                                $translations[$key]->getContent(),
+                                $translations[$key]->getMetaKeywords(),
+                                $translations[$key]->getMetaDescription(),
+                                $translations[$key]->getMetaAuthor(),
+                                $translations[$key]->getMetaCopyright(),
+                                $translations[$key]->getMetaImage(),
+                                $translations[$key]->isEnabled(),
+                                $user
+                            );
+                        }
+                    } else {
+                        $translations[$key] = new PageTranslation();
+                        $translations[$key]->setLanguage(Language::getLanguage($key));
+                        $translations[$key]->setPage($page);
+                    }
+                    $translations[$key]->setEnabled($data['enabled']);
+                    $translations[$key]->setName($data['name']);
+                    $translations[$key]->setTitle($data['title']);
+                    $translations[$key]->setMetaKeywords($data['meta_keywords']);
+                    $translations[$key]->setMetaDescription($data['meta_description']);
+                    $translations[$key]->setMetaAuthor($data['meta_author']);
+                    $translations[$key]->setMetaCopyright($data['meta_copyright']);
+                    $translations[$key]->setMetaImage($data['meta_image']);
+                    $translations[$key]->setContent($data['content']);
+                }
 
-                    $translationData = $request->getParsedBodyParam('translation');
-                    $filter = $this->getTranslationInputFilter();
-                    foreach ($translationData as $key => $translation) {
-                        $filter->setData($translation);
-                        if (!$filter->isValid()) {
-                            foreach ($filter->getMessages() as $field => $msg) {
-                                $errors[] = $key . '_' . $field;
-                            }
-                        }
-                        $data = $filter->getValues();
-                        if (isset($translations[$key])) {
-                            if ($translations[$key]->getName() !== $data['name'] ||
-                                $translations[$key]->getTitle() !== $data['title'] ||
-                                $translations[$key]->getContent() !== $data['content'] ||
-                                $translations[$key]->getMetaKeywords() !== $data['meta_keywords'] ||
-                                $translations[$key]->getMetaDescription() !== $data['meta_description'] ||
-                                $translations[$key]->getMetaAuthor() !== $data['meta_author'] ||
-                                $translations[$key]->getMetaCopyright() !== $data['meta_copyright'] ||
-                                $translations[$key]->getMetaImage() !== $data['meta_image'] ||
-                                $translations[$key]->isEnabled() !== $data['enabled']
-                            ) {
-                                // create PageTranslationHistory if there are changes
-                                $translationsHistory[$key] = new PageTranslationHistory(
-                                    0,
-                                    $translations[$key],
-                                    $translations[$key]->getName(),
-                                    $translations[$key]->getTitle(),
-                                    $translations[$key]->getContent(),
-                                    $translations[$key]->getMetaKeywords(),
-                                    $translations[$key]->getMetaDescription(),
-                                    $translations[$key]->getMetaAuthor(),
-                                    $translations[$key]->getMetaCopyright(),
-                                    $translations[$key]->getMetaImage(),
-                                    $translations[$key]->isEnabled(),
-                                    $user
-                                );
-                            }
-                        } else {
-                            $translations[$key] = new PageTranslation();
-                            $translations[$key]->setLanguage(Language::getLanguage($key));
-                            $translations[$key]->setPage($page);
-                        }
-                        $translations[$key]->setEnabled($data['enabled']);
-                        $translations[$key]->setName($data['name']);
-                        $translations[$key]->setTitle($data['title']);
-                        $translations[$key]->setMetaKeywords($data['meta_keywords']);
-                        $translations[$key]->setMetaDescription($data['meta_description']);
-                        $translations[$key]->setMetaAuthor($data['meta_author']);
-                        $translations[$key]->setMetaCopyright($data['meta_copyright']);
-                        $translations[$key]->setMetaImage($data['meta_image']);
-                        $translations[$key]->setContent($data['content']);
+                if (sizeof($errors) == 0) {
+                    $saveError = false;
+
+                    $res = $page->save();
+                    if (!is_null($res)) {
+                        $page = $res;
+                    } else {
+                        $saveError = true;
                     }
 
-                    if (sizeof($errors) == 0) {
-                        $saveError = false;
-
-                        $res = $page->save();
+                    foreach ($translations as &$translation) {
+                        $translation->setPage($page);
+                        $res = $translation->save();
                         if (!is_null($res)) {
-                            $page = $res;
+                            $translation = $res;
                         } else {
                             $saveError = true;
                         }
+                    }
 
-                        foreach ($translations as &$translation) {
-                            $res = $translation->save();
-                            if (!is_null($res)) {
-                                $translation = $res;
-                            } else {
-                                $saveError = true;
-                            }
-                        }
-
-                        /** @var PageTranslationHistory $translationHistory */
-                        foreach ($translationsHistory as &$translationHistory) {
-                            $res = $translationHistory->save();
-                            if (!is_null($res)) {
-                                $translationHistory = $res;
-                            } else {
-                                $saveError = true;
-                            }
-                        }
-
-                        if ($saveError) {
-                            $msg = 'save_error';
+                    /** @var PageTranslationHistory $translationHistory */
+                    foreach ($translationsHistory as &$translationHistory) {
+                        $res = $translationHistory->save();
+                        if (!is_null($res)) {
+                            $translationHistory = $res;
                         } else {
-                            $msg = 'save_success';
+                            $saveError = true;
                         }
+                    }
+
+                    if ($saveError) {
+                        $msg = 'save_error';
                     } else {
-                        $msg = 'invalid_input';
+                        $cont->offsetSet('page_saved', true);
+                        return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/page/' . $page->getPageId());
                     }
                 } else {
-                    if ($page->isTrash()) {
-                        $page->delete();
-                    } else {
-                        $page->setTrash(true);
-                        $page->save();
-                    }
-                    return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route']);
+                    $msg = 'invalid_input';
                 }
+            } else {
+                if ($page->isTrash()) {
+                    $page->delete();
+                } else {
+                    $page->setTrash(true);
+                    $page->save();
+                }
+                return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route']);
             }
-            return $this->render($request, $response, 'admin/page/edit.twig', [
-                'page' => $page,
-                'languages' => $languages,
-                'translations' => $translations,
-                'errors' => $errors,
-                'message' => $msg,
-                'widgets' => Widget::getAvailable(),
-                'modules' => Module::getAll()
-            ]);
         }
-
-        return $this->render($request, $response->withStatus(404), 'admin/page/not-found.twig');
+        return $this->render($request, $response, 'admin/page/edit.twig', [
+            'page' => $page,
+            'languages' => $languages,
+            'translations' => $translations,
+            'errors' => $errors,
+            'message' => $msg,
+            'widgets' => Widget::getAvailable(),
+            'modules' => Module::getAll()
+        ]);
     }
 
     /**

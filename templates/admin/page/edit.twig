@@ -2,7 +2,7 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}Seite "{{ page.name }}" bearbeiten{% endblock %}
+{% block title %}{% if page.getPageId() > 0 %}Seite bearbeiten{% else %}Neue Seite{% endif %}{% endblock %}
 
 {% set languageSelect = [] %}
 {% for language in languages %}

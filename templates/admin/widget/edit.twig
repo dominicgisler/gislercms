@@ -2,7 +2,7 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}Widget "{{ widget.name }}" bearbeiten{% endblock %}
+{% block title %}{% if widget.getWidgetId() > 0 %}Widget bearbeiten{% else %}Neues Widget{% endif %}{% endblock %}
 
 {% set languageSelect = [] %}
 {% for language in languages %}
