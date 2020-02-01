@@ -1,5 +1,6 @@
 -- Datenbank aufräumen
 
+DROP TABLE IF EXISTS `cms__guestbook_entry`;
 DROP TABLE IF EXISTS `cms__post_attribute`;
 DROP TABLE IF EXISTS `cms__post_translation`;
 DROP TABLE IF EXISTS `cms__post`;

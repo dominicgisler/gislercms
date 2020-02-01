@@ -12,7 +12,7 @@
 
         <meta itemprop="name" content="{{ page.getTitle() }}">
         <meta itemprop="description" content="{{ page.getMetaDescription() }}">
-        <meta itemprop="image" content="{{ page.getMetaImage() }}">
+        <meta itemprop="image" content="{{ meta_img }}">
 
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="@publisher_handle">
@@ -28,7 +28,7 @@
         <meta property="og:image" content="{{ meta_img }}">
 
         <meta name="author" content="{{ page.getMetaAuthor() }}">
-        <meta name="publisher" content="Gisler Software">
+        <meta name="publisher" content="{{ page.getMetaPublisher() }}">
         <meta name="keywords" content="{{ page.getMetaKeywords() }}">
         <meta name="description" content="{{ page.getMetaDescription() }}">
         <meta name="date" content="{{ page.getUpdatedAt()|date('Y-m-d') }}T{{ page.getUpdatedAt()|date('H:i:s') }}+02:00">
@@ -41,13 +41,46 @@
         <link href="{{ base_url() }}/css/style.min.css" rel="stylesheet">
     </head>
     <body>
-        <div class="container mt-4">
+        <div class="container my-4">
             <div class="border rounded bg-light text-center p-4 display-4">
-                <a href="{{ base_url() }}">GislerCMS</a>
+                <div class="row">
+                    <a href="{{ base_url() }}" class="col-10 col-sm-8 col-lg-6 m-auto">
+                        <img src="{{ base_url() }}/img/logo.png" alt="Logo" class="mw-100">
+                    </a>
+                </div>
             </div>
-            <nav class="mt-2 border rounded bg-light">
-                {% set widget = widget.getWidget('navigation') %}
-                {{ widget_translation.getWidgetTranslation(widget, page.getLanguage()).getContent()|raw }}
+            <nav class="mt-2 border rounded bg-light navbar navbar-expand-lg navbar-light">
+                {% set navigation = module.getByName('navigation').getConfig()|json_decode %}
+                <a class="navbar-brand d-lg-none" href="#">{{ navigation.label }}</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="fa fa-bars px-1 py-1"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav w-100">
+                        {% for elem in navigation.items %}
+                            <li class="nav-item {% if elem.items %}dropdown{% endif %}">
+                                {% set href = elem.href %}
+                                {% if not (href starts with 'http://') and not (href starts with 'https://') %}
+                                    {% set href = base_url() ~ href %}
+                                {% endif %}
+                                <a class="nav-link {% if elem.items %}dropdown-toggle{% endif %}" href="{{ href }}" {% if elem.items %} role="button" data-toggle="dropdown"{% endif %} {% if elem.target %}target="{{ elem.target }}"{% endif %}>
+                                    {{ elem.label }}
+                                </a>
+                                {% if elem.items %}
+                                    <div class="dropdown-menu mt-0">
+                                        {% for sub in elem.items %}
+                                            {% set href = sub.href %}
+                                            {% if not (href starts with 'http://') and not (href starts with 'https://') %}
+                                                {% set href = base_url() ~ href %}
+                                            {% endif %}
+                                            <a class="dropdown-item" href="{{ href }}" {% if sub.target %}target="{{ sub.target }}"{% endif %}>{{ sub.label }}</a>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </nav>
             <main role="main" class="mt-2 border rounded bg-light p-4">
                 {{ page.getContent()|raw }}
@@ -56,7 +89,20 @@
                 Copyright &copy; {{ 'now'|date('Y') }} by Gisler Software
             </footer>
         </div>
+
+        <div id="cookie-info" class="w-100 p-2 d-none">
+            <div class="alert alert-primary row m-0" role="alert">
+                <div class="col-8 align-middle p-0 pt-1">
+                    Mit der Verwendung der Webseite stimmst du der Nutzung von Cookies zu.
+                </div>
+                <div class="col-4 text-right p-0">
+                    <button class="btn btn-primary btn-sm" id="accept-cookies">OK</button>
+                </div>
+            </div>
+        </div>
+
         <script src="{{ base_url() }}/js/jquery.min.js"></script>
         <script src="{{ base_url() }}/js/bootstrap.min.js"></script>
+        <script src="{{ base_url() }}/js/script.js"></script>
     </body>
 </html>

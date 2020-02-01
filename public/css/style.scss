@@ -1,6 +1,14 @@
 @import '../../vendor/twbs/bootstrap/scss/bootstrap';
 @import '../../vendor/fortawesome/font-awesome/css/all';
 
+body {
+  background: url('../img/bg.jpeg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 .background-cover {
   background-repeat: no-repeat;
   background-position: center;
@@ -10,4 +18,9 @@
 
 .gallery-item {
   height: 150px;
+}
+
+#cookie-info {
+  position: fixed;
+  bottom: 0;
 }
