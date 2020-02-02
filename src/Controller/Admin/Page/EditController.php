@@ -6,6 +6,7 @@ use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Filter\ToBool;
 use GislerCMS\Filter\ToLanguage;
 use GislerCMS\Helper\SessionHelper;
+use GislerCMS\Model\Config;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\Module;
 use GislerCMS\Model\Page;
@@ -52,6 +53,10 @@ class EditController extends AbstractController
         $page = Page::get($id);
         $languages = Language::getAll();
 
+        $defaults = [];
+        foreach (Config::getBySection('page') as $config) {
+            $defaults[$config->getName()] = $config->getValue();
+        }
 
         $translations = PageTranslation::getPageTranslations($page);
         $translationsHistory = [];
@@ -182,7 +187,8 @@ class EditController extends AbstractController
             'errors' => $errors,
             'message' => $msg,
             'widgets' => Widget::getAvailable(),
-            'modules' => Module::getAll()
+            'modules' => Module::getAll(),
+            'defaults' => $defaults
         ]);
     }
 

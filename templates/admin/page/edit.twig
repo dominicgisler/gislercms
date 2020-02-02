@@ -8,7 +8,7 @@
 {% for language in languages %}
     {% if language.isEnabled() %}
         {% set selected = false %}
-        {% if language.getLanguageId() == page.language.getLanguageId() %}
+        {% if language.getLanguageId() == page.language.getLanguageId() or (page.getPageId() == 0 and language.getLanguageId() == defaults.default_language) %}
             {% set selected = true %}
         {% endif %}
         {% set languageSelect = languageSelect|merge([{value: language.locale, label: language.description, selected: selected}]) %}
@@ -65,7 +65,10 @@
         <div class="tab-content mt-4" id="myTabContent">
             {% for language in languages %}
                 {% if language.isEnabled() %}
-                    <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="lang-{{ language.locale }}" role="tabpanel" aria-labelledby="{{ language.locale }}-tab">
+                    <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="lang-{{ language.locale }}" data-locale="{{ language.locale }}" role="tabpanel" aria-labelledby="{{ language.locale }}-tab">
+                        <div class="mb-3">
+                            <a href="#" class="insert-defaults">Standardwerte einfügen</a>
+                        </div>
                         {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', translations[language.locale].enabled, 'Übersetzung aktiviert') }}
                         {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][name]', translations[language.locale].name, 'Seitenname', '', language.locale ~ '_name' in errors ? 'is-invalid' : '', 'Der Name, welcher in der URL verwendet wird') }}
                         {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][title]', translations[language.locale].title, 'Seitentitel', '', language.locale ~ '_title' in errors ? 'is-invalid' : '', 'Der Titel, welcher im Browser angezeigt wird') }}
@@ -108,4 +111,19 @@
     {% include 'admin/partial/insert-widget-modal.twig' %}
     {% include 'admin/partial/insert-module-modal.twig' %}
     {% include 'admin/partial/insert-posts-modal.twig' %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script>
+        $('.insert-defaults').click(function() {
+            var $pane = $(this).closest('.tab-pane');
+            var locale = $pane.data('locale');
+            $pane.find('#input_translation_' + locale + '__meta_keywords_').val('{{ defaults.meta_keywords }}');
+            $pane.find('#input_translation_' + locale + '__meta_description_').val('{{ defaults.meta_description }}');
+            $pane.find('#input_translation_' + locale + '__meta_author_').val('{{ defaults.meta_author }}');
+            $pane.find('#input_translation_' + locale + '__meta_copyright_').val('{{ defaults.meta_copyright }}');
+            return false;
+        })
+    </script>
 {% endblock %}

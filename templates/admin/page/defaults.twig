@@ -7,7 +7,7 @@
 {% set languageSelect = [] %}
 {% for language in languages %}
     {% set selected = false %}
-    {% if language.getLanguageId() == config.page_default_language %}
+    {% if language.getLanguageId() == config.default_language %}
         {% set selected = true %}
     {% endif %}
     {% set languageSelect = languageSelect|merge([{value: language.locale, label: language.description, selected: selected}]) %}
