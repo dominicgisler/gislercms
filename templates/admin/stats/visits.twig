@@ -10,6 +10,7 @@
             <th>Zeitpunkt</th>
             <th>Seite</th>
             <th>Sprache</th>
+            <th>Parameter</th>
             <th>Besucher</th>
             <th>Besuch</th>
         </tr>
@@ -21,6 +22,7 @@
                 <td data-order="{{ vis.getCreatedAt() }}">{{ vis.getCreatedAt()|date('d.m.Y H:i:s') }}</td>
                 <td><a href="{{ admin_url }}/page/{{ vis.getPageTranslation().getPage().getPageId() }}">{{ vis.getPageTranslation().getPage().getName() }}</a></td>
                 <td>{{ vis.getPageTranslation().getLanguage().getDescription() }}</td>
+                <td>{{ vis.getArguments() }}</td>
                 <td><a href="{{ admin_url }}/stats/sessions/{{ vis.getSession().getClient().getClientId() }}">#{{ vis.getSession().getClient().getClientId() }}</a></td>
                 <td><a href="{{ admin_url }}/stats/visits/{{ vis.getSession().getSessionId() }}">#{{ vis.getSession().getSessionId() }}</a></td>
             </tr>

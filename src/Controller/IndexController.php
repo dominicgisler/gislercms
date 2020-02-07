@@ -46,12 +46,6 @@ class IndexController extends AbstractController
             $pTrans = $page->getDefaultPageTranslation();
         }
 
-        $pTrans->replaceWidgets();
-        $pTrans->replaceModules($request, $this->get('view'));
-        $pTrans->replacePosts($request, $this->get('view'));
-
-        $response = $this->trackPage($request, $response, $pTrans);
-
-        return $this->render($request, $response, 'layout.twig', ['page' => $pTrans]);
+        return $this->renderPage($request, $response, $pTrans);
     }
 }

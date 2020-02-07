@@ -58,14 +58,16 @@ class IndexController extends AbstractController
 
         foreach ($visits as $visit) {
             $pt = $visit->getPageTranslation();
-            if (!isset($stats['pages'][$pt->getPageTranslationId()])) {
-                $stats['pages'][$pt->getPageTranslationId()] = [
+            $index = $pt->getPageTranslationId() . $visit->getArguments();
+            if (!isset($stats['pages'][$index])) {
+                $stats['pages'][$index] = [
                     'page' => $pt->getPage(),
                     'language' => $pt->getLanguage(),
+                    'arguments' => $visit->getArguments(),
                     'visits' => 0
                 ];
             }
-            $stats['pages'][$pt->getPageTranslationId()]['visits']++;
+            $stats['pages'][$index]['visits']++;
 
             $graph['visits'] = $this->countDate($visit->getCreatedAt(), $graph['visits']);
         }

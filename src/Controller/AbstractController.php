@@ -121,6 +121,7 @@ abstract class AbstractController
 
         $visit = new Visit();
         $visit->setPageTranslation($pTrans);
+        $visit->setArguments($request->getAttribute('arguments') ?: '');
         $visit->setSession($session);
         $visit->save();
 
@@ -137,5 +138,34 @@ abstract class AbstractController
         $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
         $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    }
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param PageTranslation $page
+     * @param string $reqName
+     * @return Response
+     * @throws Exception
+     */
+    protected function renderPage($request, $response, PageTranslation $page, string $reqName = '')
+    {
+        if ($page->getPageTranslationId() == 0 || !$page->getPage()->isEnabled()) {
+            $page = PageTranslation::getDefaultByName('error-404');
+            $response = $response->withStatus(404);
+            $arguments = $reqName;
+        } else {
+            $arguments = str_replace([$page->getName() . '/', $page->getName()], '', $reqName);
+        }
+
+        $request = $request->withAttribute('arguments', $arguments);
+
+        $response = $this->trackPage($request, $response, $page);
+
+        $page->replaceWidgets();
+        $page->replaceModules($request, $this->get('view'));
+        $page->replacePosts($request, $this->get('view'));
+
+        return $this->render($request, $response, 'layout.twig', ['page' => $page]);
     }
 }

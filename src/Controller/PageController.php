@@ -39,19 +39,6 @@ class PageController extends AbstractController
             $page = PageTranslation::getDefaultByName($name);
         }
 
-        if ($page->getPageTranslationId() == 0 || !$page->getPage()->isEnabled()) {
-            $page = PageTranslation::getDefaultByName('error-404');
-            $response = $response->withStatus(404);
-        } else {
-            $response = $this->trackPage($request, $response, $page);
-        }
-
-        $arguments = str_replace([$page->getName() . '/', $page->getName()], '', $name);
-
-        $page->replaceWidgets();
-        $page->replaceModules($request->withAttribute('arguments', $arguments), $this->get('view'));
-        $page->replacePosts($request->withAttribute('arguments', $arguments), $this->get('view'));
-
-        return $this->render($request, $response, 'layout.twig', ['page' => $page]);
+        return $this->renderPage($request, $response, $page, $name);
     }
 }

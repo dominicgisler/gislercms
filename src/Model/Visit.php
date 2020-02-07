@@ -19,6 +19,11 @@ class Visit extends DbModel
     private $pageTranslation;
 
     /**
+     * @var string
+     */
+    private $arguments;
+
+    /**
      * @var Session
      */
     private $session;
@@ -37,6 +42,7 @@ class Visit extends DbModel
      * Visit constructor.
      * @param int $visitId
      * @param PageTranslation|null $pageTranslation
+     * @param string $arguments
      * @param Session|null $session
      * @param string $createdAt
      * @param string $updatedAt
@@ -44,6 +50,7 @@ class Visit extends DbModel
     public function __construct(
         int $visitId = 0,
         PageTranslation $pageTranslation = null,
+        string $arguments = '',
         Session $session = null,
         string $createdAt = '',
         string $updatedAt = ''
@@ -51,6 +58,7 @@ class Visit extends DbModel
     {
         $this->visitId = $visitId;
         $this->pageTranslation = $pageTranslation;
+        $this->arguments = $arguments;
         $this->session = $session;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
@@ -74,6 +82,7 @@ class Visit extends DbModel
                     $arr[] = new Visit(
                         $visit->visit_id,
                         PageTranslation::get($visit->fk_page_translation_id),
+                        $visit->arguments,
                         Session::get($visit->fk_session_id),
                         $visit->created_at,
                         $visit->updated_at
@@ -99,6 +108,7 @@ class Visit extends DbModel
             return new Visit(
                 $visit->visit_id,
                 PageTranslation::get($visit->fk_page_translation_id),
+                $visit->arguments,
                 Session::get($visit->fk_session_id),
                 $visit->created_at,
                 $visit->updated_at
@@ -117,22 +127,24 @@ class Visit extends DbModel
         if ($this->getVisitId() > 0) {
             $stmt = $pdo->prepare("
                 UPDATE `cms__visit`
-                SET `fk_page_translation_id` = ?, `fk_session_id` = ?
+                SET `fk_page_translation_id` = ?, `arguments` = ?, `fk_session_id` = ?
                 WHERE `visit_id` = ?
             ");
             $res = $stmt->execute([
                 $this->getPageTranslation()->getPageTranslationId(),
+                $this->getArguments(),
                 $this->getSession()->getSessionId(),
                 $this->getVisitId()
             ]);
             return $res ? self::get($this->getVisitId()) : null;
         } else {
             $stmt = $pdo->prepare("
-                INSERT INTO `cms__visit` (`fk_page_translation_id`, `fk_session_id`)
-                VALUES (?, ?)
+                INSERT INTO `cms__visit` (`fk_page_translation_id`, `arguments`, `fk_session_id`)
+                VALUES (?, ?, ?)
             ");
             $res = $stmt->execute([
                 $this->getPageTranslation()->getPageTranslationId(),
+                $this->getArguments(),
                 $this->getSession()->getSessionId()
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;
@@ -188,6 +200,22 @@ class Visit extends DbModel
     public function setPageTranslation(PageTranslation $pageTranslation): void
     {
         $this->pageTranslation = $pageTranslation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getArguments(): string
+    {
+        return $this->arguments;
+    }
+
+    /**
+     * @param string $arguments
+     */
+    public function setArguments(string $arguments): void
+    {
+        $this->arguments = $arguments;
     }
 
     /**
