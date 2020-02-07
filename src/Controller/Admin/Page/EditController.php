@@ -180,6 +180,12 @@ class EditController extends AbstractController
                 return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route']);
             }
         }
+
+        $history = [];
+        foreach ($translations as $translation) {
+            $history[$translation->getLanguage()->getLocale()] = PageTranslationHistory::getHistory($translation);
+        }
+
         return $this->render($request, $response, 'admin/page/edit.twig', [
             'page' => $page,
             'languages' => $languages,
@@ -188,7 +194,8 @@ class EditController extends AbstractController
             'message' => $msg,
             'widgets' => Widget::getAvailable(),
             'modules' => Module::getAll(),
-            'defaults' => $defaults
+            'defaults' => $defaults,
+            'history' => $history
         ]);
     }
 

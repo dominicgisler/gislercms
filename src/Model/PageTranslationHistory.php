@@ -129,12 +129,14 @@ class PageTranslationHistory extends DbModel
     }
 
     /**
-     * @param int $id
-     * @return PageTranslationHistory
+     * @param string $where
+     * @param array $args
+     * @return PageTranslationHistory[]
      * @throws \Exception
      */
-    public static function get(int $id): PageTranslationHistory
+    private static function getWhere(string $where = '', array $args = []): array
     {
+        $arr = [];
         $stmt = self::getPDO()->prepare("
             SELECT
                 `t`.`page_translation_history_id`,
@@ -157,29 +159,56 @@ class PageTranslationHistory extends DbModel
             INNER JOIN `cms__user` `u`
             ON `t`.`fk_user_id` = `u`.`user_id`
             
-            WHERE `t`.`page_translation_history_id` = ?
+            " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
-        $stmt->execute([$id]);
-        $pageTranslation = $stmt->fetchObject();
-        if ($pageTranslation) {
-            return new PageTranslationHistory(
-                $pageTranslation->page_translation_history_id,
-                PageTranslation::get($pageTranslation->fk_page_translation_id),
-                $pageTranslation->name,
-                $pageTranslation->title ?: '',
-                $pageTranslation->content ?: '',
-                $pageTranslation->meta_keywords ?: '',
-                $pageTranslation->meta_description ?: '',
-                $pageTranslation->meta_author ?: '',
-                $pageTranslation->meta_copyright ?: '',
-                $pageTranslation->meta_image ?: '',
-                $pageTranslation->enabled,
-                User::getByUsername($pageTranslation->username),
-                $pageTranslation->created_at,
-                $pageTranslation->updated_at
-            );
+        $stmt->execute($args);
+        $pageTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
+        if (sizeof($pageTranslations) > 0) {
+            foreach ($pageTranslations as $pageTranslation) {
+                $arr[] = new PageTranslationHistory(
+                    $pageTranslation->page_translation_history_id,
+                    PageTranslation::get($pageTranslation->fk_page_translation_id),
+                    $pageTranslation->name,
+                    $pageTranslation->title ?: '',
+                    $pageTranslation->content ?: '',
+                    $pageTranslation->meta_keywords ?: '',
+                    $pageTranslation->meta_description ?: '',
+                    $pageTranslation->meta_author ?: '',
+                    $pageTranslation->meta_copyright ?: '',
+                    $pageTranslation->meta_image ?: '',
+                    $pageTranslation->enabled,
+                    User::getByUsername($pageTranslation->username),
+                    $pageTranslation->created_at,
+                    $pageTranslation->updated_at
+                );
+            }
         }
-        return new PageTranslationHistory();
+        return $arr;
+    }
+
+    /**
+     * @param int $id
+     * @return PageTranslationHistory
+     * @throws \Exception
+     */
+    public static function get(int $id): PageTranslationHistory
+    {
+        $elems = self::getWhere('`t`.`page_translation_history_id` = ?', [$id]);
+        if (sizeof($elems) == 1) {
+            return reset($elems);
+        } else {
+            return new PageTranslationHistory();
+        }
+    }
+
+    /**
+     * @param PageTranslation $pt
+     * @return PageTranslationHistory[]
+     * @throws \Exception
+     */
+    public static function getHistory(PageTranslation $pt): array
+    {
+        return self::getWhere('`t`.`fk_page_translation_id` = ? ORDER BY `t`.`created_at` DESC', [$pt->getPageTranslationId()]);
     }
 
     /**

@@ -78,6 +78,37 @@
                         {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_copyright]', translations[language.locale].metaCopyright, 'Copyright', '', language.locale ~ '_copyright' in errors ? 'is-invalid' : '', 'Metadaten') }}
                         {{ forms.form_group('fileurl', 'translation[' ~ language.locale ~ '][meta_image]', translations[language.locale].metaImage, 'Titelbild', '', language.locale ~ '_image' in errors ? 'is-invalid' : '', 'Titelbild, wird z.B. beim Teilen auf Facebook dargestellt') }}
                         {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt', '', language.locale ~ '_content' in errors ? 'tinymce is-invalid' : 'tinymce') }}
+                        <div class="accordion mb-2" id="translation-history-{{ language.locale }}">
+                            <div class="card">
+                                <div class="card-header" id="translation-history-{{ language.locale }}-heading">
+                                    <a type="button" data-toggle="collapse" data-target="#translation-history-{{ language.locale }}-collapse" aria-expanded="true" aria-controls="translation-history-{{ language.locale }}-controls">
+                                        <i class="fa fa-plus mr-2"></i> Bearbeitungsverlauf
+                                    </a>
+                                </div>
+                                <div id="translation-history-{{ language.locale }}-collapse" class="collapse" aria-labelledby="translation-history-{{ language.locale }}-heading" data-parent="#translation-history-{{ language.locale }}">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Überschieben am</th>
+                                            <th>von Benutzer</th>
+                                            <th class="text-right">Aktion</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for trans in history[language.locale] %}
+                                            <tr data-locale="{{ language.locale }}" data-enabled="{{ trans.isEnabled() }}" data-name="{{ trans.getName() }}" data-title="{{ trans.getTitle() }}" data-meta_keywords="{{ trans.getMetaKeywords() }}" data-meta_description="{{ trans.getMetaDescription() }}" data-meta_author="{{ trans.getMetaAuthor() }}" data-meta_copyright="{{ trans.getMetaCopyright() }}" data-meta_image="{{ trans.getMetaImage() }}" data-content="{{ trans.getContent() }}">
+                                                <td>{{ trans.getCreatedAt()|date('d.m.Y H:i:s') }}</td>
+                                                <td>{{ trans.getUser().getDisplayName() }}</td>
+                                                <td class="text-right">
+                                                    <a href="#" class="view-history">Ansehen</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 {% endif %}
             {% endfor %}
@@ -108,6 +139,37 @@
             </div>
         </div>
     </form>
+
+    {# history modal #}
+    <div class="modal fade" id="viewHistory" tabindex="-1" role="dialog" aria-labelledby="viewHistoryTitle" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewHistoryTitle">Bearbeitungsverlauf</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="history-data" class="d-none" data-locale=""></div>
+                    Seitenname: <strong id="history-name"></strong><br>
+                    Seitentitel: <strong id="history-title"></strong><br>
+                    Suchbegriffe: <strong id="history-meta_keywords"></strong><br>
+                    Beschreibung: <strong id="history-meta_description"></strong><br>
+                    Author: <strong id="history-meta_author"></strong><br>
+                    Copyright: <strong id="history-meta_copyright"></strong><br>
+                    Titelbild: <strong id="history-meta_image"></strong><br>
+                    Inhalt:<br>
+                    <div id="history-content" class="border p-2"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Schliessen</button>
+                    <button type="button" class="btn btn-primary restore-translation">Wiederherstellen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% include 'admin/partial/insert-widget-modal.twig' %}
     {% include 'admin/partial/insert-module-modal.twig' %}
     {% include 'admin/partial/insert-posts-modal.twig' %}
@@ -124,6 +186,33 @@
             $pane.find('#input_translation_' + locale + '__meta_author_').val('{{ defaults.meta_author }}');
             $pane.find('#input_translation_' + locale + '__meta_copyright_').val('{{ defaults.meta_copyright }}');
             return false;
-        })
+        });
+        $('.view-history').click(function() {
+            var $tr = $(this).closest('tr');
+            var $modal = $('#viewHistory');
+            $modal.find('#history-data').data('locale', $tr.data('locale'));
+            $modal.find('#history-name').text($tr.data('name'));
+            $modal.find('#history-title').text($tr.data('title'));
+            $modal.find('#history-meta_keywords').text($tr.data('meta_keywords'));
+            $modal.find('#history-meta_description').text($tr.data('meta_description'));
+            $modal.find('#history-meta_author').text($tr.data('meta_author'));
+            $modal.find('#history-meta_copyright').text($tr.data('meta_copyright'));
+            $modal.find('#history-meta_image').text($tr.data('meta_image'));
+            $modal.find('#history-content').html($tr.data('content'));
+            $modal.modal();
+            return false;
+        });
+        $('.restore-translation').click(function() {
+            var locale = $('#history-data').data('locale');
+            $('#input_translation_' + locale + '__name_').val($('#history-name').text());
+            $('#input_translation_' + locale + '__title_').val($('#history-title').text());
+            $('#input_translation_' + locale + '__meta_keywords_').val($('#history-meta_keywords').text());
+            $('#input_translation_' + locale + '__meta_description_').val($('#history-meta_description').text());
+            $('#input_translation_' + locale + '__meta_author_').val($('#history-meta_author').text());
+            $('#input_translation_' + locale + '__meta_copyright_').val($('#history-meta_copyright').text());
+            $('#input_translation_' + locale + '__meta_image_').val($('#history-meta_image').text());
+            tinymce.get('input_translation_' + locale + '__content_').setContent($('#history-content').html());
+            $('#viewHistory').modal('hide');
+        });
     </script>
 {% endblock %}
