@@ -17,8 +17,8 @@
         {% for cl in stats %}
             <tr>
                 <td>{{ cl.client_id }}</td>
-                <td>{{ cl.created_at }}</td>
-                <td>{{ cl.updated_at }}</td>
+                <td data-order="{{ cl.created_at }}">{{ cl.created_at|date('d.m.Y H:i:s') }}</td>
+                <td data-order="{{ cl.updated_at }}">{{ cl.updated_at|date('d.m.Y H:i:s') }}</td>
                 <td><a href="{{ admin_url }}/stats/sessions/{{ cl.client_id }}">{{ cl.sessions }}</a></td>
                 <td>
                     {% if cl.real %}

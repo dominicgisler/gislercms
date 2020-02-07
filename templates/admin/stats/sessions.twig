@@ -11,7 +11,7 @@
             <th>Zeitpunkt bis</th>
             <th>Besucher</th>
             <th>IP</th>
-            <th>Land</th>
+            <th data-sortable="false">Land</th>
             <th>Betriebssystem</th>
             <th>Browser</th>
             <th>User Agent</th>
@@ -23,8 +23,8 @@
         {% for ses in stats %}
             <tr>
                 <td>{{ ses.session_id }}</td>
-                <td>{{ ses.created_at }}</td>
-                <td>{{ ses.updated_at }}</td>
+                <td data-order="{{ ses.created_at }}">{{ ses.created_at|date('d.m.Y H:i:s') }}</td>
+                <td data-order="{{ ses.updated_at }}">{{ ses.updated_at|date('d.m.Y H:i:s') }}</td>
                 <td><a href="{{ admin_url }}/stats/sessions/{{ ses.client_id }}">#{{ ses.client_id }}</a></td>
                 <td class="ip">{{ ses.ip }}</td>
                 <td class="country">-</td>
@@ -44,13 +44,11 @@
     <script>
         var ips = [];
         setInterval(function () {
-            var hasChange = false;
             $('#sessions tbody tr').each(function () {
                 var ip = $(this).find('td.ip').text();
                 var $country = $(this).find('td.country');
                 if (ips[ip]) {
                     if ($country.text() !== ips[ip].country) {
-                        hasChange = true;
                         $country.text(ips[ip].country);
                     }
                 } else {
@@ -62,10 +60,6 @@
                     });
                 }
             });
-            if (hasChange) {
-                $('#sessions').DataTable().destroy();
-                $('#sessions').DataTable();
-            }
         }, 1000);
     </script>
 {% endblock %}

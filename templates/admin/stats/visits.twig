@@ -18,7 +18,7 @@
         {% for vis in visits %}
             <tr>
                 <td>{{ vis.getVisitId() }}</td>
-                <td>{{ vis.getCreatedAt() }}</td>
+                <td data-order="{{ vis.getCreatedAt() }}">{{ vis.getCreatedAt()|date('d.m.Y H:i:s') }}</td>
                 <td><a href="{{ admin_url }}/page/{{ vis.getPageTranslation().getPage().getPageId() }}">{{ vis.getPageTranslation().getPage().getName() }}</a></td>
                 <td>{{ vis.getPageTranslation().getLanguage().getDescription() }}</td>
                 <td><a href="{{ admin_url }}/stats/sessions/{{ vis.getSession().getClient().getClientId() }}">#{{ vis.getSession().getClient().getClientId() }}</a></td>
