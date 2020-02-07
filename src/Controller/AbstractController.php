@@ -166,6 +166,14 @@ abstract class AbstractController
         $page->replaceModules($request, $this->get('view'));
         $page->replacePosts($request, $this->get('view'));
 
-        return $this->render($request, $response, 'layout.twig', ['page' => $page]);
+        $translations = [];
+        if (empty($arguments)) {
+            foreach (PageTranslation::getPageTranslations($page->getPage()) as $translation) {
+                $translations[$translation->getLanguage()->getLocale()] = $translation;
+            }
+            $translations['x-default'] = $translations[$page->getPage()->getLanguage()->getLocale()];
+        }
+
+        return $this->render($request, $response, 'layout.twig', ['page' => $page, 'translations' => $translations]);
     }
 }

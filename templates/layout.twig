@@ -36,6 +36,9 @@
         <meta name="copyright" content="{{ page.getMetaCopyright() }}">
         <meta name="language" content="{{ page.getLanguage().getLocale() }}">
 
+        {% for locale, trans in translations %}<link rel="alternate" href="{{ base_url() }}/{{ trans.getLanguage().getLocale() }}/{{ trans.getName() }}" hreflang="{{ locale }}" />
+        {% endfor %}
+
         <link rel="canonical" href="{{ base_url() }}/{{ page.getLanguage().getLocale() }}/{{ page.getName() }}">
 
         <link href="{{ base_url() }}/css/style.min.css" rel="stylesheet">

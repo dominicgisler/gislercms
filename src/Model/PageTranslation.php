@@ -777,6 +777,7 @@ class PageTranslation extends DbModel
                         $trans = PostTranslation::getByName($args, $this->getLanguage());
                         $post = $trans->getPost();
                         if ($post->getPostId() > 0) {
+                            $this->setName($this->getName() . '/' . $trans->getName());
                             if (!empty($trans->getMetaAuthor())) {
                                 $this->setMetaAuthor(str_replace('{page}', $this->getMetaAuthor(), $trans->getMetaAuthor()));
                             }
