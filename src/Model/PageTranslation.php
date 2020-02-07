@@ -796,6 +796,7 @@ class PageTranslation extends DbModel
                             if (!empty($trans->getTitle())) {
                                 $this->setTitle(str_replace('{page}', $this->getTitle(), $trans->getTitle()));
                             }
+                            $this->setUpdatedAt($trans->getUpdatedAt());
                             return $view->fetch('posts/detail.twig', [
                                 'post' => $post,
                                 'trans' => $trans
