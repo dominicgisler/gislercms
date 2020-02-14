@@ -73,12 +73,14 @@ class WidgetTranslationHistory extends DbModel
     }
 
     /**
-     * @param int $id
-     * @return WidgetTranslationHistory
+     * @param string $where
+     * @param array $args
+     * @return WidgetTranslationHistory[]
      * @throws \Exception
      */
-    public static function get(int $id): WidgetTranslationHistory
+    public static function getWhere(string $where = '', array $args = []): array
     {
+        $arr = [];
         $stmt = self::getPDO()->prepare("
             SELECT
                 `t`.`widget_translation_history_id`,
@@ -94,22 +96,51 @@ class WidgetTranslationHistory extends DbModel
             INNER JOIN `cms__user` `u`
             ON `t`.`fk_user_id` = `u`.`user_id`
             
-            WHERE `t`.`widget_translation_history_id` = ?
+            " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
-        $stmt->execute([$id]);
-        $widgetTranslation = $stmt->fetchObject();
-        if ($widgetTranslation) {
-            return new WidgetTranslationHistory(
-                $widgetTranslation->widget_translation_history_id,
-                WidgetTranslation::get($widgetTranslation->fk_widget_translation_id),
-                $widgetTranslation->content ?: '',
-                $widgetTranslation->enabled,
-                User::getByUsername($widgetTranslation->username),
-                $widgetTranslation->created_at,
-                $widgetTranslation->updated_at
-            );
+        $stmt->execute($args);
+        $widgetTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
+        if (sizeof($widgetTranslations) > 0) {
+            foreach ($widgetTranslations as $widgetTranslation) {
+                if ($widgetTranslation) {
+                    $arr[] = new WidgetTranslationHistory(
+                        $widgetTranslation->widget_translation_history_id,
+                        WidgetTranslation::get($widgetTranslation->fk_widget_translation_id),
+                        $widgetTranslation->content ?: '',
+                        $widgetTranslation->enabled,
+                        User::getByUsername($widgetTranslation->username),
+                        $widgetTranslation->created_at,
+                        $widgetTranslation->updated_at
+                    );
+                }
+            }
         }
-        return new WidgetTranslationHistory();
+        return $arr;
+    }
+
+    /**
+     * @param int $id
+     * @return WidgetTranslationHistory
+     * @throws \Exception
+     */
+    public static function get(int $id): WidgetTranslationHistory
+    {
+        $elems = self::getWhere('`t`.`widget_translation_history_id` = ?', [$id]);
+        if (sizeof($elems) == 1) {
+            return reset($elems);
+        } else {
+            return new WidgetTranslationHistory();
+        }
+    }
+
+    /**
+     * @param WidgetTranslation $wt
+     * @return array
+     * @throws \Exception
+     */
+    public static function getHistory(WidgetTranslation $wt): array
+    {
+        return self::getWhere('`t`.`fk_widget_translation_id` = ? ORDER BY `t`.`created_at` DESC', [$wt->getWidgetTranslationId()]);
     }
 
     /**

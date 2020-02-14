@@ -68,6 +68,37 @@
                     <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="lang-{{ language.locale }}" role="tabpanel" aria-labelledby="{{ language.locale }}-tab">
                         {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', translations[language.locale].enabled, 'Übersetzung aktiviert') }}
                         {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt', '', language.locale ~ '_content' in errors ? 'tinymce is-invalid' : 'tinymce') }}
+                        <div class="accordion mb-2" id="translation-history-{{ language.locale }}">
+                            <div class="card">
+                                <div class="card-header" id="translation-history-{{ language.locale }}-heading">
+                                    <a type="button" data-toggle="collapse" data-target="#translation-history-{{ language.locale }}-collapse" aria-expanded="true" aria-controls="translation-history-{{ language.locale }}-controls">
+                                        <i class="fa fa-plus mr-2"></i> Bearbeitungsverlauf
+                                    </a>
+                                </div>
+                                <div id="translation-history-{{ language.locale }}-collapse" class="collapse" aria-labelledby="translation-history-{{ language.locale }}-heading" data-parent="#translation-history-{{ language.locale }}">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Überschieben am</th>
+                                            <th>von Benutzer</th>
+                                            <th class="text-right">Aktion</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for trans in history[language.locale] %}
+                                            <tr data-locale="{{ language.locale }}" data-enabled="{{ trans.isEnabled() }}" data-content="{{ trans.getContent() }}">
+                                                <td>{{ trans.getCreatedAt()|date('d.m.Y H:i:s') }}</td>
+                                                <td>{{ trans.getUser().getDisplayName() }}</td>
+                                                <td class="text-right">
+                                                    <a href="#" class="view-history">Ansehen</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 {% endif %}
             {% endfor %}
@@ -97,8 +128,50 @@
                 </div>
             </div>
         </div>
+
+        {# history modal #}
+        <div class="modal fade" id="viewHistory" tabindex="-1" role="dialog" aria-labelledby="viewHistoryTitle" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewHistoryTitle">Bearbeitungsverlauf</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="history-data" class="d-none" data-locale=""></div>
+                        Inhalt:<br>
+                        <div id="history-content" class="border p-2"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Schliessen</button>
+                        <button type="button" class="btn btn-primary restore-translation">Wiederherstellen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
     {% include 'admin/partial/insert-widget-modal.twig' %}
     {% include 'admin/partial/insert-module-modal.twig' %}
     {% include 'admin/partial/insert-posts-modal.twig' %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script>
+        $('.view-history').click(function() {
+            var $tr = $(this).closest('tr');
+            var $modal = $('#viewHistory');
+            $modal.find('#history-data').data('locale', $tr.data('locale'));
+            $modal.find('#history-content').html($tr.data('content'));
+            $modal.modal();
+            return false;
+        });
+        $('.restore-translation').click(function() {
+            var locale = $('#history-data').data('locale');
+            tinymce.get('input_translation_' + locale + '__content_').setContent($('#history-content').html());
+            $('#viewHistory').modal('hide');
+        });
+    </script>
 {% endblock %}
