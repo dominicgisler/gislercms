@@ -148,10 +148,16 @@ return [
                         'href' => '{admin_url}/misc/config'
                     ],
                     [
-                        'route' => 'admin-misc-language-list',
+                        'route' => ['admin-misc-language-list', 'admin-misc-language-edit'],
                         'label' => 'Sprachen',
                         'icon' => 'fa-language',
                         'href' => '{admin_url}/misc/language/list'
+                    ],
+                    [
+                        'route' => ['admin-misc-user-list', 'admin-misc-user-edit'],
+                        'label' => 'Benutzer',
+                        'icon' => 'fa-users',
+                        'href' => '{admin_url}/misc/user/list'
                     ],
                     [
                         'route' => 'admin-misc-migration',

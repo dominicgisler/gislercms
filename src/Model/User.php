@@ -131,36 +131,39 @@ class User extends DbModel
     /**
      * @param string $where
      * @param array $args
-     * @return User
+     * @return User[]
      * @throws \Exception
      */
-    public static function getWhere(string $where = '', array $args = []): User
+    public static function getWhere(string $where = '', array $args = []): array
     {
+        $arr = [];
         $stmt = self::getPDO()->prepare("
             SELECT * FROM `cms__user`
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
         $stmt->execute($args);
-        $user = $stmt->fetchObject();
-        if ($user) {
-            return new User(
-                $user->user_id,
-                $user->username,
-                $user->firstname ?: '',
-                $user->lastname ?: '',
-                $user->email,
-                $user->password,
-                $user->locale,
-                $user->failed_logins,
-                $user->locked,
-                $user->reset_key ?: '',
-                $user->last_login ?: '',
-                $user->last_activity ?: '',
-                $user->created_at,
-                $user->updated_at
-            );
+        $users = $stmt->fetchAll(\PDO::FETCH_OBJ);
+        if (sizeof($users) > 0) {
+            foreach ($users as $user) {
+                $arr[] = new User(
+                    $user->user_id,
+                    $user->username,
+                    $user->firstname ?: '',
+                    $user->lastname ?: '',
+                    $user->email,
+                    $user->password,
+                    $user->locale,
+                    $user->failed_logins,
+                    $user->locked,
+                    $user->reset_key ?: '',
+                    $user->last_login ?: '',
+                    $user->last_activity ?: '',
+                    $user->created_at,
+                    $user->updated_at
+                );
+            }
         }
-        return new User();
+        return $arr;
     }
 
     /**
@@ -170,7 +173,11 @@ class User extends DbModel
      */
     public static function get(int $id): User
     {
-        return self::getWhere('`user_id` = ? ', [$id]);
+        $arr = self::getWhere('`user_id` = ? ', [$id]);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
+        }
+        return new User();
     }
 
     /**
@@ -182,10 +189,23 @@ class User extends DbModel
      */
     public static function getByUsername(string $username, string $where = '', array $args = []): User
     {
-        return self::getWhere(
+        $arr = self::getWhere(
             '`username` = ? '. (!empty($where) ? 'AND ' . $where : ''),
             array_merge([$username], $args)
         );
+        if (sizeof($arr) > 0) {
+            return reset($arr);
+        }
+        return new User();
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    public static function getAll(): array
+    {
+        return self::getWhere();
     }
 
     /**
@@ -243,6 +263,23 @@ class User extends DbModel
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;
         }
+    }
+
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete(): bool
+    {
+        $pdo = self::getPDO();
+        if ($this->getUserId() > 0) {
+            $stmt = $pdo->prepare("
+                DELETE FROM `cms__user`
+                WHERE `user_id` = ?
+            ");
+            return $stmt->execute([$this->getUserId()]);
+        }
+        return false;
     }
 
     /**

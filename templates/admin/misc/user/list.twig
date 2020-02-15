@@ -1,0 +1,48 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/content.twig' %}
+
+{% block title %}Benutzer{% endblock %}
+
+{% block content %}
+    {% set hasUpdate = false %}
+    <div class="table-responsive">
+        <table class="table table-hover border">
+            <thead class="thead-light">
+                <tr>
+                    <th>Benutzername</th>
+                    <th>Vorname</th>
+                    <th>Name</th>
+                    <th>E-Mail</th>
+                    <th>Sprache</th>
+                    <th>Loginversuche</th>
+                    <th>Login gesperrt</th>
+                    <th>Letzes Login</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, val in users %}
+                    <tr style="cursor: pointer;" onclick="window.location.href='{{ admin_url }}/misc/user/{{ val.getUserId() }}';">
+                        <td>{{ val.getUsername() }}</td>
+                        <td>{{ val.getFirstname() }}</td>
+                        <td>{{ val.getLastname() }}</td>
+                        <td>{{ val.getEmail() }}</td>
+                        <td>{{ val.getLocale() }}</td>
+                        <td>{{ val.getFailedLogins() }}</td>
+                        <td>
+                            {% if val.isLocked() %}
+                                <i class="fa fa-check fa-fw text-success"></i>
+                            {% else %}
+                                <i class="fa fa-times fa-fw text-danger"></i>
+                            {% endif %}
+                        </td>
+                        <td>{{ val.getLastLogin()|date('d.m.Y H:i:s') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-right">
+        <a href="{{ admin_url }}/misc/user" class="btn btn-primary">Neuer Benutzer</a>
+    </div>
+{% endblock %}

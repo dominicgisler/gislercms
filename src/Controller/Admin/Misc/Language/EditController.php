@@ -40,6 +40,10 @@ class EditController extends AbstractController
 
         $errors = [];
         $msg = false;
+        if ($cont->offsetExists('language_saved')) {
+            $cont->offsetUnset('language_saved');
+            $msg = 'save_success';
+        }
 
         if ($request->isPost()) {
             if (is_null($request->getParsedBodyParam('delete'))) {
@@ -60,8 +64,8 @@ class EditController extends AbstractController
                     if (is_null($res)) {
                         $msg = 'save_error';
                     } else {
-                        $msg = 'save_success';
-                        $data = $res;
+                        $cont->offsetSet('language_saved', true);
+                        return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/misc/language/' . $res->getLanguageId());
                     }
                 } else {
                     $msg = 'invalid_input';
