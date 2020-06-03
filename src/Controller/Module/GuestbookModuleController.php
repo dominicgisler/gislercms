@@ -5,6 +5,7 @@ namespace GislerCMS\Controller\Module;
 use Exception;
 use GislerCMS\Controller\Admin\Module\Manage\GuestbookController;
 use GislerCMS\Model\GuestbookEntry;
+use GislerCMS\Model\Mailer;
 use Slim\Http\Request;
 use Twig\Error\LoaderError;
 use Zend\InputFilter\Factory;
@@ -28,6 +29,26 @@ class GuestbookModuleController extends AbstractModuleController
      */
     protected static $exampleConfig = [
         'identifier' => 'guestbook',
+        'notification' => [
+            'enable' => false,
+            'mailer' => [
+                'smtp' => false,
+                'host' => 'mail.example.com',
+                'smtpauth' => true,
+                'username' => 'max.muster@example.com',
+                'password' => 'mypass',
+                'smtpsecure' => 'ssl',
+                'port' => 465
+            ],
+            'from' => [
+                'email' => 'max.muster@example.com',
+                'name' => 'Max Muster'
+            ],
+            'to' => [
+                'email' => 'max.muster@example.com',
+                'name' => 'Max Muster'
+            ],
+        ],
         'elements' => [
             'name' => [
                 'label' => 'Name',
@@ -165,6 +186,20 @@ class GuestbookModuleController extends AbstractModuleController
                     'class' => 'success',
                     'text' => $this->config['messages']['success']
                 ];
+                if (is_array($this->config['notification']) && $this->config['notification']['enable']) {
+                    $from = $this->config['notification']['from'];
+                    $to = $this->config['notification']['to'];
+
+                    $message = 'Es gibt einen neuen Eintrag im Gästebuch:' . PHP_EOL . PHP_EOL . json_encode(json_decode($entry->getInput()), JSON_PRETTY_PRINT);
+
+                    $mailer = new Mailer($this->config['notification']['mailer']);
+                    $mailer->setFrom($from['email'], $from['name']);
+                    $mailer->addAddress($to['email'], $to['name']);
+                    $mailer->Subject = 'Neuer Eintrag im Gästebuch';
+                    $mailer->Body = $message;
+
+                    $mailer->send();
+                }
             } else {
                 $msg = [
                     'class' => 'danger',

@@ -230,7 +230,6 @@ class ContactModuleController extends AbstractModuleController
             }
 
             $mailer = new Mailer($this->config['mailer']);
-            $mailer->CharSet = 'UTF-8';
             $mailer->setFrom($from['email'], $from['name']);
             $mailer->addAddress($to['email'], $to['name']);
             $mailer->Subject = $subject;

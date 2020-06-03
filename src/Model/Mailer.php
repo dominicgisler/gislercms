@@ -27,6 +27,7 @@ class Mailer extends PHPMailer
             $this->Password = $config['password'];
             $this->SMTPSecure = $config['smtpsecure'];
             $this->Port = $config['port'];
+            $this->CharSet = 'UTF-8';
             $this->setFrom($config['default_from']['email'], $config['default_from']['name']);
         }
     }
