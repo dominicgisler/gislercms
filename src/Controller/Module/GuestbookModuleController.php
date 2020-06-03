@@ -190,7 +190,10 @@ class GuestbookModuleController extends AbstractModuleController
                     $from = $this->config['notification']['from'];
                     $to = $this->config['notification']['to'];
 
-                    $message = 'Es gibt einen neuen Eintrag im Gästebuch:' . PHP_EOL . PHP_EOL . json_encode(json_decode($entry->getInput()), JSON_PRETTY_PRINT);
+                    $message = 'Es gibt einen neuen Eintrag im Gästebuch:' . PHP_EOL . PHP_EOL;
+                    foreach (json_decode($entry->getInput(), true) as $key => $value) {
+                        $message .= $key . ': ' . $value . PHP_EOL;
+                    }
 
                     $mailer = new Mailer($this->config['notification']['mailer']);
                     $mailer->setFrom($from['email'], $from['name']);
