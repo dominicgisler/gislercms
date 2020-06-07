@@ -14,7 +14,9 @@ class SysInfoController extends AbstractController
 {
     const NAME = 'admin-misc-sysinfo';
     const PATTERN = '{admin_route}/misc/sysinfo';
-    const METHODS = ['GET'];
+    const METHODS = ['GET', 'POST'];
+
+    const RELEASE_URL = 'https://api.github.com/repos/dominicgisler/gislercms/releases/latest';
 
     /**
      * @param Request $request
@@ -24,8 +26,19 @@ class SysInfoController extends AbstractController
      */
     public function __invoke($request, $response)
     {
+        $cmsVersion = $this->get('settings')['version'];
+
+        $update = [];
+        $release = $this->getLatestRelease();
+        if (!empty($release['tag_name']) && $release['tag_name'] != $cmsVersion) {
+            $update = [
+                'current' => $cmsVersion,
+                'latest' => $release['tag_name']
+            ];
+        }
+
         $data = [
-            'CMS Version' => $this->get('settings')['version'],
+            'CMS Version' => $cmsVersion,
             'PHP Version' => phpversion(),
             'MySQL Version' => $this->get('pdo')->query('select version()')->fetchColumn(),
             'Webserver' => $_SERVER['SERVER_SOFTWARE'],
@@ -39,8 +52,27 @@ class SysInfoController extends AbstractController
             'Serverport' => $_SERVER['SERVER_PORT'],
             'Serversignatur' => $_SERVER['SERVER_SIGNATURE']
         ];
+
         return $this->render($request, $response, 'admin/misc/sysinfo.twig', [
-            'data' => $data
+            'data' => $data,
+            'update' => $update
         ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getLatestRelease()
+    {
+        $context = stream_context_create([
+            'http' => [
+                'method' => 'GET',
+                'header' => [
+                    'User-Agent: PHP'
+                ]
+            ]
+        ]);
+        $content = file_get_contents(self::RELEASE_URL, false, $context);
+        return json_decode($content, true);
     }
 }
