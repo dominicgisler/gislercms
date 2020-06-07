@@ -8,6 +8,20 @@
             Die Aufzeichung von Statistiken ist deaktiviert! Dies kann in der <a href="{{ admin_url }}/misc/config">Konfiguration</a> angepasst werden.
         </div>
     {% endif %}
+    <div class="alert alert-info mx-0 row" role="alert">
+        <div class="col-8 align-middle p-0 pt-1">
+            {% if not calculation_date %}
+                Statistiken wurden noch nicht berechnet.
+            {% else %}
+                Letzte Aktualisierung der Statistiken: {{ calculation_date|date('d.m.Y H:i:s') }}
+            {% endif %}
+        </div>
+        <div class="col-4 text-right p-0">
+            <form method="post">
+                <button type="submit" name="calculate" class="btn btn-primary btn-sm"><i class="fa fa-sync-alt mr-1"></i> Aktualisieren</button>
+            </form>
+        </div>
+    </div>
     <div class="row">
         <div class="col-xl-3 col-sm-6">
             <a href="{{ admin_url }}/stats/clients" class="card text-white bg-primary mb-3 card-link">

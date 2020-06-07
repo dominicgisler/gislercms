@@ -97,6 +97,8 @@ return [
             ]
         ],
 
-        'module' => []
+        'module' => [],
+
+        'data_cache' => __DIR__ . '/../cache/'
     ],
 ];

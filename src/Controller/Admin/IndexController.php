@@ -17,7 +17,7 @@ class IndexController extends AbstractController
 {
     const NAME = 'admin-index';
     const PATTERN = '{admin_route}[/]';
-    const METHODS = ['GET'];
+    const METHODS = ['GET', 'POST'];
 
     /**
      * @param Request $request
@@ -29,67 +29,103 @@ class IndexController extends AbstractController
     {
         $track = Config::getConfig('global', 'enable_tracking')->getValue();
 
-        $clients = Client::getAll();
-        $sessions = Session::getAll();
-        $visits = Visit::getAll();
-        $stats = [
-            'counts' => [
-                'clients' => sizeof($clients),
-                'real_clients' => 0,
-                'sessions' => sizeof($sessions),
-                'visits' => sizeof($visits)
-            ],
-            'pages' => [],
-            'platforms' => [],
-            'browsers' => []
-        ];
-        $graph = [
-            'sessions' => [],
-            'visits' => [],
-            'clients' => []
-        ];
-
-        foreach ($clients as $client) {
-            if ($client->getCreatedAt() != $client->getUpdatedAt()) {
-                $stats['counts']['real_clients']++;
-            }
-            $graph['clients'] = $this->countDate($client->getCreatedAt(), $graph['clients']);
+        $cacheFile = $this->get('settings')['data_cache'] . 'dashboard.json';
+        if (file_exists($cacheFile)) {
+            $cache = json_decode(file_get_contents($cacheFile), true);
+        } else {
+            $cache = [
+                'calculation_date' => '',
+                'stats' => [
+                    'counts' => [
+                        'clients' => 0,
+                        'real_clients' => 0,
+                        'sessions' => 0,
+                        'visits' => 0
+                    ],
+                    'pages' => [],
+                    'platforms' => [],
+                    'browsers' => []
+                ],
+                'graph' => $this->mapGraphData([
+                    'sessions' => [],
+                    'visits' => [],
+                    'clients' => []
+                ])
+            ];
         }
 
-        foreach ($visits as $visit) {
-            $pt = $visit->getPageTranslation();
-            $index = $pt->getPageTranslationId() . $visit->getArguments();
-            if (!isset($stats['pages'][$index])) {
-                $stats['pages'][$index] = [
-                    'page' => $pt->getPage(),
-                    'language' => $pt->getLanguage(),
-                    'arguments' => $visit->getArguments(),
-                    'visits' => 0
-                ];
+        if ($request->isPost() && !is_null($request->getParsedBodyParam('calculate'))) {
+            $clients = Client::getAll();
+            $sessions = Session::getAll();
+            $visits = Visit::getAll();
+            $stats = [
+                'counts' => [
+                    'clients' => sizeof($clients),
+                    'real_clients' => 0,
+                    'sessions' => sizeof($sessions),
+                    'visits' => sizeof($visits)
+                ],
+                'pages' => [],
+                'platforms' => [],
+                'browsers' => []
+            ];
+            $graph = [
+                'sessions' => [],
+                'visits' => [],
+                'clients' => []
+            ];
+
+            foreach ($clients as $client) {
+                if ($client->getCreatedAt() != $client->getUpdatedAt()) {
+                    $stats['counts']['real_clients']++;
+                }
+                $graph['clients'] = $this->countDate($client->getCreatedAt(), $graph['clients']);
             }
-            $stats['pages'][$index]['visits']++;
 
-            $graph['visits'] = $this->countDate($visit->getCreatedAt(), $graph['visits']);
-        }
+            foreach ($visits as $visit) {
+                $pt = $visit->getPageTranslation();
+                $index = $pt->getPageTranslationId() . $visit->getArguments();
+                if (!isset($stats['pages'][$index])) {
+                    $stats['pages'][$index] = [
+                        'page' => $pt->getPage(),
+                        'language' => $pt->getLanguage(),
+                        'arguments' => $visit->getArguments(),
+                        'visits' => 0
+                    ];
+                }
+                $stats['pages'][$index]['visits']++;
 
-        foreach ($sessions as $session) {
-            if (!isset($stats['platforms'][$session->getPlatform()])) {
-                $stats['platforms'][$session->getPlatform()] = 0;
+                $graph['visits'] = $this->countDate($visit->getCreatedAt(), $graph['visits']);
             }
-            $stats['platforms'][$session->getPlatform()]++;
 
-            if (!isset($stats['browsers'][$session->getBrowser()])) {
-                $stats['browsers'][$session->getBrowser()] = 0;
+            foreach ($sessions as $session) {
+                if (!isset($stats['platforms'][$session->getPlatform()])) {
+                    $stats['platforms'][$session->getPlatform()] = 0;
+                }
+                $stats['platforms'][$session->getPlatform()]++;
+
+                if (!isset($stats['browsers'][$session->getBrowser()])) {
+                    $stats['browsers'][$session->getBrowser()] = 0;
+                }
+                $stats['browsers'][$session->getBrowser()]++;
+
+                $graph['sessions'] = $this->countDate($session->getCreatedAt(), $graph['sessions']);
             }
-            $stats['browsers'][$session->getBrowser()]++;
 
-            $graph['sessions'] = $this->countDate($session->getCreatedAt(), $graph['sessions']);
+            file_put_contents($cacheFile, json_encode([
+                'calculation_date' => date('Y-m-d H:i:s'),
+                'stats' => $stats,
+                'graph' => $this->mapGraphData($graph)
+            ]));
+
+            return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route']);
         }
 
         return $this->render($request, $response, 'admin/index.twig', [
             'tracking' => $track,
-            'stats' => $stats,
-            'graph' => $this->mapGraphData($graph)
+            'calculation_date' => $cache['calculation_date'],
+            'stats' => $cache['stats'],
+            'graph' => $cache['graph']
         ]);
     }
 
