@@ -75,8 +75,8 @@
                         <tbody>
                         {% for vis in stats.pages %}
                             <tr>
-                                <td><a href="{{ admin_url }}/page/{{ vis.page.getPageId() }}">{{ vis.page.getName() }}</a></td>
-                                <td>{{ vis.language.getDescription() }}</td>
+                                <td><a href="{{ admin_url }}/page/{{ vis.page.id }}">{{ vis.page.name }}</a></td>
+                                <td>{{ vis.language }}</td>
                                 <td>{{ vis.arguments }}</td>
                                 <td>{{ vis.visits }}</td>
                             </tr>
