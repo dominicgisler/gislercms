@@ -53,7 +53,7 @@ class ManageController extends AbstractController
                 /** @var AbstractModuleController $cont */
                 $cont = '\\GislerCMS\\Controller\\Module\\' . $mod->getController();
                 $manageCont = $cont::getManageController();
-                /** @var \GislerCMS\Admin\Module\Manage\AbstractController $manageCont */
+                /** @var \GislerCMS\Controller\Admin\Module\Manage\AbstractController $manageCont */
                 $manageCont = new $manageCont($cfg, $this->get('view'));
                 $modContent = $manageCont->manage($mod, $request);
 

@@ -142,13 +142,30 @@ class GuestbookEntry extends DbModel
     }
 
     /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete(): bool
+    {
+        $pdo = self::getPDO();
+        if ($this->getGuestbookEntryId() > 0) {
+            $stmt = $pdo->prepare("
+                DELETE FROM `cms__guestbook_entry`
+                WHERE `guestbook_entry_id` = ?
+            ");
+            return $stmt->execute([$this->getGuestbookEntryId()]);
+        }
+        return false;
+    }
+
+    /**
      * @param int $id
      * @return GuestbookEntry
      * @throws Exception
      */
     public static function get(int $id): GuestbookEntry
     {
-        return self::getObjectWhere('`client_id` = ?', [$id]);
+        return self::getObjectWhere('`guestbook_entry_id` = ?', [$id]);
     }
 
     /**

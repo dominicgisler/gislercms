@@ -27,6 +27,6 @@ class TwigJsonDecode extends AbstractExtension
      */
     public function jsonDecode($input)
     {
-        return json_decode($input);
+        return json_decode($input, true);
     }
 }
