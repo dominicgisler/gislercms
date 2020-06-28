@@ -167,6 +167,38 @@ class User extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return User
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): User
+    {
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__user` " . (!empty($where) ? 'WHERE ' . $where : ''));
+        $stmt->execute($args);
+        $user = $stmt->fetchObject();
+        if ($user) {
+            return new User(
+                $user->user_id,
+                $user->username,
+                $user->firstname ?: '',
+                $user->lastname ?: '',
+                $user->email,
+                $user->password,
+                $user->locale,
+                $user->failed_logins,
+                $user->locked,
+                $user->reset_key ?: '',
+                $user->last_login ?: '',
+                $user->last_activity ?: '',
+                $user->created_at,
+                $user->updated_at
+            );
+        }
+        return new User();
+    }
+
+    /**
      * @param int $id
      * @return User
      * @throws \Exception

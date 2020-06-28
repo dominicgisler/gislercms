@@ -31,7 +31,7 @@ class ResetController extends AbstractController
     {
         $key = $request->getAttribute('route')->getArgument('key');
 
-        $user = User::getWhere('`reset_key` = ?', [$key]);
+        $user = User::getObjectWhere('`reset_key` = ?', [$key]);
 
         if ($user->getUserId() > 0) {
             $errors = [];
