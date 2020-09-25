@@ -66,7 +66,7 @@ class Application
             try {
                 $db = $cfg['settings']['database'];
                 $pdo = new \PDO(
-                    sprintf('mysql:host=%s;dbname=%s;port=3306', $db['host'], $db['data']),
+                    sprintf('mysql:host=%s;dbname=%s;port=3306;charset=utf8', $db['host'], $db['data']),
                     $db['user'],
                     $db['pass']
                 );
