@@ -55,7 +55,7 @@ class IndexController extends AbstractController
         }
 
         if ($request->isPost() && !is_null($request->getParsedBodyParam('calculate'))) {
-			set_time_limit(300);
+            set_time_limit(300);
 
             $clients = Client::getAll();
             $sessions = Session::getAll();
