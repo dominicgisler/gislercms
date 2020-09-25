@@ -55,6 +55,8 @@ class IndexController extends AbstractController
         }
 
         if ($request->isPost() && !is_null($request->getParsedBodyParam('calculate'))) {
+			set_time_limit(300);
+
             $clients = Client::getAll();
             $sessions = Session::getAll();
             $visits = Visit::getAll();
@@ -117,7 +119,7 @@ class IndexController extends AbstractController
 
             file_put_contents($cacheFile, json_encode([
                 'calculation_date' => date('Y-m-d H:i:s'),
-                'stats' => $stats,
+                'stats' => mb_convert_encoding($stats, "UTF-8", "UTF-8"),
                 'graph' => $this->mapGraphData($graph)
             ]));
 
