@@ -18,7 +18,7 @@ The demo will be reset to the latest release every hour.
 
 ## Global requirements
 
-- PHP 7.3 (could also work with 7.1 or 7.2, but it's not tested)
+- PHP 7.3
 - PDO
 - MySQL or MariaDB
 - Some kind of webserver
@@ -26,10 +26,10 @@ The demo will be reset to the latest release every hour.
 
 Developed and tested with:
 
-- Ubuntu 18.04
-- Apache 2.4.29
-- PHP 7.3.8
-- MariaDB 10.1.41
+- Ubuntu 20.04
+- Apache 2.4.41
+- PHP 7.3.24
+- MariaDB 10.3.25
 
 ## How to install
 

@@ -31,7 +31,7 @@ return [
 
         'enable_setup' => true,
 
-        'version' => 'v1.0.3',
+        'version' => 'v1.0.4',
 
         'global' => [
             'admin_route' => '/admin'
