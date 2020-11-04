@@ -163,7 +163,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@github.com:22/dominicgisler/gislercms-editor.git",
-                "reference": "83ab80238909ed7c34a13c438a72458bf66d8d21"
+                "reference": "c815f80bc30cf41d1a90e6ebd17aacbcd78ef4a0"
             },
             "type": "library",
             "authors": [
@@ -173,7 +173,7 @@
                 }
             ],
             "description": "editor package for gislercms",
-            "time": "2020-01-03T01:02:24+00:00"
+            "time": "2020-11-04T13:31:25+00:00"
         },
         {
             "name": "donatj/phpuseragentparser",
