@@ -84,6 +84,7 @@ class WidgetTranslation extends DbModel
         $stmt = self::getPDO()->prepare("
             SELECT
                 `t`.`widget_translation_id`,
+                `t`.`fk_widget_id`,
                 `t`.`content`,
                 `t`.`enabled`,
                 `t`.`created_at`,
