@@ -169,7 +169,7 @@ class Session extends DbModel
      */
     public static function get(int $id): Session
     {
-        return self::getObjectWhere('`session_id` = ?', [$id]);
+        return self::getObjectWhere('`s`.`session_id` = ?', [$id]);
     }
 
     /**
@@ -179,7 +179,7 @@ class Session extends DbModel
      */
     public static function getSession(string $uuid): Session
     {
-        return self::getObjectWhere('`uuid` = ?', [$uuid]);
+        return self::getObjectWhere('`s`.`uuid` = ?', [$uuid]);
     }
 
     /**
