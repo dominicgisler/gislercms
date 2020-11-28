@@ -97,7 +97,29 @@ class Session extends DbModel
     public static function getWhere(string $where = '', array $args = []): array
     {
         $arr = [];
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__session` " . (!empty($where) ? 'WHERE ' . $where : ''));
+        $stmt = self::getPDO()->prepare("
+            SELECT 
+                   
+                `s`.`session_id`,
+                `s`.`uuid`,
+                `s`.`ip`,
+                `s`.`platform`,
+                `s`.`browser`,
+                `s`.`user_agent`,
+                `s`.`created_at`,
+                `s`.`updated_at`,
+                `c`.`client_id` AS 'c_client_id',
+                `c`.`uuid` AS 'c_uuid',
+                `c`.`created_at` AS 'c_created_at',
+                `c`.`updated_at` AS 'c_updated_at'
+                   
+            FROM `cms__session` `s`
+            
+            INNER JOIN `cms__client` `c`
+            ON `s`.`fk_client_id` = `c`.`client_id`
+            
+            " . (!empty($where) ? 'WHERE ' . $where : '') . "
+        ");
         if ($stmt instanceof \PDOStatement) {
             $stmt->execute($args);
             $sessions = $stmt->fetchAll(\PDO::FETCH_OBJ);
@@ -105,7 +127,12 @@ class Session extends DbModel
                 foreach ($sessions as $session) {
                     $arr[] = new Session(
                         $session->session_id,
-                        Client::get($session->fk_client_id),
+                        new Client(
+                            $session->c_client_id,
+                            $session->c_uuid,
+                            $session->c_created_at,
+                            $session->c_updated_at
+                        ),
                         $session->uuid,
                         $session->ip,
                         $session->platform,

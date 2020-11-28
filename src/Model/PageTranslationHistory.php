@@ -152,11 +152,22 @@ class PageTranslationHistory extends DbModel
                 `t`.`enabled`,
                 `t`.`created_at`,
                 `t`.`updated_at`,
-                `u`.`username`
+                `u`.`user_id` AS 'u_user_id',
+                `u`.`username` AS 'u_username',
+                `u`.`firstname` AS 'u_firstname',
+                `u`.`lastname` AS 'u_lastname',
+                `u`.`email` AS 'u_email',
+                `u`.`locale` AS 'u_locale',
+                `u`.`failed_logins` AS 'u_failed_logins',
+                `u`.`locked` AS 'u_locked',
+                `u`.`last_login` AS 'u_last_login',
+                `u`.`last_activity` AS 'u_last_activity',
+                `u`.`created_at` AS 'u_created_at',
+                `u`.`updated_at` AS 'u_updated_at'
             
             FROM `cms__page_translation_history` `t`
             
-            INNER JOIN `cms__user` `u`
+            LEFT JOIN `cms__user` `u`
             ON `t`.`fk_user_id` = `u`.`user_id`
             
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
@@ -167,7 +178,7 @@ class PageTranslationHistory extends DbModel
             foreach ($pageTranslations as $pageTranslation) {
                 $arr[] = new PageTranslationHistory(
                     $pageTranslation->page_translation_history_id,
-                    PageTranslation::get($pageTranslation->fk_page_translation_id),
+                    new PageTranslation(),
                     $pageTranslation->name,
                     $pageTranslation->title ?: '',
                     $pageTranslation->content ?: '',
@@ -177,7 +188,22 @@ class PageTranslationHistory extends DbModel
                     $pageTranslation->meta_copyright ?: '',
                     $pageTranslation->meta_image ?: '',
                     $pageTranslation->enabled,
-                    User::getByUsername($pageTranslation->username),
+                    new User(
+                        $pageTranslation->u_user_id ?: 0,
+                        $pageTranslation->u_username ?: '',
+                        $pageTranslation->u_firstname ?: '',
+                        $pageTranslation->u_lastname ?: '',
+                        $pageTranslation->u_email ?: '',
+                        '',
+                        $pageTranslation->u_locale ?: '',
+                        $pageTranslation->u_failed_logins ?: 0,
+                        $pageTranslation->u_locked ?: false,
+                        '',
+                        $pageTranslation->u_last_login ?: '',
+                        $pageTranslation->u_last_activity ?: '',
+                        $pageTranslation->u_created_at ?: '',
+                        $pageTranslation->u_updated_at ?: ''
+                    ),
                     $pageTranslation->created_at,
                     $pageTranslation->updated_at
                 );

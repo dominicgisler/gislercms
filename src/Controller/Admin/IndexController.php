@@ -146,8 +146,7 @@ class IndexController extends AbstractController
             'year' => date('Y', $timestamp),
             'month' => date('Y-m', $timestamp),
             'day' => date('Y-m-d', $timestamp),
-            'hour' => date('Y-m-d H:00', $timestamp),
-            'min' => date('Y-m-d H:i', $timestamp)
+            'hour' => date('Y-m-d H:00', $timestamp)
         ];
 
         foreach ($times as $key => $time) {

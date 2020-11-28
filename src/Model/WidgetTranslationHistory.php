@@ -93,7 +93,7 @@ class WidgetTranslationHistory extends DbModel
             
             FROM `cms__widget_translation_history` `t`
             
-            INNER JOIN `cms__user` `u`
+            LEFT JOIN `cms__user` `u`
             ON `t`.`fk_user_id` = `u`.`user_id`
             
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
@@ -108,7 +108,7 @@ class WidgetTranslationHistory extends DbModel
                         WidgetTranslation::get($widgetTranslation->fk_widget_translation_id),
                         $widgetTranslation->content ?: '',
                         $widgetTranslation->enabled,
-                        User::getByUsername($widgetTranslation->username),
+                        User::getByUsername($widgetTranslation->username ?: ''),
                         $widgetTranslation->created_at,
                         $widgetTranslation->updated_at
                     );

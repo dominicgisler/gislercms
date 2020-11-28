@@ -73,7 +73,41 @@ class Visit extends DbModel
     public static function getWhere(string $where = '', array $args = []): array
     {
         $arr = [];
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__visit` " . (!empty($where) ? 'WHERE ' . $where : ''));
+        $stmt = self::getPDO()->prepare("
+            SELECT
+            
+                   `v`.*,
+                   `p`.`page_id` AS 'p_page_id',
+                   `p`.`name` AS 'p_name',
+                   `l`.`language_id` AS 'l_language_id',
+                   `l`.`locale` AS 'l_locale',
+                   `l`.`description` AS 'l_description',
+                   `s`.`session_id` AS 's_session_id',
+                   `s`.`fk_client_id` AS 's_fk_client_id',
+                   `s`.`uuid` AS 's_uuid',
+                   `s`.`ip` AS 's_ip',
+                   `s`.`platform` AS 's_platform',
+                   `s`.`browser` AS 's_browser',
+                   `s`.`user_agent` AS 's_user_agent',
+                   `s`.`created_at` AS 's_created_at',
+                   `s`.`updated_at` AS 's_updated_at'
+            
+            FROM `cms__visit` `v`
+            
+            INNER JOIN `cms__page_translation` `pt`
+            ON `v`.`fk_page_translation_id` = `pt`.`page_translation_id`
+            
+            INNER JOIN `cms__page` `p`
+            ON `pt`.`fk_page_id` = `p`.`page_id`
+            
+            INNER JOIN `cms__language` `l`
+            ON `pt`.`fk_language_id` = `l`.`language_id`
+            
+            INNER JOIN `cms__session` `s`
+            ON `v`.`fk_session_id` = `s`.`session_id`
+                
+            " . (!empty($where) ? 'WHERE ' . $where : '') . "
+        ");
         if ($stmt instanceof \PDOStatement) {
             $stmt->execute($args);
             $visits = $stmt->fetchAll(\PDO::FETCH_OBJ);
@@ -81,9 +115,30 @@ class Visit extends DbModel
                 foreach ($visits as $visit) {
                     $arr[] = new Visit(
                         $visit->visit_id,
-                        PageTranslation::get($visit->fk_page_translation_id),
+                        new PageTranslation(
+                            $visit->fk_page_translation_id,
+                            new Page(
+                                $visit->p_page_id,
+                                $visit->p_name
+                            ),
+                            new Language(
+                                $visit->l_language_id,
+                                $visit->l_locale,
+                                $visit->l_description
+                            )
+                        ),
                         $visit->arguments,
-                        Session::get($visit->fk_session_id),
+                        new Session(
+                            $visit->s_session_id,
+                            new Client($visit->s_fk_client_id),
+                            $visit->s_uuid,
+                            $visit->s_ip,
+                            $visit->s_platform,
+                            $visit->s_browser,
+                            $visit->s_user_agent,
+                            $visit->s_created_at,
+                            $visit->s_updated_at,
+                        ),
                         $visit->created_at,
                         $visit->updated_at
                     );
