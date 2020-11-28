@@ -97,43 +97,6 @@ class Post extends DbModel
     }
 
     /**
-     * @return Post[]
-     * @throws \Exception
-     */
-    public static function getAll(): array
-    {
-        return self::getWhere();
-    }
-
-    /**
-     * @return Post[]
-     * @throws \Exception
-     */
-    public static function getAvailable(): array
-    {
-        return self::getWhere('`p`.`trash` = 0');
-    }
-
-    /**
-     * @return Post[]
-     * @throws \Exception
-     */
-    public static function getTrash(): array
-    {
-        return self::getWhere('`p`.`trash` = 1');
-    }
-
-    /**
-     * @param string $name
-     * @return Post[]
-     * @throws \Exception
-     */
-    public static function getByCategory(string $name): array
-    {
-        return self::getWhere('`p`.`categories` LIKE "%' . $name . '%" AND `p`.`trash` = 0 AND `p`.`publish_at` <= CURRENT_TIMESTAMP');
-    }
-
-    /**
      * @param string $where
      * @param array $args
      * @return Post[]
@@ -203,64 +166,65 @@ class Post extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return Post
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): Post
+    {
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
+        }
+        return new Post();
+    }
+
+    /**
+     * @return Post[]
+     * @throws \Exception
+     */
+    public static function getAll(): array
+    {
+        return self::getWhere();
+    }
+
+    /**
+     * @return Post[]
+     * @throws \Exception
+     */
+    public static function getAvailable(): array
+    {
+        return self::getWhere('`p`.`trash` = 0');
+    }
+
+    /**
+     * @return Post[]
+     * @throws \Exception
+     */
+    public static function getTrash(): array
+    {
+        return self::getWhere('`p`.`trash` = 1');
+    }
+
+    /**
+     * @param string $name
+     * @return Post[]
+     * @throws \Exception
+     */
+    public static function getByCategory(string $name): array
+    {
+        return self::getWhere('`p`.`categories` LIKE "%' . $name . '%" AND `p`.`trash` = 0 AND `p`.`publish_at` <= CURRENT_TIMESTAMP');
+    }
+
+    /**
      * @param int $id
      * @return Post
      * @throws \Exception
      */
     public static function get(int $id): Post
     {
-        $stmt = self::getPDO()->prepare("
-            SELECT
-                `p`.`post_id`,
-                `p`.`name`,
-                `p`.`enabled`,
-                `p`.`trash`,
-                `p`.`categories`,
-                `p`.`publish_at`,
-                `p`.`created_at`,
-                `p`.`updated_at`,
-                `l`.`language_id`,
-                `l`.`locale`,
-                `l`.`description`,
-                `l`.`enabled` AS 'l_enabled',
-                `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at'
-            
-            FROM `cms__post` `p`
-              
-            INNER JOIN `cms__language` `l`
-            ON `p`.fk_language_id = `l`.language_id
-            
-            WHERE `p`.`post_id` = ?
-        ");
-        $stmt->execute([$id]);
-        $post = $stmt->fetchObject();
-        if ($post && $post->post_id > 0) {
-            $cats = explode("\0", $post->categories);
-            if (sizeof($cats) == 1 && $cats[0] == '') {
-                $cats = [];
-            }
-            return new Post(
-                $post->post_id,
-                $post->name,
-                $post->enabled,
-                $post->trash,
-                new Language(
-                    $post->language_id,
-                    $post->locale,
-                    $post->description,
-                    $post->l_enabled,
-                    $post->l_created_at,
-                    $post->l_updated_at
-                ),
-                $post->publish_at,
-                $cats,
-                PostAttribute::getByPostId($post->post_id),
-                $post->created_at,
-                $post->updated_at
-            );
-        }
-        return new Post();
+        return self::getObjectWhere('`p`.`post_id` = ?', [$id]);
     }
 
     /**

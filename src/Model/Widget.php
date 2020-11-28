@@ -73,6 +73,81 @@ class Widget extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return Widget[]
+     * @throws \Exception
+     */
+    private static function getWhere(string $where = '', array $args = []): array
+    {
+        $arr = [];
+        $stmt = self::getPDO()->prepare("
+            SELECT
+                `w`.`widget_id`,
+                `w`.`name`,
+                `w`.`enabled`,
+                `w`.`trash`,
+                `w`.`created_at`,
+                `w`.`updated_at`,
+                `l`.`language_id`,
+                `l`.`locale`,
+                `l`.`description`,
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
+            
+            FROM `cms__widget` `w`
+              
+            INNER JOIN `cms__language` `l`
+            ON `w`.fk_language_id = `l`.language_id
+            
+            " . (!empty($where) ? 'WHERE ' . $where : '') . "
+            
+            ORDER BY `enabled` DESC, `name` ASC
+        ");
+        if ($stmt instanceof \PDOStatement) {
+            $stmt->execute($args);
+            $widgets = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            if (sizeof($widgets) > 0) {
+                foreach ($widgets as $widget) {
+                    $arr[] = new Widget(
+                        $widget->widget_id,
+                        $widget->name,
+                        $widget->enabled,
+                        $widget->trash,
+                        new Language(
+                            $widget->language_id,
+                            $widget->locale,
+                            $widget->description,
+                            $widget->l_enabled,
+                            $widget->l_created_at,
+                            $widget->l_updated_at
+                        ),
+                        $widget->created_at,
+                        $widget->updated_at
+                    );
+                }
+            }
+        }
+        return $arr;
+    }
+
+    /**
+     * @param string $where
+     * @param array $args
+     * @return Widget
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): Widget
+    {
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
+        }
+        return new Widget();
+    }
+
+    /**
      * @return Widget[]
      * @throws \Exception
      */
@@ -100,113 +175,13 @@ class Widget extends DbModel
     }
 
     /**
-     * @param string $where
-     * @return Widget[]
-     * @throws \Exception
-     */
-    private static function getWhere($where = ''): array
-    {
-        $arr = [];
-        $stmt = self::getPDO()->query("
-            SELECT
-                `w`.`widget_id`,
-                `w`.`name`,
-                `w`.`enabled`,
-                `w`.`trash`,
-                `w`.`created_at`,
-                `w`.`updated_at`,
-                `l`.`language_id`,
-                `l`.`locale`,
-                `l`.`description`,
-                `l`.`enabled` AS 'l_enabled',
-                `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at'
-            
-            FROM `cms__widget` `w`
-              
-            INNER JOIN `cms__language` `l`
-            ON `w`.fk_language_id = `l`.language_id
-            
-            " . (!empty($where) ? 'WHERE ' . $where : '') . "
-            
-            ORDER BY `enabled` DESC, `name` ASC
-        ");
-        if ($stmt instanceof \PDOStatement) {
-            $widgets = $stmt->fetchAll(\PDO::FETCH_OBJ);
-            if (sizeof($widgets) > 0) {
-                foreach ($widgets as $widget) {
-                    $arr[] = new Widget(
-                        $widget->widget_id,
-                        $widget->name,
-                        $widget->enabled,
-                        $widget->trash,
-                        new Language(
-                            $widget->language_id,
-                            $widget->locale,
-                            $widget->description,
-                            $widget->l_enabled,
-                            $widget->l_created_at,
-                            $widget->l_updated_at
-                        ),
-                        $widget->created_at,
-                        $widget->updated_at
-                    );
-                }
-            }
-        }
-        return $arr;
-    }
-
-    /**
      * @param int $id
      * @return Widget
      * @throws \Exception
      */
     public static function get(int $id): Widget
     {
-        $stmt = self::getPDO()->prepare("
-            SELECT
-                `w`.`widget_id`,
-                `w`.`name`,
-                `w`.`enabled`,
-                `w`.`trash`,
-                `w`.`created_at`,
-                `w`.`updated_at`,
-                `l`.`language_id`,
-                `l`.`locale`,
-                `l`.`description`,
-                `l`.`enabled` AS 'l_enabled',
-                `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at'
-            
-            FROM `cms__widget` `w`
-              
-            INNER JOIN `cms__language` `l`
-            ON `w`.fk_language_id = `l`.language_id
-            
-            WHERE `w`.`widget_id` = ?
-        ");
-        $stmt->execute([$id]);
-        $widget = $stmt->fetchObject();
-        if ($widget) {
-            return new Widget(
-                $widget->widget_id,
-                $widget->name,
-                $widget->enabled,
-                $widget->trash,
-                new Language(
-                    $widget->language_id,
-                    $widget->locale,
-                    $widget->description,
-                    $widget->l_enabled,
-                    $widget->l_created_at,
-                    $widget->l_updated_at
-                ),
-                $widget->created_at,
-                $widget->updated_at
-            );
-        }
-        return new Widget();
+        return self::getObjectWhere('`w`.`widget_id` = ?', [$id]);
     }
 
     /**
@@ -216,49 +191,7 @@ class Widget extends DbModel
      */
     public static function getWidget(string $name): Widget
     {
-        $stmt = self::getPDO()->prepare("
-            SELECT
-                `w`.`widget_id`,
-                `w`.`name`,
-                `w`.`enabled`,
-                `w`.`trash`,
-                `w`.`created_at`,
-                `w`.`updated_at`,
-                `l`.`language_id`,
-                `l`.`locale`,
-                `l`.`description`,
-                `l`.`enabled` AS 'l_enabled',
-                `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at'
-            
-            FROM `cms__widget` `w`
-              
-            INNER JOIN `cms__language` `l`
-            ON `w`.fk_language_id = `l`.language_id
-            
-            WHERE `w`.`name` = ?
-        ");
-        $stmt->execute([$name]);
-        $widget = $stmt->fetchObject();
-        if ($widget) {
-            return new Widget(
-                $widget->widget_id,
-                $widget->name,
-                $widget->enabled,
-                $widget->trash,
-                new Language(
-                    $widget->language_id,
-                    $widget->locale,
-                    $widget->description,
-                    $widget->l_enabled,
-                    $widget->l_created_at,
-                    $widget->l_updated_at
-                ),
-                $widget->created_at,
-                $widget->updated_at
-            );
-        }
-        return new Widget();
+        return self::getObjectWhere('`w`.`name` = ?', [$name]);
     }
 
     /**

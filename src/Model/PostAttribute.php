@@ -105,17 +105,28 @@ class PostAttribute extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return PostAttribute
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): PostAttribute
+    {
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
+        }
+        return new PostAttribute();
+    }
+
+    /**
      * @param int $id
      * @return PostAttribute
      * @throws \Exception
      */
     public static function get(int $id): PostAttribute
     {
-        $arr = self::getWhere('`post_attribute_id` = ?', [$id]);
-        if (sizeof($arr) > 0) {
-            return reset($arr);
-        }
-        return new PostAttribute();
+        return self::getObjectWhere('`post_attribute_id` = ?', [$id]);
     }
 
     /**

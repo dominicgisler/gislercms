@@ -132,72 +132,6 @@ class PostTranslation extends DbModel
     }
 
     /**
-     * @param int $id
-     * @return PostTranslation
-     * @throws \Exception
-     */
-    public static function get(int $id): PostTranslation
-    {
-        $stmt = self::getPDO()->prepare("
-            SELECT
-                `t`.`post_translation_id`,
-                `t`.`fk_post_id`,
-                `t`.`name`,
-                `t`.`title`,
-                `t`.`content`,
-                `t`.`meta_keywords`,
-                `t`.`meta_description`,
-                `t`.`meta_author`,
-                `t`.`meta_copyright`,
-                `t`.`meta_image`,
-                `t`.`enabled`,
-                `t`.`created_at`,
-                `t`.`updated_at`,
-                `l`.`language_id`,
-                `l`.`locale`,
-                `l`.`description`,
-                `l`.`enabled` AS 'l_enabled',
-                `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at'
-            
-            FROM `cms__post_translation` `t`
-              
-            INNER JOIN `cms__language` `l`
-            ON `t`.fk_language_id = `l`.language_id
-            
-            WHERE `t`.`post_translation_id` = ?
-        ");
-        $stmt->execute([$id]);
-        $postTranslation = $stmt->fetchObject();
-        if ($postTranslation) {
-            return new PostTranslation(
-                $postTranslation->post_translation_id,
-                Post::get($postTranslation->fk_post_id),
-                new Language(
-                    $postTranslation->language_id,
-                    $postTranslation->locale,
-                    $postTranslation->description,
-                    $postTranslation->l_enabled,
-                    $postTranslation->l_created_at,
-                    $postTranslation->l_updated_at
-                ),
-                $postTranslation->name,
-                $postTranslation->title ?: '',
-                $postTranslation->content ?: '',
-                $postTranslation->meta_keywords ?: '',
-                $postTranslation->meta_description ?: '',
-                $postTranslation->meta_author ?: '',
-                $postTranslation->meta_copyright ?: '',
-                $postTranslation->meta_image ?: '',
-                $postTranslation->enabled,
-                $postTranslation->created_at,
-                $postTranslation->updated_at
-            );
-        }
-        return new PostTranslation();
-    }
-
-    /**
      * @param string $where
      * @param array $args
      * @return PostTranslation[]
@@ -271,6 +205,31 @@ class PostTranslation extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return PostTranslation
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): PostTranslation
+    {
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
+        }
+        return new PostTranslation();
+    }
+
+    /**
+     * @param int $id
+     * @return PostTranslation
+     * @throws \Exception
+     */
+    public static function get(int $id): PostTranslation
+    {
+        return self::getObjectWhere('`t`.`post_translation_id` = ?', [$id]);
+    }
+
+    /**
      * @param Post $post
      * @return PostTranslation[]
      * @throws \Exception
@@ -338,64 +297,7 @@ class PostTranslation extends DbModel
      */
     public static function getDefaultPostTranslation(Post $post): PostTranslation
     {
-        $stmt = self::getPDO()->prepare("
-            SELECT
-                `t`.`post_translation_id`,
-                `t`.`name`,
-                `t`.`title`,
-                `t`.`content`,
-                `t`.`meta_keywords`,
-                `t`.`meta_description`,
-                `t`.`meta_author`,
-                `t`.`meta_copyright`,
-                `t`.`meta_image`,
-                `t`.`enabled`,
-                `t`.`created_at`,
-                `t`.`updated_at`,
-                `l`.`language_id`,
-                `l`.`locale`,
-                `l`.`description`,
-                `l`.`enabled` AS 'l_enabled',
-                `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at'
-            
-            FROM `cms__post_translation` `t`
-              
-            INNER JOIN `cms__language` `l`
-            ON `t`.fk_language_id = `l`.language_id
-            
-            WHERE `t`.`fk_post_id` = ?
-            AND `l`.`language_id` = ?
-        ");
-        $stmt->execute([$post->getPostId(), $post->getLanguage()->getLanguageId()]);
-        $postTranslation = $stmt->fetchObject();
-        if ($postTranslation) {
-            $trans = new PostTranslation(
-                $postTranslation->post_translation_id,
-                $post,
-                new Language(
-                    $postTranslation->language_id,
-                    $postTranslation->locale,
-                    $postTranslation->description,
-                    $postTranslation->l_enabled,
-                    $postTranslation->l_created_at,
-                    $postTranslation->l_updated_at
-                ),
-                $postTranslation->name,
-                $postTranslation->title ?: '',
-                $postTranslation->content ?: '',
-                $postTranslation->meta_keywords ?: '',
-                $postTranslation->meta_description ?: '',
-                $postTranslation->meta_author ?: '',
-                $postTranslation->meta_copyright ?: '',
-                $postTranslation->meta_image ?: '',
-                $postTranslation->enabled,
-                $postTranslation->created_at,
-                $postTranslation->updated_at
-            );
-            return $trans;
-        }
-        return new PostTranslation();
+        return self::getObjectWhere('`t`.`fk_post_id` = ? AND `l`.`language_id` = ?', [$post->getPostId(), $post->getLanguage()->getLanguageId()]);
     }
 
     /**
@@ -406,63 +308,9 @@ class PostTranslation extends DbModel
      */
     public static function getPostTranslation(Post $post, Language $language): PostTranslation
     {
-        $stmt = self::getPDO()->prepare("
-            SELECT
-                `t`.`post_translation_id`,
-                `t`.`name`,
-                `t`.`title`,
-                `t`.`content`,
-                `t`.`meta_keywords`,
-                `t`.`meta_description`,
-                `t`.`meta_author`,
-                `t`.`meta_copyright`,
-                `t`.`meta_image`,
-                `t`.`enabled`,
-                `t`.`created_at`,
-                `t`.`updated_at`,
-                `l`.`language_id`,
-                `l`.`locale`,
-                `l`.`description`,
-                `l`.`enabled` AS 'l_enabled',
-                `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at'
-            
-            FROM `cms__post_translation` `t`
-              
-            INNER JOIN `cms__language` `l`
-            ON `t`.fk_language_id = `l`.language_id
-            
-            WHERE `t`.`enabled` = 1
-            AND `t`.`fk_post_id` = ?
-            AND `l`.`language_id` = ?
-        ");
-        $stmt->execute([$post->getPostId(), $language->getLanguageId()]);
-        $postTranslation = $stmt->fetchObject();
-        if ($postTranslation) {
-            $trans = new PostTranslation(
-                $postTranslation->post_translation_id,
-                $post,
-                new Language(
-                    $postTranslation->language_id,
-                    $postTranslation->locale,
-                    $postTranslation->description,
-                    $postTranslation->l_enabled,
-                    $postTranslation->l_created_at,
-                    $postTranslation->l_updated_at
-                ),
-                $postTranslation->name,
-                $postTranslation->title ?: '',
-                $postTranslation->content ?: '',
-                $postTranslation->meta_keywords ?: '',
-                $postTranslation->meta_description ?: '',
-                $postTranslation->meta_author ?: '',
-                $postTranslation->meta_copyright ?: '',
-                $postTranslation->meta_image ?: '',
-                $postTranslation->enabled,
-                $postTranslation->created_at,
-                $postTranslation->updated_at
-            );
-            return $trans;
+        $obj = self::getObjectWhere('`t`.`enabled` = 1 AND `t`.`fk_post_id` = ? AND `l`.`language_id` = ?', [$post->getPostId(), $language->getLanguageId()]);
+        if ($obj->getPostTranslationId() > 0) {
+            return $obj;
         }
         return self::getDefaultPostTranslation($post);
     }

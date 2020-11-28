@@ -117,6 +117,21 @@ class Config extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return Config
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): Config
+    {
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
+        }
+        return new Config();
+    }
+
+    /**
      * @return Config[]
      * @throws \Exception
      */
@@ -143,21 +158,7 @@ class Config extends DbModel
      */
     public static function getConfig(string $section, string $name): Config
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__config` WHERE `section` = ? AND `name` = ?");
-        $stmt->execute([$section, $name]);
-        $config = $stmt->fetchObject();
-        if ($config) {
-            return new Config(
-                $config->config_id,
-                $config->section,
-                $config->name,
-                $config->type,
-                $config->value,
-                $config->created_at,
-                $config->updated_at
-            );
-        }
-        return new Config();
+        return self::getObjectWhere('`section` = ? AND `name` = ?', [$section, $name]);
     }
 
     /**
@@ -167,21 +168,7 @@ class Config extends DbModel
      */
     public static function get(int $id): Config
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__config` WHERE `config_id` = ?");
-        $stmt->execute([$id]);
-        $config = $stmt->fetchObject();
-        if ($config) {
-            return new Config(
-                $config->config_id,
-                $config->section,
-                $config->name,
-                $config->type,
-                $config->value,
-                $config->created_at,
-                $config->updated_at
-            );
-        }
-        return new Config();
+        return self::getObjectWhere('`config_id` = ?', [$id]);
     }
 
     /**

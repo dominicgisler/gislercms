@@ -73,6 +73,81 @@ class Page extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return Page[]
+     * @throws \Exception
+     */
+    public static function getWhere(string $where = '', array $args = []): array
+    {
+        $arr = [];
+        $stmt = self::getPDO()->prepare("
+            SELECT
+                `p`.`page_id`,
+                `p`.`name`,
+                `p`.`enabled`,
+                `p`.`trash`,
+                `p`.`created_at`,
+                `p`.`updated_at`,
+                `l`.`language_id`,
+                `l`.`locale`,
+                `l`.`description`,
+                `l`.`enabled` AS 'l_enabled',
+                `l`.`created_at` AS 'l_created_at',
+                `l`.`updated_at` AS 'l_updated_at'
+            
+            FROM `cms__page` `p`
+              
+            INNER JOIN `cms__language` `l`
+            ON `p`.fk_language_id = `l`.language_id
+            
+            " . (!empty($where) ? 'WHERE ' . $where : '') . "
+            
+            ORDER BY `enabled` DESC, `name` ASC
+        ");
+        if ($stmt instanceof \PDOStatement) {
+            $stmt->execute($args);
+            $pages = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            if (sizeof($pages) > 0) {
+                foreach ($pages as $page) {
+                    $arr[] = new Page(
+                        $page->page_id,
+                        $page->name,
+                        $page->enabled,
+                        $page->trash,
+                        new Language(
+                            $page->language_id,
+                            $page->locale,
+                            $page->description,
+                            $page->l_enabled,
+                            $page->l_created_at,
+                            $page->l_updated_at
+                        ),
+                        $page->created_at,
+                        $page->updated_at
+                    );
+                }
+            }
+        }
+        return $arr;
+    }
+
+    /**
+     * @param string $where
+     * @param array $args
+     * @return Page
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): Page
+    {
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
+        }
+        return new Page();
+    }
+
+    /**
      * @return Page[]
      * @throws \Exception
      */
@@ -100,113 +175,13 @@ class Page extends DbModel
     }
 
     /**
-     * @param string $where
-     * @return Page[]
-     * @throws \Exception
-     */
-    public static function getWhere($where = ''): array
-    {
-        $arr = [];
-        $stmt = self::getPDO()->query("
-            SELECT
-                `p`.`page_id`,
-                `p`.`name`,
-                `p`.`enabled`,
-                `p`.`trash`,
-                `p`.`created_at`,
-                `p`.`updated_at`,
-                `l`.`language_id`,
-                `l`.`locale`,
-                `l`.`description`,
-                `l`.`enabled` AS 'l_enabled',
-                `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at'
-            
-            FROM `cms__page` `p`
-              
-            INNER JOIN `cms__language` `l`
-            ON `p`.fk_language_id = `l`.language_id
-            
-            " . (!empty($where) ? 'WHERE ' . $where : '') . "
-            
-            ORDER BY `enabled` DESC, `name` ASC
-        ");
-        if ($stmt instanceof \PDOStatement) {
-            $pages = $stmt->fetchAll(\PDO::FETCH_OBJ);
-            if (sizeof($pages) > 0) {
-                foreach ($pages as $page) {
-                    $arr[] = new Page(
-                        $page->page_id,
-                        $page->name,
-                        $page->enabled,
-                        $page->trash,
-                        new Language(
-                            $page->language_id,
-                            $page->locale,
-                            $page->description,
-                            $page->l_enabled,
-                            $page->l_created_at,
-                            $page->l_updated_at
-                        ),
-                        $page->created_at,
-                        $page->updated_at
-                    );
-                }
-            }
-        }
-        return $arr;
-    }
-
-    /**
      * @param int $id
      * @return Page
      * @throws \Exception
      */
     public static function get(int $id): Page
     {
-        $stmt = self::getPDO()->prepare("
-            SELECT
-                `p`.`page_id`,
-                `p`.`name`,
-                `p`.`enabled`,
-                `p`.`trash`,
-                `p`.`created_at`,
-                `p`.`updated_at`,
-                `l`.`language_id`,
-                `l`.`locale`,
-                `l`.`description`,
-                `l`.`enabled` AS 'l_enabled',
-                `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at'
-            
-            FROM `cms__page` `p`
-              
-            INNER JOIN `cms__language` `l`
-            ON `p`.fk_language_id = `l`.language_id
-            
-            WHERE `p`.`page_id` = ?
-        ");
-        $stmt->execute([$id]);
-        $page = $stmt->fetchObject();
-        if ($page) {
-            return new Page(
-                $page->page_id,
-                $page->name,
-                $page->enabled,
-                $page->trash,
-                new Language(
-                    $page->language_id,
-                    $page->locale,
-                    $page->description,
-                    $page->l_enabled,
-                    $page->l_created_at,
-                    $page->l_updated_at
-                ),
-                $page->created_at,
-                $page->updated_at
-            );
-        }
-        return new Page();
+        return self::getObjectWhere('`p`.`page_id` = ?', [$id]);
     }
 
     /**

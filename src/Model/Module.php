@@ -112,6 +112,21 @@ class Module extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return Module
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): Module
+    {
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
+        }
+        return new Module();
+    }
+
+    /**
      * @return Config[]
      * @throws \Exception
      */
@@ -127,22 +142,7 @@ class Module extends DbModel
      */
     public static function get(int $id): Module
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__module` WHERE `module_id` = ?");
-        $stmt->execute([$id]);
-        $module = $stmt->fetchObject();
-        if ($module) {
-            return new Module(
-                $module->module_id,
-                $module->name,
-                $module->enabled,
-                $module->trash,
-                $module->controller,
-                $module->config,
-                $module->created_at,
-                $module->updated_at
-            );
-        }
-        return new Module();
+        return self::getObjectWhere('`module_id` = ?', [$id]);
     }
 
     /**
@@ -152,22 +152,7 @@ class Module extends DbModel
      */
     public static function getByName(string $name): Module
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__module` WHERE `name` = ?");
-        $stmt->execute([$name]);
-        $module = $stmt->fetchObject();
-        if ($module) {
-            return new Module(
-                $module->module_id,
-                $module->name,
-                $module->enabled,
-                $module->trash,
-                $module->controller,
-                $module->config,
-                $module->created_at,
-                $module->updated_at
-            );
-        }
-        return new Module();
+        return self::getObjectWhere('`name` = ?', [$name]);
     }
 
     /**

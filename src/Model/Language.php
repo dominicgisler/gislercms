@@ -65,14 +65,18 @@ class Language extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @param string $orderBy
      * @return Language[]
      * @throws \Exception
      */
-    public static function getAll(): array
+    public static function getWhere(string $where = '', array $args = [], string $orderBy = ''): array
     {
         $arr = [];
-        $stmt = self::getPDO()->query("SELECT * FROM `cms__language` `l` ORDER BY `description` ASC");
+        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__language` " . (!empty($where) ? 'WHERE ' . $where : '') . (!empty($orderBy) ? 'ORDER BY ' . $orderBy : ''));
         if ($stmt instanceof \PDOStatement) {
+            $stmt->execute($args);
             $languages = $stmt->fetchAll(\PDO::FETCH_OBJ);
             if (sizeof($languages) > 0) {
                 foreach ($languages as $language) {
@@ -91,26 +95,37 @@ class Language extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return Language
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): Language
+    {
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
+        }
+        return new Language();
+    }
+
+    /**
+     * @return Language[]
+     * @throws \Exception
+     */
+    public static function getAll(): array
+    {
+        return self::getWhere('', [], '`description` ASC');
+    }
+
+    /**
      * @param string $locale
      * @return Language
      * @throws \Exception
      */
     public static function getLanguage(string $locale): Language
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__language` WHERE `locale` = ? AND `enabled` = 1");
-        $stmt->execute([$locale]);
-        $language = $stmt->fetchObject();
-        if ($language) {
-            return new Language(
-                $language->language_id,
-                $language->locale,
-                $language->description,
-                $language->enabled,
-                $language->created_at,
-                $language->updated_at
-            );
-        }
-        return new Language();
+        return self::getObjectWhere('`locale` = ? AND `enabled` = 1', [$locale]);
     }
 
     /**
@@ -120,20 +135,7 @@ class Language extends DbModel
      */
     public static function get(int $id): Language
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__language` WHERE `language_id` = ?");
-        $stmt->execute([$id]);
-        $language = $stmt->fetchObject();
-        if ($language) {
-            return new Language(
-                $language->language_id,
-                $language->locale,
-                $language->description,
-                $language->enabled,
-                $language->created_at,
-                $language->updated_at
-            );
-        }
-        return new Language();
+        return self::getObjectWhere('`language_id` = ?', [$id]);
     }
 
     /**

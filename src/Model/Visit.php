@@ -101,20 +101,30 @@ class Visit extends DbModel
      */
     public static function getObjectWhere(string $where = '', array $args = []): Visit
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__visit` " . (!empty($where) ? 'WHERE ' . $where : ''));
-        $stmt->execute($args);
-        $visit = $stmt->fetchObject();
-        if ($visit) {
-            return new Visit(
-                $visit->visit_id,
-                PageTranslation::get($visit->fk_page_translation_id),
-                $visit->arguments,
-                Session::get($visit->fk_session_id),
-                $visit->created_at,
-                $visit->updated_at
-            );
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
         }
         return new Visit();
+    }
+
+    /**
+     * @param int $id
+     * @return Visit
+     * @throws \Exception
+     */
+    public static function get(int $id): Visit
+    {
+        return self::getObjectWhere('`visit_id` = ?', [$id]);
+    }
+
+    /**
+     * @return Visit[]
+     * @throws \Exception
+     */
+    public static function getAll(): array
+    {
+        return self::getWhere();
     }
 
     /**
@@ -149,25 +159,6 @@ class Visit extends DbModel
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;
         }
-    }
-
-    /**
-     * @param int $id
-     * @return Visit
-     * @throws \Exception
-     */
-    public static function get(int $id): Visit
-    {
-        return self::getObjectWhere('`visit_id` = ?', [$id]);
-    }
-
-    /**
-     * @return Visit[]
-     * @throws \Exception
-     */
-    public static function getAll(): array
-    {
-        return self::getWhere();
     }
 
     /**

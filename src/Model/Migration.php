@@ -85,6 +85,21 @@ class Migration extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return Migration
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): Migration
+    {
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
+        }
+        return new Migration();
+    }
+
+    /**
      * @return Migration[]
      * @throws \Exception
      */
@@ -100,11 +115,7 @@ class Migration extends DbModel
      */
     public static function getMigration(string $name): Migration
     {
-        $migs = self::getWhere('`name` = ?', [$name]);
-        if (sizeof($migs) > 0) {
-            return $migs[0];
-        }
-        return new Migration();
+        return self::getObjectWhere('`name` = ?', [$name]);
     }
 
     /**
@@ -114,11 +125,7 @@ class Migration extends DbModel
      */
     public static function get(int $id): Migration
     {
-        $migs = self::getWhere('`migration_id` = ?', [$id]);
-        if (sizeof($migs) > 0) {
-            return $migs[0];
-        }
-        return new Migration();
+        return self::getObjectWhere('`migration_id` = ?', [$id]);
     }
 
     /**

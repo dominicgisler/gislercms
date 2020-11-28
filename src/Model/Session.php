@@ -128,23 +128,40 @@ class Session extends DbModel
      */
     public static function getObjectWhere(string $where = '', array $args = []): Session
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__session` " . (!empty($where) ? 'WHERE ' . $where : ''));
-        $stmt->execute($args);
-        $session = $stmt->fetchObject();
-        if ($session) {
-            return new Session(
-                $session->session_id,
-                Client::get($session->fk_client_id),
-                $session->uuid,
-                $session->ip,
-                $session->platform,
-                $session->browser,
-                $session->user_agent ?: '',
-                $session->created_at,
-                $session->updated_at
-            );
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
         }
         return new Session();
+    }
+
+    /**
+     * @param int Session
+     * @return Session
+     * @throws \Exception
+     */
+    public static function get(int $id): Session
+    {
+        return self::getObjectWhere('`session_id` = ?', [$id]);
+    }
+
+    /**
+     * @param string $uuid
+     * @return Session
+     * @throws \Exception
+     */
+    public static function getSession(string $uuid): Session
+    {
+        return self::getObjectWhere('`uuid` = ?', [$uuid]);
+    }
+
+    /**
+     * @return Session[]
+     * @throws \Exception
+     */
+    public static function getAll(): array
+    {
+        return self::getWhere();
     }
 
     /**
@@ -185,35 +202,6 @@ class Session extends DbModel
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;
         }
-    }
-
-    /**
-     * @param int Session
-     * @return Session
-     * @throws \Exception
-     */
-    public static function get(int $id): Session
-    {
-        return self::getObjectWhere('`session_id` = ?', [$id]);
-    }
-
-    /**
-     * @param string $uuid
-     * @return Session
-     * @throws \Exception
-     */
-    public static function getSession(string $uuid): Session
-    {
-        return self::getObjectWhere('`uuid` = ?', [$uuid]);
-    }
-
-    /**
-     * @return Session[]
-     * @throws \Exception
-     */
-    public static function getAll(): array
-    {
-        return self::getWhere();
     }
 
     /**

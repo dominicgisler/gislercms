@@ -174,26 +174,9 @@ class User extends DbModel
      */
     public static function getObjectWhere(string $where = '', array $args = []): User
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__user` " . (!empty($where) ? 'WHERE ' . $where : ''));
-        $stmt->execute($args);
-        $user = $stmt->fetchObject();
-        if ($user) {
-            return new User(
-                $user->user_id,
-                $user->username,
-                $user->firstname ?: '',
-                $user->lastname ?: '',
-                $user->email,
-                $user->password,
-                $user->locale,
-                $user->failed_logins,
-                $user->locked,
-                $user->reset_key ?: '',
-                $user->last_login ?: '',
-                $user->last_activity ?: '',
-                $user->created_at,
-                $user->updated_at
-            );
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
         }
         return new User();
     }
@@ -205,11 +188,7 @@ class User extends DbModel
      */
     public static function get(int $id): User
     {
-        $arr = self::getWhere('`user_id` = ? ', [$id]);
-        if (sizeof($arr) > 0) {
-            return reset($arr);
-        }
-        return new User();
+        return self::getObjectWhere('`user_id` = ? ', [$id]);
     }
 
     /**
@@ -221,14 +200,10 @@ class User extends DbModel
      */
     public static function getByUsername(string $username, string $where = '', array $args = []): User
     {
-        $arr = self::getWhere(
-            '`username` = ? '. (!empty($where) ? 'AND ' . $where : ''),
+        return self::getObjectWhere(
+            '`username` = ? ' . (!empty($where) ? 'AND ' . $where : ''),
             array_merge([$username], $args)
         );
-        if (sizeof($arr) > 0) {
-            return reset($arr);
-        }
-        return new User();
     }
 
     /**

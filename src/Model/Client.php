@@ -83,18 +83,40 @@ class Client extends DbModel
      */
     public static function getObjectWhere(string $where = '', array $args = []): Client
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__client` " . (!empty($where) ? 'WHERE ' . $where : ''));
-        $stmt->execute($args);
-        $client = $stmt->fetchObject();
-        if ($client) {
-            return new Client(
-                $client->client_id,
-                $client->uuid,
-                $client->created_at,
-                $client->updated_at
-            );
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
         }
         return new Client();
+    }
+
+    /**
+     * @param int $id
+     * @return Client
+     * @throws \Exception
+     */
+    public static function get(int $id): Client
+    {
+        return self::getObjectWhere('`client_id` = ?', [$id]);
+    }
+
+    /**
+     * @param string $uuid
+     * @return Client
+     * @throws \Exception
+     */
+    public static function getClient(string $uuid): Client
+    {
+        return self::getObjectWhere('`uuid` = ?', [$uuid]);
+    }
+
+    /**
+     * @return Client[]
+     * @throws \Exception
+     */
+    public static function getAll(): array
+    {
+        return self::getWhere();
     }
 
     /**
@@ -125,35 +147,6 @@ class Client extends DbModel
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;
         }
-    }
-
-    /**
-     * @param int $id
-     * @return Client
-     * @throws \Exception
-     */
-    public static function get(int $id): Client
-    {
-        return self::getObjectWhere('`client_id` = ?', [$id]);
-    }
-
-    /**
-     * @param string $uuid
-     * @return Client
-     * @throws \Exception
-     */
-    public static function getClient(string $uuid): Client
-    {
-        return self::getObjectWhere('`uuid` = ?', [$uuid]);
-    }
-
-    /**
-     * @return Client[]
-     * @throws \Exception
-     */
-    public static function getAll(): array
-    {
-        return self::getWhere();
     }
 
     /**

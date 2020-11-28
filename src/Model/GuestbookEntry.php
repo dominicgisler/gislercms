@@ -61,7 +61,7 @@ class GuestbookEntry extends DbModel
     /**
      * @param string $where
      * @param array $args
-     * @return Client[]
+     * @return GuestbookEntry[]
      * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
@@ -94,19 +94,40 @@ class GuestbookEntry extends DbModel
      */
     public static function getObjectWhere(string $where = '', array $args = []): GuestbookEntry
     {
-        $stmt = self::getPDO()->prepare("SELECT * FROM `cms__guestbook_entry` " . (!empty($where) ? 'WHERE ' . $where : ''));
-        $stmt->execute($args);
-        $entry = $stmt->fetchObject();
-        if ($entry) {
-            return new GuestbookEntry(
-                $entry->guestbook_entry_id,
-                $entry->guestbook_identifier,
-                $entry->input,
-                $entry->created_at,
-                $entry->updated_at
-            );
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
         }
         return new GuestbookEntry();
+    }
+
+    /**
+     * @param int $id
+     * @return GuestbookEntry
+     * @throws Exception
+     */
+    public static function get(int $id): GuestbookEntry
+    {
+        return self::getObjectWhere('`guestbook_entry_id` = ?', [$id]);
+    }
+
+    /**
+     * @param string $identifier
+     * @return array
+     * @throws Exception
+     */
+    public static function getGuestbookEntries(string $identifier): array
+    {
+        return self::getWhere('`guestbook_identifier` = ?', [$identifier]);
+    }
+
+    /**
+     * @return GuestbookEntry[]
+     * @throws Exception
+     */
+    public static function getAll(): array
+    {
+        return self::getWhere();
     }
 
     /**
@@ -156,35 +177,6 @@ class GuestbookEntry extends DbModel
             return $stmt->execute([$this->getGuestbookEntryId()]);
         }
         return false;
-    }
-
-    /**
-     * @param int $id
-     * @return GuestbookEntry
-     * @throws Exception
-     */
-    public static function get(int $id): GuestbookEntry
-    {
-        return self::getObjectWhere('`guestbook_entry_id` = ?', [$id]);
-    }
-
-    /**
-     * @param string $identifier
-     * @return array
-     * @throws Exception
-     */
-    public static function getGuestbookEntries(string $identifier): array
-    {
-        return self::getWhere('`guestbook_identifier` = ?', [$identifier]);
-    }
-
-    /**
-     * @return GuestbookEntry[]
-     * @throws Exception
-     */
-    public static function getAll(): array
-    {
-        return self::getWhere();
     }
 
     /**

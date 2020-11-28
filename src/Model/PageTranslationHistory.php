@@ -187,18 +187,28 @@ class PageTranslationHistory extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return PageTranslationHistory
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): PageTranslationHistory
+    {
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
+        }
+        return new PageTranslationHistory();
+    }
+
+    /**
      * @param int $id
      * @return PageTranslationHistory
      * @throws \Exception
      */
     public static function get(int $id): PageTranslationHistory
     {
-        $elems = self::getWhere('`t`.`page_translation_history_id` = ?', [$id]);
-        if (sizeof($elems) == 1) {
-            return reset($elems);
-        } else {
-            return new PageTranslationHistory();
-        }
+        return self::getObjectWhere('`t`.`page_translation_history_id` = ?', [$id]);
     }
 
     /**

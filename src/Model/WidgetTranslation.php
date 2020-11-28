@@ -73,63 +73,12 @@ class WidgetTranslation extends DbModel
     }
 
     /**
-     * @param int $id
-     * @return WidgetTranslation
-     * @throws \Exception
-     */
-    public static function get(int $id): WidgetTranslation
-    {
-        $stmt = self::getPDO()->prepare("
-            SELECT
-                `t`.`widget_translation_id`,
-                `t`.`fk_widget_id`,
-                `t`.`content`,
-                `t`.`enabled`,
-                `t`.`created_at`,
-                `t`.`updated_at`,
-                `l`.`language_id`,
-                `l`.`locale`,
-                `l`.`description`,
-                `l`.`enabled` AS 'l_enabled',
-                `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at'
-            
-            FROM `cms__widget_translation` `t`
-              
-            INNER JOIN `cms__language` `l`
-            ON `t`.fk_language_id = `l`.language_id
-            
-            WHERE `t`.`widget_translation_id` = ?
-        ");
-        $stmt->execute([$id]);
-        $widgetTranslation = $stmt->fetchObject();
-        if ($widgetTranslation) {
-            return new WidgetTranslation(
-                $widgetTranslation->widget_translation_id,
-                Widget::get($widgetTranslation->fk_widget_id),
-                new Language(
-                    $widgetTranslation->language_id,
-                    $widgetTranslation->locale,
-                    $widgetTranslation->description,
-                    $widgetTranslation->l_enabled,
-                    $widgetTranslation->l_created_at,
-                    $widgetTranslation->l_updated_at
-                ),
-                $widgetTranslation->content ?: '',
-                $widgetTranslation->enabled,
-                $widgetTranslation->created_at,
-                $widgetTranslation->updated_at
-            );
-        }
-        return new WidgetTranslation();
-    }
-
-    /**
-     * @param Widget $widget
+     * @param string $where
+     * @param array $args
      * @return WidgetTranslation[]
      * @throws \Exception
      */
-    public static function getWidgetTranslations(Widget $widget): array
+    public static function getWhere(string $where = '', array $args = []): array
     {
         $arr = [];
         $stmt = self::getPDO()->prepare("
@@ -151,31 +100,68 @@ class WidgetTranslation extends DbModel
             INNER JOIN `cms__language` `l`
             ON `t`.fk_language_id = `l`.language_id
             
-            WHERE `t`.`fk_widget_id` = ?
+            " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
-        $stmt->execute([$widget->getWidgetId()]);
-        $widgetTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
-        if (sizeof($widgetTranslations) > 0) {
-            foreach ($widgetTranslations as $widgetTranslation) {
-                $arr[$widgetTranslation->locale] = new WidgetTranslation(
-                    $widgetTranslation->widget_translation_id,
-                    $widget,
-                    new Language(
-                        $widgetTranslation->language_id,
-                        $widgetTranslation->locale,
-                        $widgetTranslation->description,
-                        $widgetTranslation->l_enabled,
-                        $widgetTranslation->l_created_at,
-                        $widgetTranslation->l_updated_at
-                    ),
-                    $widgetTranslation->content ?: '',
-                    $widgetTranslation->enabled,
-                    $widgetTranslation->created_at,
-                    $widgetTranslation->updated_at
-                );
+        if ($stmt instanceof \PDOStatement) {
+            $stmt->execute($args);
+            $widgetTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            if (sizeof($widgetTranslations) > 0) {
+                foreach ($widgetTranslations as $widgetTranslation) {
+                    $arr[$widgetTranslation->locale] = new WidgetTranslation(
+                        $widgetTranslation->widget_translation_id,
+                        Widget::get($widgetTranslation->fk_widget_id),
+                        new Language(
+                            $widgetTranslation->language_id,
+                            $widgetTranslation->locale,
+                            $widgetTranslation->description,
+                            $widgetTranslation->l_enabled,
+                            $widgetTranslation->l_created_at,
+                            $widgetTranslation->l_updated_at
+                        ),
+                        $widgetTranslation->content ?: '',
+                        $widgetTranslation->enabled,
+                        $widgetTranslation->created_at,
+                        $widgetTranslation->updated_at
+                    );
+                }
             }
         }
         return $arr;
+    }
+
+    /**
+     * @param string $where
+     * @param array $args
+     * @return WidgetTranslation
+     * @throws \Exception
+     */
+    public static function getObjectWhere(string $where = '', array $args = []): WidgetTranslation
+    {
+        $arr = self::getWhere($where, $args);
+        if (sizeof($arr) > 0) {
+            return reset($arr);
+        }
+        return new WidgetTranslation();
+    }
+
+    /**
+     * @param int $id
+     * @return WidgetTranslation
+     * @throws \Exception
+     */
+    public static function get(int $id): WidgetTranslation
+    {
+        return self::getObjectWhere('`t`.`widget_translation_id` = ?', [$id]);
+    }
+
+    /**
+     * @param Widget $widget
+     * @return WidgetTranslation[]
+     * @throws \Exception
+     */
+    public static function getWidgetTranslations(Widget $widget): array
+    {
+        return self::getWhere('`t`.`fk_widget_id` = ?', [$widget->getWidgetId()]);
     }
 
     /**
@@ -185,49 +171,7 @@ class WidgetTranslation extends DbModel
      */
     public static function getDefaultWidgetTranslation(Widget $widget): WidgetTranslation
     {
-        $stmt = self::getPDO()->prepare("
-            SELECT
-                `t`.`widget_translation_id`,
-                `t`.`content`,
-                `t`.`enabled`,
-                `t`.`created_at`,
-                `t`.`updated_at`,
-                `l`.`language_id`,
-                `l`.`locale`,
-                `l`.`description`,
-                `l`.`enabled` AS 'l_enabled',
-                `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at'
-            
-            FROM `cms__widget_translation` `t`
-              
-            INNER JOIN `cms__language` `l`
-            ON `t`.fk_language_id = `l`.language_id
-            
-            WHERE `t`.`fk_widget_id` = ?
-            AND `l`.`language_id` = ?
-        ");
-        $stmt->execute([$widget->getWidgetId(), $widget->getLanguage()->getLanguageId()]);
-        $widgetTranslation = $stmt->fetchObject();
-        if ($widgetTranslation) {
-            return new WidgetTranslation(
-                $widgetTranslation->widget_translation_id,
-                $widget,
-                new Language(
-                    $widgetTranslation->language_id,
-                    $widgetTranslation->locale,
-                    $widgetTranslation->description,
-                    $widgetTranslation->l_enabled,
-                    $widgetTranslation->l_created_at,
-                    $widgetTranslation->l_updated_at
-                ),
-                $widgetTranslation->content ?: '',
-                $widgetTranslation->enabled,
-                $widgetTranslation->created_at,
-                $widgetTranslation->updated_at
-            );
-        }
-        return new WidgetTranslation();
+        return self::getObjectWhere('`t`.`fk_widget_id` = ? AND `l`.`language_id` = ?', [$widget->getWidgetId(), $widget->getLanguage()->getLanguageId()]);
     }
 
     /**
@@ -238,48 +182,9 @@ class WidgetTranslation extends DbModel
      */
     public static function getWidgetTranslation(Widget $widget, Language $language): WidgetTranslation
     {
-        $stmt = self::getPDO()->prepare("
-            SELECT
-                `t`.`widget_translation_id`,
-                `t`.`content`,
-                `t`.`enabled`,
-                `t`.`created_at`,
-                `t`.`updated_at`,
-                `l`.`language_id`,
-                `l`.`locale`,
-                `l`.`description`,
-                `l`.`enabled` AS 'l_enabled',
-                `l`.`created_at` AS 'l_created_at',
-                `l`.`updated_at` AS 'l_updated_at'
-            
-            FROM `cms__widget_translation` `t`
-              
-            INNER JOIN `cms__language` `l`
-            ON `t`.fk_language_id = `l`.language_id
-            
-            WHERE `t`.`enabled` = 1
-            AND `t`.`fk_widget_id` = ?
-            AND `l`.`language_id` = ?
-        ");
-        $stmt->execute([$widget->getWidgetId(), $language->getLanguageId()]);
-        $widgetTranslation = $stmt->fetchObject();
-        if ($widgetTranslation) {
-            return new WidgetTranslation(
-                $widgetTranslation->widget_translation_id,
-                $widget,
-                new Language(
-                    $widgetTranslation->language_id,
-                    $widgetTranslation->locale,
-                    $widgetTranslation->description,
-                    $widgetTranslation->l_enabled,
-                    $widgetTranslation->l_created_at,
-                    $widgetTranslation->l_updated_at
-                ),
-                $widgetTranslation->content ?: '',
-                $widgetTranslation->enabled,
-                $widgetTranslation->created_at,
-                $widgetTranslation->updated_at
-            );
+        $obj = self::getObjectWhere('`t`.`enabled` = 1 AND `t`.`fk_widget_id` = ? AND `l`.`language_id` = ?', [$widget->getWidgetId(), $language->getLanguageId()]);
+        if ($obj->getWidgetTranslationId() > 0) {
+            return $obj;
         }
         return self::getDefaultWidgetTranslation($widget);
     }
