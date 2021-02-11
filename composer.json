@@ -42,7 +42,8 @@
     "dflydev/fig-cookies": "^2.0",
     "select2/select2": "^4.0",
     "datatables/datatables": "^1.10",
-    "nnnick/chartjs": "^2.9"
+    "nnnick/chartjs": "^2.9",
+    "ext-curl": "*"
   },
   "autoload": {
     "psr-4": {
