@@ -2,7 +2,7 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}Konfiguration{% endblock %}
+{% block title %}System{% endblock %}
 
 {% set pageSelect = [] %}
 {% for page in pages %}
@@ -39,14 +39,49 @@
             </button>
         </div>
     {% endif %}
-    <form method="post" id="page-form">
-        {{ forms.form_group('checkbox', 'maintenance_mode', config.maintenance_mode, 'Wartungsmodus', '', 'maintenance_mode' in errors ? 'is-invalid' : '', 'Im Wartungsmodus wird eine statische Seite angezeigt.') }}
-        {{ forms.form_group('checkbox', 'enable_tracking', config.enable_tracking, 'Statistiken', '', 'enable_tracking' in errors ? 'is-invalid' : '', 'Seitenbesuche werden aufgezeichnet und in Statistiken auf dem Dashboard zusammengefasst') }}
-        {{ forms.form_group('select', 'default_page', config.default_page, 'Startseite', '', 'default_page' in errors ? 'is-invalid' : '', 'Startseite deiner Webseite', pageSelect) }}
-        {{ forms.form_group('text', 'admin_route', config.admin_route, 'Admin-Pfad', '', 'admin_route' in errors ? 'is-invalid' : '', 'Pfad des Adminbereichs') }}
-        {{ forms.form_group('number', 'max_failed_logins', config.max_failed_logins, 'Login Fehlversuche', '', 'max_failed_logins' in errors ? 'is-invalid' : '', 'Maximale Anzahl Fehlversuche bevor ein Benutzer gesperrt wird') }}
-        <div class="text-right mb-4">
-            <button class="btn btn-primary" name="save">Speichern</button>
+
+    <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="config-tab" data-toggle="tab" href="#tab-config" role="tab" aria-controls="tab-config" aria-selected="true">Konfiguration</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="sysinfo-tab" data-toggle="tab" href="#tab-sysinfo" role="tab" aria-controls="tab-sysinfo" aria-selected="true">Systeminformation</a>
+        </li>
+    </ul>
+    <div class="tab-content mt-4" id="myTabContent">
+        <div class="tab-pane fade show active" id="tab-config" role="tabpanel" aria-labelledby="config-tab">
+            <form method="post" id="page-form">
+                {{ forms.form_group('checkbox', 'maintenance_mode', config.maintenance_mode, 'Wartungsmodus', '', 'maintenance_mode' in errors ? 'is-invalid' : '', 'Im Wartungsmodus wird eine statische Seite angezeigt.') }}
+                {{ forms.form_group('checkbox', 'enable_tracking', config.enable_tracking, 'Statistiken', '', 'enable_tracking' in errors ? 'is-invalid' : '', 'Seitenbesuche werden aufgezeichnet und in Statistiken auf dem Dashboard zusammengefasst') }}
+                {{ forms.form_group('select', 'default_page', config.default_page, 'Startseite', '', 'default_page' in errors ? 'is-invalid' : '', 'Startseite deiner Webseite', pageSelect) }}
+                {{ forms.form_group('text', 'admin_route', config.admin_route, 'Admin-Pfad', '', 'admin_route' in errors ? 'is-invalid' : '', 'Pfad des Adminbereichs') }}
+                {{ forms.form_group('number', 'max_failed_logins', config.max_failed_logins, 'Login Fehlversuche', '', 'max_failed_logins' in errors ? 'is-invalid' : '', 'Maximale Anzahl Fehlversuche bevor ein Benutzer gesperrt wird') }}
+                <div class="text-right mb-4">
+                    <button class="btn btn-primary" name="save">Speichern</button>
+                </div>
+            </form>
         </div>
-    </form>
+        <div class="tab-pane fade" id="tab-sysinfo" role="tabpanel" aria-labelledby="sysinfo-tab">
+            {% if sysinfo.update %}
+                <div class="alert alert-info mx-0 row" role="alert">
+                    <div class="col-8 align-middle p-0 pt-1">
+                        CMS-Update verfügbar: {{ sysinfo.update.current }} -> {{ sysinfo.update.latest }}
+                    </div>
+                    <div class="col-4 text-right p-0">
+                        <a target="_blank" href="https://github.com/dominicgisler/gislercms/releases/download/{{ sysinfo.update.latest }}/gislercms_{{ sysinfo.update.latest }}.zip" class="btn btn-primary btn-sm"><i class="fa fa-download mr-1"></i> Download</a>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    {% for key, val in sysinfo.data %}
+                        <tr>
+                            <th>{{ key }}</th>
+                            <td>{{ val|raw }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

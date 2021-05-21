@@ -142,10 +142,10 @@ return [
                 'title' => 'Verschiedenes',
                 'items' => [
                     [
-                        'route' => 'admin-misc-config',
-                        'label' => 'Konfiguration',
+                        'route' => 'admin-misc-system',
+                        'label' => 'System',
                         'icon' => 'fa-cogs',
-                        'href' => '{admin_url}/misc/config'
+                        'href' => '{admin_url}/misc/system'
                     ],
                     [
                         'route' => ['admin-misc-language-list', 'admin-misc-language-edit'],
@@ -166,10 +166,10 @@ return [
                         'href' => '{admin_url}/misc/migration'
                     ],
                     [
-                        'route' => 'admin-misc-sysinfo',
-                        'label' => 'Systeminformation',
-                        'icon' => 'fa-info-circle',
-                        'href' => '{admin_url}/misc/sysinfo'
+                        'route' => 'admin-misc-license',
+                        'label' => 'Lizenz',
+                        'icon' => 'fa-info',
+                        'href' => '{admin_url}/misc/license'
                     ]
                 ]
             ]
