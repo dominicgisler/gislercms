@@ -2,7 +2,7 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}Datenbank-Update{% endblock %}
+{% block title %}{{ 'Datenbank-Update'|trans }}{% endblock %}
 
 {% block content %}
     {% if messages|length > 0 %}
@@ -12,9 +12,9 @@
                     <strong>{{ key }}</strong><br>
                     {{ message.message }}<br><br>
                 {% endfor %}
-                Es sind Fehler aufgetregen, bitte versuche es erneut.
+                {{ 'Es sind Fehler aufgetregen, bitte versuche es erneut.'|trans }}
             {% else %}
-                Datenbank-Update erfolgreich
+                {{ 'Datenbank-Update erfolgreich'|trans }}
             {% endif %}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -26,9 +26,9 @@
         <table class="table">
             <thead class="thead-light">
                 <tr>
-                    <th>Name</th>
-                    <th>Beschreibung</th>
-                    <th>Status</th>
+                    <th>{{ 'Name'|trans }}</th>
+                    <th>{{ 'Beschreibung'|trans }}</th>
+                    <th>{{ 'Status'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,7 +41,7 @@
                                 <i class="fa fa-check fa-fw"></i> {{ val.done|date('d.m.Y H:i:s') }}
                             {% else %}
                                 {% set hasUpdate = true %}
-                                <i class="fa fa-times fa-fw"></i> Ausstehend
+                                <i class="fa fa-times fa-fw"></i> {{ 'Ausstehend'|trans }}
                             {% endif %}
                         </td>
                     </tr>
@@ -50,7 +50,7 @@
         </table>
         {% if hasUpdate %}
             <div class="text-right mb-4">
-                <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#confirmUpdate">Update durchführen</button>
+                <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#confirmUpdate">{{ 'Update durchführen'|trans }}</button>
             </div>
         {% endif %}
     </div>
@@ -61,19 +61,19 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="confirmUpdateLabel">Update durchführen</h5>
+                        <h5 class="modal-title" id="confirmUpdateLabel">{{ 'Update durchführen'|trans }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Möchtest du das Datenbank-Update durchführen?<br><br>
-                        Bitte beachte, dass du vor einem Update unbedingt ein Backup deiner aktuellen Datenbank erstellen solltest.<br>
-                        Auch wenn der Update-Prozess grundsätzlich fehlerfrei verlaufen sollte können allfällige Fehler nicht ausgeschlossen werden.
+                        {{ 'Möchtest du das Datenbank-Update durchführen?'|trans }}<br><br>
+                        {{ 'Bitte beachte, dass du vor einem Update unbedingt ein Backup deiner aktuellen Datenbank erstellen solltest.'|trans }}<br>
+                        {{ 'Auch wenn der Update-Prozess grundsätzlich fehlerfrei verlaufen sollte können allfällige Fehler nicht ausgeschlossen werden.'|trans }}
                     </div>
                     <form method="post" class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                        <button type="submit" name="update" class="btn btn-primary">Ja, Update durchführen</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="submit" name="update" class="btn btn-primary">{{ 'Ja, Update durchführen'|trans }}</button>
                     </form>
                 </div>
             </div>

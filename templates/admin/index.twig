@@ -5,20 +5,20 @@
 {% block content %}
     {% if not tracking %}
         <div class="alert alert-warning" role="alert">
-            Die Aufzeichung von Statistiken ist deaktiviert! Dies kann in der <a href="{{ admin_url }}/misc/config">Konfiguration</a> angepasst werden.
+            {{ 'Die Aufzeichung von Statistiken ist deaktiviert!'|trans }} {{ 'Dies kann in der %s angepasst werden.'|trans|format('<a href="' ~ admin_url ~ '/misc/system">' ~ 'Konfiguration'|trans ~ '</a>')|raw }}
         </div>
     {% endif %}
     <div class="alert alert-info mx-0 row" role="alert">
         <div class="col-8 align-middle p-0 pt-1">
             {% if not calculation_date %}
-                Statistiken wurden noch nicht berechnet.
+                {{ 'Statistiken wurden noch nicht berechnet.'|trans }}
             {% else %}
-                Letzte Aktualisierung der Statistiken: {{ calculation_date|date('d.m.Y H:i:s') }}
+                {{ 'Letzte Aktualisierung der Statistiken: %s'|trans|format(calculation_date|date('d.m.Y H:i:s')) }}
             {% endif %}
         </div>
         <div class="col-4 text-right p-0">
             <form method="post">
-                <button type="submit" name="calculate" class="btn btn-primary btn-sm"><i class="fa fa-sync-alt mr-1"></i> Aktualisieren</button>
+                <button type="submit" name="calculate" class="btn btn-primary btn-sm"><i class="fa fa-sync-alt mr-1"></i> {{ 'Aktualisieren'|trans }}</button>
             </form>
         </div>
     </div>
@@ -28,7 +28,7 @@
                 <div class="card-body text-right">
                     <i class="fa fa-user fa-5x float-left"></i>
                     <p class="card-title h2">{{ stats.counts.clients }}</p>
-                    <p class="card-text h6">Besucher</p>
+                    <p class="card-text h6">{{ 'Besucher'|trans }}</p>
                 </div>
             </a>
         </div>
@@ -37,7 +37,7 @@
                 <div class="card-body text-right">
                     <i class="fa fa-user fa-5x float-left"></i>
                     <p class="card-title h2">{{ stats.counts.real_clients }}</p>
-                    <p class="card-text h6">Echte Besucher</p>
+                    <p class="card-text h6">{{ 'Echte Besucher'|trans }}</p>
                 </div>
             </a>
         </div>
@@ -46,7 +46,7 @@
                 <div class="card-body text-right">
                     <i class="fa fa-eye fa-5x float-left"></i>
                     <p class="card-title h2">{{ stats.counts.sessions }}</p>
-                    <p class="card-text h6">Seitenbesuche</p>
+                    <p class="card-text h6">{{ 'Seitenbesuche'|trans }}</p>
                 </div>
             </a>
         </div>
@@ -55,21 +55,21 @@
                 <div class="card-body text-right">
                     <i class="fa fa-chart-line fa-5x float-left"></i>
                     <p class="card-title h2">{{ stats.counts.visits }}</p>
-                    <p class="card-text h6">Seitenaufrufe</p>
+                    <p class="card-text h6">{{ 'Seitenaufrufe'|trans }}</p>
                 </div>
             </a>
         </div>
         <div class="col-md-6">
             <div class="card mb-3">
                 <div class="card-body">
-                    <h3>Seiten</h3>
+                    <h3>{{ 'Seiten'|trans }}</h3>
                     <table class="table table-bordered table-responsive-xs datatable" data-order='[[ 3, "desc" ]]'>
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Sprache</th>
-                            <th>Parameter</th>
-                            <th>Aufrufe</th>
+                            <th>{{ 'Name'|trans }}</th>
+                            <th>{{ 'Sprache'|trans }}</th>
+                            <th>{{ 'Parameter'|trans }}</th>
+                            <th>{{ 'Aufrufe'|trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -89,19 +89,19 @@
         <div class="col-xl-3 col-sm-6">
             <div class="card mb-3">
                 <div class="card-body">
-                    <h3>Betriebssysteme</h3>
+                    <h3>{{ 'Betriebssysteme'|trans }}</h3>
                     <table class="table table-bordered datatable" data-order='[[ 1, "desc" ]]' data-searching="false"
                            data-paging="false">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Besuche</th>
+                            <th>{{ 'Name'|trans }}</th>
+                            <th>{{ 'Besuche'|trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for platform, visits in stats.platforms %}
                             <tr>
-                                <td>{{ platform ?: 'Unbekannt' }}</td>
+                                <td>{{ platform ?: 'Unbekannt'|trans }}</td>
                                 <td>{{ visits }}</td>
                             </tr>
                         {% endfor %}
@@ -113,19 +113,19 @@
         <div class="col-xl-3 col-sm-6">
             <div class="card mb-3">
                 <div class="card-body">
-                    <h3>Browser</h3>
+                    <h3>{{ 'Browser'|trans }}</h3>
                     <table class="table table-bordered datatable" data-order='[[ 1, "desc" ]]' data-searching="false"
                            data-paging="false">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Besuche</th>
+                            <th>{{ 'Name'|trans }}</th>
+                            <th>{{ 'Besuche'|trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for browser, visits in stats.browsers %}
                             <tr>
-                                <td>{{ browser ?: 'Unbekannt' }}</td>
+                                <td>{{ browser ?: 'Unbekannt'|trans }}</td>
                                 <td>{{ visits }}</td>
                             </tr>
                         {% endfor %}
@@ -137,19 +137,19 @@
         <div class="col-12">
             <div class="card mb-3">
                 <div class="card-body">
-                    <h3>Statistiken</h3>
+                    <h3>{{ 'Statistiken'|trans }}</h3>
                     <ul class="nav nav-tabs" id="tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link" id="year-tab" data-toggle="tab" href="#year-tab-content" role="tab" aria-controls="year" aria-selected="true">Jahre</a>
+                            <a class="nav-link" id="year-tab" data-toggle="tab" href="#year-tab-content" role="tab" aria-controls="year" aria-selected="true">{{ 'Jahre'|trans }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="month-tab" data-toggle="tab" href="#month-tab-content" role="tab" aria-controls="month" aria-selected="false">Monate</a>
+                            <a class="nav-link" id="month-tab" data-toggle="tab" href="#month-tab-content" role="tab" aria-controls="month" aria-selected="false">{{ 'Monate'|trans }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="day-tab" data-toggle="tab" href="#day-tab-content" role="tab" aria-controls="day" aria-selected="false">Tage</a>
+                            <a class="nav-link" id="day-tab" data-toggle="tab" href="#day-tab-content" role="tab" aria-controls="day" aria-selected="false">{{ 'Tage'|trans }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="hour-tab" data-toggle="tab" href="#hour-tab-content" role="tab" aria-controls="hour" aria-selected="false">Stunden</a>
+                            <a class="nav-link" id="hour-tab" data-toggle="tab" href="#hour-tab-content" role="tab" aria-controls="hour" aria-selected="false">{{ 'Stunden'|trans }}</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="statistics-tabs">
@@ -184,21 +184,21 @@
                     labels: ctx.data('labels'),
                     datasets: [
                         {
-                            label: 'Neue Besucher',
+                            label: '{{ 'Neue Besucher'|trans }}',
                             data: ctx.data('counts').clients,
                             lineTension: 0,
                             backgroundColor: '#007bff',
                             borderWidth: 4
                         },
                         {
-                            label: 'Besuche',
+                            label: '{{ 'Besuche'|trans }}',
                             data: ctx.data('counts').sessions,
                             lineTension: 0,
                             backgroundColor: '#17a2b8',
                             borderWidth: 4
                         },
                         {
-                            label: 'Aufrufe',
+                            label: '{{ 'Aufrufe'|trans }}',
                             data: ctx.data('counts').visits,
                             lineTension: 0,
                             backgroundColor: '#6c757d',

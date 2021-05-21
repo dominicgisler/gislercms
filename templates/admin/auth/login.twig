@@ -1,6 +1,6 @@
 {% extends 'admin/layout.twig' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}{{ 'Login'|trans }}{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ base_url() }}/css/admin/login.min.css">
@@ -13,23 +13,23 @@
             <h1 class="h3 mb-3 font-weight-normal">GislerCMS</h1>
             {% if error %}
                 <div class="alert alert-danger" role="alert">
-                    Bitte überprüfe deine Eingaben!
+                    {{ 'Bitte überprüfe deine Eingaben!'|trans }}
                 </div>
             {% endif %}
         </div>
 
         <div class="form-label-group">
-            <input type="text" id="inputUser" name="username" class="form-control" placeholder="Username" value="{{ username }}" required autofocus>
-            <label for="inputUser">Username</label>
+            <input type="text" id="inputUser" name="username" class="form-control" placeholder="{{ 'Benutzername'|trans }}" value="{{ username }}" required autofocus>
+            <label for="inputUser">{{ 'Benutzername'|trans }}</label>
         </div>
 
         <div class="form-label-group">
-            <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Passwort" required>
-            <label for="inputPassword">Passwort</label>
+            <input type="password" id="inputPassword" name="password" class="form-control" placeholder="{{ 'Passwort'|trans }}" required>
+            <label for="inputPassword">{{ 'Passwort'|trans }}</label>
         </div>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Anmelden</button>
-        <a href="{{ admin_url }}/forgot-password" class="btn btn-lg btn-secondary btn-block">Passwort vergessen</a>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'Anmelden'|trans }}</button>
+        <a href="{{ admin_url }}/forgot-password" class="btn btn-lg btn-secondary btn-block">{{ 'Passwort vergessen'|trans }}</a>
         <p class="mt-5 mb-3 text-muted text-center">&copy; {{ now|date('Y') }} Gisler Software</p>
     </form>
 {% endblock %}

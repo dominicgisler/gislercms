@@ -66,6 +66,10 @@ class ManageController extends AbstractController
                 ]);
             }
         }
-        return $this->render($request, $response, 'admin/module/not-found.twig');
+
+        $modules = Module::getAll();
+        return $this->render($request, $response, 'admin/module/not-found.twig', [
+            'modules' => $modules
+        ]);
     }
 }

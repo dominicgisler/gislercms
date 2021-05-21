@@ -1,7 +1,7 @@
 {% extends 'admin/content.twig' %}
 
-{% block title %}Filemanager{% endblock %}
+{% block title %}{{ 'Dateiverwaltung'|trans }}{% endblock %}
 
 {% block content %}
-    <iframe class="border" frameborder="0" src="{{ base_url }}/editor/filemanager/dialog.php" width="100%" onload="this.height = window.innerHeight - 160;">Iframe kann nicht angezeigt werden!</iframe>
+    <iframe class="border" frameborder="0" src="{{ base_url }}/editor/filemanager/dialog.php" width="100%" onload="this.height = window.innerHeight - 160;">{{ 'Iframe kann nicht angezeigt werden!'|trans }}</iframe>
 {% endblock %}

@@ -2,29 +2,29 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}Neues Modul erstellen{% endblock %}
+{% block title %}{{ 'Neues Modul erstellen'|trans }}{% endblock %}
 
 {%
     set messages = {
         invalid_input: {
             class: 'danger',
-            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'|trans
         },
         save_error: {
             class: 'danger',
-            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'|trans
         },
         save_success: {
             class: 'success',
-            message: 'Das Modul wurde erfolgreich gespeichert.'
+            message: 'Das Modul wurde erfolgreich gespeichert.'|trans
         },
         delete_success: {
             class: 'success',
-            message: 'Das Modul wurde erfolgreich gelöscht.'
+            message: 'Das Modul wurde erfolgreich gelöscht.'|trans
         },
         delete_error: {
             class: 'danger',
-            message: 'Beim Löschen ist ein Fehler aufgetreten, bitte versuche es später erneut.'
+            message: 'Beim Löschen ist ein Fehler aufgetreten, bitte versuche es später erneut.'|trans
         }
     }
 %}
@@ -48,10 +48,10 @@
         </div>
     {% endif %}
     <form method="post" id="page-form">
-        {{ forms.form_group('text', 'name', module.name, 'Name', '', 'name' in errors ? 'is-invalid' : '', 'Interne Bezeichnung des Modules') }}
-        {{ forms.form_group('select', 'controller', module.controller, 'Typ', '', 'controller' in errors ? 'is-invalid' : '', '', contSelect) }}
+        {{ forms.form_group('text', 'name', module.name, 'Name'|trans, '', 'name' in errors ? 'is-invalid' : '', 'Interne Bezeichnung des Modules'|trans) }}
+        {{ forms.form_group('select', 'controller', module.controller, 'Typ'|trans, '', 'controller' in errors ? 'is-invalid' : '', '', contSelect) }}
         <div class="text-right mb-4">
-            <button class="btn btn-primary" name="save">Speichern</button>
+            <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
         </div>
     </form>
 {% endblock %}

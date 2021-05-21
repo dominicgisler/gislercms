@@ -1,6 +1,6 @@
 {% extends 'admin/content.twig' %}
 
-{% block title %}Beitrags-Papierkorb{% endblock %}
+{% block title %}{{ 'Beitrags-Papierkorb'|trans }}{% endblock %}
 
 {% block content %}
     <form method="post">
@@ -8,7 +8,7 @@
             <thead>
                 <tr>
                     <th scope="col" style="width: 50px;"></th>
-                    <th scope="col">Name</th>
+                    <th scope="col">{{ 'Name'|trans }}</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -29,31 +29,31 @@
                     <tr>
                         <td></td>
                         <td colspan="2">
-                            Der Papierkorb ist leer
+                            {{ 'Der Papierkorb ist leer'|trans }}
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
         <div class="text-right">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmRestore">Wiederherstellen</button>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete">Löschen</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmRestore">{{ 'Wiederherstellen'|trans }}</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete">{{ 'Löschen'|trans }}</button>
         </div>
         <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="confirmDeleteLabel">Beiträge löschen</h5>
+                        <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Beiträge löschen'|trans }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Möchtest du die ausgewählten Beiträge wirklich unwiderruflich löschen?
+                        {{ 'Möchtest du die ausgewählten Beiträge wirklich unwiderruflich löschen?'|trans }}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                        <button type="submit" name="delete" class="btn btn-danger">Beiträge löschen</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="submit" name="delete" class="btn btn-danger">{{ 'Beiträge löschen'|trans }}</button>
                     </div>
                 </div>
             </div>
@@ -62,17 +62,17 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="confirmRestoreLabel">Beiträge wiederherstellen</h5>
+                        <h5 class="modal-title" id="confirmRestoreLabel">{{ 'Beiträge wiederherstellen'|trans }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Möchtest du die ausgewählten Beiträge wirklich wiederherstellen?
+                        {{ 'Möchtest du die ausgewählten Beiträge wirklich wiederherstellen?'|trans }}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                        <button type="submit" name="restore" class="btn btn-primary">Beiträge wiederherstellen</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="submit" name="restore" class="btn btn-primary">{{ 'Beiträge wiederherstellen'|trans }}</button>
                     </div>
                 </div>
             </div>

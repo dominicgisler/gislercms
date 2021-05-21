@@ -88,7 +88,7 @@ class SystemController extends AbstractController
                     $msg = 'save_error';
                 } else {
                     $cont->offsetSet('config_saved', true);
-                    return $response->withRedirect($this->get('base_url') . $data['admin_route'] . '/misc/config');
+                    return $response->withRedirect($this->get('base_url') . $data['admin_route'] . '/misc/system');
                 }
             } else {
                 $msg = 'invalid_input';

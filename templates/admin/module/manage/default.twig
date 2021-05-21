@@ -4,15 +4,15 @@
     set messages = {
         invalid_input: {
             class: 'danger',
-            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'|trans
         },
         save_error: {
             class: 'danger',
-            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'|trans
         },
         save_success: {
             class: 'success',
-            message: 'Die Konfiguration wurde erfolgreich gespeichert.'
+            message: 'Die Konfiguration wurde erfolgreich gespeichert.'|trans
         }
     }
 %}
@@ -27,9 +27,9 @@
 {% endif %}
 
 <form method="post" id="page-form">
-    {{ forms.form_group('json', 'config', module.config, 'Konfiguration', '', 'config' in errors ? 'is-invalid' : '') }}
+    {{ forms.form_group('json', 'config', module.config, 'Konfiguration'|trans, '', 'config' in errors ? 'is-invalid' : '') }}
     <div class="text-right mb-4">
-        <button class="btn btn-primary" name="save">Speichern</button>
+        <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
     </div>
 </form>
 

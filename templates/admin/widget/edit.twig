@@ -2,7 +2,7 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}{% if widget.getWidgetId() > 0 %}Widget bearbeiten{% else %}Neues Widget{% endif %}{% endblock %}
+{% block title %}{% if widget.getWidgetId() > 0 %}{{ 'Widget bearbeiten'|trans }}{% else %}{{ 'Neues Widget'|trans }}{% endif %}{% endblock %}
 
 {% set languageSelect = [] %}
 {% for language in languages %}
@@ -19,19 +19,19 @@
     set messages = {
         invalid_input: {
             class: 'danger',
-            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'|trans
         },
         save_error: {
             class: 'danger',
-            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'|trans
         },
         save_success: {
             class: 'success',
-            message: 'Das Widget wurde erfolgreich gespeichert.'
+            message: 'Das Widget wurde erfolgreich gespeichert.'|trans
         },
         is_trash: {
             class: 'warning',
-            message: 'Dieses Widget befindet sich im Papierkorb, speichere es um es wiederherzustellen.'
+            message: 'Dieses Widget befindet sich im Papierkorb, speichere es um es wiederherzustellen.'|trans
         }
     }
 %}
@@ -49,10 +49,10 @@
         </div>
     {% endif %}
     <form method="post" id="widget-form">
-        {{ forms.form_group('text', 'widget[name]', widget.name, 'Name', '', 'name' in errors ? 'is-invalid' : '', 'Nur als interne Bezeichnung') }}
-        {{ forms.form_group('select', 'widget[language]', widget.language, 'Standardsprache', '', 'language' in errors ? 'is-invalid' : '', '', languageSelect) }}
-        {{ forms.form_group('checkbox', 'widget[enabled]', widget.enabled, 'Widget aktiviert') }}
-        <h2 class="h4 mt-4">Sprachen</h2>
+        {{ forms.form_group('text', 'widget[name]', widget.name, 'Name'|trans, '', 'name' in errors ? 'is-invalid' : '', 'Nur als interne Bezeichnung'|trans) }}
+        {{ forms.form_group('select', 'widget[language]', widget.language, 'Standardsprache'|trans, '', 'language' in errors ? 'is-invalid' : '', '', languageSelect) }}
+        {{ forms.form_group('checkbox', 'widget[enabled]', widget.enabled, 'Widget aktiviert'|trans) }}
+        <h2 class="h4 mt-4">{{ 'Sprachen'|trans }}</h2>
         <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
             {% for language in languages %}
                 {% if language.isEnabled() %}
@@ -66,22 +66,22 @@
             {% for language in languages %}
                 {% if language.isEnabled() %}
                     <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="lang-{{ language.locale }}" role="tabpanel" aria-labelledby="{{ language.locale }}-tab">
-                        {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', translations[language.locale].enabled, 'Übersetzung aktiviert') }}
-                        {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt', '', language.locale ~ '_content' in errors ? 'tinymce is-invalid' : 'tinymce') }}
+                        {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', translations[language.locale].enabled, 'Übersetzung aktiviert'|trans) }}
+                        {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt'|trans, '', language.locale ~ '_content' in errors ? 'tinymce is-invalid' : 'tinymce') }}
                         <div class="accordion mb-2" id="translation-history-{{ language.locale }}">
                             <div class="card">
                                 <div class="card-header" id="translation-history-{{ language.locale }}-heading">
                                     <a type="button" data-toggle="collapse" data-target="#translation-history-{{ language.locale }}-collapse" aria-expanded="true" aria-controls="translation-history-{{ language.locale }}-controls">
-                                        <i class="fa fa-plus mr-2"></i> Bearbeitungsverlauf
+                                        <i class="fa fa-plus mr-2"></i> {{ 'Bearbeitungsverlauf'|trans }}
                                     </a>
                                 </div>
                                 <div id="translation-history-{{ language.locale }}-collapse" class="collapse" aria-labelledby="translation-history-{{ language.locale }}-heading" data-parent="#translation-history-{{ language.locale }}">
                                     <table class="table">
                                         <thead>
                                         <tr>
-                                            <th>Überschieben am</th>
-                                            <th>von Benutzer</th>
-                                            <th class="text-right">Aktion</th>
+                                            <th>{{ 'Überschieben am'|trans }}</th>
+                                            <th>{{ 'von Benutzer'|trans }}</th>
+                                            <th class="text-right">{{ 'Aktion'|trans }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -90,7 +90,7 @@
                                                 <td>{{ trans.getCreatedAt()|date('d.m.Y H:i:s') }}</td>
                                                 <td>{{ trans.getUser().getDisplayName() }}</td>
                                                 <td class="text-right">
-                                                    <a href="#" class="view-history">Ansehen</a>
+                                                    <a href="#" class="view-history">{{ 'Ansehen'|trans }}</a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -104,8 +104,8 @@
             {% endfor %}
         </div>
         <div class="text-right mb-4">
-            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if widget.isTrash() %}Endgültig löschen{% else %}Löschen{% endif %}</button>
-            <button class="btn btn-primary" name="save">{% if widget.isTrash() %}Wiederherstellen{% else %}Speichern{% endif %}</button>
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if widget.isTrash() %}{{ 'Endgültig löschen'|trans }}{% else %}{{ 'Löschen'|trans }}{% endif %}</button>
+            <button class="btn btn-primary" name="save">{% if widget.isTrash() %}{{ 'Wiederherstellen'|trans }}{% else %}{{ 'Speichern'|trans }}{% endif %}</button>
         </div>
 
         {# confirm delete modal #}
@@ -113,17 +113,21 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="confirmDeleteLabel">Widget löschen</h5>
+                        <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Widget löschen'|trans }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Möchtest du das Widget wirklich{% if widget.isTrash() %} unwiderruflich{% endif %} löschen?
+                        {% if widget.isTrash() %}
+                            {{ 'Möchtest du das Widget wirklich unwiderruflich löschen?'|trans }}
+                        {% else %}
+                            {{ 'Möchtest du das Widget wirklich löschen?'|trans }}
+                        {% endif %}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                        <button type="submit" name="delete" class="btn btn-danger">Ja, Widget löschen</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="submit" name="delete" class="btn btn-danger">{{ 'Ja, Widget löschen'|trans }}</button>
                     </div>
                 </div>
             </div>
@@ -134,19 +138,19 @@
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="viewHistoryTitle">Bearbeitungsverlauf</h5>
+                        <h5 class="modal-title" id="viewHistoryTitle">{{ 'Bearbeitungsverlauf'|trans }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div id="history-data" class="d-none" data-locale=""></div>
-                        Inhalt:<br>
+                        {{ 'Inhalt:'|trans }}<br>
                         <div id="history-content" class="border p-2"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Schliessen</button>
-                        <button type="button" class="btn btn-primary restore-translation">Wiederherstellen</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Schliessen'|trans }}</button>
+                        <button type="button" class="btn btn-primary restore-translation">{{ 'Wiederherstellen'|trans }}</button>
                     </div>
                 </div>
             </div>

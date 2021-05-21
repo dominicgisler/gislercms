@@ -3,7 +3,7 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}{% if post.getPostId() == 0 %}Neuer Beitrag{% else %}Beitrag bearbeiten{% endif %}{% endblock %}
+{% block title %}{% if post.getPostId() == 0 %}{{ 'Neuer Beitrag'|trans }}{% else %}{{ 'Beitrag bearbeiten'|trans }}{% endif %}{% endblock %}
 
 {% set languageSelect = [] %}
 {% for language in languages %}
@@ -25,19 +25,19 @@
     set messages = {
         invalid_input: {
             class: 'danger',
-            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'|trans
         },
         save_error: {
             class: 'danger',
-            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'|trans
         },
         save_success: {
             class: 'success',
-            message: 'Der Beitrag wurde erfolgreich gespeichert.'
+            message: 'Der Beitrag wurde erfolgreich gespeichert.'|trans
         },
         is_trash: {
             class: 'warning',
-            message: 'Dieser Beitrag befindet sich im Papierkorb, speichere ihn um sie wiederherzustellen.'
+            message: 'Dieser Beitrag befindet sich im Papierkorb, speichere ihn um sie wiederherzustellen.'|trans
         }
     }
 %}
@@ -55,11 +55,11 @@
         </div>
     {% endif %}
     <form method="post" id="post-form">
-        {{ forms.form_group('text', 'post[name]', post.name, 'Name', '', 'name' in errors ? 'is-invalid' : '', 'Nur als interne Bezeichnung') }}
-        {{ forms.form_group('datetime-local', 'post[publish_at]', post.getPublishAt()|date('Y-m-d') ~ 'T' ~ post.getPublishAt()|date('H:i'), 'Veröffentlichen am', '', 'publish_at' in errors ? 'datetimepicker is-invalid' : 'datetimepicker', 'Ab diesem Zeitpunkt ist der Beitrag sichtbar') }}
-        {{ forms.form_group('select', 'post[language]', post.language, 'Standardsprache', '', 'language' in errors ? 'is-invalid' : '', '', languageSelect) }}
-        {{ forms.form_group('multiselect', 'post[categories][]', post.categories, 'Kategorien', '', 'categories' in errors ? 'select2 is-invalid' : 'select2', 'Kategorien dieses Beitrages', categorySelect) }}
-        {{ forms.form_group('checkbox', 'post[enabled]', post.enabled, 'Beitrag aktiviert') }}
+        {{ forms.form_group('text', 'post[name]', post.name, 'Name'|trans, '', 'name' in errors ? 'is-invalid' : '', 'Nur als interne Bezeichnung'|trans) }}
+        {{ forms.form_group('datetime-local', 'post[publish_at]', post.getPublishAt()|date('Y-m-d') ~ 'T' ~ post.getPublishAt()|date('H:i'), 'Veröffentlichen am'|trans, '', 'publish_at' in errors ? 'datetimepicker is-invalid' : 'datetimepicker', 'Ab diesem Zeitpunkt ist der Beitrag sichtbar'|trans) }}
+        {{ forms.form_group('select', 'post[language]', post.language, 'Standardsprache'|trans, '', 'language' in errors ? 'is-invalid' : '', '', languageSelect) }}
+        {{ forms.form_group('multiselect', 'post[categories][]', post.categories, 'Kategorien'|trans, '', 'categories' in errors ? 'select2 is-invalid' : 'select2', 'Kategorien dieses Beitrages'|trans, categorySelect) }}
+        {{ forms.form_group('checkbox', 'post[enabled]', post.enabled, 'Beitrag aktiviert'|trans) }}
         <h2 class="h4 mt-4">Attribute</h2>
         <div id="attributes">
             {{ attrRow.initialRow('post[attributes][0]', post.attributes[0].name, post.attributes[0].value) }}
@@ -84,22 +84,22 @@
             {% for language in languages %}
                 {% if language.isEnabled() %}
                     <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="lang-{{ language.locale }}" role="tabpanel" aria-labelledby="{{ language.locale }}-tab">
-                        {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', translations[language.locale].enabled, 'Übersetzung aktiviert') }}
-                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][name]', translations[language.locale].name, 'Beitragsname', '', language.locale ~ '_name' in errors ? 'is-invalid' : '', 'Der Name, welcher in der URL verwendet wird') }}
-                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][title]', translations[language.locale].title, 'Beitragstitel', '', language.locale ~ '_title' in errors ? 'is-invalid' : '', 'Der Titel, welcher im Browser angezeigt wird') }}
-                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_keywords]', translations[language.locale].metaKeywords, 'Suchbegriffe', '', language.locale ~ '_keywords' in errors ? 'is-invalid' : '', 'Begriffe, über welche dieser Beitrag gefunden werden soll (SEO), von Seite übernommen, falls leer') }}
-                        {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][meta_description]', translations[language.locale].metaDescription, 'Beschreibung', '', language.locale ~ '_description' in errors ? 'is-invalid' : '', 'Eine kurze Beschreibung des Beitraginhalts (SEO), von Seite übernommen, falls leer') }}
-                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_author]', translations[language.locale].metaAuthor, 'Autor', '', language.locale ~ '_author' in errors ? 'is-invalid' : '', 'Von Seite übernommen, falls leer') }}
-                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_copyright]', translations[language.locale].metaCopyright, 'Copyright', '', language.locale ~ '_copyright' in errors ? 'is-invalid' : '', 'Von Seite übernommen, falls leer') }}
-                        {{ forms.form_group('fileurl', 'translation[' ~ language.locale ~ '][meta_image]', translations[language.locale].metaImage, 'Titelbild', '', language.locale ~ '_image' in errors ? 'is-invalid' : '', 'Titelbild, wird z.B. beim Teilen auf Facebook dargestellt, von Seite übernommen, falls leer') }}
-                        {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt', '', language.locale ~ '_content' in errors ? 'tinymce is-invalid' : 'tinymce') }}
+                        {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', translations[language.locale].enabled, 'Übersetzung aktiviert'|trans) }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][name]', translations[language.locale].name, 'Beitragsname'|trans, '', language.locale ~ '_name' in errors ? 'is-invalid' : '', 'Der Name, welcher in der URL verwendet wird'|trans) }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][title]', translations[language.locale].title, 'Beitragstitel'|trans, '', language.locale ~ '_title' in errors ? 'is-invalid' : '', 'Der Titel, welcher im Browser angezeigt wird') }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_keywords]', translations[language.locale].metaKeywords, 'Suchbegriffe'|trans, '', language.locale ~ '_keywords' in errors ? 'is-invalid' : '', 'Begriffe, über welche dieser Beitrag gefunden werden soll (SEO), von Seite übernommen, falls leer'|trans) }}
+                        {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][meta_description]', translations[language.locale].metaDescription, 'Beschreibung'|trans, '', language.locale ~ '_description' in errors ? 'is-invalid' : '', 'Eine kurze Beschreibung des Beitraginhalts (SEO), von Seite übernommen, falls leer'|trans) }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_author]', translations[language.locale].metaAuthor, 'Autor'|trans, '', language.locale ~ '_author' in errors ? 'is-invalid' : '', 'Von Seite übernommen, falls leer'|trans) }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_copyright]', translations[language.locale].metaCopyright, 'Copyright'|trans, '', language.locale ~ '_copyright' in errors ? 'is-invalid' : '', 'Von Seite übernommen, falls leer'|trans) }}
+                        {{ forms.form_group('fileurl', 'translation[' ~ language.locale ~ '][meta_image]', translations[language.locale].metaImage, 'Titelbild'|trans, '', language.locale ~ '_image' in errors ? 'is-invalid' : '', 'Titelbild, wird z.B. beim Teilen auf Facebook dargestellt, von Seite übernommen, falls leer'|trans) }}
+                        {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt'|trans, '', language.locale ~ '_content' in errors ? 'tinymce is-invalid' : 'tinymce') }}
                     </div>
                 {% endif %}
             {% endfor %}
         </div>
         <div class="text-right mb-4">
-            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if post.isTrash() %}Endgültig löschen{% else %}Löschen{% endif %}</button>
-            <button class="btn btn-primary" name="save">{% if post.isTrash() %}Wiederherstellen{% else %}Speichern{% endif %}</button>
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if post.isTrash() %}{{ 'Endgültig löschen'|trans }}{% else %}{{ 'Löschen'|trans }}{% endif %}</button>
+            <button class="btn btn-primary" name="save">{% if post.isTrash() %}{{ 'Wiederherstellen'|trans }}{% else %}{{ 'Speichern'|trans }}{% endif %}</button>
         </div>
 
         {# confirm delete modal #}
@@ -107,17 +107,21 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="confirmDeleteLabel">Beitrag löschen</h5>
+                        <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Beitrag löschen'|trans }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Möchtest du den Beitrag wirklich{% if post.isTrash() %} unwiderruflich{% endif %} löschen?
+                        {% if post.isTrash() %}
+                            {{ 'Möchtest du den Beitrag wirklich unwiderruflich löschen?'|trans }}
+                        {% else %}
+                            {{ 'Möchtest du den Beitrag wirklich löschen?'|trans }}
+                        {% endif %}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                        <button type="submit" name="delete" class="btn btn-danger">Ja, Beitrag löschen</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="submit" name="delete" class="btn btn-danger">{{ 'Ja, Beitrag löschen'|trans }}</button>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}Standardwerte{% endblock %}
+{% block title %}{{ 'Standardwerte'|trans }}{% endblock %}
 
 {% set languageSelect = [] %}
 {% for language in languages %}
@@ -17,15 +17,15 @@
     set messages = {
         invalid_input: {
             class: 'danger',
-            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'|trans
         },
         save_error: {
             class: 'danger',
-            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'|trans
         },
         save_success: {
             class: 'success',
-            message: 'Die Standartwerte wurden erfolgreich gespeichert.'
+            message: 'Die Standartwerte wurden erfolgreich gespeichert.'|trans
         }
     }
 %}
@@ -40,13 +40,13 @@
         </div>
     {% endif %}
     <form method="post" id="page-form">
-        {{ forms.form_group('text', 'meta_keywords', config.meta_keywords, 'Suchbegriffe', '', 'meta_keywords' in errors ? 'is-invalid' : '') }}
-        {{ forms.form_group('text', 'meta_description', config.meta_description, 'Beschreibung', '', 'meta_description' in errors ? 'is-invalid' : '') }}
-        {{ forms.form_group('text', 'meta_author', config.meta_author, 'Autor', '', 'meta_author' in errors ? 'is-invalid' : '') }}
-        {{ forms.form_group('text', 'meta_copyright', config.meta_copyright, 'Copyright', '', 'meta_copyright' in errors ? 'is-invalid' : '') }}
-        {{ forms.form_group('select', 'default_language', config.default_language, 'Standardsprache', '', 'default_language' in errors ? 'is-invalid' : '', '', languageSelect) }}
+        {{ forms.form_group('text', 'meta_keywords', config.meta_keywords, 'Suchbegriffe'|trans, '', 'meta_keywords' in errors ? 'is-invalid' : '') }}
+        {{ forms.form_group('text', 'meta_description', config.meta_description, 'Beschreibung'|trans, '', 'meta_description' in errors ? 'is-invalid' : '') }}
+        {{ forms.form_group('text', 'meta_author', config.meta_author, 'Autor'|trans, '', 'meta_author' in errors ? 'is-invalid' : '') }}
+        {{ forms.form_group('text', 'meta_copyright', config.meta_copyright, 'Copyright'|trans, '', 'meta_copyright' in errors ? 'is-invalid' : '') }}
+        {{ forms.form_group('select', 'default_language', config.default_language, 'Standardsprache'|trans, '', 'default_language' in errors ? 'is-invalid' : '', '', languageSelect) }}
         <div class="text-right mb-4">
-            <button class="btn btn-primary" name="save">Speichern</button>
+            <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
         </div>
     </form>
 {% endblock %}

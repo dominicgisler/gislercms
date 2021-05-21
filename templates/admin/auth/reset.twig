@@ -1,6 +1,6 @@
 {% extends 'admin/layout.twig' %}
 
-{% block title %}Passwort zurücksetzen{% endblock %}
+{% block title %}{{ 'Passwort zurücksetzen'|trans }}{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ base_url() }}/css/admin/login.min.css">
@@ -10,15 +10,15 @@
     set messages = {
         invalid_input: {
             class: 'danger',
-            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'|trans
         },
         save_error: {
             class: 'danger',
-            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'|trans
         },
         save_success: {
             class: 'success',
-            message: 'Dein Passwort wurde erfolgreich geändert.'
+            message: 'Dein Passwort wurde erfolgreich geändert.'|trans
         }
     }
 %}
@@ -37,19 +37,19 @@
 
         {% if message != 'save_success' %}
             <div class="form-label-group">
-                <input type="password" id="inputPasswordNew" name="password_new" class="form-control {{ 'password_new' in errors ? 'is-invalid' : '' }}" placeholder="Passwort" required autofocus>
-                <label for="inputPasswordNew">Neues Passwort</label>
+                <input type="password" id="inputPasswordNew" name="password_new" class="form-control {{ 'password_new' in errors ? 'is-invalid' : '' }}" placeholder="{{ 'Neues Passwort'|trans }}" required autofocus>
+                <label for="inputPasswordNew">{{ 'Neues Passwort'|trans }}</label>
             </div>
 
             <div class="form-label-group">
-                <input type="password" id="inputPasswordConfirm" name="password_confirm" class="form-control {{ 'password_confirm' in errors ? 'is-invalid' : '' }}" placeholder="Passwort bestätigen" required>
-                <label for="inputPasswordConfirm">Passwort bestätigen</label>
+                <input type="password" id="inputPasswordConfirm" name="password_confirm" class="form-control {{ 'password_confirm' in errors ? 'is-invalid' : '' }}" placeholder="{{ 'Passwort bestätigen'|trans }}" required>
+                <label for="inputPasswordConfirm">{{ 'Passwort bestätigen'|trans }}</label>
             </div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Passwort zurücksetzen</button>
-            <a href="{{ admin_url }}/login" class="btn btn-lg btn-secondary btn-block">Zurück</a>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'Passwort zurücksetzen'|trans }}</button>
+            <a href="{{ admin_url }}/login" class="btn btn-lg btn-secondary btn-block">{{ 'Zurück'|trans }}</a>
         {% else %}
-            <a href="{{ admin_url }}/login" class="btn btn-lg btn-primary btn-block">Zum Login</a>
+            <a href="{{ admin_url }}/login" class="btn btn-lg btn-primary btn-block">{{ 'Zum Login'|trans }}</a>
         {% endif %}
         <p class="mt-5 mb-3 text-muted text-center">&copy; {{ now|date('Y') }} Gisler Software</p>
     </form>

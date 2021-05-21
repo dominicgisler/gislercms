@@ -1,9 +1,9 @@
 {% extends 'admin/content.twig' %}
 
-{% block title %}Modul nicht gefunden{% endblock %}
+{% block title %}{{ 'Modul nicht gefunden'|trans }}{% endblock %}
 
 {% block content %}
-    <p>Das gewünschte gewünschte Modul wurde nicht gefunden, bitte wähle ein Modul aus der Liste aus:</p>
+    <p>{{ 'Das gewünschte gewünschte Modul wurde nicht gefunden, bitte wähle ein Modul aus der Liste aus:'|trans }}</p>
     <ul>
         {% for module in modules %}
             <li>

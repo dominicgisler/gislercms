@@ -1,16 +1,16 @@
 {% extends 'admin/content.twig' %}
 
-{% block title %}Besucher{% endblock %}
+{% block title %}{{ 'Besucher'|trans }}{% endblock %}
 
 {% block content %}
     <table class="table table-bordered table-responsive-xs datatable" data-order='[[ 0, "desc" ]]' id="sessions">
         <thead>
         <tr>
             <th>#</th>
-            <th>Erster Besuch</th>
-            <th>Letzter Besuch</th>
-            <th>Besuche</th>
-            <th>Echter Besucher</th>
+            <th>{{ 'Erster Besuch'|trans }}</th>
+            <th>{{ 'Letzter Besuch'|trans }}</th>
+            <th>{{ 'Besuche'|trans }}</th>
+            <th>{{ 'Echter Besucher'|trans }}</th>
         </tr>
         </thead>
         <tbody>

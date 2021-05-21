@@ -2,7 +2,7 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}Profil{% endblock %}
+{% block title %}{{ 'Profil'|trans }}{% endblock %}
 
 {% set languageSelect = [] %}
 {% for key, language in languages %}
@@ -17,15 +17,15 @@
     set messages = {
         invalid_input: {
             class: 'danger',
-            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'|trans
         },
         save_error: {
             class: 'danger',
-            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'|trans
         },
         save_success: {
             class: 'success',
-            message: 'Dein Profil wurde erfolgreich gespeichert.'
+            message: 'Dein Profil wurde erfolgreich gespeichert.'|trans
         }
     }
 %}
@@ -40,13 +40,13 @@
         </div>
     {% endif %}
     <form method="post" id="page-form">
-        {{ forms.form_group('text', 'username', data.username, 'Benutzername', '', 'username' in errors ? 'is-invalid' : '', 'Damit meldest du dich an, 3-128 Zeichen') }}
-        {{ forms.form_group('text', 'firstname', data.firstname, 'Vorname', '', 'firstname' in errors ? 'is-invalid' : '', 'max. 128 Zeichen') }}
-        {{ forms.form_group('text', 'lastname', data.lastname, 'Name', '', 'lastname' in errors ? 'is-invalid' : '', 'max. 128 Zeichen') }}
-        {{ forms.form_group('text', 'email', data.email, 'E-Mail', '', 'email' in errors ? 'is-invalid' : '', 'Die E-Mail Adresse benötigst du beispielsweise um dein Passwort zurückzusetzen') }}
-        {{ forms.form_group('select', 'locale', data.locale, 'Sprache', '', 'locale' in errors ? 'is-invalid' : '', 'In dieser Sprache wird das CMS angezeigt', languageSelect) }}
+        {{ forms.form_group('text', 'username', data.username, 'Benutzername'|trans, '', 'username' in errors ? 'is-invalid' : '', 'Damit meldest du dich an, 3-128 Zeichen'|trans) }}
+        {{ forms.form_group('text', 'firstname', data.firstname, 'Vorname'|trans, '', 'firstname' in errors ? 'is-invalid' : '', 'max. 128 Zeichen'|trans) }}
+        {{ forms.form_group('text', 'lastname', data.lastname, 'Name'|trans, '', 'lastname' in errors ? 'is-invalid' : '', 'max. 128 Zeichen'|trans) }}
+        {{ forms.form_group('text', 'email', data.email, 'E-Mail'|trans, '', 'email' in errors ? 'is-invalid' : '', 'Die E-Mail Adresse benötigst du beispielsweise um dein Passwort zurückzusetzen'|trans) }}
+        {{ forms.form_group('select', 'locale', data.locale, 'Sprache'|trans, '', 'locale' in errors ? 'is-invalid' : '', 'In dieser Sprache wird das CMS angezeigt'|trans, languageSelect) }}
         <div class="text-right mb-4">
-            <button class="btn btn-primary" name="save">Speichern</button>
+            <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
         </div>
     </form>
 {% endblock %}

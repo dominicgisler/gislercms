@@ -2,7 +2,7 @@
 
 {% extends 'admin/content.twig' %}
 
-{% block title %}{% if page.getPageId() > 0 %}Seite bearbeiten{% else %}Neue Seite{% endif %}{% endblock %}
+{% block title %}{% if page.getPageId() > 0 %}{{ 'Seite bearbeiten'|trans }}{% else %}{{ 'Neue Seite'|trans }}{% endif %}{% endblock %}
 
 {% set languageSelect = [] %}
 {% for language in languages %}
@@ -19,19 +19,19 @@
     set messages = {
         invalid_input: {
             class: 'danger',
-            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'|trans
         },
         save_error: {
             class: 'danger',
-            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'|trans
         },
         save_success: {
             class: 'success',
-            message: 'Die Seite wurde erfolgreich gespeichert.'
+            message: 'Die Seite wurde erfolgreich gespeichert.'|trans
         },
         is_trash: {
             class: 'warning',
-            message: 'Diese Seite befindet sich im Papierkorb, speichere sie um sie wiederherzustellen.'
+            message: 'Diese Seite befindet sich im Papierkorb, speichere sie um sie wiederherzustellen.'|trans
         }
     }
 %}
@@ -49,9 +49,9 @@
         </div>
     {% endif %}
     <form method="post" id="page-form">
-        {{ forms.form_group('text', 'page[name]', page.name, 'Name', '', 'name' in errors ? 'is-invalid' : '', 'Nur als interne Bezeichnung') }}
-        {{ forms.form_group('select', 'page[language]', page.language, 'Standardsprache', '', 'language' in errors ? 'is-invalid' : '', '', languageSelect) }}
-        {{ forms.form_group('checkbox', 'page[enabled]', page.enabled, 'Seite aktiviert') }}
+        {{ forms.form_group('text', 'page[name]', page.name, 'Name'|trans, '', 'name' in errors ? 'is-invalid' : '', 'Nur als interne Bezeichnung'|trans) }}
+        {{ forms.form_group('select', 'page[language]', page.language, 'Standardsprache'|trans, '', 'language' in errors ? 'is-invalid' : '', '', languageSelect) }}
+        {{ forms.form_group('checkbox', 'page[enabled]', page.enabled, 'Seite aktiviert'|trans) }}
         <h2 class="h4 mt-4">Sprachen</h2>
         <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
             {% for language in languages %}
@@ -67,31 +67,31 @@
                 {% if language.isEnabled() %}
                     <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="lang-{{ language.locale }}" data-locale="{{ language.locale }}" role="tabpanel" aria-labelledby="{{ language.locale }}-tab">
                         <div class="mb-3">
-                            <a href="#" class="insert-defaults">Standardwerte einfügen</a>
+                            <a href="#" class="insert-defaults">{{ 'Standardwerte einfügen'|trans }}</a>
                         </div>
-                        {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', translations[language.locale].enabled, 'Übersetzung aktiviert') }}
-                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][name]', translations[language.locale].name, 'Seitenname', '', language.locale ~ '_name' in errors ? 'is-invalid' : '', 'Der Name, welcher in der URL verwendet wird') }}
-                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][title]', translations[language.locale].title, 'Seitentitel', '', language.locale ~ '_title' in errors ? 'is-invalid' : '', 'Der Titel, welcher im Browser angezeigt wird') }}
-                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_keywords]', translations[language.locale].metaKeywords, 'Suchbegriffe', '', language.locale ~ '_keywords' in errors ? 'is-invalid' : '', 'Begriffe, über welche diese Seite gefunden werden soll (SEO)') }}
-                        {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][meta_description]', translations[language.locale].metaDescription, 'Beschreibung', '', language.locale ~ '_description' in errors ? 'is-invalid' : '', 'Eine kurze Beschreibung des Seiteninhalts (SEO)') }}
-                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_author]', translations[language.locale].metaAuthor, 'Autor', '', language.locale ~ '_author' in errors ? 'is-invalid' : '', 'Metadaten') }}
-                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_copyright]', translations[language.locale].metaCopyright, 'Copyright', '', language.locale ~ '_copyright' in errors ? 'is-invalid' : '', 'Metadaten') }}
-                        {{ forms.form_group('fileurl', 'translation[' ~ language.locale ~ '][meta_image]', translations[language.locale].metaImage, 'Titelbild', '', language.locale ~ '_image' in errors ? 'is-invalid' : '', 'Titelbild, wird z.B. beim Teilen auf Facebook dargestellt') }}
-                        {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt', '', language.locale ~ '_content' in errors ? 'tinymce is-invalid' : 'tinymce') }}
+                        {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', translations[language.locale].enabled, 'Übersetzung aktiviert'|trans) }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][name]', translations[language.locale].name, 'Seitenname'|trans, '', language.locale ~ '_name' in errors ? 'is-invalid' : '', 'Der Name, welcher in der URL verwendet wird'|trans) }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][title]', translations[language.locale].title, 'Seitentitel'|trans, '', language.locale ~ '_title' in errors ? 'is-invalid' : '', 'Der Titel, welcher im Browser angezeigt wird'|trans) }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_keywords]', translations[language.locale].metaKeywords, 'Suchbegriffe'|trans, '', language.locale ~ '_keywords' in errors ? 'is-invalid' : '', 'Begriffe, über welche diese Seite gefunden werden soll (SEO)'|trans) }}
+                        {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][meta_description]', translations[language.locale].metaDescription, 'Beschreibung'|trans, '', language.locale ~ '_description' in errors ? 'is-invalid' : '', 'Eine kurze Beschreibung des Seiteninhalts (SEO)'|trans) }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_author]', translations[language.locale].metaAuthor, 'Autor'|trans, '', language.locale ~ '_author' in errors ? 'is-invalid' : '', 'Metadaten'|trans) }}
+                        {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][meta_copyright]', translations[language.locale].metaCopyright, 'Copyright'|trans, '', language.locale ~ '_copyright' in errors ? 'is-invalid' : '', 'Metadaten'|trans) }}
+                        {{ forms.form_group('fileurl', 'translation[' ~ language.locale ~ '][meta_image]', translations[language.locale].metaImage, 'Titelbild'|trans, '', language.locale ~ '_image' in errors ? 'is-invalid' : '', 'Titelbild, wird z.B. beim Teilen auf Facebook dargestellt'|trans) }}
+                        {{ forms.form_group('textarea', 'translation[' ~ language.locale ~ '][content]', translations[language.locale].content, 'Inhalt'|trans, '', language.locale ~ '_content' in errors ? 'tinymce is-invalid' : 'tinymce') }}
                         <div class="accordion mb-2" id="translation-history-{{ language.locale }}">
                             <div class="card">
                                 <div class="card-header" id="translation-history-{{ language.locale }}-heading">
                                     <a type="button" data-toggle="collapse" data-target="#translation-history-{{ language.locale }}-collapse" aria-expanded="true" aria-controls="translation-history-{{ language.locale }}-controls">
-                                        <i class="fa fa-plus mr-2"></i> Bearbeitungsverlauf
+                                        <i class="fa fa-plus mr-2"></i> {{ 'Bearbeitungsverlauf'|trans }}
                                     </a>
                                 </div>
                                 <div id="translation-history-{{ language.locale }}-collapse" class="collapse" aria-labelledby="translation-history-{{ language.locale }}-heading" data-parent="#translation-history-{{ language.locale }}">
                                     <table class="table">
                                         <thead>
                                         <tr>
-                                            <th>Überschieben am</th>
-                                            <th>von Benutzer</th>
-                                            <th class="text-right">Aktion</th>
+                                            <th>{{ 'Überschieben am'|trans }}</th>
+                                            <th>{{ 'von Benutzer'|trans }}</th>
+                                            <th class="text-right">{{ 'Aktion'|trans }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -100,7 +100,7 @@
                                                 <td>{{ trans.getCreatedAt()|date('d.m.Y H:i:s') }}</td>
                                                 <td>{{ trans.getUser().getDisplayName() }}</td>
                                                 <td class="text-right">
-                                                    <a href="#" class="view-history">Ansehen</a>
+                                                    <a href="#" class="view-history">{{ 'Ansehen'|trans }}</a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -114,8 +114,8 @@
             {% endfor %}
         </div>
         <div class="text-right mb-4">
-            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if page.isTrash() %}Endgültig löschen{% else %}Löschen{% endif %}</button>
-            <button class="btn btn-primary" name="save">{% if page.isTrash() %}Wiederherstellen{% else %}Speichern{% endif %}</button>
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if page.isTrash() %}{{ 'Endgültig löschen'|trans }}{% else %}{{ 'Löschen'|trans }}{% endif %}</button>
+            <button class="btn btn-primary" name="save">{% if page.isTrash() %}{{ 'Wiederherstellen'|trans }}{% else %}{{ 'Speichern'|trans }}{% endif %}</button>
         </div>
 
         {# confirm delete modal #}
@@ -123,17 +123,21 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="confirmDeleteLabel">Seite löschen</h5>
+                        <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Seite löschen'|trans }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Möchtest du die Seite wirklich{% if page.isTrash() %} unwiderruflich{% endif %} löschen?
+                        {% if page.isTrash() %}
+                            {{ 'Möchtest du die Seite wirklich unwiderruflich löschen?'|trans }}
+                        {% else %}
+                            {{ 'Möchtest du die Seite wirklich löschen?'|trans }}
+                        {% endif %}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                        <button type="submit" name="delete" class="btn btn-danger">Ja, Seite löschen</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="submit" name="delete" class="btn btn-danger">{{ 'Ja, Seite löschen'|trans }}</button>
                     </div>
                 </div>
             </div>
@@ -145,26 +149,26 @@
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="viewHistoryTitle">Bearbeitungsverlauf</h5>
+                    <h5 class="modal-title" id="viewHistoryTitle">{{ 'Bearbeitungsverlauf'|trans }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div id="history-data" class="d-none" data-locale=""></div>
-                    Seitenname: <strong id="history-name"></strong><br>
-                    Seitentitel: <strong id="history-title"></strong><br>
-                    Suchbegriffe: <strong id="history-meta_keywords"></strong><br>
-                    Beschreibung: <strong id="history-meta_description"></strong><br>
-                    Author: <strong id="history-meta_author"></strong><br>
-                    Copyright: <strong id="history-meta_copyright"></strong><br>
-                    Titelbild: <strong id="history-meta_image"></strong><br>
-                    Inhalt:<br>
+                    {{ 'Seitenname:'|trans }} <strong id="history-name"></strong><br>
+                    {{ 'Seitentitel:'|trans }} <strong id="history-title"></strong><br>
+                    {{ 'Suchbegriffe:'|trans }} <strong id="history-meta_keywords"></strong><br>
+                    {{ 'Beschreibung:'|trans }} <strong id="history-meta_description"></strong><br>
+                    {{ 'Autor:'|trans }} <strong id="history-meta_author"></strong><br>
+                    {{ 'Copyright:'|trans }} <strong id="history-meta_copyright"></strong><br>
+                    {{ 'Titelbild:'|trans }} <strong id="history-meta_image"></strong><br>
+                    {{ 'Inhalt:'|trans }}<br>
                     <div id="history-content" class="border p-2"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Schliessen</button>
-                    <button type="button" class="btn btn-primary restore-translation">Wiederherstellen</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Schliessen'|trans }}</button>
+                    <button type="button" class="btn btn-primary restore-translation">{{ 'Wiederherstellen'|trans }}</button>
                 </div>
             </div>
         </div>

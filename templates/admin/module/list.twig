@@ -1,6 +1,6 @@
 {% extends 'admin/content.twig' %}
 
-{% block title %}Module{% endblock %}
+{% block title %}{{ 'Module'|trans }}{% endblock %}
 
 {% block content %}
     <div class="table-responsive">
@@ -8,8 +8,8 @@
             <thead class="thead-light">
             <tr>
                 <th style="width: 40px;"></th>
-                <th>Name</th>
-                <th>Typ</th>
+                <th>{{ 'Name'|trans }}</th>
+                <th>{{ 'Typ'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -24,13 +24,13 @@
             {% else %}
                 <tr>
                     <td></td>
-                    <td colspan="4">Keine Module gefunden</td>
+                    <td colspan="4">{{ 'Keine Module gefunden'|trans }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
     <div class="text-right">
-        <a href="{{ admin_url }}/module/add" class="btn btn-primary">Neues Modul</a>
+        <a href="{{ admin_url }}/module/add" class="btn btn-primary">{{ 'Neues Modul'|trans }}</a>
     </div>
 {% endblock %}
