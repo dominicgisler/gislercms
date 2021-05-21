@@ -35,7 +35,7 @@
         </div>
     {% endif %}
     <form method="post" id="page-form">
-        {{ forms.form_group('text', 'description', language.description, 'Sprache'|trams, '', 'description' in errors ? 'is-invalid' : '', 'Beschreibung zur internen Identifikation'|trans) }}
+        {{ forms.form_group('text', 'description', language.description, 'Sprache'|trans, '', 'description' in errors ? 'is-invalid' : '', 'Beschreibung zur internen Identifikation'|trans) }}
         {{ forms.form_group('text', 'locale', language.locale, 'Abkürzung'|trans, '', 'locale' in errors ? 'is-invalid' : '', 'Wird in der Seiten-URL verwendet, zwei Zeichen'|trans) }}
         {{ forms.form_group('checkbox', 'enabled', language.enabled, 'Sprache aktiviert'|trans, '', 'enabled' in errors ? 'is-invalid' : '') }}
         <div class="text-right mb-4">

@@ -76,7 +76,7 @@
                 <table class="table table-striped">
                     {% for key, val in sysinfo.data %}
                         <tr>
-                            <th>{{ key }}</th>
+                            <th>{{ key|trans }}</th>
                             <td>{{ val|raw }}</td>
                         </tr>
                     {% endfor %}

@@ -94,7 +94,7 @@ class SystemController extends AbstractController
                 $msg = 'invalid_input';
             }
         }
-        return $this->render($request, $response, 'admin/misc/config.twig', [
+        return $this->render($request, $response, 'admin/misc/system.twig', [
             'sysinfo' => $this->getSysInfo(),
             'languages' => $languages,
             'pages' => Page::getAll(),

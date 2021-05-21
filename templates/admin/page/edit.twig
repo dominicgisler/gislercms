@@ -52,7 +52,7 @@
         {{ forms.form_group('text', 'page[name]', page.name, 'Name'|trans, '', 'name' in errors ? 'is-invalid' : '', 'Nur als interne Bezeichnung'|trans) }}
         {{ forms.form_group('select', 'page[language]', page.language, 'Standardsprache'|trans, '', 'language' in errors ? 'is-invalid' : '', '', languageSelect) }}
         {{ forms.form_group('checkbox', 'page[enabled]', page.enabled, 'Seite aktiviert'|trans) }}
-        <h2 class="h4 mt-4">Sprachen</h2>
+        <h2 class="h4 mt-4">{{ 'Sprachen'|trans }}</h2>
         <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
             {% for language in languages %}
                 {% if language.isEnabled() %}
