@@ -25,6 +25,8 @@
   "require": {
     "php": ">=7.3",
     "ext-pdo": "*",
+    "ext-curl": "*",
+    "ext-intl": "*",
     "slim/slim": "^3.12",
     "slim/twig-view": "^2.4",
     "monolog/monolog": "^1.24",
@@ -43,7 +45,8 @@
     "select2/select2": "^4.0",
     "datatables/datatables": "^1.10",
     "nnnick/chartjs": "^2.9",
-    "ext-curl": "*"
+    "laminas/laminas-i18n": "^2.11",
+    "laminas/laminas-servicemanager": "^3.6"
   },
   "autoload": {
     "psr-4": {

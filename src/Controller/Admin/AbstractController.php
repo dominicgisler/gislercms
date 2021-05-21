@@ -9,6 +9,7 @@ use GislerCMS\Model\Page;
 use GislerCMS\Model\Post;
 use GislerCMS\Model\User;
 use GislerCMS\Model\Widget;
+use Locale;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Route;
@@ -23,6 +24,12 @@ abstract class AbstractController
      * @var \Slim\Container|\Psr\Container\ContainerInterface
      */
     protected $container;
+
+    const LOCALE_MAP = [
+        'de' => 'de_DE',
+        'en' => 'en_US',
+        'default' => 'de_DE'
+    ];
 
     /**
      * @param \Slim\Container|\Psr\Container\ContainerInterface $container
@@ -58,6 +65,12 @@ abstract class AbstractController
         $cont = SessionHelper::getContainer();
         /** @var User $user */
         $user = $cont->offsetGet('user');
+
+        $locale = self::LOCALE_MAP['default'];
+        if (isset(self::LOCALE_MAP[$user->getLocale()])) {
+            $locale = self::LOCALE_MAP[$user->getLocale()];
+        }
+        Locale::setDefault($locale);
 
         $nav = $this->get('settings')['admin_navigation'];
         $nav = $this->replacePlaceholders($nav);

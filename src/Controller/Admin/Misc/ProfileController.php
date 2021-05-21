@@ -23,7 +23,8 @@ class ProfileController extends AbstractController
     const METHODS = ['GET', 'POST'];
 
     const LANGUAGES = [
-        'de' => 'Deutsch'
+        'de' => 'Deutsch',
+        'en' => 'English'
     ];
 
     /**

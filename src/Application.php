@@ -9,6 +9,7 @@ use GislerCMS\Middleware\NoLoginMiddleware;
 use GislerCMS\Model\DbModel;
 use GislerCMS\TwigExtension\TwigGoogleReviews;
 use GislerCMS\TwigExtension\TwigJsonDecode;
+use GislerCMS\TwigExtension\TwigTrans;
 use Slim\App;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
@@ -113,6 +114,7 @@ class Application
             $twig->addExtension(new TwigJsonDecode());
             $twig->addExtension(new TwigFileExists());
             $twig->addExtension(new TwigGoogleReviews());
+            $twig->addExtension(new TwigTrans());
 
             return $twig;
         };
