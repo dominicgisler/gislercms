@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller;
 
+use GislerCMS\Application;
 use GislerCMS\Model\Config;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\PageTranslation;
@@ -26,14 +27,15 @@ class PageController extends AbstractController
      */
     public function __invoke($request, $response)
     {
+        $name = $request->getAttribute('route')->getArgument('page');
+        $locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        Application::setTransLocale($locale);
+
         $maint = Config::getConfig('global', 'maintenance_mode');
         if ($maint->getValue()) {
             return $this->render($request, $response, 'maintenance.twig');
         }
 
-        $name = $request->getAttribute('route')->getArgument('page');
-
-        $locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
         $page = PageTranslation::getByName($name, Language::getLanguage($locale));
         if ($page->getPageTranslationId() == 0) {
             $page = PageTranslation::getDefaultByName($name);

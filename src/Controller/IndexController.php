@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller;
 
+use GislerCMS\Application;
 use GislerCMS\Model\Config;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\Page;
@@ -26,6 +27,9 @@ class IndexController extends AbstractController
      */
     public function __invoke($request, $response)
     {
+        $locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        Application::setTransLocale($locale);
+
         $maint = Config::getConfig('global', 'maintenance_mode');
         if ($maint->getValue()) {
             return $this->render($request, $response, 'maintenance.twig');
@@ -40,7 +44,6 @@ class IndexController extends AbstractController
         $cfg = Config::getConfig('global', 'default_page');
         $page = Page::get($cfg->getValue());
 
-        $locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
         $pTrans = $page->getPageTranslation(Language::getLanguage($locale));
         if ($pTrans->getPageTranslationId() == 0) {
             $pTrans = $page->getDefaultPageTranslation();

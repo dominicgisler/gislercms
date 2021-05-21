@@ -10,6 +10,7 @@ use GislerCMS\Model\DbModel;
 use GislerCMS\TwigExtension\TwigGoogleReviews;
 use GislerCMS\TwigExtension\TwigJsonDecode;
 use GislerCMS\TwigExtension\TwigTrans;
+use Locale;
 use Slim\App;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
@@ -25,6 +26,12 @@ class Application
      * @var App
      */
     protected $app;
+
+    private const LOCALE_MAP = [
+        'de' => 'de_DE',
+        'en' => 'en_US',
+        'default' => 'de_DE'
+    ];
 
     /**
      * Start that thing
@@ -158,6 +165,20 @@ class Application
         }
         foreach ($classes['default'] as $class) {
             $this->app->map($class::METHODS, str_replace('{admin_route}', $adminRoute, $class::PATTERN), $class)->setName($class::NAME);
+        }
+    }
+
+    /**
+     * @param string $locale
+     */
+    public static function setTransLocale(string $locale): void
+    {
+        if (in_array($locale, array_values(self::LOCALE_MAP))) {
+            Locale::setDefault($locale);
+        } else if (isset(self::LOCALE_MAP[$locale])) {
+            Locale::setDefault(self::LOCALE_MAP[$locale]);
+        } else {
+            Locale::setDefault(self::LOCALE_MAP['default']);
         }
     }
 }
