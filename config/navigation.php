@@ -19,7 +19,7 @@ return [
                     ],
                     [
                         'route' => 'admin-filemanager',
-                        'label' => 'Filemanager',
+                        'label' => 'Dateiverwaltung',
                         'icon' => 'fa-folder-open',
                         'href' => '{admin_url}/filemanager'
                     ]
