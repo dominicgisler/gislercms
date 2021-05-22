@@ -8,12 +8,13 @@ use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Zend\InputFilter\Factory;
-use Zend\Validator\EmailAddress;
-use Zend\Validator\Identical;
-use Zend\Validator\InArray;
-use Zend\Validator\NotEmpty;
-use Zend\Validator\StringLength;
+use Laminas\InputFilter\Factory;
+use Laminas\InputFilter\InputFilterInterface;
+use Laminas\Validator\EmailAddress;
+use Laminas\Validator\Identical;
+use Laminas\Validator\InArray;
+use Laminas\Validator\NotEmpty;
+use Laminas\Validator\StringLength;
 
 /**
  * Class EditController
@@ -102,7 +103,7 @@ class EditController extends AbstractController
     }
 
     /**
-     * @return \Zend\InputFilter\InputFilterInterface
+     * @return InputFilterInterface
      */
     private function getInputFilter()
     {

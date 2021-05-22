@@ -6,7 +6,8 @@ use GislerCMS\Model\GuestbookEntry;
 use GislerCMS\Model\Module;
 use GislerCMS\Validator\ValidJson;
 use Slim\Http\Request;
-use Zend\InputFilter\Factory;
+use Laminas\InputFilter\Factory;
+use Laminas\InputFilter\InputFilterInterface;
 
 /**
  * Class GuestbookController
@@ -70,7 +71,7 @@ class GuestbookController extends AbstractController
     }
 
     /**
-     * @return \Zend\InputFilter\InputFilterInterface
+     * @return InputFilterInterface
      */
     private function getInputFilter()
     {

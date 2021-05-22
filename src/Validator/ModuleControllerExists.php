@@ -3,7 +3,7 @@
 namespace GislerCMS\Validator;
 
 use GislerCMS\Controller\Module\AbstractModuleController;
-use Zend\Validator\AbstractValidator;
+use Laminas\Validator\AbstractValidator;
 
 /**
  * Class ModuleControllerExists

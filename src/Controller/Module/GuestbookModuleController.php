@@ -8,15 +8,15 @@ use GislerCMS\Model\GuestbookEntry;
 use GislerCMS\Model\Mailer;
 use Slim\Http\Request;
 use Twig\Error\LoaderError;
-use Zend\InputFilter\Factory;
-use Zend\InputFilter\InputFilterInterface;
-use Zend\Validator\Between;
-use Zend\Validator\Date;
-use Zend\Validator\EmailAddress;
-use Zend\Validator\InArray;
-use Zend\Validator\NotEmpty;
-use Zend\Validator\Regex;
-use Zend\Validator\StringLength;
+use Laminas\InputFilter\Factory;
+use Laminas\InputFilter\InputFilterInterface;
+use Laminas\Validator\Between;
+use Laminas\Validator\Date;
+use Laminas\Validator\EmailAddress;
+use Laminas\Validator\InArray;
+use Laminas\Validator\NotEmpty;
+use Laminas\Validator\Regex;
+use Laminas\Validator\StringLength;
 
 /**
  * Class GuestbookModuleController

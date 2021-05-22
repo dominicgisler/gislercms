@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Validator;
 
-use Zend\Validator\AbstractValidator;
+use Laminas\Validator\AbstractValidator;
 
 /**
  * Class ValidJson

@@ -14,9 +14,10 @@ use GislerCMS\Validator\PageExists;
 use GislerCMS\Validator\StartsWith;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Zend\InputFilter\Factory;
-use Zend\Validator\Between;
-use Zend\Validator\StringLength;
+use Laminas\InputFilter\Factory;
+use Laminas\InputFilter\InputFilterInterface;
+use Laminas\Validator\Between;
+use Laminas\Validator\StringLength;
 
 /**
  * Class SystemController
@@ -105,7 +106,7 @@ class SystemController extends AbstractController
     }
 
     /**
-     * @return \Zend\InputFilter\InputFilterInterface
+     * @return InputFilterInterface
      */
     private function getInputFilter()
     {

@@ -8,10 +8,11 @@ use GislerCMS\Model\User;
 use GislerCMS\Validator\PasswordVerify;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Zend\InputFilter\Factory;
-use Zend\Validator\Identical;
-use Zend\Validator\NotEmpty;
-use Zend\Validator\StringLength;
+use Laminas\InputFilter\Factory;
+use Laminas\InputFilter\InputFilterInterface;
+use Laminas\Validator\Identical;
+use Laminas\Validator\NotEmpty;
+use Laminas\Validator\StringLength;
 
 /**
  * Class ChangePasswordController
@@ -78,7 +79,7 @@ class ChangePasswordController extends AbstractController
 
     /**
      * @param User $user
-     * @return \Zend\InputFilter\InputFilterInterface
+     * @return InputFilterInterface
      */
     private function getInputFilter(User $user)
     {

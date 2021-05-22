@@ -6,7 +6,8 @@ use GislerCMS\Model\Module;
 use GislerCMS\Validator\ValidJson;
 use Slim\Http\Request;
 use Slim\Views\Twig;
-use Zend\InputFilter\Factory;
+use Laminas\InputFilter\Factory;
+use Laminas\InputFilter\InputFilterInterface;
 
 /**
  * Class AbstractController
@@ -78,7 +79,7 @@ abstract class AbstractController
     }
 
     /**
-     * @return \Zend\InputFilter\InputFilterInterface
+     * @return InputFilterInterface
      */
     private function getInputFilter()
     {

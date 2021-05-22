@@ -3,7 +3,7 @@
 namespace GislerCMS\Validator;
 
 use GislerCMS\Model\Language;
-use Zend\Validator\AbstractValidator;
+use Laminas\Validator\AbstractValidator;
 
 /**
  * Class LanguageExists

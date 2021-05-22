@@ -11,14 +11,14 @@ use GislerCMS\Model\Module;
 use GislerCMS\Model\Post;
 use GislerCMS\Model\PostAttribute;
 use GislerCMS\Model\PostTranslation;
-use GislerCMS\Model\User;
 use GislerCMS\Model\Widget;
 use GislerCMS\Validator\LanguageExists;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Zend\InputFilter\Factory;
-use Zend\Validator\NotEmpty;
-use Zend\Validator\StringLength;
+use Laminas\InputFilter\Factory;
+use Laminas\InputFilter\InputFilterInterface;
+use Laminas\Validator\NotEmpty;
+use Laminas\Validator\StringLength;
 
 /**
  * Class EditController
@@ -178,7 +178,7 @@ class EditController extends AbstractController
     }
 
     /**
-     * @return \Zend\InputFilter\InputFilterInterface
+     * @return InputFilterInterface
      */
     private function getPostInputFilter()
     {
@@ -232,7 +232,7 @@ class EditController extends AbstractController
     }
 
     /**
-     * @return \Zend\InputFilter\InputFilterInterface
+     * @return InputFilterInterface
      */
     private function getTranslationInputFilter()
     {

@@ -14,7 +14,7 @@ use Locale;
 use Slim\App;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
-use Zend\Config\Config;
+use Laminas\Config\Config;
 
 /**
  * Class Application

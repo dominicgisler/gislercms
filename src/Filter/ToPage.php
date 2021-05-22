@@ -3,7 +3,7 @@
 namespace GislerCMS\Filter;
 
 use GislerCMS\Model\Page;
-use Zend\Filter\AbstractFilter;
+use Laminas\Filter\AbstractFilter;
 
 /**
  * Class ToPage

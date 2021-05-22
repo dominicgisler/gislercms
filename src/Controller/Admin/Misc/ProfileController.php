@@ -7,10 +7,11 @@ use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Zend\InputFilter\Factory;
-use Zend\Validator\EmailAddress;
-use Zend\Validator\InArray;
-use Zend\Validator\StringLength;
+use Laminas\InputFilter\Factory;
+use Laminas\InputFilter\InputFilterInterface;
+use Laminas\Validator\EmailAddress;
+use Laminas\Validator\InArray;
+use Laminas\Validator\StringLength;
 
 /**
  * Class ProfileController
@@ -86,7 +87,7 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @return \Zend\InputFilter\InputFilterInterface
+     * @return InputFilterInterface
      */
     private function getInputFilter()
     {

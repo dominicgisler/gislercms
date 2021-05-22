@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Helper;
 
-use Zend\Session\Container;
+use Laminas\Session\Container;
 
 /**
  * Class SessionHelper

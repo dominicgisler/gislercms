@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Filter;
 
-use Zend\Filter\AbstractFilter;
+use Laminas\Filter\AbstractFilter;
 
 /**
  * Class ToBool
