@@ -59,7 +59,12 @@ abstract class AbstractController
         $cont = SessionHelper::getContainer();
         /** @var User $user */
         $user = $cont->offsetGet('user');
-        Application::setTransLocale($user->getLocale());
+        if ($user) {
+            Application::setTransLocale($user->getLocale());
+        } else {
+            $locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+            Application::setTransLocale($locale);
+        }
 
         $nav = $this->get('settings')['admin_navigation'];
         $nav = $this->replacePlaceholders($nav);
