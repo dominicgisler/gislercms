@@ -1297,3 +1297,21 @@ msgstr ""
 #: templates/admin/setup.twig:210
 msgid "Wie möchtest du dich einloggen?"
 msgstr ""
+
+msgid "Beitrag"
+msgstr ""
+
+msgid "Widget"
+msgstr ""
+
+msgid "Elemente löschen"
+msgstr ""
+
+msgid "Elemente wiederherstellen"
+msgstr ""
+
+msgid "Möchtest du die ausgewählten Elemente wirklich unwiderruflich löschen?"
+msgstr ""
+
+msgid "Möchtest du die ausgewählten Elemente wirklich wiederherstellen?"
+msgstr ""

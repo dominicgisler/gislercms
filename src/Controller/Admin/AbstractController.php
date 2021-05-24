@@ -90,12 +90,10 @@ abstract class AbstractController
         if (is_string($val)) {
             $val = str_replace('{admin_url}', $this->get('base_url') . $this->get('settings')['global']['admin_route'], $val);
             $val = str_replace('{pages_count}', sizeof(Page::getAvailable()), $val);
-            $val = str_replace('{pages_trash_count}', sizeof(Page::getTrash()), $val);
             $val = str_replace('{posts_count}', sizeof(Post::getAvailable()), $val);
-            $val = str_replace('{posts_trash_count}', sizeof(Post::getTrash()), $val);
             $val = str_replace('{widgets_count}', sizeof(Widget::getAvailable()), $val);
-            $val = str_replace('{widgets_trash_count}', sizeof(Widget::getTrash()), $val);
             $val = str_replace('{modules_count}', sizeof(Module::getAll()), $val);
+            $val = str_replace('{trash_count}', sizeof(Page::getTrash()) + sizeof(Post::getTrash()) + sizeof(Widget::getTrash()), $val);
         } elseif (is_iterable($val)) {
             foreach ($val as &$elem) {
                 $elem = $this->replacePlaceholders($elem);

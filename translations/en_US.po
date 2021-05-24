@@ -1297,3 +1297,21 @@ msgstr "Next"
 #: templates/admin/setup.twig:210
 msgid "Wie möchtest du dich einloggen?"
 msgstr "How would you like to log in?"
+
+msgid "Beitrag"
+msgstr "Post"
+
+msgid "Widget"
+msgstr "Widget"
+
+msgid "Elemente löschen"
+msgstr "Delete elements"
+
+msgid "Elemente wiederherstellen"
+msgstr "Restore elements"
+
+msgid "Möchtest du die ausgewählten Elemente wirklich unwiderruflich löschen?"
+msgstr "Do you really want to delete the selected elements irrevocably?"
+
+msgid "Möchtest du die ausgewählten Elemente wirklich wiederherstellen?"
+msgstr "Do you really want to restore the selected elements?"

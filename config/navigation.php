@@ -66,13 +66,6 @@ return [
                         'label' => 'Standardwerte',
                         'icon' => 'fa-cog',
                         'href' => '{admin_url}/page/defaults'
-                    ],
-                    [
-                        'route' => 'admin-page-trash',
-                        'label' => 'Papierkorb',
-                        'icon' => 'fa-trash-alt',
-                        'href' => '{admin_url}/page/trash',
-                        'count' => '{pages_trash_count}'
                     ]
                 ]
             ],
@@ -89,13 +82,6 @@ return [
                         'icon' => 'fa-copy',
                         'href' => '{admin_url}/post/list',
                         'count' => '{posts_count}'
-                    ],
-                    [
-                        'route' => 'admin-post-trash',
-                        'label' => 'Papierkorb',
-                        'icon' => 'fa-trash-alt',
-                        'href' => '{admin_url}/post/trash',
-                        'count' => '{posts_trash_count}'
                     ]
                 ]
             ],
@@ -112,13 +98,6 @@ return [
                         'icon' => 'fa-copy',
                         'href' => '{admin_url}/widget/list',
                         'count' => '{widgets_count}'
-                    ],
-                    [
-                        'route' => 'admin-widget-trash',
-                        'label' => 'Papierkorb',
-                        'icon' => 'fa-trash-alt',
-                        'href' => '{admin_url}/widget/trash',
-                        'count' => '{widgets_trash_count}'
                     ]
                 ]
             ],
@@ -158,6 +137,13 @@ return [
                         'label' => 'Benutzer',
                         'icon' => 'fa-users',
                         'href' => '{admin_url}/misc/user/list'
+                    ],
+                    [
+                        'route' => 'admin-misc-trash',
+                        'label' => 'Papierkorb',
+                        'icon' => 'fa-trash-alt',
+                        'href' => '{admin_url}/misc/trash',
+                        'count' => '{trash_count}'
                     ],
                     [
                         'route' => 'admin-misc-license',

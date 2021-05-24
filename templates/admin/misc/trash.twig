@@ -1,26 +1,36 @@
 {% extends 'admin/content.twig' %}
 
-{% block title %}{{ 'Seiten-Papierkorb'|trans }}{% endblock %}
+{% block title %}{{ 'Papierkorb'|trans }}{% endblock %}
+
+{%
+    set types = {
+        page: 'Seite'|trans,
+        post: 'Beitrag'|trans,
+        widget: 'Widget'|trans
+    }
+%}
 
 {% block content %}
     <form method="post">
-        <table class="table table-bordered {% if trashPages|length > 0 %}table-hover{% endif %}">
+        <table class="table table-bordered {% if trash|length > 0 %}table-hover{% endif %}">
             <thead>
                 <tr>
                     <th scope="col" style="width: 50px;"></th>
                     <th scope="col">{{ 'Name'|trans }}</th>
+                    <th scope="col">{{ 'Typ'|trans }}</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                {% for page in trashPages %}
+                {% for elem in trash %}
                     <tr onclick="toggleRow.apply(this, arguments);">
                         <th scope="row" class="text-center" style="width: 50px;">
-                            <input type="checkbox" class="select-page" name="page[{{ page.getPageId() }}]">
+                            <input type="checkbox" class="select-elem" name="{{ elem.type }}[{{ elem.id }}]">
                         </th>
-                        <td>{{ page.getName() }}</td>
+                        <td>{{ elem.name }}</td>
+                        <td>{{ types[elem.type] }}</td>
                         <td class="text-center" style="width: 50px;">
-                            <a href="{{ admin_url }}/page/{{ page.getPageId() }}">
+                            <a href="{{ admin_url }}/{{ elem.type }}/{{ elem.id }}">
                                 <i class="fa fa-edit"></i>
                             </a>
                         </td>
@@ -28,7 +38,7 @@
                 {% else %}
                     <tr>
                         <td></td>
-                        <td colspan="2">
+                        <td colspan="3">
                             {{ 'Der Papierkorb ist leer'|trans }}
                         </td>
                     </tr>
@@ -43,17 +53,17 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Seiten löschen'|trans }}</h5>
+                        <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Elemente löschen'|trans }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        {{ 'Möchtest du die ausgewählten Seiten wirklich unwiderruflich löschen?'|trans }}
+                        {{ 'Möchtest du die ausgewählten Elemente wirklich unwiderruflich löschen?'|trans }}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
-                        <button type="submit" name="delete" class="btn btn-danger">{{ 'Seiten löschen'|trans }}</button>
+                        <button type="submit" name="delete" class="btn btn-danger">{{ 'Elemente löschen'|trans }}</button>
                     </div>
                 </div>
             </div>
@@ -62,17 +72,17 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="confirmRestoreLabel">{{ 'Seiten wiederherstellen'|trans }}</h5>
+                        <h5 class="modal-title" id="confirmRestoreLabel">{{ 'Elemente wiederherstellen'|trans }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        {{ 'Möchtest du die ausgewählten Seiten wirklich wiederherstellen?'|trans }}
+                        {{ 'Möchtest du die ausgewählten Elemente wirklich wiederherstellen?'|trans }}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
-                        <button type="submit" name="restore" class="btn btn-primary">{{ 'Seiten wiederherstellen'|trans }}</button>
+                        <button type="submit" name="restore" class="btn btn-primary">{{ 'Elemente wiederherstellen'|trans }}</button>
                     </div>
                 </div>
             </div>
@@ -85,8 +95,8 @@
 
     <script>
         function toggleRow(e) {
-            if (!e.target.classList.contains('select-page')) {
-                var elems = this.getElementsByClassName('select-page');
+            if (!e.target.classList.contains('select-elem')) {
+                var elems = this.getElementsByClassName('select-elem');
                 if (elems.length === 1) {
                     elems[0].checked = !elems[0].checked;
                 }
