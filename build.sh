@@ -18,6 +18,7 @@ cp -R mysql ${tempdir}/.
 cp -R public ${tempdir}/.
 cp -R src ${tempdir}/.
 cp -R templates ${tempdir}/.
+cp -R translations ${tempdir}/.
 cp build_css.sh ${tempdir}/.
 cp composer.json ${tempdir}/.
 cp composer.lock ${tempdir}/.
