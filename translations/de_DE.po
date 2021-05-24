@@ -1315,3 +1315,6 @@ msgstr ""
 
 msgid "Möchtest du die ausgewählten Elemente wirklich wiederherstellen?"
 msgstr ""
+
+msgid "Element hinzufügen"
+msgstr ""

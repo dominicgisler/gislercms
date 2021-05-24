@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="table-responsive">
-        <table class="table table-hover border">
+        <table class="table table-hover border datatable" data-order='[[ 4, "asc" ], [ 1, "asc" ]]'>
             <thead class="thead-light">
             <tr>
                 <th style="width: 40px;"></th>
@@ -44,7 +44,7 @@
             </tbody>
         </table>
     </div>
-    <div class="text-right">
+    <div class="text-right mt-2">
         <a href="{{ admin_url }}/post/add" class="btn btn-primary">{{ 'Neuer Beitrag'|trans }}</a>
     </div>
 {% endblock %}

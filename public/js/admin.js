@@ -4,7 +4,7 @@
   tinymce.init({
     selector: "textarea.tinymce",
     theme: "silver",
-    language: "de",
+    language: TRANS_LOCALE,
     height: 300,
     plugins: [
       "advlist autolink lists link image charmap print preview hr anchor pagebreak",
@@ -25,12 +25,12 @@
     convert_urls: false,
     setup: function(editor) {
       editor.ui.registry.addMenuButton('addElement', {
-        text: 'Element hinzufügen',
+        text: TMCE_TRANS.addElement,
         fetch: function (callback) {
           var items = [
             {
               type: 'menuitem',
-              text: 'Beiträge',
+              text: TMCE_TRANS.posts,
               onAction: function () {
                 var elem = $('#insertPostsModal');
                 if (elem) {
@@ -40,7 +40,7 @@
             },
             {
               type: 'menuitem',
-              text: 'Modul',
+              text: TMCE_TRANS.module,
               onAction: function () {
                 var elem = $('#insertModuleModal');
                 if (elem) {
@@ -50,7 +50,7 @@
             },
             {
               type: 'menuitem',
-              text: 'Widget',
+              text: TMCE_TRANS.widget,
               onAction: function () {
                 var elem = $('#insertWidgetModal');
                 if (elem) {
@@ -95,7 +95,11 @@
     modal.find('iframe').attr('src', modal.find('iframe').attr('src').replace(/field_id=.*/, 'field_id=' + field));
   });
 
-  $('.datatable').DataTable();
+  $('.datatable').DataTable( {
+    language: {
+      url: BASE_URL + '/js/dataTables/' + TRANS_LOCALE + '.json'
+    }
+  } );
 }());
 
 function autocompleteWidgets(widgets) {

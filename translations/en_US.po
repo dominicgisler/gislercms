@@ -1315,3 +1315,6 @@ msgstr "Do you really want to delete the selected elements irrevocably?"
 
 msgid "Möchtest du die ausgewählten Elemente wirklich wiederherstellen?"
 msgstr "Do you really want to restore the selected elements?"
+
+msgid "Element hinzufügen"
+msgstr "Add element"

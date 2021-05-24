@@ -7,7 +7,7 @@
 {% block content %}
     {% set hasUpdate = false %}
     <div class="table-responsive">
-        <table class="table table-hover border">
+        <table class="table table-hover border datatable" data-order='[[ 0, "asc" ]]'>
             <thead class="thead-light">
                 <tr>
                     <th>{{ 'Benutzername'|trans }}</th>
@@ -42,7 +42,7 @@
             </tbody>
         </table>
     </div>
-    <div class="text-right">
+    <div class="text-right mt-2">
         <a href="{{ admin_url }}/misc/user" class="btn btn-primary">{{ 'Neuer Benutzer'|trans }}</a>
     </div>
 {% endblock %}
