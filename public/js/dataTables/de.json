@@ -61,7 +61,6 @@
     "fillVertical": "Alle vertikalen Zellen füllen",
     "info": "Bitte wählen Sie die gewünschte Aktion aus:"
   },
-  "decimal": ",",
   "search": "Suche:",
   "searchBuilder": {
     "add": "Bedingung hinzufügen",
@@ -137,7 +136,6 @@
     "count": "Anzahl"
   },
   "searchPlaceholder": "Suchbegriff eingeben",
-  "thousands": ".",
   "zeroRecords": "Keine passenden Einträge gefunden",
   "lengthMenu": "_MENU_ Zeilen anzeigen",
   "datetime": {
