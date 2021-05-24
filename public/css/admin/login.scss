@@ -1,5 +1,9 @@
 @import '../../../vendor/twbs/bootstrap/scss/bootstrap';
-@import '../../../vendor/fortawesome/font-awesome/css/all';
+
+$fa-font-path: "../webfonts" !default;
+@import '../../../vendor/fortawesome/font-awesome/scss/fontawesome';
+@import '../../../vendor/fortawesome/font-awesome/scss/solid';
+@import '../../../vendor/fortawesome/font-awesome/scss/brands';
 
 html,
 body {
