@@ -142,10 +142,10 @@ return [
                 'title' => 'Verschiedenes',
                 'items' => [
                     [
-                        'route' => 'admin-misc-system',
+                        'route' => ['admin-misc-system-config', 'admin-misc-system-sysinfo', 'admin-misc-system-migration'],
                         'label' => 'System',
                         'icon' => 'fa-cogs',
-                        'href' => '{admin_url}/misc/system'
+                        'href' => '{admin_url}/misc/system/config'
                     ],
                     [
                         'route' => ['admin-misc-language-list', 'admin-misc-language-edit'],
@@ -158,12 +158,6 @@ return [
                         'label' => 'Benutzer',
                         'icon' => 'fa-users',
                         'href' => '{admin_url}/misc/user/list'
-                    ],
-                    [
-                        'route' => 'admin-misc-migration',
-                        'label' => 'Datenbank-Update',
-                        'icon' => 'fa-database',
-                        'href' => '{admin_url}/misc/migration'
                     ],
                     [
                         'route' => 'admin-misc-license',

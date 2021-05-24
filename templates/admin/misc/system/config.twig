@@ -1,0 +1,65 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/content.twig' %}
+
+{% block title %}{{ 'System'|trans }}{% endblock %}
+
+{% set pageSelect = [] %}
+{% for page in pages %}
+    {% set selected = false %}
+    {% if page.getPageId() == config.default_page %}
+        {% set selected = true %}
+    {% endif %}
+    {% set pageSelect = pageSelect|merge([{value: page.getPageId(), label: page.name, selected: selected}]) %}
+{% endfor %}
+
+{%
+    set messages = {
+        invalid_input: {
+            class: 'danger',
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'|trans
+        },
+        save_error: {
+            class: 'danger',
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'|trans
+        },
+        save_success: {
+            class: 'success',
+            message: 'Die Konfiguration wurde erfolgreich gespeichert.'|trans
+        }
+    }
+%}
+
+{% block content %}
+    <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active">{{ 'Konfiguration'|trans }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ admin_url }}/misc/system/sysinfo">{{ 'Systeminformation'|trans }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ admin_url }}/misc/system/migration">{{ 'Datenbank-Update'|trans }}</a>
+        </li>
+    </ul>
+    <div class="mt-4">
+        {% if message %}
+            <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
+                {{ messages[message].message|raw }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+        <form method="post" id="page-form">
+            {{ forms.form_group('checkbox', 'maintenance_mode', config.maintenance_mode, 'Wartungsmodus'|trans, '', 'maintenance_mode' in errors ? 'is-invalid' : '', 'Im Wartungsmodus wird eine statische Seite angezeigt.'|trans) }}
+            {{ forms.form_group('checkbox', 'enable_tracking', config.enable_tracking, 'Statistiken'|trans, '', 'enable_tracking' in errors ? 'is-invalid' : '', 'Seitenbesuche werden aufgezeichnet und in Statistiken auf dem Dashboard zusammengefasst'|trans) }}
+            {{ forms.form_group('select', 'default_page', config.default_page, 'Startseite'|trans, '', 'default_page' in errors ? 'is-invalid' : '', 'Startseite deiner Webseite'|trans, pageSelect) }}
+            {{ forms.form_group('text', 'admin_route', config.admin_route, 'Admin-Pfad'|trans, '', 'admin_route' in errors ? 'is-invalid' : '', 'Pfad des Adminbereichs'|trans) }}
+            {{ forms.form_group('number', 'max_failed_logins', config.max_failed_logins, 'Login Fehlversuche'|trans, '', 'max_failed_logins' in errors ? 'is-invalid' : '', 'Maximale Anzahl Fehlversuche bevor ein Benutzer gesperrt wird'|trans) }}
+            <div class="text-right mb-4">
+                <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

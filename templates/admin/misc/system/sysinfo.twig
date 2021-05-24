@@ -1,0 +1,41 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/content.twig' %}
+
+{% block title %}{{ 'System'|trans }}{% endblock %}
+
+{% block content %}
+    <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ admin_url }}/misc/system/config">{{ 'Konfiguration'|trans }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active">{{ 'Systeminformation'|trans }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ admin_url }}/misc/system/migration">{{ 'Datenbank-Update'|trans }}</a>
+        </li>
+    </ul>
+    <div class="mt-4">
+        {% if update %}
+            <div class="alert alert-info mx-0 row" role="alert">
+                <div class="col-8 align-middle p-0 pt-1">
+                    {{ 'CMS-Update verfügbar:'|trans }} {{ update.current }} -> {{ update.latest }}
+                </div>
+                <div class="col-4 text-right p-0">
+                    <a target="_blank" href="https://github.com/dominicgisler/gislercms/releases/download/{{ update.latest }}/gislercms_{{ update.latest }}.zip" class="btn btn-primary btn-sm"><i class="fa fa-download mr-1"></i> {{ 'Download'|trans }}</a>
+                </div>
+            </div>
+        {% endif %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                {% for key, val in data %}
+                    <tr>
+                        <th>{{ key|trans }}</th>
+                        <td>{{ val|raw }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

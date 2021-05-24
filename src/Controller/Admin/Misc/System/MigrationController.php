@@ -1,6 +1,6 @@
 <?php
 
-namespace GislerCMS\Controller\Admin\Misc;
+namespace GislerCMS\Controller\Admin\Misc\System;
 
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Helper\MigrationHelper;
@@ -10,12 +10,12 @@ use Slim\Http\Response;
 
 /**
  * Class MigrationController
- * @package GislerCMS\Controller\Admin\Misc
+ * @package GislerCMS\Controller\Admin\Misc\System
  */
 class MigrationController extends AbstractController
 {
-    const NAME = 'admin-misc-migration';
-    const PATTERN = '{admin_route}/misc/migration';
+    const NAME = 'admin-misc-system-migration';
+    const PATTERN = '{admin_route}/misc/system/migration';
     const METHODS = ['GET', 'POST'];
 
     /**
@@ -38,7 +38,7 @@ class MigrationController extends AbstractController
             $migrations[$mig->getName()]['done'] = $mig->getCreatedAt();
             $migrations[$mig->getName()]['description'] = $mig->getDescription();
         }
-        return $this->render($request, $response, 'admin/misc/migration.twig', [
+        return $this->render($request, $response, 'admin/misc/system/migration.twig', [
             'migrations' => $migrations,
             'error' => $error,
             'messages' => $messages

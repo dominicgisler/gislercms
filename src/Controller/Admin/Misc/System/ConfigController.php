@@ -1,6 +1,6 @@
 <?php
 
-namespace GislerCMS\Controller\Admin\Misc;
+namespace GislerCMS\Controller\Admin\Misc\System;
 
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Filter\ToBool;
@@ -20,16 +20,14 @@ use Laminas\Validator\Between;
 use Laminas\Validator\StringLength;
 
 /**
- * Class SystemController
- * @package GislerCMS\Controller\Admin\Misc
+ * Class ConfigController
+ * @package GislerCMS\Controller\Admin\Misc\System
  */
-class SystemController extends AbstractController
+class ConfigController extends AbstractController
 {
-    const NAME = 'admin-misc-system';
-    const PATTERN = '{admin_route}/misc/system';
+    const NAME = 'admin-misc-system-config';
+    const PATTERN = '{admin_route}/misc/system/config';
     const METHODS = ['GET', 'POST'];
-
-    const RELEASE_URL = 'https://api.github.com/repos/dominicgisler/gislercms/releases/latest';
 
     /**
      * @param Request $request
@@ -89,14 +87,13 @@ class SystemController extends AbstractController
                     $msg = 'save_error';
                 } else {
                     $cont->offsetSet('config_saved', true);
-                    return $response->withRedirect($this->get('base_url') . $data['admin_route'] . '/misc/system');
+                    return $response->withRedirect($this->get('base_url') . $data['admin_route'] . '/misc/system/config');
                 }
             } else {
                 $msg = 'invalid_input';
             }
         }
-        return $this->render($request, $response, 'admin/misc/system.twig', [
-            'sysinfo' => $this->getSysInfo(),
+        return $this->render($request, $response, 'admin/misc/system/config.twig', [
             'languages' => $languages,
             'pages' => Page::getAll(),
             'config' => $data,
@@ -163,59 +160,5 @@ class SystemController extends AbstractController
                 ]
             ]
         ]);
-    }
-
-    /**
-     * @return array[]
-     */
-    private function getSysInfo()
-    {
-        $cmsVersion = $this->get('settings')['version'];
-
-        $update = [];
-        $context = stream_context_create([
-            'http' => [
-                'method' => 'GET',
-                'header' => [
-                    'User-Agent: PHP'
-                ]
-            ]
-        ]);
-        $content = file_get_contents(self::RELEASE_URL, false, $context);
-        $release = json_decode($content, true);
-        if (!empty($release['tag_name']) && $release['tag_name'] != $cmsVersion) {
-            $update = [
-                'current' => $cmsVersion,
-                'latest' => $release['tag_name']
-            ];
-        }
-
-        $iniCheck = ['max_execution_time', 'max_input_time', 'memory_limit', 'post_max_size', 'upload_max_filesize'];
-        $phpConfigs = '';
-        foreach ($iniCheck as $key) {
-            $phpConfigs .= sprintf('%s: %s<br>', $key, ini_get($key));
-        }
-
-        $data = [
-            'CMS Version' => $cmsVersion,
-            'PHP Version' => phpversion(),
-            'MySQL Version' => $this->get('pdo')->query('select version()')->fetchColumn(),
-            'Webserver' => $_SERVER['SERVER_SOFTWARE'],
-            'URL' => $this->get('base_url'),
-            'Verwaltungs-URL' => $this->get('base_url') . $this->get('settings')['global']['admin_route'],
-            'Verzeichnis' => $_SERVER['DOCUMENT_ROOT'],
-            'PHP Konfigurationen' => $phpConfigs,
-            'PHP Erweiterungen' => '- ' . join('<br>- ', get_loaded_extensions()),
-            'HTTP Protokoll' => $_SERVER['SERVER_PROTOCOL'],
-            'Servername' => $_SERVER['SERVER_NAME'],
-            'Serveradresse' => $_SERVER['SERVER_ADDR'],
-            'Serverport' => $_SERVER['SERVER_PORT'],
-            'Serversignatur' => $_SERVER['SERVER_SIGNATURE']
-        ];
-
-        return [
-            'data' => $data,
-            'update' => $update
-        ];
     }
 }
