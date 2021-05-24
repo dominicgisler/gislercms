@@ -208,7 +208,7 @@ class IndexController extends AbstractController
             foreach ($times as $int => $counts) {
                 foreach ($counts as $key => $count) {
                     $pos = array_search($key, $graphData[$int]['labels']);
-                    if ($pos) {
+                    if ($pos !== false) {
                         $graphData[$int]['data'][$type][$pos] = $count;
                     }
                 }

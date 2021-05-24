@@ -59,39 +59,40 @@
                 </div>
             </a>
         </div>
-        <div class="col-md-6">
+        <div class="col-12">
             <div class="card mb-3">
                 <div class="card-body">
                     <h3>{{ 'Seiten'|trans }}</h3>
-                    <table class="table table-bordered table-responsive-xs datatable" data-order='[[ 3, "desc" ]]'>
-                        <thead>
-                        <tr>
-                            <th>{{ 'Name'|trans }}</th>
-                            <th>{{ 'Sprache'|trans }}</th>
-                            <th>{{ 'Parameter'|trans }}</th>
-                            <th>{{ 'Aufrufe'|trans }}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for vis in stats.pages %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered datatable" data-order='[[ 3, "desc" ]]'>
+                            <thead>
                             <tr>
-                                <td><a href="{{ admin_url }}/page/{{ vis.page.id }}">{{ vis.page.name }}</a></td>
-                                <td>{{ vis.language }}</td>
-                                <td>{{ vis.arguments }}</td>
-                                <td>{{ vis.visits }}</td>
+                                <th>{{ 'Name'|trans }}</th>
+                                <th>{{ 'Sprache'|trans }}</th>
+                                <th>{{ 'Parameter'|trans }}</th>
+                                <th>{{ 'Aufrufe'|trans }}</th>
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            {% for vis in stats.pages %}
+                                <tr>
+                                    <td><a href="{{ admin_url }}/page/{{ vis.page.id }}">{{ vis.page.name }}</a></td>
+                                    <td>{{ vis.language }}</td>
+                                    <td>{{ vis.arguments }}</td>
+                                    <td>{{ vis.visits }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-sm-6">
+        <div class="col-12 col-xl-6">
             <div class="card mb-3">
                 <div class="card-body">
                     <h3>{{ 'Betriebssysteme'|trans }}</h3>
-                    <table class="table table-bordered datatable" data-order='[[ 1, "desc" ]]' data-searching="false"
-                           data-paging="false">
+                    <table class="table table-bordered datatable" data-order='[[ 1, "desc" ]]'>
                         <thead>
                         <tr>
                             <th>{{ 'Name'|trans }}</th>
@@ -110,12 +111,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-sm-6">
+        <div class="col-12 col-xl-6">
             <div class="card mb-3">
                 <div class="card-body">
                     <h3>{{ 'Browser'|trans }}</h3>
-                    <table class="table table-bordered datatable" data-order='[[ 1, "desc" ]]' data-searching="false"
-                           data-paging="false">
+                    <table class="table table-bordered datatable" data-order='[[ 1, "desc" ]]'>
                         <thead>
                         <tr>
                             <th>{{ 'Name'|trans }}</th>
@@ -179,7 +179,7 @@
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             var ctx = $('#' + $(e.target).attr('id') + '-content').find('canvas');
             new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
                     labels: ctx.data('labels'),
                     datasets: [
@@ -188,23 +188,35 @@
                             data: ctx.data('counts').clients,
                             lineTension: 0,
                             backgroundColor: '#007bff',
-                            borderWidth: 4
+                            borderColor: '#007bff',
+                            borderWidth: 2,
+                            fill: false,
                         },
                         {
                             label: '{{ 'Besuche'|trans }}',
                             data: ctx.data('counts').sessions,
                             lineTension: 0,
                             backgroundColor: '#17a2b8',
-                            borderWidth: 4
+                            borderColor: '#17a2b8',
+                            borderWidth: 2,
+                            fill: false,
                         },
                         {
                             label: '{{ 'Aufrufe'|trans }}',
                             data: ctx.data('counts').visits,
                             lineTension: 0,
                             backgroundColor: '#6c757d',
-                            borderWidth: 4
+                            borderColor: '#6c757d',
+                            borderWidth: 2,
+                            fill: false,
                         }
                     ]
+                },
+                options: {
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
                 }
             });
         });
