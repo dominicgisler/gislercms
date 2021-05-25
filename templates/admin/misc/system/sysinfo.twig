@@ -5,17 +5,7 @@
 {% block title %}{{ 'System'|trans }}{% endblock %}
 
 {% block content %}
-    <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link" href="{{ admin_url }}/misc/system/config">{{ 'Konfiguration'|trans }}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active">{{ 'Systeminformation'|trans }}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ admin_url }}/misc/system/migration">{{ 'Datenbank-Update'|trans }}</a>
-        </li>
-    </ul>
+    {% include 'admin/misc/system/tabnav.twig' with { current: 'sysinfo' } %}
     <div class="mt-4">
         {% if update %}
             <div class="alert alert-info mx-0 row" role="alert">

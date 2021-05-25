@@ -5,7 +5,7 @@
 {% block content %}
     {% if not tracking %}
         <div class="alert alert-warning" role="alert">
-            {{ 'Die Aufzeichung von Statistiken ist deaktiviert!'|trans }} {{ 'Dies kann in der %s angepasst werden.'|trans|format('<a href="' ~ admin_url ~ '/misc/system">' ~ 'Konfiguration'|trans ~ '</a>')|raw }}
+            {{ 'Die Aufzeichung von Statistiken ist deaktiviert!'|trans }} {{ 'Dies kann in der %s angepasst werden.'|trans|format('<a href="' ~ admin_url ~ '/misc/system/config">' ~ 'Konfiguration'|trans ~ '</a>')|raw }}
         </div>
     {% endif %}
     <div class="alert alert-info mx-0 row" role="alert">

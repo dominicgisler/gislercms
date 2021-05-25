@@ -31,17 +31,7 @@
 %}
 
 {% block content %}
-    <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active">{{ 'Konfiguration'|trans }}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ admin_url }}/misc/system/sysinfo">{{ 'Systeminformation'|trans }}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ admin_url }}/misc/system/migration">{{ 'Datenbank-Update'|trans }}</a>
-        </li>
-    </ul>
+    {% include 'admin/misc/system/tabnav.twig' with { current: 'config' } %}
     <div class="mt-4">
         {% if message %}
             <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
