@@ -4,6 +4,7 @@ namespace GislerCMS\Controller\Admin\Misc\System;
 
 use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
+use GislerCMS\Helper\SessionHelper;
 use Ifsnop\Mysqldump\Mysqldump;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -53,39 +54,61 @@ class BackupController extends AbstractController
             }
         }
 
+        $msg = false;
+
+        $cnt = SessionHelper::getContainer();
+        if ($cnt->offsetExists('backup_deleted')) {
+            $cnt->offsetUnset('backup_deleted');
+            $msg = 'delete_success';
+        } else if ($cnt->offsetExists('backup_created')) {
+            $cnt->offsetUnset('backup_created');
+            $msg = 'backup_success';
+        }
+
         if ($request->isPost()) {
-            $dbCfg = $this->get('settings')['database'];
-            $dumpFile = $rootPath . '/' . $dbCfg['data'] . '.sql';
-            $dump = new Mysqldump(
-                sprintf('mysql:host=%s;dbname=%s;port=3306', $dbCfg['host'], $dbCfg['data']),
-                $dbCfg['user'],
-                $dbCfg['pass']
-            );
-            $dump->start($dumpFile);
+            if (!is_null($request->getParsedBodyParam('backup'))) {
+                $dbCfg = $this->get('settings')['database'];
+                $dumpFile = $rootPath . '/' . $dbCfg['data'] . '.sql';
+                $dump = new Mysqldump(
+                    sprintf('mysql:host=%s;dbname=%s;port=3306', $dbCfg['host'], $dbCfg['data']),
+                    $dbCfg['user'],
+                    $dbCfg['pass']
+                );
+                $dump->start($dumpFile);
 
-            $cmsVersion = $this->get('settings')['version'];
+                $cmsVersion = $this->get('settings')['version'];
 
-            $zip = new ZipArchive();
-            $zip->open(sprintf(self::BACKUP_FILE, $backupPath, $cmsVersion, time()), ZipArchive::CREATE | ZipArchive::OVERWRITE);
+                $zip = new ZipArchive();
+                $zip->open(sprintf(self::BACKUP_FILE, $backupPath, $cmsVersion, time()), ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
-            /** @var SplFileInfo[] $files */
-            $files = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($rootPath),
-                RecursiveIteratorIterator::LEAVES_ONLY
-            );
+                /** @var SplFileInfo[] $files */
+                $files = new RecursiveIteratorIterator(
+                    new RecursiveDirectoryIterator($rootPath),
+                    RecursiveIteratorIterator::LEAVES_ONLY
+                );
 
-            foreach ($files as $file) {
-                if (!$file->isDir()) {
-                    $filePath = $file->getRealPath();
-                    if (substr($filePath, 0, strlen($backupPath)) !== $backupPath) {
-                        $relativePath = substr($filePath, strlen($rootPath) + 1);
-                        $zip->addFile($filePath, $relativePath);
+                foreach ($files as $file) {
+                    if (!$file->isDir()) {
+                        $filePath = $file->getRealPath();
+                        if (substr($filePath, 0, strlen($backupPath)) !== $backupPath) {
+                            $relativePath = substr($filePath, strlen($rootPath) + 1);
+                            $zip->addFile($filePath, $relativePath);
+                        }
                     }
+                }
+
+                $zip->close();
+                unlink($dumpFile);
+                $cnt->offsetSet('backup_created', true);
+            } else if (!is_null($request->getParsedBodyParam('delete'))) {
+                $filename = $request->getParsedBodyParam('filename');
+                $path = $backupPath . '/' . $filename;
+                if (file_exists($path)) {
+                    unlink($path);
+                    $cnt->offsetSet('backup_deleted', true);
                 }
             }
 
-            $zip->close();
-            unlink($dumpFile);
             return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/misc/system/backup');
         }
 
@@ -109,7 +132,8 @@ class BackupController extends AbstractController
         }
 
         return $this->render($request, $response, 'admin/misc/system/backup.twig', [
-            'backups' => $backups
+            'backups' => $backups,
+            'message' => $msg
         ]);
     }
 

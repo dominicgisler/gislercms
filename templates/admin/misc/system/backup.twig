@@ -4,9 +4,30 @@
 
 {% block title %}{{ 'Backup'|trans }}{% endblock %}
 
+{%
+    set messages = {
+        backup_success: {
+            class: 'success',
+            message: 'Das Backup wurde erfolgreich erstellt.'|trans
+        },
+        delete_success: {
+            class: 'success',
+            message: 'Das Backup wurde erfolgreich gelöscht.'|trans
+        }
+    }
+%}
+
 {% block content %}
     {% include 'admin/misc/system/tabnav.twig' with { current: 'backup' } %}
     <div class="table-responsive mt-4">
+        {% if message %}
+            <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
+                {{ messages[message].message|raw }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
         <table class="table datatable" data-order='[[ 2, "desc" ]]'>
             <thead class="thead-light">
             <tr>
@@ -14,27 +35,62 @@
                 <th>{{ 'Version'|trans }}</th>
                 <th>{{ 'Zeitpunkt'|trans }}</th>
                 <th>{{ 'Grösse'|trans }}</th>
-                <th class="text-right" data-sortable="false">{{ 'Download'|trans }}</th>
+                <th class="text-right" data-sortable="false">{{ 'Aktionen'|trans }}</th>
             </tr>
             </thead>
             <tbody>
             {% for backup in backups %}
                 <tr>
-                    <td>{{ backup.filename }}</td>
-                    <td>{{ backup.version ?: 'Unbekannt' }}</td>
-                    <td data-order="{{ backup.timestamp ? backup.timestamp|date('Y-m-d H:i:s') : '' }}">{{ backup.timestamp ? backup.timestamp|date('d.m.Y H:i:s') : 'Unbekannt' }}</td>
-                    <td>{{ backup.size }}</td>
-                    <td class="text-right"><a href="{{ admin_url }}/misc/system/backup/download/{{ backup.filename }}"><i class="fa fa-download"></i></a></td>
+                    <td class="filename">{{ backup.filename }}</td>
+                    <td class="version">{{ backup.version ?: 'Unbekannt' }}</td>
+                    <td class="timestamp" data-order="{{ backup.timestamp ? backup.timestamp|date('Y-m-d H:i:s') : '' }}">{{ backup.timestamp ? backup.timestamp|date('d.m.Y H:i:s') : 'Unbekannt' }}</td>
+                    <td class="size">{{ backup.size }}</td>
+                    <td class="text-right">
+                        <a href="{{ admin_url }}/misc/system/backup/download/{{ backup.filename }}"><i class="fa fa-download"></i></a>
+                        <a href="#" class="text-danger" type="button" data-toggle="modal" data-target="#confirmDelete"><i class="fa fa-trash-alt"></i></a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-    <form method="post" class="text-right mt-2" id="backup">
-        <button type="submit" name="backup" class="btn btn-primary">
-            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-            {{ 'Backup erstellen'|trans }}
-        </button>
+    <form method="post" class="mt-2" id="backup">
+        <div class="text-right">
+            <button type="submit" name="backup" class="btn btn-primary">
+                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                {{ 'Backup erstellen'|trans }}
+            </button>
+        </div>
+
+        {# confirm delete modal #}
+        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Backup löschen'|trans }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            {{ 'Möchtest du das folgende Backup wirklich unwiderruflich löschen?'|trans }}
+                        </p>
+                        <p>
+                            <input type="hidden" name="filename" class="filename">
+                            {{ 'Dateiname:'|trans }} <span class="filename"></span><br>
+                            {{ 'Version:'|trans }} <span class="version"></span><br>
+                            {{ 'Zeitpunkt:'|trans }} <span class="timestamp"></span><br>
+                            {{ 'Grösse:'|trans }} <span class="size"></span>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="submit" name="delete" class="btn btn-danger">{{ 'Ja, Backup löschen'|trans }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 {% endblock %}
 
@@ -42,9 +98,23 @@
     {{ parent() }}
 
     <script>
-        $('#backup').submit(function() {
-            $(this).find('.spinner-border').removeClass('d-none');
-            $(this).find('button').prop('disabled', true);
-        })
+        $('#backup').submit(function () {
+            let $el = $(this)
+            setTimeout(function() {
+                $el.find('.spinner-border').removeClass('d-none');
+                $el.find('button').prop('disabled', true);
+            });
+        });
+
+        $('#confirmDelete').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var row = button.closest('tr');
+            var modal = $(this);
+            modal.find('input.filename').val(row.find('.filename').text());
+            modal.find('span.filename').text(row.find('.filename').text());
+            modal.find('.version').text(row.find('.version').text());
+            modal.find('.timestamp').text(row.find('.timestamp').text());
+            modal.find('.size').text(row.find('.size').text());
+        });
     </script>
 {% endblock %}
