@@ -121,7 +121,12 @@ return [
                 'title' => 'Verschiedenes',
                 'items' => [
                     [
-                        'route' => ['admin-misc-system-config', 'admin-misc-system-sysinfo', 'admin-misc-system-migration'],
+                        'route' => [
+                            'admin-misc-system-config',
+                            'admin-misc-system-sysinfo',
+                            'admin-misc-system-migration',
+                            'admin-misc-system-backup'
+                        ],
                         'label' => 'System',
                         'icon' => 'fa-cogs',
                         'href' => '{admin_url}/misc/system/config'

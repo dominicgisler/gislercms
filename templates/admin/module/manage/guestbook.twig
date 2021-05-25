@@ -67,10 +67,6 @@
                     <a href="#" class="text-danger" data-toggle="modal" data-target="#confirmDeleteEntry" onclick="$('#deleteEntryButton').val({{ entry.getGuestbookEntryId() }});"><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">{{ 'Keine Einträge gefunden'|trans }}</td>
-            </tr>
         {% endfor %}
         </tbody>
     </table>

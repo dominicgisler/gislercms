@@ -13,12 +13,12 @@
 {% block content %}
     <form method="post">
         <table class="table table-bordered {% if trash|length > 0 %}table-hover{% endif %} datatable" data-order='[[ 1, "asc" ]]'>
-            <thead>
+            <thead class="thead-light">
                 <tr>
-                    <th scope="col" style="width: 50px;"></th>
+                    <th scope="col" style="width: 50px;" data-sortable="false"></th>
                     <th scope="col">{{ 'Name'|trans }}</th>
                     <th scope="col">{{ 'Typ'|trans }}</th>
-                    <th scope="col"></th>
+                    <th scope="col" data-sortable="false"></th>
                 </tr>
             </thead>
             <tbody>
@@ -33,13 +33,6 @@
                             <a href="{{ admin_url }}/{{ elem.type }}/{{ elem.id }}">
                                 <i class="fa fa-edit"></i>
                             </a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td></td>
-                        <td colspan="3">
-                            {{ 'Der Papierkorb ist leer'|trans }}
                         </td>
                     </tr>
                 {% endfor %}

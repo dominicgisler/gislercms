@@ -21,11 +21,6 @@
                     <td>{{ val.getName() }}</td>
                     <td>{{ val.getController()|replace({'ModuleController': '', 'Controller': ''}) }}</td>
                 </tr>
-            {% else %}
-                <tr>
-                    <td></td>
-                    <td colspan="4">{{ 'Keine Module gefunden'|trans }}</td>
-                </tr>
             {% endfor %}
             </tbody>
         </table>
