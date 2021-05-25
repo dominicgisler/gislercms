@@ -4,6 +4,7 @@ namespace GislerCMS\Controller\Admin\Misc\System;
 
 use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
+use Ifsnop\Mysqldump\Mysqldump;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Slim\Http\Request;
@@ -53,6 +54,15 @@ class BackupController extends AbstractController
         }
 
         if ($request->isPost()) {
+            $dbCfg = $this->get('settings')['database'];
+            $dumpFile = $rootPath . '/' . $dbCfg['data'] . '.sql';
+            $dump = new Mysqldump(
+                sprintf('mysql:host=%s;dbname=%s;port=3306', $dbCfg['host'], $dbCfg['data']),
+                $dbCfg['user'],
+                $dbCfg['pass']
+            );
+            $dump->start($dumpFile);
+
             $cmsVersion = $this->get('settings')['version'];
 
             $zip = new ZipArchive();
@@ -64,7 +74,7 @@ class BackupController extends AbstractController
                 RecursiveIteratorIterator::LEAVES_ONLY
             );
 
-            foreach ($files as $name => $file) {
+            foreach ($files as $file) {
                 if (!$file->isDir()) {
                     $filePath = $file->getRealPath();
                     if (substr($filePath, 0, strlen($backupPath)) !== $backupPath) {
@@ -75,6 +85,7 @@ class BackupController extends AbstractController
             }
 
             $zip->close();
+            unlink($dumpFile);
             return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/misc/system/backup');
         }
 
@@ -107,7 +118,8 @@ class BackupController extends AbstractController
      * @param int $decimals
      * @return string
      */
-    function humanFilesize($bytes, $decimals = 2): string {
+    function humanFilesize($bytes, $decimals = 2): string
+    {
         $sz = 'BKMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor ?: 0];

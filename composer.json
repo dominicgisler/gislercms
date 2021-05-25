@@ -48,7 +48,8 @@
     "laminas/laminas-config": "^3.5",
     "laminas/laminas-session": "^2.10",
     "laminas/laminas-inputfilter": "^2.12",
-    "laminas/laminas-validator": "^2.14"
+    "laminas/laminas-validator": "^2.14",
+    "ifsnop/mysqldump-php": "^2.9"
   },
   "autoload": {
     "psr-4": {

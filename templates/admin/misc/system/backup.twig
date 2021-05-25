@@ -22,7 +22,7 @@
                 <tr>
                     <td>{{ backup.filename }}</td>
                     <td>{{ backup.version ?: 'Unbekannt' }}</td>
-                    <td>{{ backup.timestamp ? backup.timestamp|date('d.m.Y H:i:s') : 'Unbekannt' }}</td>
+                    <td data-order="{{ backup.timestamp ? backup.timestamp|date('Y-m-d H:i:s') : '' }}">{{ backup.timestamp ? backup.timestamp|date('d.m.Y H:i:s') : 'Unbekannt' }}</td>
                     <td>{{ backup.size }}</td>
                     <td class="text-right"><a href="{{ admin_url }}/misc/system/backup/download/{{ backup.filename }}"><i class="fa fa-download"></i></a></td>
                 </tr>
