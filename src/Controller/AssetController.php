@@ -4,6 +4,7 @@ namespace GislerCMS\Controller;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\Stream;
 
 /**
  * Class AssetController
@@ -12,8 +13,10 @@ use Slim\Http\Response;
 class AssetController extends AbstractController
 {
     const NAME = 'asset';
-    const PATTERN = '/{asset:robots.txt|favicon.ico}';
+    const PATTERN = '/{asset:robots.txt|favicon.ico|assets/.*}';
     const METHODS = ['GET'];
+
+    const HIDDEN_ASSETS = ['robots.txt'];
 
     /**
      * @param Request $request
@@ -25,15 +28,29 @@ class AssetController extends AbstractController
     {
         $asset = $request->getAttribute('route')->getArgument('asset');
 
-        switch ($asset) {
-            case 'robots.txt':
-                $response = $response->withAddedHeader('Content-Type', 'text/plain');
-                break;
-            case 'favicon.ico':
-                $response = $response->withAddedHeader('Content-Type', 'image/vnd.microsoft.icon');
-                break;
+        if ($asset == 'robots.txt') {
+            return $this->render(
+                $request,
+                $response->withAddedHeader('Content-Type', 'text/plain'),
+                sprintf('assets/%s', $asset)
+            );
         }
 
-        return $this->render($request, $response, sprintf('assets/%s', $asset));
+        $asset = str_replace('assets/', '', $asset);
+        if (!in_array($asset, self::HIDDEN_ASSETS)) {
+            $tplPaths = $this->get('settings')['renderer']['template_paths'];
+            foreach ($tplPaths as $path) {
+                $file = sprintf('%s/assets/%s', $path, $asset);
+                if (file_exists($file)) {
+                    $ctype = mime_content_type($file);
+                    $str = fopen($file, 'r');
+                    return $response
+                        ->withHeader('Content-Type', $ctype)
+                        ->withBody(new Stream($str));
+                }
+            }
+        }
+
+        return $response->withStatus(404);
     }
 }
