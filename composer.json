@@ -49,7 +49,8 @@
     "laminas/laminas-session": "^2.10",
     "laminas/laminas-inputfilter": "^2.12",
     "laminas/laminas-validator": "^2.14",
-    "ifsnop/mysqldump-php": "^2.9"
+    "ifsnop/mysqldump-php": "^2.9",
+    "pavlakis/slim-cli": "^1.2"
   },
   "autoload": {
     "psr-4": {

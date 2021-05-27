@@ -43,6 +43,7 @@ return [
                 \GislerCMS\Controller\Admin\SetupController::class,
                 \GislerCMS\Controller\SitemapController::class,
                 \GislerCMS\Controller\AssetController::class,
+                \GislerCMS\Controller\CronController::class,
                 \GislerCMS\Controller\IndexController::class,
                 \GislerCMS\Controller\PageLangController::class,
                 \GislerCMS\Controller\PageController::class

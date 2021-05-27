@@ -39,6 +39,9 @@ abstract class AbstractController
      */
     public function __construct($container)
     {
+        if (PHP_SAPI == "cli") {
+            exit;
+        }
         $this->container = $container;
         DbModel::init($this->get('pdo'));
     }

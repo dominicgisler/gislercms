@@ -39,7 +39,6 @@ class BackupController extends AbstractController
     {
         set_time_limit(self::TIME_LIMIT);
 
-        $rootPath = realpath(self::ROOT_PATH);
         $backupPath = realpath(self::ROOT_PATH . '/' . self::BACKUP_FOLDER);
 
         $dlfile = $request->getAttribute('route')->getArgument('backup');
@@ -68,37 +67,8 @@ class BackupController extends AbstractController
         if ($request->isPost()) {
             if (!is_null($request->getParsedBodyParam('backup'))) {
                 $dbCfg = $this->get('settings')['database'];
-                $dumpFile = $rootPath . '/' . $dbCfg['data'] . '.sql';
-                $dump = new Mysqldump(
-                    sprintf('mysql:host=%s;dbname=%s;port=3306', $dbCfg['host'], $dbCfg['data']),
-                    $dbCfg['user'],
-                    $dbCfg['pass']
-                );
-                $dump->start($dumpFile);
-
                 $cmsVersion = $this->get('settings')['version'];
-
-                $zip = new ZipArchive();
-                $zip->open(sprintf(self::BACKUP_FILE, $backupPath, $cmsVersion, time()), ZipArchive::CREATE | ZipArchive::OVERWRITE);
-
-                /** @var SplFileInfo[] $files */
-                $files = new RecursiveIteratorIterator(
-                    new RecursiveDirectoryIterator($rootPath),
-                    RecursiveIteratorIterator::LEAVES_ONLY
-                );
-
-                foreach ($files as $file) {
-                    if (!$file->isDir()) {
-                        $filePath = $file->getRealPath();
-                        if (substr($filePath, 0, strlen($backupPath)) !== $backupPath) {
-                            $relativePath = substr($filePath, strlen($rootPath) + 1);
-                            $zip->addFile($filePath, $relativePath);
-                        }
-                    }
-                }
-
-                $zip->close();
-                unlink($dumpFile);
+                self::doBackup($dbCfg, $cmsVersion);
                 $cnt->offsetSet('backup_created', true);
             } else if (!is_null($request->getParsedBodyParam('delete'))) {
                 $filename = $request->getParsedBodyParam('filename');
@@ -112,24 +82,7 @@ class BackupController extends AbstractController
             return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/misc/system/backup');
         }
 
-        $backups = [];
-        foreach (glob($backupPath . '/backup-*.zip') as $path) {
-            $filename = basename($path);
-            preg_match('/^backup-(v[0-9]\.[0-9]\.[0-9])-([0-9]+)\.zip/', $filename, $matches);
-            $version = '';
-            $timestamp = '';
-            $size = filesize($path);
-            if (isset($matches[1]) && isset($matches[2])) {
-                $version = $matches[1];
-                $timestamp = $matches[2];
-            }
-            $backups[] = [
-                'filename' => $filename,
-                'version' => $version,
-                'timestamp' => $timestamp,
-                'size' => $this->humanFilesize($size)
-            ];
-        }
+        $backups = self::getBackups(true);
 
         return $this->render($request, $response, 'admin/misc/system/backup.twig', [
             'backups' => $backups,
@@ -139,13 +92,83 @@ class BackupController extends AbstractController
 
     /**
      * @param $bytes
-     * @param int $decimals
      * @return string
      */
-    function humanFilesize($bytes, $decimals = 2): string
+    private static function humanFilesize($bytes): string
     {
         $sz = 'BKMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor ?: 0];
+        return sprintf("%.2f", $bytes / pow(1024, $factor)) . @$sz[$factor ?: 0];
+    }
+
+    /**
+     * @param bool $withSize
+     * @return array
+     */
+    public static function getBackups(bool $withSize = false): array
+    {
+        $backupPath = realpath(self::ROOT_PATH . '/' . self::BACKUP_FOLDER);
+
+        $backups = [];
+        foreach (glob($backupPath . '/backup-*.zip') as $path) {
+            $filename = basename($path);
+            preg_match('/^backup-(v[0-9]\.[0-9]\.[0-9])-([0-9]+)\.zip/', $filename, $matches);
+            $version = '';
+            $timestamp = '';
+            $size = $withSize ? filesize($path) : 0;
+            if (isset($matches[1]) && isset($matches[2])) {
+                $version = $matches[1];
+                $timestamp = $matches[2];
+            }
+            $backups[] = [
+                'filename' => $filename,
+                'version' => $version,
+                'timestamp' => $timestamp,
+                'size' => self::humanFilesize($size)
+            ];
+        }
+
+        return $backups;
+    }
+
+    /**
+     * @param array $dbCfg
+     * @param string $cmsVersion
+     * @throws Exception
+     */
+    public static function doBackup(array $dbCfg, string $cmsVersion)
+    {
+        $rootPath = realpath(self::ROOT_PATH);
+        $backupPath = realpath(self::ROOT_PATH . '/' . self::BACKUP_FOLDER);
+
+        $dumpFile = $rootPath . '/' . $dbCfg['data'] . '.sql';
+        $dump = new Mysqldump(
+            sprintf('mysql:host=%s;dbname=%s;port=3306', $dbCfg['host'], $dbCfg['data']),
+            $dbCfg['user'],
+            $dbCfg['pass']
+        );
+        $dump->start($dumpFile);
+
+        $zip = new ZipArchive();
+        $zip->open(sprintf(self::BACKUP_FILE, $backupPath, $cmsVersion, time()), ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+        /** @var SplFileInfo[] $files */
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($rootPath),
+            RecursiveIteratorIterator::LEAVES_ONLY
+        );
+
+        foreach ($files as $file) {
+            if (!$file->isDir()) {
+                $filePath = $file->getRealPath();
+                if (substr($filePath, 0, strlen($backupPath)) !== $backupPath) {
+                    $relativePath = substr($filePath, strlen($rootPath) + 1);
+                    $zip->addFile($filePath, $relativePath);
+                }
+            }
+        }
+
+        $zip->close();
+        unlink($dumpFile);
     }
 }

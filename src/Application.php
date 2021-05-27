@@ -11,6 +11,7 @@ use GislerCMS\TwigExtension\TwigGoogleReviews;
 use GislerCMS\TwigExtension\TwigJsonDecode;
 use GislerCMS\TwigExtension\TwigTrans;
 use Locale;
+use pavlakis\cli\CliRequest;
 use Slim\App;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
@@ -143,6 +144,7 @@ class Application
     protected function registerMiddleware()
     {
         // middleware
+        $this->app->add(new CliRequest());
     }
 
     /**

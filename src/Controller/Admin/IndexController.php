@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin;
 
+use Exception;
 use GislerCMS\Model\Client;
 use GislerCMS\Model\Config;
 use GislerCMS\Model\Session;
@@ -23,7 +24,7 @@ class IndexController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function __invoke($request, $response)
     {
@@ -46,7 +47,7 @@ class IndexController extends AbstractController
                     'platforms' => [],
                     'browsers' => []
                 ],
-                'graph' => $this->mapGraphData([
+                'graph' => self::mapGraphData([
                     'sessions' => [],
                     'visits' => [],
                     'clients' => []
@@ -55,73 +56,7 @@ class IndexController extends AbstractController
         }
 
         if ($request->isPost() && !is_null($request->getParsedBodyParam('calculate'))) {
-            set_time_limit(300);
-
-            $clients = Client::getAll();
-            $sessions = Session::getAll();
-            $visits = Visit::getAll();
-            $stats = [
-                'counts' => [
-                    'clients' => sizeof($clients),
-                    'real_clients' => 0,
-                    'sessions' => sizeof($sessions),
-                    'visits' => sizeof($visits)
-                ],
-                'pages' => [],
-                'platforms' => [],
-                'browsers' => []
-            ];
-            $graph = [
-                'sessions' => [],
-                'visits' => [],
-                'clients' => []
-            ];
-
-            foreach ($clients as $client) {
-                if ($client->getCreatedAt() != $client->getUpdatedAt()) {
-                    $stats['counts']['real_clients']++;
-                }
-                $graph['clients'] = $this->countDate($client->getCreatedAt(), $graph['clients']);
-            }
-
-            foreach ($visits as $visit) {
-                $pt = $visit->getPageTranslation();
-                $index = $pt->getPageTranslationId() . $visit->getArguments();
-                if (!isset($stats['pages'][$index])) {
-                    $stats['pages'][$index] = [
-                        'page' => [
-                            'id' => $pt->getPage()->getPageId(),
-                            'name' => $pt->getPage()->getName()
-                        ],
-                        'language' => $pt->getLanguage()->getDescription(),
-                        'arguments' => $visit->getArguments(),
-                        'visits' => 0
-                    ];
-                }
-                $stats['pages'][$index]['visits']++;
-
-                $graph['visits'] = $this->countDate($visit->getCreatedAt(), $graph['visits']);
-            }
-
-            foreach ($sessions as $session) {
-                if (!isset($stats['platforms'][$session->getPlatform()])) {
-                    $stats['platforms'][$session->getPlatform()] = 0;
-                }
-                $stats['platforms'][$session->getPlatform()]++;
-
-                if (!isset($stats['browsers'][$session->getBrowser()])) {
-                    $stats['browsers'][$session->getBrowser()] = 0;
-                }
-                $stats['browsers'][$session->getBrowser()]++;
-
-                $graph['sessions'] = $this->countDate($session->getCreatedAt(), $graph['sessions']);
-            }
-
-            file_put_contents($cacheFile, json_encode([
-                'calculation_date' => date('Y-m-d H:i:s'),
-                'stats' => mb_convert_encoding($stats, "UTF-8", "UTF-8"),
-                'graph' => $this->mapGraphData($graph)
-            ]));
+            self::calculateStats($cacheFile);
 
             return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route']);
         }
@@ -135,11 +70,86 @@ class IndexController extends AbstractController
     }
 
     /**
+     * @param string $cacheFile
+     * @throws Exception
+     */
+    public static function calculateStats(string $cacheFile)
+    {
+        set_time_limit(300);
+
+        $clients = Client::getAll();
+        $sessions = Session::getAll();
+        $visits = Visit::getAll();
+        $stats = [
+            'counts' => [
+                'clients' => sizeof($clients),
+                'real_clients' => 0,
+                'sessions' => sizeof($sessions),
+                'visits' => sizeof($visits)
+            ],
+            'pages' => [],
+            'platforms' => [],
+            'browsers' => []
+        ];
+        $graph = [
+            'sessions' => [],
+            'visits' => [],
+            'clients' => []
+        ];
+
+        foreach ($clients as $client) {
+            if ($client->getCreatedAt() != $client->getUpdatedAt()) {
+                $stats['counts']['real_clients']++;
+            }
+            $graph['clients'] = self::countDate($client->getCreatedAt(), $graph['clients']);
+        }
+
+        foreach ($visits as $visit) {
+            $pt = $visit->getPageTranslation();
+            $index = $pt->getPageTranslationId() . $visit->getArguments();
+            if (!isset($stats['pages'][$index])) {
+                $stats['pages'][$index] = [
+                    'page' => [
+                        'id' => $pt->getPage()->getPageId(),
+                        'name' => $pt->getPage()->getName()
+                    ],
+                    'language' => $pt->getLanguage()->getDescription(),
+                    'arguments' => $visit->getArguments(),
+                    'visits' => 0
+                ];
+            }
+            $stats['pages'][$index]['visits']++;
+
+            $graph['visits'] = self::countDate($visit->getCreatedAt(), $graph['visits']);
+        }
+
+        foreach ($sessions as $session) {
+            if (!isset($stats['platforms'][$session->getPlatform()])) {
+                $stats['platforms'][$session->getPlatform()] = 0;
+            }
+            $stats['platforms'][$session->getPlatform()]++;
+
+            if (!isset($stats['browsers'][$session->getBrowser()])) {
+                $stats['browsers'][$session->getBrowser()] = 0;
+            }
+            $stats['browsers'][$session->getBrowser()]++;
+
+            $graph['sessions'] = self::countDate($session->getCreatedAt(), $graph['sessions']);
+        }
+
+        file_put_contents($cacheFile, json_encode([
+            'calculation_date' => date('Y-m-d H:i:s'),
+            'stats' => mb_convert_encoding($stats, "UTF-8", "UTF-8"),
+            'graph' => self::mapGraphData($graph)
+        ]));
+    }
+
+    /**
      * @param string $date
      * @param array $arr
      * @return array
      */
-    private function countDate(string $date, array $arr)
+    private static function countDate(string $date, array $arr)
     {
         $timestamp = strtotime($date);
         $times = [
@@ -163,7 +173,7 @@ class IndexController extends AbstractController
      * @param array $graph
      * @return array
      */
-    private function mapGraphData(array $graph)
+    private static function mapGraphData(array $graph)
     {
         $graphData = [];
         foreach (['year', 'month', 'day', 'hour'] as $type) {
