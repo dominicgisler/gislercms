@@ -158,7 +158,7 @@ msgstr ""
 #: templates/trans-keys.twig:173
 #: templates/admin/misc/system/sysinfo.twig:53
 #: templates/admin/misc/system/migration.twig:53
-#: templates/admin/misc/system/config.twig:74
+#: templates/admin/misc/system/config.twig:106
 msgid "System"
 msgstr ""
 
@@ -332,7 +332,7 @@ msgstr ""
 #: templates/admin/misc/user/edit.twig:45
 #: templates/admin/misc/change-password.twig:45
 #: templates/admin/misc/profile.twig:64
-#: templates/admin/misc/system/config.twig:64
+#: templates/admin/misc/system/config.twig:96
 #: templates/admin/post/edit.twig:82
 msgid "Es sind Fehler aufgetreten, bitte prüfe deine Eingaben."
 msgstr ""
@@ -349,7 +349,7 @@ msgstr ""
 #: templates/admin/misc/user/edit.twig:45
 #: templates/admin/misc/change-password.twig:45
 #: templates/admin/misc/profile.twig:64
-#: templates/admin/misc/system/config.twig:64
+#: templates/admin/misc/system/config.twig:96
 #: templates/admin/post/edit.twig:82
 msgid "Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut."
 msgstr ""
@@ -446,7 +446,7 @@ msgstr ""
 
 #: templates/admin/module/manage/guestbook.twig:42
 #: templates/admin/module/manage/default.twig:42
-#: templates/admin/misc/system/config.twig:64
+#: templates/admin/misc/system/config.twig:96
 msgid "Die Konfiguration wurde erfolgreich gespeichert."
 msgstr ""
 
@@ -467,7 +467,7 @@ msgstr ""
 #: templates/admin/misc/user/edit.twig:143
 #: templates/admin/misc/change-password.twig:96
 #: templates/admin/misc/profile.twig:123
-#: templates/admin/misc/system/config.twig:128
+#: templates/admin/misc/system/config.twig:182
 #: templates/admin/post/edit.twig:344
 msgid "Speichern"
 msgstr ""
@@ -551,7 +551,7 @@ msgid "Betriebssysteme"
 msgstr ""
 
 #: templates/admin/index.twig:345
-#: templates/admin/misc/system/config.twig:111
+#: templates/admin/misc/system/config.twig:143
 msgid "Statistiken"
 msgstr ""
 
@@ -1163,39 +1163,39 @@ msgstr ""
 msgid "Systeminformation"
 msgstr ""
 
-#: templates/admin/misc/system/config.twig:107
+#: templates/admin/misc/system/config.twig:139
 msgid "Wartungsmodus"
 msgstr ""
 
-#: templates/admin/misc/system/config.twig:107
+#: templates/admin/misc/system/config.twig:139
 msgid "Im Wartungsmodus wird eine statische Seite angezeigt."
 msgstr ""
 
-#: templates/admin/misc/system/config.twig:111
+#: templates/admin/misc/system/config.twig:143
 msgid "Seitenbesuche werden aufgezeichnet und in Statistiken auf dem Dashboard zusammengefasst"
 msgstr ""
 
-#: templates/admin/misc/system/config.twig:115
+#: templates/admin/misc/system/config.twig:147
 msgid "Startseite"
 msgstr ""
 
-#: templates/admin/misc/system/config.twig:115
+#: templates/admin/misc/system/config.twig:147
 msgid "Startseite deiner Webseite"
 msgstr ""
 
-#: templates/admin/misc/system/config.twig:119
+#: templates/admin/misc/system/config.twig:151
 msgid "Admin-Pfad"
 msgstr ""
 
-#: templates/admin/misc/system/config.twig:119
+#: templates/admin/misc/system/config.twig:151
 msgid "Pfad des Adminbereichs"
 msgstr ""
 
-#: templates/admin/misc/system/config.twig:123
+#: templates/admin/misc/system/config.twig:155
 msgid "Login Fehlversuche"
 msgstr ""
 
-#: templates/admin/misc/system/config.twig:123
+#: templates/admin/misc/system/config.twig:155
 msgid "Maximale Anzahl Fehlversuche bevor ein Benutzer gesperrt wird"
 msgstr ""
 
@@ -1420,4 +1420,60 @@ msgstr ""
 
 #: templates/admin/misc/system/backup.twig:215
 msgid "Ja, Backup löschen"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:64
+msgid "Nie"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:64
+msgid "Jede Stunde"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:64
+msgid "Alle drei Stunden"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:64
+msgid "Alle sechs Stunden"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:64
+msgid "Alle zwölf Stunden"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:64
+msgid "Jeden Tag"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:64
+msgid "Jede Woche"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:64
+msgid "Jeden Monat"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:159
+msgid "Automatische Aufgaben"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:164
+msgid "Damit diese Einstellungen funktionieren muss folgender Cronjob auf dem System aktiv sein:"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:173
+msgid "Aktualisierung der Statistiken"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:173
+msgid "In welchen Zeitabständen die Statistiken automatisch aktualisiert werden"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:177
+msgid "Erstellung von Backups"
+msgstr ""
+
+#: templates/admin/misc/system/config.twig:177
+msgid "In welchen Zeitabständen automatische Backups erstellt werden"
 msgstr ""
