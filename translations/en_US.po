@@ -1368,56 +1368,56 @@ msgstr "Add element"
 #: templates/admin/misc/system/tabnav.twig:83
 #: templates/admin/misc/system/backup.twig:56
 msgid "Backup"
-msgstr ""
+msgstr "Backup"
 
 #: templates/admin/misc/system/backup.twig:46
 msgid "Das Backup wurde erfolgreich erstellt."
-msgstr ""
+msgstr "The backup was created successfully."
 
 #: templates/admin/misc/system/backup.twig:46
 msgid "Das Backup wurde erfolgreich gelöscht."
-msgstr ""
+msgstr "The backup was successfully deleted."
 
 #: templates/admin/misc/system/backup.twig:91
 msgid "Dateiname"
-msgstr ""
+msgstr "File name"
 
 #: templates/admin/misc/system/backup.twig:95
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 #: templates/admin/misc/system/backup.twig:103
 msgid "Grösse"
-msgstr ""
+msgstr "File size"
 
 #: templates/admin/misc/system/backup.twig:162
 msgid "Backup erstellen"
-msgstr ""
+msgstr "Create backup"
 
 #: templates/admin/misc/system/backup.twig:175
 msgid "Backup löschen"
-msgstr ""
+msgstr "Delete backup"
 
 #: templates/admin/misc/system/backup.twig:185
 msgid "Möchtest du das folgende Backup wirklich unwiderruflich löschen?"
-msgstr ""
+msgstr "Do you really want to delete the following backup irrevocably?"
 
 #: templates/admin/misc/system/backup.twig:192
 msgid "Dateiname:"
-msgstr ""
+msgstr "File name:"
 
 #: templates/admin/misc/system/backup.twig:196
 msgid "Version:"
-msgstr ""
+msgstr "Version:"
 
 #: templates/admin/misc/system/backup.twig:200
 msgid "Zeitpunkt:"
-msgstr ""
+msgstr "Date:"
 
 #: templates/admin/misc/system/backup.twig:204
 msgid "Grösse:"
-msgstr ""
+msgstr "File size:"
 
 #: templates/admin/misc/system/backup.twig:215
 msgid "Ja, Backup löschen"
-msgstr ""
+msgstr "Yes, delete backup"
