@@ -13,6 +13,31 @@
     {% set pageSelect = pageSelect|merge([{value: page.getPageId(), label: page.name, selected: selected}]) %}
 {% endfor %}
 
+{% set intervals = {
+    0: 'Nie'|trans,
+    1: 'Jede Stunde'|trans,
+    3: 'Alle drei Stunden'|trans,
+    6: 'Alle sechs Stunden'|trans,
+    12: 'Alle zwölf Stunden'|trans,
+    24: 'Jeden Tag'|trans,
+    168: 'Jede Woche'|trans,
+    720: 'Jeden Monat'|trans
+} %}
+{% set intvSelect = [] %}
+{% set intv2Select = [] %}
+{% for key, label in intervals %}
+    {% set selected1 = false %}
+    {% set selected2 = false %}
+    {% if key == config.interval_stats_refresh %}
+        {% set selected1 = true %}
+    {% endif %}
+    {% if key == config.interval_backup %}
+        {% set selected2 = true %}
+    {% endif %}
+    {% set intvSelect = intvSelect|merge([{value: key, label: label, selected: selected1}]) %}
+    {% set intv2Select = intv2Select|merge([{value: key, label: label, selected: selected2}]) %}
+{% endfor %}
+
 {%
     set messages = {
         invalid_input: {
@@ -47,6 +72,13 @@
             {{ forms.form_group('select', 'default_page', config.default_page, 'Startseite'|trans, '', 'default_page' in errors ? 'is-invalid' : '', 'Startseite deiner Webseite'|trans, pageSelect) }}
             {{ forms.form_group('text', 'admin_route', config.admin_route, 'Admin-Pfad'|trans, '', 'admin_route' in errors ? 'is-invalid' : '', 'Pfad des Adminbereichs'|trans) }}
             {{ forms.form_group('number', 'max_failed_logins', config.max_failed_logins, 'Login Fehlversuche'|trans, '', 'max_failed_logins' in errors ? 'is-invalid' : '', 'Maximale Anzahl Fehlversuche bevor ein Benutzer gesperrt wird'|trans) }}
+            <h2 class="h4 mt-4">{{ 'Automatische Aufgaben'|trans }}</h2>
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                {{ 'Damit diese Einstellungen funktionieren muss folgender Cronjob auf dem System aktiv sein:'|trans }}<br>
+                <code>php {{ docroot }}/index.php cron</code>
+            </div>
+            {{ forms.form_group('select', 'interval_stats_refresh', config.interval_stats_refresh, 'Aktualisierung der Statistiken'|trans, '', 'interval_stats_refresh' in errors ? 'is-invalid' : '', 'In welchen Zeitabständen die Statistiken automatisch aktualisiert werden'|trans, intvSelect) }}
+            {{ forms.form_group('select', 'interval_backup', config.interval_backup, 'Erstellung von Backups'|trans, '', 'interval_backup' in errors ? 'is-invalid' : '', 'In welchen Zeitabständen automatische Backups erstellt werden'|trans, intv2Select) }}
             <div class="text-right mb-4">
                 <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
             </div>

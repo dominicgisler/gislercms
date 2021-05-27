@@ -12,6 +12,7 @@ use GislerCMS\Model\Page;
 use GislerCMS\Validator\DoesNotContain;
 use GislerCMS\Validator\PageExists;
 use GislerCMS\Validator\StartsWith;
+use Laminas\Validator\InArray;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Laminas\InputFilter\Factory;
@@ -98,7 +99,8 @@ class ConfigController extends AbstractController
             'pages' => Page::getAll(),
             'config' => $data,
             'message' => $msg,
-            'errors' => $errors
+            'errors' => $errors,
+            'docroot' => $_SERVER['DOCUMENT_ROOT']
         ]);
     }
 
@@ -156,6 +158,26 @@ class ConfigController extends AbstractController
                     new Between([
                         'min' => 1,
                         'max' => 1000
+                    ])
+                ]
+            ],
+            [
+                'name' => 'interval_stats_refresh',
+                'required' => true,
+                'filters' => [],
+                'validators' => [
+                    new InArray([
+                        'haystack' => [0, 1, 3, 6, 12, 24, 168, 720]
+                    ])
+                ]
+            ],
+            [
+                'name' => 'interval_backup',
+                'required' => true,
+                'filters' => [],
+                'validators' => [
+                    new InArray([
+                        'haystack' => [0, 1, 3, 6, 12, 24, 168, 720]
                     ])
                 ]
             ]
