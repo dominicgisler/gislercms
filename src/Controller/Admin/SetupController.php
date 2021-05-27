@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin;
 
+use GislerCMS\Application;
 use GislerCMS\Helper\MigrationHelper;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\User;
@@ -34,6 +35,12 @@ class SetupController extends AbstractController
      */
     public function __invoke($request, $response)
     {
+        $locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        if (!in_array($locale, ['de', 'en'])) {
+            $locale = 'de';
+        }
+        Application::setTransLocale($locale);
+
         if (!$this->get('settings')['enable_setup']) {
             return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route']);
         }
@@ -81,7 +88,7 @@ class SetupController extends AbstractController
                         $data['user_lastname'],
                         $data['user_email'],
                         password_hash($data['user_password'], PASSWORD_DEFAULT),
-                        "de"
+                        $locale
                     );
                     $user = $user->save();
                     if ($user->getUserId() === 0) {
