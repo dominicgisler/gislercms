@@ -97,7 +97,8 @@ class CronController
      */
     private function handleBackup(int $interval)
     {
-        $backups = BackupController::getBackups(false);
+        $rootPath = $this->get('settings')['root_path'];
+        $backups = BackupController::getBackups($rootPath, false);
         $latest = 0;
         $limit = strtotime(sprintf('-%dhours', $interval));
         foreach ($backups as $backup) {
@@ -108,7 +109,7 @@ class CronController
         if ($latest < $limit) {
             $dbCfg = $this->get('settings')['database'];
             $cmsVersion = $this->get('settings')['version'];
-            BackupController::doBackup($dbCfg, $cmsVersion);
+            BackupController::doBackup($rootPath, $dbCfg, $cmsVersion);
         }
     }
 }

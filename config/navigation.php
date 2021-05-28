@@ -125,7 +125,8 @@ return [
                             'admin-misc-system-config',
                             'admin-misc-system-sysinfo',
                             'admin-misc-system-migration',
-                            'admin-misc-system-backup'
+                            'admin-misc-system-backup',
+                            'admin-misc-system-update'
                         ],
                         'label' => 'System',
                         'icon' => 'fa-cogs',

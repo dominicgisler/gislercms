@@ -30,7 +30,7 @@ class SysInfoController extends AbstractController
         $cmsVersion = $this->get('settings')['version'];
 
         $update = [];
-        $release = $this->getRelease();
+        $release = UpdateController::getRelease();
         if (!empty($release['tag_name']) && $release['tag_name'] != $cmsVersion) {
             $update = [
                 'current' => $cmsVersion,
@@ -74,22 +74,5 @@ class SysInfoController extends AbstractController
             'data' => $data,
             'update' => $update
         ]);
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getRelease()
-    {
-        $context = stream_context_create([
-            'http' => [
-                'method' => 'GET',
-                'header' => [
-                    'User-Agent: PHP'
-                ]
-            ]
-        ]);
-        $content = file_get_contents(self::API_RELEASE_URL, false, $context);
-        return json_decode($content, true);
     }
 }

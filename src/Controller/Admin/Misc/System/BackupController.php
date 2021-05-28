@@ -25,7 +25,6 @@ class BackupController extends AbstractController
     const METHODS = ['GET', 'POST'];
 
     const TIME_LIMIT = 300;
-    const ROOT_PATH = __DIR__ . '/../../../../..';
     const BACKUP_FOLDER = 'backups';
     const BACKUP_FILE = '%s/backup-%s-%s.zip';
 
@@ -39,7 +38,8 @@ class BackupController extends AbstractController
     {
         set_time_limit(self::TIME_LIMIT);
 
-        $backupPath = realpath(self::ROOT_PATH . '/' . self::BACKUP_FOLDER);
+        $rootPath = $this->get('settings')['root_path'];
+        $backupPath = realpath($rootPath . '/' . self::BACKUP_FOLDER);
 
         $dlfile = $request->getAttribute('route')->getArgument('backup');
         if (!empty($dlfile)) {
@@ -68,7 +68,7 @@ class BackupController extends AbstractController
             if (!is_null($request->getParsedBodyParam('backup'))) {
                 $dbCfg = $this->get('settings')['database'];
                 $cmsVersion = $this->get('settings')['version'];
-                self::doBackup($dbCfg, $cmsVersion);
+                self::doBackup($rootPath, $dbCfg, $cmsVersion);
                 $cnt->offsetSet('backup_created', true);
             } else if (!is_null($request->getParsedBodyParam('delete'))) {
                 $filename = $request->getParsedBodyParam('filename');
@@ -82,7 +82,7 @@ class BackupController extends AbstractController
             return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/misc/system/backup');
         }
 
-        $backups = self::getBackups(true);
+        $backups = self::getBackups($rootPath, true);
 
         return $this->render($request, $response, 'admin/misc/system/backup.twig', [
             'backups' => $backups,
@@ -102,12 +102,13 @@ class BackupController extends AbstractController
     }
 
     /**
+     * @param string $rootPath
      * @param bool $withSize
      * @return array
      */
-    public static function getBackups(bool $withSize = false): array
+    public static function getBackups(string $rootPath, bool $withSize): array
     {
-        $backupPath = realpath(self::ROOT_PATH . '/' . self::BACKUP_FOLDER);
+        $backupPath = realpath($rootPath . '/' . self::BACKUP_FOLDER);
 
         $backups = [];
         foreach (glob($backupPath . '/backup-*.zip') as $path) {
@@ -132,14 +133,15 @@ class BackupController extends AbstractController
     }
 
     /**
+     * @param string $rootPath
      * @param array $dbCfg
      * @param string $cmsVersion
      * @throws Exception
      */
-    public static function doBackup(array $dbCfg, string $cmsVersion)
+    public static function doBackup(string $rootPath, array $dbCfg, string $cmsVersion)
     {
-        $rootPath = realpath(self::ROOT_PATH);
-        $backupPath = realpath(self::ROOT_PATH . '/' . self::BACKUP_FOLDER);
+        $rootPath = realpath($rootPath);
+        $backupPath = realpath($rootPath . '/' . self::BACKUP_FOLDER);
 
         $dumpFile = $rootPath . '/' . $dbCfg['data'] . '.sql';
         $dump = new Mysqldump(
