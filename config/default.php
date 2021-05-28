@@ -72,9 +72,10 @@ return [
                 \GislerCMS\Controller\Admin\Misc\User\EditController::class,
                 \GislerCMS\Controller\Admin\Misc\System\ConfigController::class,
                 \GislerCMS\Controller\Admin\Misc\System\SysInfoController::class,
-                \GislerCMS\Controller\Admin\Misc\System\MigrationController::class,
                 \GislerCMS\Controller\Admin\Misc\System\BackupController::class,
                 \GislerCMS\Controller\Admin\Misc\System\UpdateController::class,
+                \GislerCMS\Controller\Admin\Misc\System\MigrationController::class,
+                \GislerCMS\Controller\Admin\Misc\System\ChangelogController::class,
                 \GislerCMS\Controller\Admin\Module\AddController::class,
                 \GislerCMS\Controller\Admin\Module\ListController::class,
                 \GislerCMS\Controller\Admin\Module\ManageController::class

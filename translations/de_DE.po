@@ -1596,3 +1596,24 @@ msgstr ""
 #: templates/trans-keys.twig:274
 msgid "Einfügen der Konfiguration für Cronjobs"
 msgstr ""
+
+#: templates/admin/misc/system/tabnav.twig:107
+#: templates/admin/misc/system/changelog.twig:53
+msgid "Changelog"
+msgstr ""
+
+#: templates/admin/misc/system/changelog.twig:79
+msgid "Alle Informationen wurden von Github geladen."
+msgstr ""
+
+#: templates/admin/misc/system/changelog.twig:85
+msgid "Die Informationen konnten nicht abgerufen werden."
+msgstr ""
+
+#: templates/admin/misc/system/changelog.twig:95
+msgid "Github besuchen"
+msgstr ""
+
+#: templates/admin/misc/system/changelog.twig:125
+msgid "Veröffentlicht von %s am %s um %s"
+msgstr ""

@@ -124,9 +124,10 @@ return [
                         'route' => [
                             'admin-misc-system-config',
                             'admin-misc-system-sysinfo',
-                            'admin-misc-system-migration',
                             'admin-misc-system-backup',
-                            'admin-misc-system-update'
+                            'admin-misc-system-update',
+                            'admin-misc-system-migration',
+                            'admin-misc-system-changelog'
                         ],
                         'label' => 'System',
                         'icon' => 'fa-cogs',

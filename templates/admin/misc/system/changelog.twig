@@ -1,0 +1,35 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/content.twig' %}
+
+{% block title %}{{ 'Changelog'|trans }}{% endblock %}
+
+{% block content %}
+    {% include 'admin/misc/system/tabnav.twig' with { current: 'changelog' } %}
+    <div class="mt-4">
+        <div class="alert alert-{% if releases %}info{% else%}warning{% endif %} mx-0 row" role="alert">
+            <div class="col-8 align-middle p-0 pt-1">
+                {% if releases %}
+                    {{ 'Alle Informationen wurden von Github geladen.'|trans }}
+                {% else %}
+                    {{ 'Die Informationen konnten nicht abgerufen werden.'|trans }}
+                {% endif %}
+            </div>
+            <div class="col-4 text-right p-0">
+                <a href="https://github.com/dominicgisler/gislercms/releases" target="_blank" class="btn btn-dark btn-sm">
+                    <i class="fab fa-github mr-1"></i>{{ 'Github besuchen'|trans }}
+                </a>
+            </div>
+        </div>
+        {% for rel in releases %}
+            <h2 class="h4">{{ rel.tag_name }}</h2>
+            <p>
+                <small>{{ 'Veröffentlicht von %s am %s um %s'|trans|format(rel.author.login, rel.published_at|date('d.m.Y'), rel.published_at|date('H:i:s')) }}</small>
+            </p>
+            {{ rel.body|nl2br }}
+            {% if not loop.last %}
+                <hr>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
