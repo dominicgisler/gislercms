@@ -13,7 +13,7 @@
                     {{ 'CMS-Update verfügbar:'|trans }} {{ update.current }} -> {{ update.latest }}
                 </div>
                 <div class="col-4 text-right p-0">
-                    <a target="_blank" href="https://github.com/dominicgisler/gislercms/releases/download/{{ update.latest }}/gislercms_{{ update.latest }}.zip" class="btn btn-primary btn-sm"><i class="fa fa-download mr-1"></i> {{ 'Download'|trans }}</a>
+                    <a target="_blank" href="{{ update.url }}" class="btn btn-primary btn-sm"><i class="fa fa-download mr-1"></i> {{ 'Download'|trans }}</a>
                 </div>
             </div>
         {% endif %}

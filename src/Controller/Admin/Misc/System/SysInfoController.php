@@ -16,7 +16,8 @@ class SysInfoController extends AbstractController
     const PATTERN = '{admin_route}/misc/system/sysinfo';
     const METHODS = ['GET'];
 
-    const RELEASE_URL = 'https://api.github.com/repos/dominicgisler/gislercms/releases/latest';
+    const API_RELEASE_URL = 'https://api.github.com/repos/dominicgisler/gislercms/releases/latest';
+    const GITHUB_RELEASES_URL = 'https://github.com/dominicgisler/gislercms/releases';
 
     /**
      * @param Request $request
@@ -33,8 +34,17 @@ class SysInfoController extends AbstractController
         if (!empty($release['tag_name']) && $release['tag_name'] != $cmsVersion) {
             $update = [
                 'current' => $cmsVersion,
-                'latest' => $release['tag_name']
+                'latest' => $release['tag_name'],
+                'url' => self::GITHUB_RELEASES_URL
             ];
+            foreach ($release['assets'] as $asset) {
+                if ($update['url'] == self::GITHUB_RELEASES_URL &&
+                    $asset['content_type'] == 'application/zip' &&
+                    substr($asset['name'], 0, strlen('gislercms')) === 'gislercms'
+                ) {
+                    $update['url'] = $asset['browser_download_url'];
+                }
+            }
         }
 
         $iniCheck = ['max_execution_time', 'max_input_time', 'memory_limit', 'post_max_size', 'upload_max_filesize'];
@@ -79,7 +89,7 @@ class SysInfoController extends AbstractController
                 ]
             ]
         ]);
-        $content = file_get_contents(self::RELEASE_URL, false, $context);
+        $content = file_get_contents(self::API_RELEASE_URL, false, $context);
         return json_decode($content, true);
     }
 }
