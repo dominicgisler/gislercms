@@ -176,7 +176,6 @@ msgid "Benutzer"
 msgstr "Users"
 
 #: templates/trans-keys.twig:185
-#: templates/admin/misc/system/tabnav.twig:71
 msgid "Datenbank-Update"
 msgstr "Database update"
 
@@ -393,6 +392,7 @@ msgstr "Do you really want to delete this module irrevocably?"
 #: templates/admin/misc/user/edit.twig:170
 #: templates/admin/misc/trash.twig:159
 #: templates/admin/misc/trash.twig:190
+#: templates/admin/misc/system/update.twig:141
 #: templates/admin/misc/system/migration.twig:240
 #: templates/admin/misc/system/backup.twig:211
 #: templates/admin/content.twig:242
@@ -1118,6 +1118,7 @@ msgstr "Database update successful"
 msgid "Ausstehend"
 msgstr "Pending"
 
+#: templates/admin/misc/system/update.twig:48
 #: templates/admin/misc/system/migration.twig:197
 #: templates/admin/misc/system/migration.twig:217
 msgid "Update durchführen"
@@ -1198,14 +1199,6 @@ msgstr "Login failed attempts"
 #: templates/admin/misc/system/config.twig:155
 msgid "Maximale Anzahl Fehlversuche bevor ein Benutzer gesperrt wird"
 msgstr "Maximum number of failed attempts before a user is blocked"
-
-#: templates/admin/misc/system/sysinfo.twig:73
-msgid "CMS-Update verfügbar:"
-msgstr "CMS update available:"
-
-#: templates/admin/misc/system/sysinfo.twig:87
-msgid "Download"
-msgstr "Download"
 
 #: templates/admin/post/list.twig:69
 msgid "Veröffentlicht am"
@@ -1322,6 +1315,7 @@ msgstr "Please configure your database connection data."
 msgid "Host"
 msgstr "Host"
 
+#: templates/admin/misc/system/tabnav.twig:95
 #: templates/admin/setup.twig:172
 #: templates/admin/setup.twig:180
 msgid "Datenbank"
@@ -1365,7 +1359,7 @@ msgstr "Do you really want to restore the selected elements?"
 msgid "Element hinzufügen"
 msgstr "Add element"
 
-#: templates/admin/misc/system/tabnav.twig:83
+#: templates/admin/misc/system/tabnav.twig:71
 #: templates/admin/misc/system/backup.twig:56
 msgid "Backup"
 msgstr "Backup"
@@ -1477,3 +1471,128 @@ msgstr "Creation of backups"
 #: templates/admin/misc/system/config.twig:177
 msgid "In welchen Zeitabständen automatische Backups erstellt werden"
 msgstr "At what intervals automatic backups are created"
+
+#: templates/admin/misc/system/update.twig:46
+msgid "Update-Informationen konnten nicht abgerufen werden, bitte später erneut probieren."
+msgstr "Update information could not be retrieved, please try again later."
+
+#: templates/admin/misc/system/update.twig:46
+msgid "Du hast bereits die aktuellste Version installiert (%s)."
+msgstr "You already have the latest version installed (%s)."
+
+#: templates/admin/misc/system/update.twig:47
+msgid "Version erneut installieren"
+msgstr "Reinstall version"
+
+#: templates/admin/misc/system/update.twig:47
+msgid "Es ist ein Update verfügbar: %s -> %s"
+msgstr "There is an update available: %s -> %s"
+
+#: templates/admin/misc/system/update.twig:48
+msgid "Update erfolgreich durchgeführt!"
+msgstr "Update successfully completed!"
+
+#: templates/admin/misc/system/update.twig:48
+msgid "Beim Update ist ein Fehler aufgetreten. Bitte erneut versuchen oder manuell installieren."
+msgstr "An error occurred during the update. Please try again or install manually."
+
+#: templates/admin/misc/system/update.twig:58
+#: templates/admin/misc/system/tabnav.twig:83
+msgid "Update"
+msgstr "Update"
+
+#: templates/admin/misc/system/update.twig:91
+msgid "Neuerungen in %s"
+msgstr "New features in %s"
+
+#: templates/admin/misc/system/update.twig:131
+msgid "Bitte erstelle zuerst ein Backup, bevor die Installation durchgeführt wird."
+msgstr "Please make a backup first before performing the installation."
+
+#: templates/admin/misc/system/update.twig:135
+msgid "Möchtest du den Prozess wirklich starten?"
+msgstr "Do you really want to start the process?"
+
+#: templates/trans-keys.twig:194
+msgid "Datenbank aufräumen"
+msgstr "Clean up database"
+
+#: templates/trans-keys.twig:198
+msgid "Struktur der Config-Tabelle"
+msgstr "Structure of the config table"
+
+#: templates/trans-keys.twig:202
+msgid "Struktur der Sprachen-Tabelle"
+msgstr "Structure of the language table"
+
+#: templates/trans-keys.twig:206
+msgid "Struktur der User-Tabelle"
+msgstr "Structure of the user table"
+
+#: templates/trans-keys.twig:210
+msgid "Struktur der Seiten-Tabellen"
+msgstr "Structure of the page tables"
+
+#: templates/trans-keys.twig:214
+msgid "Struktur der Widget-Tabellen"
+msgstr "Structure of the widget tables"
+
+#: templates/trans-keys.twig:218
+msgid "Einfügen der Standardsprachen"
+msgstr "Inserting the default languages"
+
+#: templates/trans-keys.twig:222
+msgid "Einfügen der Standardseiten"
+msgstr "Inserting the default pages"
+
+#: templates/trans-keys.twig:226
+msgid "Einfügen der Standardwidgets"
+msgstr "Inserting the default widgets"
+
+#: templates/trans-keys.twig:230
+msgid "Einfügen der Konfigurationen"
+msgstr "Inserting the configurations"
+
+#: templates/trans-keys.twig:234
+msgid "Struktur der Modul-Tabelle"
+msgstr "Structure of the module table"
+
+#: templates/trans-keys.twig:238
+msgid "Struktur der client-Tabelle"
+msgstr "Structure of the client table"
+
+#: templates/trans-keys.twig:242
+msgid "Struktur der session-Tabelle"
+msgstr "Structure of the session table"
+
+#: templates/trans-keys.twig:246
+msgid "Struktur der visit-Tabelle"
+msgstr "Structure of the visit table"
+
+#: templates/trans-keys.twig:250
+msgid "Struktur der Beitragstabellen"
+msgstr "Structure of the post tables"
+
+#: templates/trans-keys.twig:254
+msgid "Struktur der Gästebuch-Tabellen"
+msgstr "Structure of the guestbook tables"
+
+#: templates/trans-keys.twig:258
+msgid "Ergänzt session-Tabelle mit User Agent"
+msgstr "Complements session table with user agent"
+
+#: templates/trans-keys.twig:262
+msgid "Erweitern der Konfiguration um Statistiken"
+msgstr "Extend the configuration with statistics"
+
+#: templates/trans-keys.twig:266
+msgid "Erstellt die standardmässige Navigation"
+msgstr "Creates the default navigation"
+
+#: templates/trans-keys.twig:270
+msgid "Ergänzt visit-Tabelle mit Parametern"
+msgstr "Complements visit table with parameters"
+
+#: templates/trans-keys.twig:274
+msgid "Einfügen der Konfiguration für Cronjobs"
+msgstr "Inserting the configuration for cronjobs"

@@ -37,7 +37,7 @@
                 {% for key, val in migrations %}
                     <tr class="{% if val.done %}alert-success{% else %}alert-danger{% endif %}">
                         <td>{{ key }}</td>
-                        <td>{{ val.description }}</td>
+                        <td>{{ val.description|trans }}</td>
                         <td>
                             {% if val.done %}
                                 <i class="fa fa-check fa-fw"></i> {{ val.done|date('d.m.Y H:i:s') }}

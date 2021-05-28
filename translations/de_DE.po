@@ -176,7 +176,6 @@ msgid "Benutzer"
 msgstr ""
 
 #: templates/trans-keys.twig:185
-#: templates/admin/misc/system/tabnav.twig:71
 msgid "Datenbank-Update"
 msgstr ""
 
@@ -393,6 +392,7 @@ msgstr ""
 #: templates/admin/misc/user/edit.twig:170
 #: templates/admin/misc/trash.twig:159
 #: templates/admin/misc/trash.twig:190
+#: templates/admin/misc/system/update.twig:141
 #: templates/admin/misc/system/migration.twig:240
 #: templates/admin/misc/system/backup.twig:211
 #: templates/admin/content.twig:242
@@ -1118,6 +1118,7 @@ msgstr ""
 msgid "Ausstehend"
 msgstr ""
 
+#: templates/admin/misc/system/update.twig:48
 #: templates/admin/misc/system/migration.twig:197
 #: templates/admin/misc/system/migration.twig:217
 msgid "Update durchführen"
@@ -1197,14 +1198,6 @@ msgstr ""
 
 #: templates/admin/misc/system/config.twig:155
 msgid "Maximale Anzahl Fehlversuche bevor ein Benutzer gesperrt wird"
-msgstr ""
-
-#: templates/admin/misc/system/sysinfo.twig:73
-msgid "CMS-Update verfügbar:"
-msgstr ""
-
-#: templates/admin/misc/system/sysinfo.twig:87
-msgid "Download"
 msgstr ""
 
 #: templates/admin/post/list.twig:69
@@ -1322,6 +1315,7 @@ msgstr ""
 msgid "Host"
 msgstr ""
 
+#: templates/admin/misc/system/tabnav.twig:95
 #: templates/admin/setup.twig:172
 #: templates/admin/setup.twig:180
 msgid "Datenbank"
@@ -1365,7 +1359,7 @@ msgstr ""
 msgid "Element hinzufügen"
 msgstr ""
 
-#: templates/admin/misc/system/tabnav.twig:83
+#: templates/admin/misc/system/tabnav.twig:71
 #: templates/admin/misc/system/backup.twig:56
 msgid "Backup"
 msgstr ""
@@ -1476,4 +1470,129 @@ msgstr ""
 
 #: templates/admin/misc/system/config.twig:177
 msgid "In welchen Zeitabständen automatische Backups erstellt werden"
+msgstr ""
+
+#: templates/admin/misc/system/update.twig:46
+msgid "Update-Informationen konnten nicht abgerufen werden, bitte später erneut probieren."
+msgstr ""
+
+#: templates/admin/misc/system/update.twig:46
+msgid "Du hast bereits die aktuellste Version installiert (%s)."
+msgstr ""
+
+#: templates/admin/misc/system/update.twig:47
+msgid "Version erneut installieren"
+msgstr ""
+
+#: templates/admin/misc/system/update.twig:47
+msgid "Es ist ein Update verfügbar: %s -> %s"
+msgstr ""
+
+#: templates/admin/misc/system/update.twig:48
+msgid "Update erfolgreich durchgeführt!"
+msgstr ""
+
+#: templates/admin/misc/system/update.twig:48
+msgid "Beim Update ist ein Fehler aufgetreten. Bitte erneut versuchen oder manuell installieren."
+msgstr ""
+
+#: templates/admin/misc/system/update.twig:58
+#: templates/admin/misc/system/tabnav.twig:83
+msgid "Update"
+msgstr ""
+
+#: templates/admin/misc/system/update.twig:91
+msgid "Neuerungen in %s"
+msgstr ""
+
+#: templates/admin/misc/system/update.twig:131
+msgid "Bitte erstelle zuerst ein Backup, bevor die Installation durchgeführt wird."
+msgstr ""
+
+#: templates/admin/misc/system/update.twig:135
+msgid "Möchtest du den Prozess wirklich starten?"
+msgstr ""
+
+#: templates/trans-keys.twig:194
+msgid "Datenbank aufräumen"
+msgstr ""
+
+#: templates/trans-keys.twig:198
+msgid "Struktur der Config-Tabelle"
+msgstr ""
+
+#: templates/trans-keys.twig:202
+msgid "Struktur der Sprachen-Tabelle"
+msgstr ""
+
+#: templates/trans-keys.twig:206
+msgid "Struktur der User-Tabelle"
+msgstr ""
+
+#: templates/trans-keys.twig:210
+msgid "Struktur der Seiten-Tabellen"
+msgstr ""
+
+#: templates/trans-keys.twig:214
+msgid "Struktur der Widget-Tabellen"
+msgstr ""
+
+#: templates/trans-keys.twig:218
+msgid "Einfügen der Standardsprachen"
+msgstr ""
+
+#: templates/trans-keys.twig:222
+msgid "Einfügen der Standardseiten"
+msgstr ""
+
+#: templates/trans-keys.twig:226
+msgid "Einfügen der Standardwidgets"
+msgstr ""
+
+#: templates/trans-keys.twig:230
+msgid "Einfügen der Konfigurationen"
+msgstr ""
+
+#: templates/trans-keys.twig:234
+msgid "Struktur der Modul-Tabelle"
+msgstr ""
+
+#: templates/trans-keys.twig:238
+msgid "Struktur der client-Tabelle"
+msgstr ""
+
+#: templates/trans-keys.twig:242
+msgid "Struktur der session-Tabelle"
+msgstr ""
+
+#: templates/trans-keys.twig:246
+msgid "Struktur der visit-Tabelle"
+msgstr ""
+
+#: templates/trans-keys.twig:250
+msgid "Struktur der Beitragstabellen"
+msgstr ""
+
+#: templates/trans-keys.twig:254
+msgid "Struktur der Gästebuch-Tabellen"
+msgstr ""
+
+#: templates/trans-keys.twig:258
+msgid "Ergänzt session-Tabelle mit User Agent"
+msgstr ""
+
+#: templates/trans-keys.twig:262
+msgid "Erweitern der Konfiguration um Statistiken"
+msgstr ""
+
+#: templates/trans-keys.twig:266
+msgid "Erstellt die standardmässige Navigation"
+msgstr ""
+
+#: templates/trans-keys.twig:270
+msgid "Ergänzt visit-Tabelle mit Parametern"
+msgstr ""
+
+#: templates/trans-keys.twig:274
+msgid "Einfügen der Konfiguration für Cronjobs"
 msgstr ""
