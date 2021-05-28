@@ -145,7 +145,6 @@ class UpdateController extends AbstractController
             $relPath = substr($file, strlen($updatePath) + 1);
             rename($file, $rootPath . '/' . $relPath);
         }
-        $this->remove($updatePath);
     }
 
     /**

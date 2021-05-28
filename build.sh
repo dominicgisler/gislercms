@@ -14,6 +14,7 @@ mkdir ${tempdir}
 mkdir ${tempdir}/cache
 mkdir ${tempdir}/logs
 mkdir ${tempdir}/backups
+mkdir ${tempdir}/update
 cp -R config ${tempdir}/.
 cp -R mysql ${tempdir}/.
 cp -R public ${tempdir}/.
