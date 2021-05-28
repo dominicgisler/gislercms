@@ -7,16 +7,6 @@
 {% block content %}
     {% include 'admin/misc/system/tabnav.twig' with { current: 'sysinfo' } %}
     <div class="mt-4">
-        {% if update %}
-            <div class="alert alert-info mx-0 row" role="alert">
-                <div class="col-8 align-middle p-0 pt-1">
-                    {{ 'CMS-Update verfügbar:'|trans }} {{ update.current }} -> {{ update.latest }}
-                </div>
-                <div class="col-4 text-right p-0">
-                    <a target="_blank" href="{{ update.url }}" class="btn btn-primary btn-sm"><i class="fa fa-download mr-1"></i> {{ 'Download'|trans }}</a>
-                </div>
-            </div>
-        {% endif %}
         <div class="table-responsive">
             <table class="table table-striped">
                 {% for key, val in data %}
