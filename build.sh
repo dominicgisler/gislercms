@@ -13,6 +13,7 @@ fi
 mkdir ${tempdir}
 mkdir ${tempdir}/cache
 mkdir ${tempdir}/logs
+mkdir ${tempdir}/backups
 cp -R config ${tempdir}/.
 cp -R mysql ${tempdir}/.
 cp -R public ${tempdir}/.
