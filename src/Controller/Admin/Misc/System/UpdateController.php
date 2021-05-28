@@ -4,6 +4,7 @@ namespace GislerCMS\Controller\Admin\Misc\System;
 
 use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
+use GislerCMS\Helper\MigrationHelper;
 use GislerCMS\Helper\SessionHelper;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -37,6 +38,9 @@ class UpdateController extends AbstractController
         if ($cnt->offsetExists('update_success')) {
             $cnt->offsetUnset('update_success');
             $update = ['type' => 'updated'];
+        } else if ($cnt->offsetExists('update_failed')) {
+            $cnt->offsetUnset('update_failed');
+            $update = ['type' => 'failed'];
         }
 
         $rootPath = $this->get('settings')['root_path'];
@@ -67,8 +71,14 @@ class UpdateController extends AbstractController
             if ($request->isPost() && !is_null($request->getParsedBodyParam('update'))) {
                 $updatePath = sprintf('%s/%s', $rootPath, self::UPDATE_FOLDER);
                 $this->downloadRelease($update['url'], $updatePath, $update['filename']);
+                $this->installUpdate($rootPath, $updatePath);
+                $res = MigrationHelper::executeMigrations($this->get('pdo'));
+                if ($res['status'] == 'success') {
+                    $cnt->offsetSet('update_success', true);
+                } else {
+                    $cnt->offsetSet('update_failed', true);
+                }
 
-                $cnt->offsetSet('update_success', true);
                 return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/misc/system/update');
             }
         }
@@ -100,7 +110,7 @@ class UpdateController extends AbstractController
      * @param string $dir
      * @param string $filename
      */
-    public function downloadRelease(string $url, string $dir, string $filename)
+    private function downloadRelease(string $url, string $dir, string $filename)
     {
         $dlPath = sprintf('%s/%s', $dir, $filename);
         $this->remove($dir);
@@ -113,6 +123,29 @@ class UpdateController extends AbstractController
             $zip->extractTo($dir);
             $zip->close();
         }
+        $this->remove($dlPath);
+    }
+
+    /**
+     * @param string $rootPath
+     * @param string $updatePath
+     */
+    private function installUpdate(string $rootPath, string $updatePath)
+    {
+        $this->remove($rootPath . '/cache');
+        $this->remove($rootPath . '/mysql');
+        $this->remove($rootPath . '/src');
+        $this->remove($rootPath . '/templates');
+        $this->remove($rootPath . '/translations');
+        $this->remove($rootPath . '/vendor');
+        $this->remove($rootPath . '/LICENSE');
+        $this->remove($rootPath . '/README.md');
+
+        foreach (glob($updatePath . '/*') as $file) {
+            $relPath = substr($file, strlen($updatePath) + 1);
+            rename($file, $rootPath . '/' . $relPath);
+        }
+        $this->remove($updatePath);
     }
 
     /**
