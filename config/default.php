@@ -6,6 +6,11 @@ return [
         'addContentLengthHeader' => false, // Allow the web server to send the content-length header
         'timezone' => 'Europe/Zurich',
 
+        // override php settings
+        'php' => [
+            'memory_limit' => ''
+        ],
+
         // Renderer settings
         'renderer' => [
             'template_paths' => [
