@@ -14,23 +14,23 @@
 } %}
 
 {% block content %}
-    <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+    <ul class="nav nav-tabs mt-3 d-none d-lg-flex" id="myTab" role="tablist">
         {% for key, label in pages %}
             <li class="nav-item">
                 <a class="nav-link {% if tab == key %}active{% endif %}" href="{{ admin_url }}/misc/system/{{ key }}">{{ label }}</a>
             </li>
         {% endfor %}
     </ul>
-{#    <div class="dropdown">#}
-{#        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#            Dropdown button#}
-{#        </button>#}
-{#        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">#}
-{#            <a class="dropdown-item" href="#">Action</a>#}
-{#            <a class="dropdown-item" href="#">Another action</a>#}
-{#            <a class="dropdown-item" href="#">Something else here</a>#}
-{#        </div>#}
-{#    </div>#}
+    <div class="dropdown d-lg-none">
+        <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ pages[tab] }}
+        </button>
+        <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+            {% for key, label in pages %}
+                <a class="dropdown-item {% if tab == key %}active{% endif %}" href="{{ admin_url }}/misc/system/{{ key }}">{{ label }}</a>
+            {% endfor %}
+        </div>
+    </div>
     <div class="mt-4">
         {% block tab %}
         {% endblock %}
