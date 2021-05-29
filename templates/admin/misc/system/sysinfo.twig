@@ -1,21 +1,15 @@
-{% import "admin/forms.twig" as forms %}
+{% extends 'admin/misc/system/_system.twig' %}
+{% set tab = 'sysinfo' %}
 
-{% extends 'admin/content.twig' %}
-
-{% block title %}{{ 'System'|trans }}{% endblock %}
-
-{% block content %}
-    {% include 'admin/misc/system/tabnav.twig' with { current: 'sysinfo' } %}
-    <div class="mt-4">
-        <div class="table-responsive">
-            <table class="table table-striped">
-                {% for key, val in data %}
-                    <tr>
-                        <th>{{ key|trans }}</th>
-                        <td>{{ val|raw }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
+{% block tab %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            {% for key, val in data %}
+                <tr>
+                    <th>{{ key|trans }}</th>
+                    <td>{{ val|raw }}</td>
+                </tr>
+            {% endfor %}
+        </table>
     </div>
 {% endblock %}

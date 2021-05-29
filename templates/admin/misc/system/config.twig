@@ -1,8 +1,7 @@
 {% import "admin/forms.twig" as forms %}
 
-{% extends 'admin/content.twig' %}
-
-{% block title %}{{ 'System'|trans }}{% endblock %}
+{% extends 'admin/misc/system/_system.twig' %}
+{% set tab = 'config' %}
 
 {% set pageSelect = [] %}
 {% for page in pages %}
@@ -55,33 +54,30 @@
     }
 %}
 
-{% block content %}
-    {% include 'admin/misc/system/tabnav.twig' with { current: 'config' } %}
-    <div class="mt-4">
-        {% if message %}
-            <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
-                {{ messages[message].message|raw }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endif %}
-        <form method="post" id="page-form">
-            {{ forms.form_group('checkbox', 'maintenance_mode', config.maintenance_mode, 'Wartungsmodus'|trans, '', 'maintenance_mode' in errors ? 'is-invalid' : '', 'Im Wartungsmodus wird eine statische Seite angezeigt.'|trans) }}
-            {{ forms.form_group('checkbox', 'enable_tracking', config.enable_tracking, 'Statistiken'|trans, '', 'enable_tracking' in errors ? 'is-invalid' : '', 'Seitenbesuche werden aufgezeichnet und in Statistiken auf dem Dashboard zusammengefasst'|trans) }}
-            {{ forms.form_group('select', 'default_page', config.default_page, 'Startseite'|trans, '', 'default_page' in errors ? 'is-invalid' : '', 'Startseite deiner Webseite'|trans, pageSelect) }}
-            {{ forms.form_group('text', 'admin_route', config.admin_route, 'Admin-Pfad'|trans, '', 'admin_route' in errors ? 'is-invalid' : '', 'Pfad des Adminbereichs'|trans) }}
-            {{ forms.form_group('number', 'max_failed_logins', config.max_failed_logins, 'Login Fehlversuche'|trans, '', 'max_failed_logins' in errors ? 'is-invalid' : '', 'Maximale Anzahl Fehlversuche bevor ein Benutzer gesperrt wird'|trans) }}
-            <h2 class="h4 mt-4">{{ 'Automatische Aufgaben'|trans }}</h2>
-            <div class="alert alert-info alert-dismissible fade show" role="alert">
-                {{ 'Damit diese Einstellungen funktionieren muss folgender Cronjob auf dem System aktiv sein:'|trans }}<br>
-                <code>php {{ docroot }}/index.php /cron POST</code>
-            </div>
-            {{ forms.form_group('select', 'interval_stats_refresh', config.interval_stats_refresh, 'Aktualisierung der Statistiken'|trans, '', 'interval_stats_refresh' in errors ? 'is-invalid' : '', 'In welchen Zeitabständen die Statistiken automatisch aktualisiert werden'|trans, intvSelect) }}
-            {{ forms.form_group('select', 'interval_backup', config.interval_backup, 'Erstellung von Backups'|trans, '', 'interval_backup' in errors ? 'is-invalid' : '', 'In welchen Zeitabständen automatische Backups erstellt werden'|trans, intv2Select) }}
-            <div class="text-right mb-4">
-                <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
-            </div>
-        </form>
-    </div>
+{% block tab %}
+    {% if message %}
+        <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
+            {{ messages[message].message|raw }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <form method="post" id="page-form">
+        {{ forms.form_group('checkbox', 'maintenance_mode', config.maintenance_mode, 'Wartungsmodus'|trans, '', 'maintenance_mode' in errors ? 'is-invalid' : '', 'Im Wartungsmodus wird eine statische Seite angezeigt.'|trans) }}
+        {{ forms.form_group('checkbox', 'enable_tracking', config.enable_tracking, 'Statistiken'|trans, '', 'enable_tracking' in errors ? 'is-invalid' : '', 'Seitenbesuche werden aufgezeichnet und in Statistiken auf dem Dashboard zusammengefasst'|trans) }}
+        {{ forms.form_group('select', 'default_page', config.default_page, 'Startseite'|trans, '', 'default_page' in errors ? 'is-invalid' : '', 'Startseite deiner Webseite'|trans, pageSelect) }}
+        {{ forms.form_group('text', 'admin_route', config.admin_route, 'Admin-Pfad'|trans, '', 'admin_route' in errors ? 'is-invalid' : '', 'Pfad des Adminbereichs'|trans) }}
+        {{ forms.form_group('number', 'max_failed_logins', config.max_failed_logins, 'Login Fehlversuche'|trans, '', 'max_failed_logins' in errors ? 'is-invalid' : '', 'Maximale Anzahl Fehlversuche bevor ein Benutzer gesperrt wird'|trans) }}
+        <h2 class="h4 mt-4">{{ 'Automatische Aufgaben'|trans }}</h2>
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            {{ 'Damit diese Einstellungen funktionieren muss folgender Cronjob auf dem System aktiv sein:'|trans }}<br>
+            <code>php {{ docroot }}/index.php /cron POST</code>
+        </div>
+        {{ forms.form_group('select', 'interval_stats_refresh', config.interval_stats_refresh, 'Aktualisierung der Statistiken'|trans, '', 'interval_stats_refresh' in errors ? 'is-invalid' : '', 'In welchen Zeitabständen die Statistiken automatisch aktualisiert werden'|trans, intvSelect) }}
+        {{ forms.form_group('select', 'interval_backup', config.interval_backup, 'Erstellung von Backups'|trans, '', 'interval_backup' in errors ? 'is-invalid' : '', 'In welchen Zeitabständen automatische Backups erstellt werden'|trans, intv2Select) }}
+        <div class="text-right mb-4">
+            <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
+        </div>
+    </form>
 {% endblock %}

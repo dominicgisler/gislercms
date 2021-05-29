@@ -1,8 +1,5 @@
-{% import "admin/forms.twig" as forms %}
-
-{% extends 'admin/content.twig' %}
-
-{% block title %}{{ 'Backup'|trans }}{% endblock %}
+{% extends 'admin/misc/system/_system.twig' %}
+{% set tab = 'backup' %}
 
 {%
     set messages = {
@@ -17,9 +14,8 @@
     }
 %}
 
-{% block content %}
-    {% include 'admin/misc/system/tabnav.twig' with { current: 'backup' } %}
-    <div class="table-responsive mt-4">
+{% block tab %}
+    <div class="table-responsive">
         {% if message %}
             <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
                 {{ messages[message].message|raw }}

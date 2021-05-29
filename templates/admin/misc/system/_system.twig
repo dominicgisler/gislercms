@@ -1,0 +1,38 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/content.twig' %}
+
+{% block title %}{{ 'System'|trans }}{% endblock %}
+
+{% set pages = {
+    config: 'Konfiguration'|trans,
+    sysinfo: 'Systeminformation'|trans,
+    backup: 'Backup'|trans,
+    update: 'Update'|trans,
+    migration: 'Datenbank'|trans,
+    changelog: 'Changelog'|trans
+} %}
+
+{% block content %}
+    <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+        {% for key, label in pages %}
+            <li class="nav-item">
+                <a class="nav-link {% if tab == key %}active{% endif %}" href="{{ admin_url }}/misc/system/{{ key }}">{{ label }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{#    <div class="dropdown">#}
+{#        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#            Dropdown button#}
+{#        </button>#}
+{#        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">#}
+{#            <a class="dropdown-item" href="#">Action</a>#}
+{#            <a class="dropdown-item" href="#">Another action</a>#}
+{#            <a class="dropdown-item" href="#">Something else here</a>#}
+{#        </div>#}
+{#    </div>#}
+    <div class="mt-4">
+        {% block tab %}
+        {% endblock %}
+    </div>
+{% endblock %}

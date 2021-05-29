@@ -1,8 +1,5 @@
-{% import "admin/forms.twig" as forms %}
-
-{% extends 'admin/content.twig' %}
-
-{% block title %}{{ 'Update'|trans }}{% endblock %}
+{% extends 'admin/misc/system/_system.twig' %}
+{% set tab = 'update' %}
 
 {% set types = {
     unavailable: {
@@ -32,53 +29,50 @@
     }
 } %}
 
-{% block content %}
-    {% include 'admin/misc/system/tabnav.twig' with { current: 'update' } %}
-    <div class="mt-4">
-        {% if update.type %}
-            <div class="alert alert-{{ types[update.type].class }} mx-0 row" role="alert">
-                <div class="col-8 align-middle p-0 pt-1">
-                    {{ types[update.type].message }}
-                </div>
+{% block tab %}
+    {% if update.type %}
+        <div class="alert alert-{{ types[update.type].class }} mx-0 row" role="alert">
+            <div class="col-8 align-middle p-0 pt-1">
+                {{ types[update.type].message }}
             </div>
-        {% endif %}
-        {% if update.release_notes %}
-            <h2 class="h4">{{ 'Neuerungen in %s'|trans|format(update.latest) }}</h2>
-            {{ update.release_notes|nl2br }}
-        {% endif %}
-        {% if types[update.type].button %}
-            <form method="post" id="update">
-                <div class="text-right">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmUpdate">
-                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-                        {{ types[update.type].button }}
-                    </button>
-                </div>
+        </div>
+    {% endif %}
+    {% if update.release_notes %}
+        <h2 class="h4">{{ 'Neuerungen in %s'|trans|format(update.latest) }}</h2>
+        {{ update.release_notes|nl2br }}
+    {% endif %}
+    {% if types[update.type].button %}
+        <form method="post" id="update">
+            <div class="text-right">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmUpdate">
+                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    {{ types[update.type].button }}
+                </button>
+            </div>
 
-                {# confirm update modal #}
-                <div class="modal fade" id="confirmUpdate" tabindex="-1" role="dialog" aria-labelledby="confirmUpdateLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="confirmUpdateLabel">{{ types[update.type].button }}</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                {{ 'Bitte erstelle zuerst ein Backup, bevor die Installation durchgeführt wird.'|trans }}<br>
-                                {{ 'Möchtest du den Prozess wirklich starten?'|trans }}
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
-                                <button type="submit" name="update" class="btn btn-primary">{{ types[update.type].button }}</button>
-                            </div>
+            {# confirm update modal #}
+            <div class="modal fade" id="confirmUpdate" tabindex="-1" role="dialog" aria-labelledby="confirmUpdateLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmUpdateLabel">{{ types[update.type].button }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {{ 'Bitte erstelle zuerst ein Backup, bevor die Installation durchgeführt wird.'|trans }}<br>
+                            {{ 'Möchtest du den Prozess wirklich starten?'|trans }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                            <button type="submit" name="update" class="btn btn-primary">{{ types[update.type].button }}</button>
                         </div>
                     </div>
                 </div>
-            </form>
-        {% endif %}
-    </div>
+            </div>
+        </form>
+    {% endif %}
 {% endblock %}
 
 {% block scripts %}
