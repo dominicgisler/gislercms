@@ -43,7 +43,7 @@ class UpdateController extends AbstractController
             $update = ['type' => 'failed'];
         }
 
-        $rootPath = $this->get('settings')['root_path'];
+        $rootPath = realpath($this->get('settings')['root_path']);
         $cmsVersion = $this->get('settings')['version'];
         $release = $this->getRelease();
         if (!empty($release['tag_name'])) {
@@ -113,8 +113,9 @@ class UpdateController extends AbstractController
     private function downloadRelease(string $url, string $dir, string $filename)
     {
         $dlPath = sprintf('%s/%s', $dir, $filename);
-        $this->remove($dir);
-        mkdir($dir);
+        foreach (glob($dir . '/{,.}[!.,!..]*', GLOB_BRACE) as $file) {
+            $this->remove($file);
+        }
         file_put_contents($dlPath, file_get_contents($url));
 
         $zip = new ZipArchive();
@@ -141,9 +142,25 @@ class UpdateController extends AbstractController
         $this->remove($rootPath . '/LICENSE');
         $this->remove($rootPath . '/README.md');
 
-        foreach (glob($updatePath . '/*') as $file) {
+        $this->moveFolder($rootPath, $updatePath, $updatePath);
+    }
+
+    /**
+     * @param string $rootPath
+     * @param string $updatePath
+     * @param string $subPath
+     */
+    private function moveFolder(string $rootPath, string $updatePath, string $subPath)
+    {
+        foreach (glob($subPath . '/{,.}[!.,!..]*', GLOB_BRACE) as $file) {
             $relPath = substr($file, strlen($updatePath) + 1);
-            rename($file, $rootPath . '/' . $relPath);
+            $toPath = $rootPath . '/' . $relPath;
+            if (is_file($file) || !file_exists($toPath)) {
+                rename($file, $toPath);
+            } else {
+                $this->moveFolder($rootPath, $updatePath, $file);
+                $this->remove($file);
+            }
         }
     }
 
