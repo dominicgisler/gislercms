@@ -1616,4 +1616,4 @@ msgstr "Visit Github"
 
 #: templates/admin/misc/system/changelog.twig:125
 msgid "Veröffentlicht von %s am %s um %s"
-msgstr ""
+msgstr "Published by %s on %s at %s"

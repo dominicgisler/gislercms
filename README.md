@@ -3,7 +3,7 @@
 [![GitHub](https://img.shields.io/github/license/dominicgisler/gislercms)](https://github.com/dominicgisler/gislercms/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/dominicgisler/gislercms)](https://github.com/dominicgisler/gislercms/issues)
 [![GitHub last commit](https://img.shields.io/github/last-commit/dominicgisler/gislercms/dev)](https://github.com/dominicgisler/gislercms/commits/dev)
-[![GitHub release](https://img.shields.io/github/release/dominicgisler/gislercms)](https://github.com/dominicgisler/gislercms/releases)
+[![GitHub release](https://img.shields.io/github/release/dominicgisler/gislercms)](https://github.com/dominicgisler/gislercms/releases/latest)
 [![GitHub All Releases](https://img.shields.io/github/downloads/dominicgisler/gislercms/total)](https://github.com/dominicgisler/gislercms/releases)
 
 A simple CMS to manage your website contents
@@ -28,7 +28,7 @@ Developed and tested with:
 
 - Ubuntu 20.04
 - Apache 2.4.41
-- PHP 7.3.24
+- PHP 7.3.27
 - MariaDB 10.3.25
 
 ## How to install
