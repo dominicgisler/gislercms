@@ -8,7 +8,8 @@ return [
 
         // override php settings
         'php' => [
-            'memory_limit' => ''
+            'memory_limit' => '',
+            'max_execution_time' => ''
         ],
 
         // Renderer settings
@@ -36,7 +37,7 @@ return [
 
         'enable_setup' => true,
 
-        'version' => 'v1.1.1',
+        'version' => 'v1.1.2',
 
         'global' => [
             'admin_route' => '/admin'

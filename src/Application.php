@@ -90,7 +90,7 @@ class Application
 
         // override php settings
         foreach ($cfg['settings']['php'] as $key => $val) {
-            if (!empty($key) && !empty($val)) {
+            if ($key != '' && $val != '') {
                 ini_set($key, $val);
             }
         }
