@@ -10,9 +10,9 @@ A simple CMS to manage your website contents
 
 ## Demo
 
-The current release is available as a demo on [demo.cms.gisler-software.ch](https://demo.cms.gisler-software.ch)
+The current release is available as a demo on [demo.cms.gisler.software](https://demo.cms.gisler.software)
 
-Login on [/admin](https://demo.cms.gisler-software.ch/admin) with user `demo` and password `123456` to try it out.
+Login on [/admin](https://demo.cms.gisler.software/admin) with user `demo` and password `123456` to try it out.
 
 The demo will be reset to the latest release every hour.
 
