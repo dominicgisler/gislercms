@@ -49,15 +49,15 @@ class MailerController extends AbstractController
 
             $saveError = false;
             foreach ($data as $key => $val) {
-                if ($key == 'password' && empty($val)) {
-                    continue;
-                }
                 $config = Config::getConfig('mailer', $key);
-                $config->setValue($val);
-                $res = $config->save();
-                if (is_null($res)) {
-                    $saveError = true;
+                if ($key != 'password' || !empty($val)) {
+                    $config->setValue($val);
+                    $res = $config->save();
+                    if (is_null($res)) {
+                        $saveError = true;
+                    }
                 }
+                $data[$key] = $config->getValue();
             }
 
             if ($saveError) {
@@ -67,13 +67,14 @@ class MailerController extends AbstractController
                 $user = $cont->offsetGet('user');
                 $user = User::get($user->getUserId());
 
-                $message = $this->get('view')->fetch('mailer/testmail.twig', [
+                $subject = $this->get('view')->fetch('mailer/testmail-subject.twig');
+                $message = $this->get('view')->fetch('mailer/testmail-body.twig', [
                     'user' => $user
                 ]);
 
                 $mailer = new Mailer($data);
                 $mailer->addAddress($user->getEmail(), $user->getDisplayName());
-                $mailer->Subject = 'Testmail';
+                $mailer->Subject = $subject;
                 $mailer->Body = $message;
 
                 if ($mailer->send()) {

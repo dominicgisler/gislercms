@@ -18,14 +18,6 @@ class ForgotPasswordController extends AbstractController
     const PATTERN = '{admin_route}/forgot-password';
     const METHODS = ['GET', 'POST'];
 
-    const MESSAGE = 'Hallo %s' . PHP_EOL . PHP_EOL .
-    'Jemand hat auf %s ein neues Passwort für diesen Account angefordert.' . PHP_EOL .
-    'Bitte klicke auf folgenden Link um dein Passwort zu ändern:' . PHP_EOL .
-    '%s' . PHP_EOL . PHP_EOL .
-    'Falls du dein Passwort nicht zurücksetzen willst kannst du diese Nachricht ignorieren, dein Passwort bleibt dabei unverändert.' . PHP_EOL . PHP_EOL .
-    'Liebe Grüsse' . PHP_EOL .
-    'GislerCMS';
-
     /**
      * @param Request $request
      * @param Response $response
@@ -45,13 +37,18 @@ class ForgotPasswordController extends AbstractController
             if ($user->getUserId() > 0) {
                 $user->setResetKey($this->getToken(128));
 
+                $adminURL = $this->get('base_url') . $this->get('settings')['global']['admin_route'];
+                $subject = $this->get('view')->fetch('mailer/forgot-password-subject.twig');
+                $message = $this->get('view')->fetch('mailer/forgot-password-body.twig', [
+                    'user' => $user,
+                    'admin_url' => $adminURL,
+                    'reset_url' => $adminURL . '/reset/' . $user->getResetKey()
+                ]);
+
                 $mailer = new Mailer($this->get('settings')['mailer']);
                 $mailer->addAddress($user->getEmail(), $user->getDisplayName());
-                $mailer->CharSet = 'UTF-8';
-                $mailer->Subject = 'Passwort zurücksetzen';
-
-                $adminURL = $this->get('base_url') . $this->get('settings')['global']['admin_route'];
-                $mailer->Body = sprintf(self::MESSAGE, $user->getDisplayName(), $adminURL, $adminURL . '/reset/' . $user->getResetKey());
+                $mailer->Subject = $subject;
+                $mailer->Body = $message;
 
                 if ($user->save() && $mailer->send()) {
                     $msg = 'success';
