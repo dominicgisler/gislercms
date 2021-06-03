@@ -15,6 +15,7 @@ return [
         // Renderer settings
         'renderer' => [
             'template_paths' => [
+                __DIR__ . '/../themes/%s/',
                 __DIR__ . '/../custom_templates/',
                 __DIR__ . '/../templates/',
             ],

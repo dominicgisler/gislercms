@@ -114,6 +114,7 @@ class Application
 
             $paths = [];
             foreach ($cfg['template_paths'] as $path) {
+                $path = sprintf($path, $container['settings']['theme']['name']);
                 if (is_dir($path)) {
                     $paths[] = $path;
                 }

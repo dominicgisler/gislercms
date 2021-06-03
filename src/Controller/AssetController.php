@@ -18,6 +18,11 @@ class AssetController extends AbstractController
 
     const HIDDEN_ASSETS = ['robots.txt'];
 
+    const MIME_TYPES = [
+        'css' => 'text/css',
+        'js' => 'application/javascript'
+    ];
+
     /**
      * @param Request $request
      * @param Response $response
@@ -40,9 +45,14 @@ class AssetController extends AbstractController
         if (!in_array($asset, self::HIDDEN_ASSETS)) {
             $tplPaths = $this->get('settings')['renderer']['template_paths'];
             foreach ($tplPaths as $path) {
+                $path = sprintf($path, $this->get('settings')['theme']['name']);
                 $file = sprintf('%s/assets/%s', $path, $asset);
                 if (file_exists($file)) {
+                    $ext = pathinfo($file)['extension'] ?: '';
                     $ctype = mime_content_type($file);
+                    if (isset(self::MIME_TYPES[$ext])) {
+                        $ctype = self::MIME_TYPES[$ext];
+                    }
                     $str = fopen($file, 'r');
                     return $response
                         ->withHeader('Content-Type', $ctype)
