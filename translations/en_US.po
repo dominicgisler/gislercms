@@ -156,9 +156,7 @@ msgid "Verschiedenes"
 msgstr "Miscellaneous"
 
 #: templates/trans-keys.twig:173
-#: templates/admin/misc/system/sysinfo.twig:53
-#: templates/admin/misc/system/migration.twig:53
-#: templates/admin/misc/system/config.twig:106
+#: templates/admin/misc/system/_system.twig:56
 msgid "System"
 msgstr "System"
 
@@ -215,7 +213,7 @@ msgid "Bitte schauen Sie später erneut vorbei!"
 msgstr "Please check back later!"
 
 #: templates/admin/stats/visits.twig:64
-#: templates/admin/misc/system/backup.twig:99
+#: templates/admin/misc/system/backup.twig:88
 msgid "Zeitpunkt"
 msgstr "Date"
 
@@ -331,7 +329,8 @@ msgstr "Real visitor"
 #: templates/admin/misc/user/edit.twig:45
 #: templates/admin/misc/change-password.twig:45
 #: templates/admin/misc/profile.twig:64
-#: templates/admin/misc/system/config.twig:96
+#: templates/admin/misc/system/config.twig:97
+#: templates/admin/misc/system/mailer.twig:47
 #: templates/admin/post/edit.twig:82
 msgid "Es sind Fehler aufgetreten, bitte prüfe deine Eingaben."
 msgstr "Errors have occurred, please check your entries."
@@ -348,7 +347,8 @@ msgstr "Errors have occurred, please check your entries."
 #: templates/admin/misc/user/edit.twig:45
 #: templates/admin/misc/change-password.twig:45
 #: templates/admin/misc/profile.twig:64
-#: templates/admin/misc/system/config.twig:96
+#: templates/admin/misc/system/config.twig:97
+#: templates/admin/misc/system/mailer.twig:47
 #: templates/admin/post/edit.twig:82
 msgid "Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut."
 msgstr "An error occurred while saving, please check your entries or try again later."
@@ -392,9 +392,9 @@ msgstr "Do you really want to delete this module irrevocably?"
 #: templates/admin/misc/user/edit.twig:170
 #: templates/admin/misc/trash.twig:159
 #: templates/admin/misc/trash.twig:190
-#: templates/admin/misc/system/update.twig:141
-#: templates/admin/misc/system/migration.twig:240
-#: templates/admin/misc/system/backup.twig:211
+#: templates/admin/misc/system/update.twig:128
+#: templates/admin/misc/system/migration.twig:227
+#: templates/admin/misc/system/backup.twig:200
 #: templates/admin/content.twig:242
 #: templates/admin/post/edit.twig:384
 msgid "Abbrechen"
@@ -417,7 +417,8 @@ msgstr "Yes, delete module"
 #: templates/admin/misc/user/edit.twig:114
 #: templates/admin/misc/trash.twig:74
 #: templates/admin/misc/profile.twig:110
-#: templates/admin/misc/system/migration.twig:126
+#: templates/admin/misc/system/migration.twig:113
+#: templates/admin/misc/system/mailer.twig:121
 #: templates/admin/post/list.twig:65
 #: templates/admin/post/edit.twig:129
 #: templates/admin/post/attribute-row.twig:62
@@ -446,14 +447,15 @@ msgstr "The desired module was not found, please select a module from the list:"
 
 #: templates/admin/module/manage/guestbook.twig:42
 #: templates/admin/module/manage/default.twig:42
-#: templates/admin/misc/system/config.twig:96
+#: templates/admin/misc/system/config.twig:97
+#: templates/admin/misc/system/mailer.twig:47
 msgid "Die Konfiguration wurde erfolgreich gespeichert."
 msgstr "The configuration has been saved successfully."
 
 #: templates/admin/module/manage/guestbook.twig:67
 #: templates/admin/module/manage/default.twig:67
 #: templates/admin/index.twig:67
-#: templates/admin/misc/system/tabnav.twig:47
+#: templates/admin/misc/system/_system.twig:46
 msgid "Konfiguration"
 msgstr "Configuration"
 
@@ -467,7 +469,8 @@ msgstr "Configuration"
 #: templates/admin/misc/user/edit.twig:143
 #: templates/admin/misc/change-password.twig:96
 #: templates/admin/misc/profile.twig:123
-#: templates/admin/misc/system/config.twig:182
+#: templates/admin/misc/system/config.twig:171
+#: templates/admin/misc/system/mailer.twig:135
 #: templates/admin/post/edit.twig:344
 msgid "Speichern"
 msgstr "Save"
@@ -488,7 +491,7 @@ msgid "Inhalt"
 msgstr "Content"
 
 #: templates/admin/module/manage/guestbook.twig:107
-#: templates/admin/misc/system/backup.twig:107
+#: templates/admin/misc/system/backup.twig:96
 msgid "Aktionen"
 msgstr "Actions"
 
@@ -551,7 +554,7 @@ msgid "Betriebssysteme"
 msgstr "Operating systems"
 
 #: templates/admin/index.twig:345
-#: templates/admin/misc/system/config.twig:143
+#: templates/admin/misc/system/config.twig:132
 msgid "Statistiken"
 msgstr "Statistics"
 
@@ -605,7 +608,7 @@ msgstr "Default language"
 #: templates/admin/widget/list.twig:73
 #: templates/admin/page/list.twig:73
 #: templates/admin/misc/language/list.twig:78
-#: templates/admin/misc/system/migration.twig:134
+#: templates/admin/misc/system/migration.twig:121
 #: templates/admin/post/list.twig:77
 msgid "Status"
 msgstr "Status"
@@ -788,7 +791,7 @@ msgstr "Terms through which this page should be found (SEO)"
 
 #: templates/admin/page/edit.twig:244
 #: templates/admin/page/defaults.twig:106
-#: templates/admin/misc/system/migration.twig:130
+#: templates/admin/misc/system/migration.twig:117
 #: templates/admin/post/edit.twig:293
 msgid "Beschreibung"
 msgstr "Description"
@@ -876,6 +879,7 @@ msgstr "The default values have been saved successfully."
 msgid "Dein Passwort wurde erfolgreich geändert."
 msgstr "Your password has been successfully changed."
 
+#: templates/mailer/forgot-password-subject.twig:37
 #: templates/admin/auth/reset.twig:54
 #: templates/admin/auth/reset.twig:129
 #: templates/admin/auth/forgot-password.twig:112
@@ -921,6 +925,7 @@ msgstr "Please check your entries!"
 #: templates/admin/misc/user/list.twig:70
 #: templates/admin/misc/user/edit.twig:106
 #: templates/admin/misc/profile.twig:102
+#: templates/admin/misc/system/mailer.twig:100
 #: templates/admin/setup.twig:187
 #: templates/admin/setup.twig:195
 #: templates/admin/setup.twig:235
@@ -930,6 +935,7 @@ msgstr "Username"
 
 #: templates/admin/auth/login.twig:108
 #: templates/admin/auth/login.twig:112
+#: templates/admin/misc/system/mailer.twig:104
 #: templates/admin/setup.twig:202
 #: templates/admin/setup.twig:207
 #: templates/admin/setup.twig:297
@@ -1029,6 +1035,7 @@ msgstr "First name"
 #: templates/admin/misc/user/list.twig:82
 #: templates/admin/misc/user/edit.twig:118
 #: templates/admin/misc/profile.twig:114
+#: templates/admin/misc/system/mailer.twig:125
 #: templates/admin/setup.twig:282
 #: templates/admin/setup.twig:290
 msgid "E-Mail"
@@ -1105,38 +1112,38 @@ msgstr "Do you really want to delete the user irrevocably?"
 msgid "Ja, Benutzer löschen"
 msgstr "Yes, delete user"
 
-#: templates/admin/misc/system/migration.twig:99
+#: templates/admin/misc/system/migration.twig:86
 #: templates/admin/setup.twig:115
 msgid "Es sind Fehler aufgetregen, bitte versuche es erneut."
 msgstr "There are errors, please try again."
 
-#: templates/admin/misc/system/migration.twig:105
+#: templates/admin/misc/system/migration.twig:92
 msgid "Datenbank-Update erfolgreich"
 msgstr "Database update successful"
 
-#: templates/admin/misc/system/migration.twig:175
+#: templates/admin/misc/system/migration.twig:162
 msgid "Ausstehend"
 msgstr "Pending"
 
-#: templates/admin/misc/system/update.twig:48
-#: templates/admin/misc/system/migration.twig:197
-#: templates/admin/misc/system/migration.twig:217
+#: templates/admin/misc/system/update.twig:47
+#: templates/admin/misc/system/migration.twig:184
+#: templates/admin/misc/system/migration.twig:204
 msgid "Update durchführen"
 msgstr "Perform update"
 
-#: templates/admin/misc/system/migration.twig:226
+#: templates/admin/misc/system/migration.twig:213
 msgid "Möchtest du das Datenbank-Update durchführen?"
 msgstr "Do you want to perform the database update?"
 
-#: templates/admin/misc/system/migration.twig:230
+#: templates/admin/misc/system/migration.twig:217
 msgid "Bitte beachte, dass du vor einem Update unbedingt ein Backup deiner aktuellen Datenbank erstellen solltest."
 msgstr "Please note that you should make sure to backup your current database before updating."
 
-#: templates/admin/misc/system/migration.twig:234
+#: templates/admin/misc/system/migration.twig:221
 msgid "Auch wenn der Update-Prozess grundsätzlich fehlerfrei verlaufen sollte können allfällige Fehler nicht ausgeschlossen werden."
 msgstr "Even if the update process is basically error-free, possible errors cannot be ruled out."
 
-#: templates/admin/misc/system/migration.twig:244
+#: templates/admin/misc/system/migration.twig:231
 msgid "Ja, Update durchführen"
 msgstr "Yes, perform update"
 
@@ -1160,43 +1167,43 @@ msgstr "With this you log in, 3-128 characters"
 msgid "Die E-Mail Adresse benötigst du beispielsweise um dein Passwort zurückzusetzen"
 msgstr "You need the email address for example to reset your password"
 
-#: templates/admin/misc/system/tabnav.twig:59
+#: templates/admin/misc/system/_system.twig:46
 msgid "Systeminformation"
 msgstr "System information"
 
-#: templates/admin/misc/system/config.twig:139
+#: templates/admin/misc/system/config.twig:128
 msgid "Wartungsmodus"
 msgstr "Maintenance mode"
 
-#: templates/admin/misc/system/config.twig:139
+#: templates/admin/misc/system/config.twig:128
 msgid "Im Wartungsmodus wird eine statische Seite angezeigt."
 msgstr "A static page is displayed in maintenance mode."
 
-#: templates/admin/misc/system/config.twig:143
+#: templates/admin/misc/system/config.twig:132
 msgid "Seitenbesuche werden aufgezeichnet und in Statistiken auf dem Dashboard zusammengefasst"
 msgstr "Page visits are recorded and summarized in statistics on the dashboard"
 
-#: templates/admin/misc/system/config.twig:147
+#: templates/admin/misc/system/config.twig:136
 msgid "Startseite"
 msgstr "Home page"
 
-#: templates/admin/misc/system/config.twig:147
+#: templates/admin/misc/system/config.twig:136
 msgid "Startseite deiner Webseite"
 msgstr "Home page of your website"
 
-#: templates/admin/misc/system/config.twig:151
+#: templates/admin/misc/system/config.twig:140
 msgid "Admin-Pfad"
 msgstr "Admin path"
 
-#: templates/admin/misc/system/config.twig:151
+#: templates/admin/misc/system/config.twig:140
 msgid "Pfad des Adminbereichs"
 msgstr "Path of the admin area"
 
-#: templates/admin/misc/system/config.twig:155
+#: templates/admin/misc/system/config.twig:144
 msgid "Login Fehlversuche"
 msgstr "Login failed attempts"
 
-#: templates/admin/misc/system/config.twig:155
+#: templates/admin/misc/system/config.twig:144
 msgid "Maximale Anzahl Fehlversuche bevor ein Benutzer gesperrt wird"
 msgstr "Maximum number of failed attempts before a user is blocked"
 
@@ -1310,12 +1317,13 @@ msgstr "Step %d"
 msgid "Bitte konfiguriere deine Datenbank-Verbindungsdaten."
 msgstr "Please configure your database connection data."
 
+#: templates/admin/misc/system/mailer.twig:96
 #: templates/admin/setup.twig:157
 #: templates/admin/setup.twig:165
 msgid "Host"
 msgstr "Host"
 
-#: templates/admin/misc/system/tabnav.twig:95
+#: templates/admin/misc/system/_system.twig:46
 #: templates/admin/setup.twig:172
 #: templates/admin/setup.twig:180
 msgid "Datenbank"
@@ -1359,157 +1367,155 @@ msgstr "Do you really want to restore the selected elements?"
 msgid "Element hinzufügen"
 msgstr "Add element"
 
-#: templates/admin/misc/system/tabnav.twig:71
-#: templates/admin/misc/system/backup.twig:56
+#: templates/admin/misc/system/_system.twig:46
 msgid "Backup"
 msgstr "Backup"
 
-#: templates/admin/misc/system/backup.twig:46
+#: templates/admin/misc/system/backup.twig:45
 msgid "Das Backup wurde erfolgreich erstellt."
 msgstr "The backup was created successfully."
 
-#: templates/admin/misc/system/backup.twig:46
+#: templates/admin/misc/system/backup.twig:45
 msgid "Das Backup wurde erfolgreich gelöscht."
 msgstr "The backup was successfully deleted."
 
-#: templates/admin/misc/system/backup.twig:91
+#: templates/admin/misc/system/backup.twig:80
 msgid "Dateiname"
 msgstr "File name"
 
-#: templates/admin/misc/system/backup.twig:95
+#: templates/admin/misc/system/backup.twig:84
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin/misc/system/backup.twig:103
+#: templates/admin/misc/system/backup.twig:92
 msgid "Grösse"
 msgstr "File size"
 
-#: templates/admin/misc/system/backup.twig:162
+#: templates/admin/misc/system/backup.twig:151
 msgid "Backup erstellen"
 msgstr "Create backup"
 
-#: templates/admin/misc/system/backup.twig:175
+#: templates/admin/misc/system/backup.twig:164
 msgid "Backup löschen"
 msgstr "Delete backup"
 
-#: templates/admin/misc/system/backup.twig:185
+#: templates/admin/misc/system/backup.twig:174
 msgid "Möchtest du das folgende Backup wirklich unwiderruflich löschen?"
 msgstr "Do you really want to delete the following backup irrevocably?"
 
-#: templates/admin/misc/system/backup.twig:192
+#: templates/admin/misc/system/backup.twig:181
 msgid "Dateiname:"
 msgstr "File name:"
 
-#: templates/admin/misc/system/backup.twig:196
+#: templates/admin/misc/system/backup.twig:185
 msgid "Version:"
 msgstr "Version:"
 
-#: templates/admin/misc/system/backup.twig:200
+#: templates/admin/misc/system/backup.twig:189
 msgid "Zeitpunkt:"
 msgstr "Date:"
 
-#: templates/admin/misc/system/backup.twig:204
+#: templates/admin/misc/system/backup.twig:193
 msgid "Grösse:"
 msgstr "File size:"
 
-#: templates/admin/misc/system/backup.twig:215
+#: templates/admin/misc/system/backup.twig:204
 msgid "Ja, Backup löschen"
 msgstr "Yes, delete backup"
 
-#: templates/admin/misc/system/config.twig:64
+#: templates/admin/misc/system/config.twig:65
 msgid "Nie"
 msgstr "Never"
 
-#: templates/admin/misc/system/config.twig:64
+#: templates/admin/misc/system/config.twig:65
 msgid "Jede Stunde"
 msgstr "Every hour"
 
-#: templates/admin/misc/system/config.twig:64
+#: templates/admin/misc/system/config.twig:65
 msgid "Alle drei Stunden"
 msgstr "Every three hours"
 
-#: templates/admin/misc/system/config.twig:64
+#: templates/admin/misc/system/config.twig:65
 msgid "Alle sechs Stunden"
 msgstr "Every six hours"
 
-#: templates/admin/misc/system/config.twig:64
+#: templates/admin/misc/system/config.twig:65
 msgid "Alle zwölf Stunden"
 msgstr "Every twelve hours"
 
-#: templates/admin/misc/system/config.twig:64
+#: templates/admin/misc/system/config.twig:65
 msgid "Jeden Tag"
 msgstr "Every day"
 
-#: templates/admin/misc/system/config.twig:64
+#: templates/admin/misc/system/config.twig:65
 msgid "Jede Woche"
 msgstr "Every week"
 
-#: templates/admin/misc/system/config.twig:64
+#: templates/admin/misc/system/config.twig:65
 msgid "Jeden Monat"
 msgstr "Every month"
 
-#: templates/admin/misc/system/config.twig:159
+#: templates/admin/misc/system/config.twig:148
 msgid "Automatische Aufgaben"
 msgstr "Automatic tasks"
 
-#: templates/admin/misc/system/config.twig:164
+#: templates/admin/misc/system/config.twig:153
 msgid "Damit diese Einstellungen funktionieren muss folgender Cronjob auf dem System aktiv sein:"
 msgstr "For these settings to work, the following cronjob must be active on the system:"
 
-#: templates/admin/misc/system/config.twig:173
+#: templates/admin/misc/system/config.twig:162
 msgid "Aktualisierung der Statistiken"
 msgstr "Updating statistics"
 
-#: templates/admin/misc/system/config.twig:173
+#: templates/admin/misc/system/config.twig:162
 msgid "In welchen Zeitabständen die Statistiken automatisch aktualisiert werden"
 msgstr "At what intervals the statistics are automatically updated"
 
-#: templates/admin/misc/system/config.twig:177
+#: templates/admin/misc/system/config.twig:166
 msgid "Erstellung von Backups"
 msgstr "Creation of backups"
 
-#: templates/admin/misc/system/config.twig:177
+#: templates/admin/misc/system/config.twig:166
 msgid "In welchen Zeitabständen automatische Backups erstellt werden"
 msgstr "At what intervals automatic backups are created"
 
-#: templates/admin/misc/system/update.twig:46
+#: templates/admin/misc/system/update.twig:45
 msgid "Update-Informationen konnten nicht abgerufen werden, bitte später erneut probieren."
 msgstr "Update information could not be retrieved, please try again later."
 
-#: templates/admin/misc/system/update.twig:46
+#: templates/admin/misc/system/update.twig:45
 msgid "Du hast bereits die aktuellste Version installiert (%s)."
 msgstr "You already have the latest version installed (%s)."
 
-#: templates/admin/misc/system/update.twig:47
+#: templates/admin/misc/system/update.twig:46
 msgid "Version erneut installieren"
 msgstr "Reinstall version"
 
-#: templates/admin/misc/system/update.twig:47
+#: templates/admin/misc/system/update.twig:46
 msgid "Es ist ein Update verfügbar: %s -> %s"
 msgstr "There is an update available: %s -> %s"
 
-#: templates/admin/misc/system/update.twig:48
+#: templates/admin/misc/system/update.twig:47
 msgid "Update erfolgreich durchgeführt!"
 msgstr "Update successfully completed!"
 
-#: templates/admin/misc/system/update.twig:48
+#: templates/admin/misc/system/update.twig:47
 msgid "Beim Update ist ein Fehler aufgetreten. Bitte erneut versuchen oder manuell installieren."
 msgstr "An error occurred during the update. Please try again or install manually."
 
-#: templates/admin/misc/system/update.twig:58
-#: templates/admin/misc/system/tabnav.twig:83
+#: templates/admin/misc/system/_system.twig:46
 msgid "Update"
 msgstr "Update"
 
-#: templates/admin/misc/system/update.twig:91
+#: templates/admin/misc/system/update.twig:78
 msgid "Neuerungen in %s"
 msgstr "New features in %s"
 
-#: templates/admin/misc/system/update.twig:131
+#: templates/admin/misc/system/update.twig:118
 msgid "Bitte erstelle zuerst ein Backup, bevor die Installation durchgeführt wird."
 msgstr "Please make a backup first before performing the installation."
 
-#: templates/admin/misc/system/update.twig:135
+#: templates/admin/misc/system/update.twig:122
 msgid "Möchtest du den Prozess wirklich starten?"
 msgstr "Do you really want to start the process?"
 
@@ -1597,23 +1603,92 @@ msgstr "Complements visit table with parameters"
 msgid "Einfügen der Konfiguration für Cronjobs"
 msgstr "Inserting the configuration for cronjobs"
 
-#: templates/admin/misc/system/tabnav.twig:107
-#: templates/admin/misc/system/changelog.twig:53
+#: templates/admin/misc/system/_system.twig:46
 msgid "Changelog"
 msgstr "Changelog"
 
-#: templates/admin/misc/system/changelog.twig:79
+#: templates/admin/misc/system/changelog.twig:66
 msgid "Alle Informationen wurden von Github geladen."
 msgstr "All information was loaded from Github."
 
-#: templates/admin/misc/system/changelog.twig:85
+#: templates/admin/misc/system/changelog.twig:72
 msgid "Die Informationen konnten nicht abgerufen werden."
 msgstr "The information could not be retrieved."
 
-#: templates/admin/misc/system/changelog.twig:95
+#: templates/admin/misc/system/changelog.twig:82
 msgid "Github besuchen"
 msgstr "Visit Github"
 
-#: templates/admin/misc/system/changelog.twig:125
+#: templates/admin/misc/system/changelog.twig:112
 msgid "Veröffentlicht von %s am %s um %s"
 msgstr "Published by %s on %s at %s"
+
+#: templates/mailer/testmail-body.twig:37
+#: templates/mailer/forgot-password-body.twig:37
+msgid "Hallo %s"
+msgstr "Hello %s"
+
+#: templates/mailer/testmail-body.twig:42
+msgid "Diese Testmail wurde versendet, um die Mailer-Einstellungen zu überprüfen."
+msgstr "This test mail was sent to check the mailer settings."
+
+#: templates/mailer/testmail-body.twig:47
+#: templates/mailer/forgot-password-body.twig:60
+msgid "Freundliche Grüsse"
+msgstr "Kind regards"
+
+#: templates/mailer/forgot-password-body.twig:42
+msgid "Jemand hat auf %s ein neues Passwort für diesen Account angefordert."
+msgstr "Someone has requested a new password for this account on %s."
+
+#: templates/mailer/forgot-password-body.twig:46
+msgid "Bitte klicke auf folgenden Link um dein Passwort zu ändern:"
+msgstr "Please click on the following link to change your password:"
+
+#: templates/mailer/forgot-password-body.twig:55
+msgid "Falls du dein Passwort nicht zurücksetzen willst kannst du diese Nachricht ignorieren, dein Passwort bleibt dabei unverändert."
+msgstr "If you do not want to reset your password you can ignore this message, your password will remain unchanged."
+
+#: templates/mailer/testmail-subject.twig:37
+msgid "Testmail"
+msgstr "Testmail"
+
+#: templates/trans-keys.twig:278
+msgid "Einfügen der Konfiguration für den Mailer"
+msgstr "Inserting the configuration for the mailer"
+
+#: templates/admin/misc/system/_system.twig:46
+msgid "Mailer"
+msgstr "Mailer"
+
+#: templates/admin/misc/system/mailer.twig:47
+msgid "Die Testmail wurde gesendet."
+msgstr "The test mail has been sent."
+
+#: templates/admin/misc/system/mailer.twig:47
+msgid "Die Testmail konnte nicht gesendet werden:"
+msgstr "The test mail could not be sent:"
+
+#: templates/admin/misc/system/mailer.twig:82
+msgid "SMTP verwenden"
+msgstr "Use SMTP"
+
+#: templates/admin/misc/system/mailer.twig:92
+msgid "Authentifizierung verwenden"
+msgstr "Use authentication"
+
+#: templates/admin/misc/system/mailer.twig:108
+msgid "Sicherheit"
+msgstr "Security"
+
+#: templates/admin/misc/system/mailer.twig:112
+msgid "Port"
+msgstr "Port"
+
+#: templates/admin/misc/system/mailer.twig:117
+msgid "Standardabsender"
+msgstr "Default sender"
+
+#: templates/admin/misc/system/mailer.twig:131
+msgid "Einstellungen testen"
+msgstr "Test settings"
