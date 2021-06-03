@@ -123,6 +123,7 @@ return [
                     [
                         'route' => [
                             'admin-misc-system-config',
+                            'admin-misc-system-mailer',
                             'admin-misc-system-sysinfo',
                             'admin-misc-system-backup',
                             'admin-misc-system-update',

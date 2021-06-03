@@ -77,6 +77,7 @@ return [
                 \GislerCMS\Controller\Admin\Misc\User\ListController::class,
                 \GislerCMS\Controller\Admin\Misc\User\EditController::class,
                 \GislerCMS\Controller\Admin\Misc\System\ConfigController::class,
+                \GislerCMS\Controller\Admin\Misc\System\MailerController::class,
                 \GislerCMS\Controller\Admin\Misc\System\SysInfoController::class,
                 \GislerCMS\Controller\Admin\Misc\System\BackupController::class,
                 \GislerCMS\Controller\Admin\Misc\System\UpdateController::class,
@@ -90,20 +91,6 @@ return [
                 \GislerCMS\Controller\Admin\Auth\LoginController::class,
                 \GislerCMS\Controller\Admin\Auth\ForgotPasswordController::class,
                 \GislerCMS\Controller\Admin\Auth\ResetController::class
-            ]
-        ],
-
-        'mailer' => [
-            'smtp' => false,
-            'host' => 'mail.example.com',
-            'smtpauth' => true,
-            'username' => 'max.muster@example.com',
-            'password' => 'mypass',
-            'smtpsecure' => 'ssl',
-            'port' => 465,
-            'default_from' => [
-                'name' => 'GislerCMS',
-                'email' => 'gislercms@example.com'
             ]
         ],
 

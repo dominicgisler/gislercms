@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Model;
 
+use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 /**
@@ -13,7 +14,7 @@ class Mailer extends PHPMailer
     /**
      * Mailer constructor.
      * @param array $config
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
     public function __construct(array $config)
     {
@@ -28,7 +29,7 @@ class Mailer extends PHPMailer
             $this->SMTPSecure = $config['smtpsecure'];
             $this->Port = $config['port'];
             $this->CharSet = 'UTF-8';
-            $this->setFrom($config['default_from']['email'], $config['default_from']['name']);
+            $this->setFrom($config['default_email'], $config['default_name']);
         }
     }
 }

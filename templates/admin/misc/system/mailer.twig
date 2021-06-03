@@ -1,0 +1,73 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/misc/system/_system.twig' %}
+{% set tab = 'mailer' %}
+
+{%
+    set messages = {
+        invalid_input: {
+            class: 'danger',
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'|trans
+        },
+        save_error: {
+            class: 'danger',
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'|trans
+        },
+        save_success: {
+            class: 'success',
+            message: 'Die Konfiguration wurde erfolgreich gespeichert.'|trans
+        },
+        test_success: {
+            class: 'success',
+            message: 'Die Testmail wurde gesendet.'|trans
+        },
+        test_fail: {
+            class: 'danger',
+            message: 'Die Testmail konnte nicht gesendet werden.'|trans
+        }
+    }
+%}
+
+{% block tab %}
+    {% if message %}
+        <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
+            {{ messages[message].message|raw }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <form method="post" id="page-form">
+        {{ forms.form_group('checkbox', 'smtp', data.smtp, 'SMTP verwenden'|trans, '', 'smtp' in errors ? 'is-invalid' : '') }}
+        <div id="smtp-config" {% if not data.smtp %}class="d-none"{% endif %}>
+            {{ forms.form_group('checkbox', 'smtpauth', data.smtpauth, 'Authentifizierung verwenden'|trans, '', 'smtpauth' in errors ? 'is-invalid' : '') }}
+            {{ forms.form_group('text', 'host', data.host, 'Host'|trans, '', 'host' in errors ? 'is-invalid' : '') }}
+            {{ forms.form_group('text', 'username', data.username, 'Benutzername'|trans, '', 'username' in errors ? 'is-invalid' : '') }}
+            {{ forms.form_group('password', 'password', null, 'Passwort'|trans, '', 'password' in errors ? 'is-invalid' : '') }}
+            {{ forms.form_group('text', 'smtpsecure', data.smtpsecure, 'Sicherheit'|trans, '', 'smtpsecure' in errors ? 'is-invalid' : '') }}
+            {{ forms.form_group('number', 'port', data.port, 'Port'|trans, '', 'port' in errors ? 'is-invalid' : '') }}
+        </div>
+        <h2 class="h4 mt-4">{{ 'Standardabsender'|trans }}</h2>
+        {{ forms.form_group('text', 'default_name', data.default_name, 'Name'|trans, '', 'default_email' in errors ? 'is-invalid' : '') }}
+        {{ forms.form_group('email', 'default_email', data.default_email, 'E-Mail'|trans, '', 'default_name' in errors ? 'is-invalid' : '') }}
+        <div class="text-right mb-4">
+            <button type="submit" name="save" class="d-none"></button>
+            <button type="submit" class="btn btn-secondary" name="test">{{ 'Einstellungen testen'|trans }}</button>
+            <button type="submit" class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script>
+        $('#input_smtp').change(function() {
+            if ($(this).is(':checked')) {
+                $('#smtp-config').removeClass('d-none');
+            } else {
+                $('#smtp-config').addClass('d-none');
+            }
+        })
+    </script>
+{% endblock %}
