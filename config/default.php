@@ -73,6 +73,7 @@ return [
                 \GislerCMS\Controller\Admin\Misc\ProfileController::class,
                 \GislerCMS\Controller\Admin\Misc\ChangePasswordController::class,
                 \GislerCMS\Controller\Admin\Misc\TrashController::class,
+                \GislerCMS\Controller\Admin\Misc\ThemeController::class,
                 \GislerCMS\Controller\Admin\Misc\Language\ListController::class,
                 \GislerCMS\Controller\Admin\Misc\Language\EditController::class,
                 \GislerCMS\Controller\Admin\Misc\User\ListController::class,

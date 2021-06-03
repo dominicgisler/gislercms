@@ -135,6 +135,12 @@ return [
                         'href' => '{admin_url}/misc/system/config'
                     ],
                     [
+                        'route' => 'admin-misc-theme',
+                        'label' => 'Design',
+                        'icon' => 'fa-palette',
+                        'href' => '{admin_url}/misc/theme'
+                    ],
+                    [
                         'route' => ['admin-misc-language-list', 'admin-misc-language-edit'],
                         'label' => 'Sprachen',
                         'icon' => 'fa-language',

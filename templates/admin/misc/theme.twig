@@ -1,0 +1,132 @@
+{% extends 'admin/content.twig' %}
+
+{% block title %}{{ 'Design'|trans }}{% endblock %}
+
+{%
+    set messages = {
+        save_error: {
+            class: 'danger',
+            message: 'Die Auswahl konnte nicht gespeichert werden.'|trans
+        },
+        save_success: {
+            class: 'success',
+            message: 'Die Auswahl wurde erfolgreich gespeichert.'|trans
+        }
+    }
+%}
+
+{% block content %}
+    {% if message %}
+        <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
+            {{ messages[message].message|raw }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <form method="post">
+        <div class="row">
+            {% for key, theme in themes %}
+                <div class="col-md-3">
+                    <div class="card {% if key == current %}border-primary{% endif %}">
+                        <img src="{{ theme.screenshot }}" class="card-img-top" alt="screenshot">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ theme.title ?: key }}</h5>
+                            <p class="card-text">{{ theme.description|nl2br }}</p>
+                        </div>
+                        <div class="card-footer text-right">
+                            <button type="button" class="btn btn-secondary"
+                                    data-toggle="modal" data-target="#showInfo"
+                                    data-path="{{ key }}" data-title="{{ theme.title}}"
+                                    data-description="{{ theme.description|nl2br }}" data-homepage="{{ theme.homepage }}"
+                                    data-license="{{ theme.license }}" data-authors="{{ theme.authors|json_encode }}"
+                            >{{ 'Info' }}</button>
+                            <button type="submit" class="btn btn-primary" {% if key == current %}disabled{% endif %} name="select" value="{{ key }}">{{ 'Auswählen'|trans }}</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {# info modal #}
+        <div class="modal fade" id="showInfo" tabindex="-1" role="dialog" aria-labelledby="showInfoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="showInfoLabel">{{ 'Design-Info'|trans }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="" class="screenshot w-100">
+                        <table class="w-100 mt-4">
+                            <tr>
+                                <th class="align-top">{{ 'Pfad'|trans }}</th>
+                                <td class="path"></td>
+                            </tr>
+                            <tr>
+                                <th class="align-top">{{ 'Titel'|trans }}</th>
+                                <td class="title"></td>
+                            </tr>
+                            <tr>
+                                <th class="align-top">{{ 'Beschreibung'|trans }}</th>
+                                <td class="description"></td>
+                            </tr>
+                            <tr>
+                                <th class="align-top">{{ 'Webseite'|trans }}</th>
+                                <td class="homepage"></td>
+                            </tr>
+                            <tr>
+                                <th class="align-top">{{ 'Lizenz'|trans }}</th>
+                                <td class="license"></td>
+                            </tr>
+                            <tr>
+                                <th class="align-top">{{ 'Autoren'|trans }}</th>
+                                <td class="authors"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Zurück'|trans }}</button>
+                        <button type="submit" name="select" class="select btn btn-primary">{{ 'Auswählen'|trans }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script>
+        $('#showInfo').on('show.bs.modal', function (event) {
+            let button = $(event.relatedTarget);
+            let modal = $(this);
+            let theme = button.data('path');
+
+            modal.find('.screenshot').attr('src', button.closest('.card').find('.card-img-top').attr('src'));
+            modal.find('.path').text('./themes/' + theme);
+            modal.find('.title').text(button.data('title'));
+            modal.find('.description').html(button.data('description'));
+            modal.find('.homepage').html('<a href="' + button.data('homepage') + '" target="_blank">' + button.data('homepage') + '</a>');
+            modal.find('.license').text(button.data('license'));
+
+            let authors = '';
+            if (button.data('authors')) {
+                button.data('authors').forEach(function (author) {
+                    authors += author.name + (author.email ? (' &lt;<a href="mailto:' + author.email + '">' + author.email + '</a>&gt;') : '') + '<br>';
+                });
+            }
+            modal.find('.authors').html(authors);
+
+            modal.find('button.select').val(theme);
+            if (theme === '{{ current }}') {
+                modal.find('button.select').prop('disabled', true);
+            } else {
+                modal.find('button.select').prop('disabled', false);
+            }
+        });
+    </script>
+{% endblock %}
