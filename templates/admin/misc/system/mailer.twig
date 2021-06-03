@@ -23,7 +23,7 @@
         },
         test_fail: {
             class: 'danger',
-            message: 'Die Testmail konnte nicht gesendet werden.'|trans
+            message: 'Die Testmail konnte nicht gesendet werden:'|trans
         }
     }
 %}
@@ -31,7 +31,8 @@
 {% block tab %}
     {% if message %}
         <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
-            {{ messages[message].message|raw }}
+            {{ messages[message].message|raw }}<br>
+            {{ errors.message }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

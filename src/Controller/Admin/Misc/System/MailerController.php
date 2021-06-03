@@ -80,6 +80,7 @@ class MailerController extends AbstractController
                     $msg = 'test_success';
                 } else {
                     $msg = 'test_fail';
+                    $errors['message'] = $mailer->ErrorInfo;
                 }
             } else {
                 $msg = 'save_success';
