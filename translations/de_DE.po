@@ -160,7 +160,7 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#: templates/trans-keys.twig:177
+#: templates/trans-keys.twig:181
 #: templates/admin/widget/edit.twig:127
 #: templates/admin/page/edit.twig:127
 #: templates/admin/misc/language/list.twig:53
@@ -168,16 +168,17 @@ msgstr ""
 msgid "Sprachen"
 msgstr ""
 
-#: templates/trans-keys.twig:181
+#: templates/trans-keys.twig:185
 #: templates/admin/misc/user/list.twig:53
 msgid "Benutzer"
 msgstr ""
 
-#: templates/trans-keys.twig:185
+#: templates/trans-keys.twig:189
 msgid "Datenbank-Update"
 msgstr ""
 
-#: templates/trans-keys.twig:189
+#: templates/trans-keys.twig:193
+#: templates/admin/misc/theme.twig:202
 #: templates/admin/misc/license.twig:50
 msgid "Lizenz"
 msgstr ""
@@ -791,6 +792,7 @@ msgstr ""
 
 #: templates/admin/page/edit.twig:244
 #: templates/admin/page/defaults.twig:106
+#: templates/admin/misc/theme.twig:188
 #: templates/admin/misc/system/migration.twig:117
 #: templates/admin/post/edit.twig:293
 msgid "Beschreibung"
@@ -902,6 +904,7 @@ msgstr ""
 
 #: templates/admin/auth/reset.twig:135
 #: templates/admin/auth/forgot-password.twig:118
+#: templates/admin/misc/theme.twig:218
 #: templates/admin/setup.twig:310
 msgid "Zurück"
 msgstr ""
@@ -1519,87 +1522,87 @@ msgstr ""
 msgid "Möchtest du den Prozess wirklich starten?"
 msgstr ""
 
-#: templates/trans-keys.twig:194
+#: templates/trans-keys.twig:198
 msgid "Datenbank aufräumen"
 msgstr ""
 
-#: templates/trans-keys.twig:198
+#: templates/trans-keys.twig:202
 msgid "Struktur der Config-Tabelle"
 msgstr ""
 
-#: templates/trans-keys.twig:202
+#: templates/trans-keys.twig:206
 msgid "Struktur der Sprachen-Tabelle"
 msgstr ""
 
-#: templates/trans-keys.twig:206
+#: templates/trans-keys.twig:210
 msgid "Struktur der User-Tabelle"
 msgstr ""
 
-#: templates/trans-keys.twig:210
+#: templates/trans-keys.twig:214
 msgid "Struktur der Seiten-Tabellen"
 msgstr ""
 
-#: templates/trans-keys.twig:214
+#: templates/trans-keys.twig:218
 msgid "Struktur der Widget-Tabellen"
 msgstr ""
 
-#: templates/trans-keys.twig:218
+#: templates/trans-keys.twig:222
 msgid "Einfügen der Standardsprachen"
 msgstr ""
 
-#: templates/trans-keys.twig:222
+#: templates/trans-keys.twig:226
 msgid "Einfügen der Standardseiten"
 msgstr ""
 
-#: templates/trans-keys.twig:226
+#: templates/trans-keys.twig:230
 msgid "Einfügen der Standardwidgets"
 msgstr ""
 
-#: templates/trans-keys.twig:230
+#: templates/trans-keys.twig:234
 msgid "Einfügen der Konfigurationen"
 msgstr ""
 
-#: templates/trans-keys.twig:234
+#: templates/trans-keys.twig:238
 msgid "Struktur der Modul-Tabelle"
 msgstr ""
 
-#: templates/trans-keys.twig:238
+#: templates/trans-keys.twig:242
 msgid "Struktur der client-Tabelle"
 msgstr ""
 
-#: templates/trans-keys.twig:242
+#: templates/trans-keys.twig:246
 msgid "Struktur der session-Tabelle"
 msgstr ""
 
-#: templates/trans-keys.twig:246
+#: templates/trans-keys.twig:250
 msgid "Struktur der visit-Tabelle"
 msgstr ""
 
-#: templates/trans-keys.twig:250
+#: templates/trans-keys.twig:254
 msgid "Struktur der Beitragstabellen"
 msgstr ""
 
-#: templates/trans-keys.twig:254
+#: templates/trans-keys.twig:258
 msgid "Struktur der Gästebuch-Tabellen"
 msgstr ""
 
-#: templates/trans-keys.twig:258
+#: templates/trans-keys.twig:262
 msgid "Ergänzt session-Tabelle mit User Agent"
 msgstr ""
 
-#: templates/trans-keys.twig:262
+#: templates/trans-keys.twig:266
 msgid "Erweitern der Konfiguration um Statistiken"
 msgstr ""
 
-#: templates/trans-keys.twig:266
+#: templates/trans-keys.twig:270
 msgid "Erstellt die standardmässige Navigation"
 msgstr ""
 
-#: templates/trans-keys.twig:270
+#: templates/trans-keys.twig:274
 msgid "Ergänzt visit-Tabelle mit Parametern"
 msgstr ""
 
-#: templates/trans-keys.twig:274
+#: templates/trans-keys.twig:278
 msgid "Einfügen der Konfiguration für Cronjobs"
 msgstr ""
 
@@ -1653,7 +1656,7 @@ msgstr ""
 msgid "Testmail"
 msgstr ""
 
-#: templates/trans-keys.twig:278
+#: templates/trans-keys.twig:282
 msgid "Einfügen der Konfiguration für den Mailer"
 msgstr ""
 
@@ -1691,4 +1694,46 @@ msgstr ""
 
 #: templates/admin/misc/system/mailer.twig:131
 msgid "Einstellungen testen"
+msgstr ""
+
+#: templates/trans-keys.twig:177
+#: templates/admin/misc/theme.twig:54
+msgid "Design"
+msgstr ""
+
+#: templates/trans-keys.twig:286
+msgid "Einfügen der Konfiguration für das Design"
+msgstr ""
+
+#: templates/admin/misc/theme.twig:44
+msgid "Die Auswahl konnte nicht gespeichert werden."
+msgstr ""
+
+#: templates/admin/misc/theme.twig:44
+msgid "Die Auswahl wurde erfolgreich gespeichert."
+msgstr ""
+
+#: templates/admin/misc/theme.twig:141
+#: templates/admin/misc/theme.twig:222
+msgid "Auswählen"
+msgstr ""
+
+#: templates/admin/misc/theme.twig:162
+msgid "Design-Info"
+msgstr ""
+
+#: templates/admin/misc/theme.twig:174
+msgid "Pfad"
+msgstr ""
+
+#: templates/admin/misc/theme.twig:181
+msgid "Titel"
+msgstr ""
+
+#: templates/admin/misc/theme.twig:195
+msgid "Webseite"
+msgstr ""
+
+#: templates/admin/misc/theme.twig:209
+msgid "Autoren"
 msgstr ""
