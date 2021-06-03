@@ -71,7 +71,7 @@ class MailerController extends AbstractController
                     'user' => $user
                 ]);
 
-                $mailer = new Mailer($this->get('settings')['mailer']);
+                $mailer = new Mailer($data);
                 $mailer->addAddress($user->getEmail(), $user->getDisplayName());
                 $mailer->Subject = 'Testmail';
                 $mailer->Body = $message;
