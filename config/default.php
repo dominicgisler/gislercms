@@ -2,8 +2,10 @@
 
 return [
     'settings' => [
-        'displayErrorDetails' => true, // set to false in production
-        'addContentLengthHeader' => false, // Allow the web server to send the content-length header
+        'version' => 'v1.1.3',
+
+        'displayErrorDetails' => true,
+        'addContentLengthHeader' => false,
         'timezone' => 'Europe/Zurich',
 
         // override php settings
@@ -37,8 +39,6 @@ return [
         ],
 
         'enable_setup' => true,
-
-        'version' => 'v1.1.2',
 
         'global' => [
             'admin_route' => '/admin'
