@@ -1,0 +1,33 @@
+<nav class="mt-2 border rounded bg-light navbar navbar-expand-lg navbar-light">
+    {% set navigation = module.getByName('navigation').getConfig()|json_decode %}
+    <a class="navbar-brand d-lg-none" href="#">{{ navigation.label }}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="fa fa-bars px-1 py-1"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav w-100">
+            {% for elem in navigation.items %}
+                <li class="nav-item {% if elem.items %}dropdown{% endif %}">
+                    {% set href = elem.href %}
+                    {% if not (href starts with 'http://') and not (href starts with 'https://') %}
+                        {% set href = base_url() ~ href %}
+                    {% endif %}
+                    <a class="nav-link {% if elem.items %}dropdown-toggle{% endif %}" href="{{ href }}" {% if elem.items %} role="button" data-toggle="dropdown"{% endif %} {% if elem.target %}target="{{ elem.target }}"{% endif %}>
+                        {{ elem.label }}
+                    </a>
+                    {% if elem.items %}
+                        <div class="dropdown-menu mt-0">
+                            {% for sub in elem.items %}
+                                {% set href = sub.href %}
+                                {% if not (href starts with 'http://') and not (href starts with 'https://') %}
+                                    {% set href = base_url() ~ href %}
+                                {% endif %}
+                                <a class="dropdown-item" href="{{ href }}" {% if sub.target %}target="{{ sub.target }}"{% endif %}>{{ sub.label }}</a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,37 @@
+{% set meta_img = page.getMetaImage() %}
+{% if meta_img and (not (meta_img starts with 'http://') and not (meta_img starts with 'https://')) %}
+    {% set meta_img = base_url() ~ '/uploads/' ~ meta_img %}
+{% endif %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta itemprop="name" content="{{ page.getTitle() }}">
+<meta itemprop="description" content="{{ page.getMetaDescription() }}">
+<meta itemprop="image" content="{{ meta_img }}">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@publisher_handle">
+<meta name="twitter:title" content="{{ page.getTitle() }}">
+<meta name="twitter:description" content="{{ page.getMetaDescription() }}">
+<meta name="twitter:creator" content="@author_handle">
+<meta name="twitter:image:src" content="{{ meta_img }}">
+
+<meta property="og:url" content="{{ base_url() }}/{{ page.getLanguage().getLocale() }}/{{ page.getName() }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ page.getTitle() }}">
+<meta property="og:description" content="{{ page.getMetaDescription() }}">
+<meta property="og:image" content="{{ meta_img }}">
+
+<meta name="author" content="{{ page.getMetaAuthor() }}">
+<meta name="publisher" content="{{ page.getMetaPublisher() }}">
+<meta name="keywords" content="{{ page.getMetaKeywords() }}">
+<meta name="description" content="{{ page.getMetaDescription() }}">
+<meta name="date" content="{{ page.getUpdatedAt()|date('Y-m-d') }}T{{ page.getUpdatedAt()|date('H:i:s') }}+02:00">
+<meta name="robots" content="index,follow">
+<meta name="copyright" content="{{ page.getMetaCopyright() }}">
+<meta name="language" content="{{ page.getLanguage().getLocale() }}">
+
+{% for locale, trans in translations %}<link rel="alternate" href="{{ base_url() }}/{{ trans.getLanguage().getLocale() }}/{{ trans.getName() }}" hreflang="{{ locale }}" />
+{% endfor %}
+
+<link rel="canonical" href="{{ base_url() }}/{{ page.getLanguage().getLocale() }}/{{ page.getName() }}">

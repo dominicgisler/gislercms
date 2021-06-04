@@ -1,111 +1,18 @@
-{% set meta_img = page.getMetaImage() %}
-{% if meta_img and (not (meta_img starts with 'http://') and not (meta_img starts with 'https://')) %}
-    {% set meta_img = base_url() ~ '/uploads/' ~ meta_img %}
-{% endif %}
 <!DOCTYPE html>
 <html lang="{{ page.getLanguage().getLocale() }}">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-        <title>{{ page.getTitle() }}</title>
-
-        <meta itemprop="name" content="{{ page.getTitle() }}">
-        <meta itemprop="description" content="{{ page.getMetaDescription() }}">
-        <meta itemprop="image" content="{{ meta_img }}">
-
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:site" content="@publisher_handle">
-        <meta name="twitter:title" content="{{ page.getTitle() }}">
-        <meta name="twitter:description" content="{{ page.getMetaDescription() }}">
-        <meta name="twitter:creator" content="@author_handle">
-        <meta name="twitter:image:src" content="{{ meta_img }}">
-
-        <meta property="og:url" content="{{ base_url() }}/{{ page.getLanguage().getLocale() }}/{{ page.getName() }}">
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="{{ page.getTitle() }}">
-        <meta property="og:description" content="{{ page.getMetaDescription() }}">
-        <meta property="og:image" content="{{ meta_img }}">
-
-        <meta name="author" content="{{ page.getMetaAuthor() }}">
-        <meta name="publisher" content="{{ page.getMetaPublisher() }}">
-        <meta name="keywords" content="{{ page.getMetaKeywords() }}">
-        <meta name="description" content="{{ page.getMetaDescription() }}">
-        <meta name="date" content="{{ page.getUpdatedAt()|date('Y-m-d') }}T{{ page.getUpdatedAt()|date('H:i:s') }}+02:00">
-        <meta name="robots" content="index,follow">
-        <meta name="copyright" content="{{ page.getMetaCopyright() }}">
-        <meta name="language" content="{{ page.getLanguage().getLocale() }}">
-
-        {% for locale, trans in translations %}<link rel="alternate" href="{{ base_url() }}/{{ trans.getLanguage().getLocale() }}/{{ trans.getName() }}" hreflang="{{ locale }}" />
-        {% endfor %}
-
-        <link rel="canonical" href="{{ base_url() }}/{{ page.getLanguage().getLocale() }}/{{ page.getName() }}">
-
-        <link href="{{ base_url() }}/css/style.min.css" rel="stylesheet">
+        {% include 'title.twig' %}
+        {% include 'meta.twig' %}
+        {% include 'style.twig' %}
     </head>
     <body>
         <div class="container my-4">
-            <div class="border rounded bg-light text-center p-4 display-4">
-                <div class="row">
-                    <a href="{{ base_url() }}" class="col-10 col-sm-8 col-lg-6 m-auto">
-                        <img src="{{ base_url() }}/img/logo.png" alt="Logo" class="mw-100">
-                    </a>
-                </div>
-            </div>
-            <nav class="mt-2 border rounded bg-light navbar navbar-expand-lg navbar-light">
-                {% set navigation = module.getByName('navigation').getConfig()|json_decode %}
-                <a class="navbar-brand d-lg-none" href="#">{{ navigation.label }}</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="fa fa-bars px-1 py-1"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav w-100">
-                        {% for elem in navigation.items %}
-                            <li class="nav-item {% if elem.items %}dropdown{% endif %}">
-                                {% set href = elem.href %}
-                                {% if not (href starts with 'http://') and not (href starts with 'https://') %}
-                                    {% set href = base_url() ~ href %}
-                                {% endif %}
-                                <a class="nav-link {% if elem.items %}dropdown-toggle{% endif %}" href="{{ href }}" {% if elem.items %} role="button" data-toggle="dropdown"{% endif %} {% if elem.target %}target="{{ elem.target }}"{% endif %}>
-                                    {{ elem.label }}
-                                </a>
-                                {% if elem.items %}
-                                    <div class="dropdown-menu mt-0">
-                                        {% for sub in elem.items %}
-                                            {% set href = sub.href %}
-                                            {% if not (href starts with 'http://') and not (href starts with 'https://') %}
-                                                {% set href = base_url() ~ href %}
-                                            {% endif %}
-                                            <a class="dropdown-item" href="{{ href }}" {% if sub.target %}target="{{ sub.target }}"{% endif %}>{{ sub.label }}</a>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </nav>
-            <main role="main" class="mt-2 border rounded bg-light p-4">
-                {{ page.getContent()|raw }}
-            </main>
-            <footer class="mt-2 border rounded bg-light p-4 text-center">
-                Copyright &copy; {{ 'now'|date('Y') }} by Gisler Software
-            </footer>
+            {% include 'header.twig' %}
+            {% include 'navigation.twig' %}
+            {% include 'main.twig' %}
+            {% include 'footer.twig' %}
         </div>
-
-        <div id="cookie-info" class="w-100 p-2 d-none">
-            <div class="alert alert-primary row m-0" role="alert">
-                <div class="col-8 align-middle p-0 pt-1">
-                    {{ 'Mit der Verwendung der Webseite stimmst du der Nutzung von Cookies zu.'|trans }}
-                </div>
-                <div class="col-4 text-right p-0">
-                    <button class="btn btn-primary btn-sm" id="accept-cookies">OK</button>
-                </div>
-            </div>
-        </div>
-
-        <script src="{{ base_url() }}/js/jquery.min.js"></script>
-        <script src="{{ base_url() }}/js/bootstrap.min.js"></script>
-        <script src="{{ base_url() }}/js/script.js"></script>
+        {% include 'cookie-info.twig' %}
+        {% include 'scripts.twig' %}
     </body>
 </html>
