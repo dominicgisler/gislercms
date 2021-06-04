@@ -1,3 +1,12 @@
-<footer class="mt-2 border rounded bg-light p-4 text-center">
-    Copyright &copy; {{ 'now'|date('Y') }} by Gisler Software
+<footer class="mt-2 border rounded bg-light p-4">
+    <div class="row">
+        <div class="col-7 col-sm-9">
+            Copyright &copy; {{ 'now'|date('Y') }} by Gisler Software
+        </div>
+        <div class="col-5 col-sm-3 text-right">
+            <a href="{{ base_url() }}/impressum" class="text-dark">Impressum</a>
+            <span class="d-none d-lg-inline">|</span>
+            <a href="{{ base_url() }}/datenschutz" class="text-dark">Datenschutz</a>
+        </div>
+    </div>
 </footer>
