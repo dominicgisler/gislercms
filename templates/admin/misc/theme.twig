@@ -1,3 +1,5 @@
+{% import "admin/forms.twig" as forms %}
+
 {% extends 'admin/content.twig' %}
 
 {% block title %}{{ 'Design'|trans }}{% endblock %}
@@ -19,6 +21,14 @@
         delete_success: {
             class: 'success',
             message: 'Das Design wurde erfolgreich gelöscht.'|trans
+        },
+        upload_error: {
+            class: 'danger',
+            message: 'Das Design konnte nicht hochgeladen werden.'|trans
+        },
+        upload_success: {
+            class: 'success',
+            message: 'Das Design wurde erfolgreich hochgeladen.'|trans
         }
     }
 %}
@@ -32,11 +42,26 @@
             </button>
         </div>
     {% endif %}
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="row">
+            <div class="col-lg-6 col-xl-3">
+                <div class="card mb-4">
+                    <img src="{{ base_url() ~ '/img/admin/theme-noscreen.png' }}" class="card-img-top" alt="screenshot">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ 'Neues Design hochladen'|trans }}</h5>
+                        {{ forms.form_group('file', 'new_theme', '', 'Auswählen'|trans, 'Design hochladen'|trans, 'new_theme' in errors ? 'is-invalid' : '') }}
+                        {{ forms.form_group('checkbox', 'overwrite', '', 'Bestehende überschreiben'|trans, '', 'overwrite' in errors ? 'is-invalid' : '') }}
+                    </div>
+                    <div class="card-footer text-right">
+                        <button type="submit" class="btn btn-primary" name="upload">
+                            {{ 'Hochladen'|trans }}
+                        </button>
+                    </div>
+                </div>
+            </div>
             {% for key, theme in themes %}
-                <div class="col-md-3">
-                    <div class="card {% if key == current %}border-primary{% endif %}">
+                <div class="col-lg-6 col-xl-3">
+                    <div class="card mb-4 {% if key == current %}border-primary{% endif %}">
                         <img src="{{ theme.screenshot }}" class="card-img-top" alt="screenshot">
                         <div class="card-body">
                             <h5 class="card-title">{{ theme.title ?: key }}</h5>

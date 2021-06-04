@@ -2,6 +2,8 @@
     {% import _self as forms %}
     {% if type == 'checkbox' %}
         {{ forms.checkbox(name, value, label, class, hint) }}
+    {% elseif type == 'file' %}
+        {{ forms.file(name, label, placeholder, class, hint) }}
     {% else %}
         {% set id = name|replace({'[': '_', ']': '_'}) %}
         <div class="form-group">
@@ -75,5 +77,14 @@
         <div class="input-group-append">
             <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#filemanagerModal" data-field="input_{{ id }}">Auswählen</button>
         </div>
+    </div>
+{% endmacro %}
+
+{% macro file(name, label, placeholder, class, hint) %}
+    {% set id = name|replace({'[': '_', ']': '_'}) %}
+    <div class="custom-file mb-2">
+        <input type="file" class="custom-file-input" name="{{ name }}" id="{{ id }}">
+        <label class="custom-file-label" for="{{ id }}" data-browse="{{ label }}" data-placeholder="{{ placeholder }}">{{ placeholder }}</label>
+        {% if hint %}<small id="hint_{{ id }}" class="form-text text-muted">{{ hint }}</small>{% endif %}
     </div>
 {% endmacro %}

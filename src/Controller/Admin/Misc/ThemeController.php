@@ -8,6 +8,7 @@ use GislerCMS\Helper\FileSystemHelper;
 use GislerCMS\Model\Config;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use ZipArchive;
 
 /**
  * Class ThemeController
@@ -42,7 +43,30 @@ class ThemeController extends AbstractController
         $nodelete[] = $current;
 
         if ($request->isPost()) {
-            if (!is_null($request->getParsedBodyParam('select'))) {
+            if (!is_null($request->getParsedBodyParam('upload'))) {
+                $upload = $request->getUploadedFiles()['new_theme'];
+                $overwrite = boolval($request->getParsedBodyParam('overwrite'));
+                if ($upload->getClientMediaType() == 'application/zip') {
+                    $zipPath = $path . '/' . $upload->getClientFilename();
+                    $info = pathinfo($zipPath);
+                    $upload->moveTo($zipPath);
+                    $name = $info['filename'];
+
+                    $msg = 'upload_error';
+                    $themePath = $path . '/' . $name;
+                    if (!file_exists($themePath) || $overwrite) {
+                        FileSystemHelper::remove($themePath);
+                        $zip = new ZipArchive();
+                        $res = $zip->open($zipPath);
+                        if ($res === true) {
+                            $zip->extractTo($themePath);
+                            $zip->close();
+                            $msg = 'upload_success';
+                        }
+                    }
+                    FileSystemHelper::remove($zipPath);
+                }
+            } else if (!is_null($request->getParsedBodyParam('select'))) {
                 $theme = $request->getParsedBodyParam('select');
                 if (is_dir($path . '/' . $theme)) {
                     $config = Config::getConfig('theme', 'name');
