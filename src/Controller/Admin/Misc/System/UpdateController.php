@@ -4,10 +4,9 @@ namespace GislerCMS\Controller\Admin\Misc\System;
 
 use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
+use GislerCMS\Helper\FileSystemHelper;
 use GislerCMS\Helper\MigrationHelper;
 use GislerCMS\Helper\SessionHelper;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use ZipArchive;
@@ -114,7 +113,7 @@ class UpdateController extends AbstractController
     {
         $dlPath = sprintf('%s/%s', $dir, $filename);
         foreach (glob($dir . '/{,.}[!.,!..]*', GLOB_BRACE) as $file) {
-            $this->remove($file);
+            FileSystemHelper::remove($file);
         }
         file_put_contents($dlPath, file_get_contents($url));
 
@@ -124,7 +123,7 @@ class UpdateController extends AbstractController
             $zip->extractTo($dir);
             $zip->close();
         }
-        $this->remove($dlPath);
+        FileSystemHelper::remove($dlPath);
     }
 
     /**
@@ -133,14 +132,14 @@ class UpdateController extends AbstractController
      */
     private function installUpdate(string $rootPath, string $updatePath)
     {
-        $this->remove($rootPath . '/cache');
-        $this->remove($rootPath . '/mysql');
-        $this->remove($rootPath . '/src');
-        $this->remove($rootPath . '/templates');
-        $this->remove($rootPath . '/translations');
-        $this->remove($rootPath . '/vendor');
-        $this->remove($rootPath . '/LICENSE');
-        $this->remove($rootPath . '/README.md');
+        FileSystemHelper::remove($rootPath . '/cache');
+        FileSystemHelper::remove($rootPath . '/mysql');
+        FileSystemHelper::remove($rootPath . '/src');
+        FileSystemHelper::remove($rootPath . '/templates');
+        FileSystemHelper::remove($rootPath . '/translations');
+        FileSystemHelper::remove($rootPath . '/vendor');
+        FileSystemHelper::remove($rootPath . '/LICENSE');
+        FileSystemHelper::remove($rootPath . '/README.md');
 
         $this->moveFolder($rootPath, $updatePath, $updatePath);
     }
@@ -159,31 +158,7 @@ class UpdateController extends AbstractController
                 rename($file, $toPath);
             } else {
                 $this->moveFolder($rootPath, $updatePath, $file);
-                $this->remove($file);
-            }
-        }
-    }
-
-    /**
-     * @param string $path
-     */
-    private function remove(string $path)
-    {
-        if (file_exists($path)) {
-            if (is_dir($path)) {
-                $it = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
-                $files = new RecursiveIteratorIterator($it,
-                    RecursiveIteratorIterator::CHILD_FIRST);
-                foreach ($files as $file) {
-                    if ($file->isDir()) {
-                        rmdir($file->getRealPath());
-                    } else {
-                        unlink($file->getRealPath());
-                    }
-                }
-                rmdir($path);
-            } else if (is_file($path)) {
-                unlink($path);
+                FileSystemHelper::remove($file);
             }
         }
     }

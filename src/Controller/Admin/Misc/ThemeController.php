@@ -4,6 +4,7 @@ namespace GislerCMS\Controller\Admin\Misc;
 
 use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
+use GislerCMS\Helper\FileSystemHelper;
 use GislerCMS\Model\Config;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -22,6 +23,10 @@ class ThemeController extends AbstractController
     const THEME_CONFIG = 'theme.json';
     const THEME_SCREEN = 'screenshot.png';
 
+    const NODELETE = [
+        'gcms-default'
+    ];
+
     /**
      * @param Request $request
      * @param Response $response
@@ -33,18 +38,32 @@ class ThemeController extends AbstractController
         $path = realpath(self::THEME_PATH);
         $msg = false;
         $current = $this->get('settings')['theme']['name'];
+        $nodelete = self::NODELETE;
+        $nodelete[] = $current;
 
         if ($request->isPost()) {
-            $theme = $request->getParsedBodyParam('select');
-            if (is_dir($path . '/' . $theme)) {
-                $config = Config::getConfig('theme', 'name');
-                $config->setValue($theme);
-                $res = $config->save();
-                if (!is_null($res)) {
-                    $msg = 'save_success';
-                    $current = $theme;
+            if (!is_null($request->getParsedBodyParam('select'))) {
+                $theme = $request->getParsedBodyParam('select');
+                if (is_dir($path . '/' . $theme)) {
+                    $config = Config::getConfig('theme', 'name');
+                    $config->setValue($theme);
+                    $res = $config->save();
+                    if (!is_null($res)) {
+                        $msg = 'save_success';
+                        $current = $theme;
+                        $nodelete = self::NODELETE;
+                        $nodelete[] = $current;
+                    } else {
+                        $msg = 'save_error';
+                    }
+                }
+            } else if (!is_null($request->getParsedBodyParam('delete'))) {
+                $theme = $request->getParsedBodyParam('delete');
+                if (!in_array($theme, self::NODELETE)) {
+                    FileSystemHelper::remove($path . '/' . $theme);
+                    $msg = 'delete_success';
                 } else {
-                    $msg = 'save_error';
+                    $msg = 'delete_error';
                 }
             }
         }
@@ -57,6 +76,7 @@ class ThemeController extends AbstractController
             $screenshot = $dir . '/' . self::THEME_SCREEN;
             $name = basename($dir);
             $themes[$name] = [
+                'deletable' => !in_array($name, $nodelete),
                 'screenshot' => $this->get('base_url') . '/img/admin/theme-noscreen.png'
             ];
             if (file_exists($cfgFile)) {

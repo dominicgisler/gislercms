@@ -11,6 +11,14 @@
         save_success: {
             class: 'success',
             message: 'Die Auswahl wurde erfolgreich gespeichert.'|trans
+        },
+        delete_error: {
+            class: 'danger',
+            message: 'Das Design konnte nicht gelöscht werden.'|trans
+        },
+        delete_success: {
+            class: 'success',
+            message: 'Das Design wurde erfolgreich gelöscht.'|trans
         }
     }
 %}
@@ -40,12 +48,42 @@
                                     data-path="{{ key }}" data-title="{{ theme.title}}"
                                     data-description="{{ theme.description|nl2br }}" data-homepage="{{ theme.homepage }}"
                                     data-license="{{ theme.license }}" data-authors="{{ theme.authors|json_encode }}"
-                            >{{ 'Info' }}</button>
-                            <button type="submit" class="btn btn-primary" {% if key == current %}disabled{% endif %} name="select" value="{{ key }}">{{ 'Auswählen'|trans }}</button>
+                            ><i class="fa fa-info-circle"></i></button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete"
+                                    data-path="{{ key }}" {% if not theme.deletable %}disabled{% endif %}
+                            ><i class="fa fa-trash-alt"></i></button>
+                            <button type="submit" class="btn btn-primary" {% if key == current %}disabled{% endif %} name="select" value="{{ key }}">
+                                {% if key == current %}
+                                    {{ 'Ausgewählt'|trans }}
+                                {% else %}
+                                    {{ 'Auswählen'|trans }}
+                                {% endif %}
+                            </button>
                         </div>
                     </div>
                 </div>
             {% endfor %}
+        </div>
+
+        {# confirm delete modal #}
+        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Design löschen'|trans }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ 'Möchtest du das Design wirklich unwiderruflich löschen?'|trans }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="submit" name="delete" class="delete btn btn-danger">{{ 'Ja, Design löschen'|trans }}</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         {# info modal #}
@@ -123,10 +161,14 @@
 
             modal.find('button.select').val(theme);
             if (theme === '{{ current }}') {
-                modal.find('button.select').prop('disabled', true);
+                modal.find('button.select').prop('disabled', true).text('{{ 'Ausgewählt'|trans }}');
             } else {
-                modal.find('button.select').prop('disabled', false);
+                modal.find('button.select').prop('disabled', false).text('{{ 'Auswählen'|trans }}');
             }
+        });
+        $('#confirmDelete').on('show.bs.modal', function (event) {
+            let button = $(event.relatedTarget);
+            $(this).find('button.delete').val(button.data('path'));
         });
     </script>
 {% endblock %}
