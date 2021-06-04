@@ -12,7 +12,7 @@ msgstr ""
 "Language: en_US\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/layout.twig:324
+#: templates/cookie-info.twig:42
 msgid "Mit der Verwendung der Webseite stimmst du der Nutzung von Cookies zu."
 msgstr "By using the website, you agree to the use of cookies."
 
@@ -178,7 +178,7 @@ msgid "Datenbank-Update"
 msgstr "Database update"
 
 #: templates/trans-keys.twig:193
-#: templates/admin/misc/theme.twig:202
+#: templates/admin/misc/theme.twig:290
 #: templates/admin/misc/license.twig:50
 msgid "Lizenz"
 msgstr "License"
@@ -391,6 +391,7 @@ msgstr "Do you really want to delete this module irrevocably?"
 #: templates/admin/page/edit.twig:435
 #: templates/admin/misc/language/edit.twig:139
 #: templates/admin/misc/user/edit.twig:170
+#: templates/admin/misc/theme.twig:231
 #: templates/admin/misc/trash.twig:159
 #: templates/admin/misc/trash.twig:190
 #: templates/admin/misc/system/update.twig:128
@@ -792,7 +793,7 @@ msgstr "Terms through which this page should be found (SEO)"
 
 #: templates/admin/page/edit.twig:244
 #: templates/admin/page/defaults.twig:106
-#: templates/admin/misc/theme.twig:188
+#: templates/admin/misc/theme.twig:276
 #: templates/admin/misc/system/migration.twig:117
 #: templates/admin/post/edit.twig:293
 msgid "Beschreibung"
@@ -904,7 +905,7 @@ msgstr "Confirm password"
 
 #: templates/admin/auth/reset.twig:135
 #: templates/admin/auth/forgot-password.twig:118
-#: templates/admin/misc/theme.twig:218
+#: templates/admin/misc/theme.twig:306
 #: templates/admin/setup.twig:310
 msgid "Zurück"
 msgstr "Back"
@@ -1697,7 +1698,7 @@ msgid "Einstellungen testen"
 msgstr "Test settings"
 
 #: templates/trans-keys.twig:177
-#: templates/admin/misc/theme.twig:54
+#: templates/admin/misc/theme.twig:56
 msgid "Design"
 msgstr "Design"
 
@@ -1705,35 +1706,86 @@ msgstr "Design"
 msgid "Einfügen der Konfiguration für das Design"
 msgstr "Inserting the configuration for the design"
 
-#: templates/admin/misc/theme.twig:44
+#: templates/admin/misc/theme.twig:46
 msgid "Die Auswahl konnte nicht gespeichert werden."
 msgstr "The selection could not be saved."
 
-#: templates/admin/misc/theme.twig:44
+#: templates/admin/misc/theme.twig:46
 msgid "Die Auswahl wurde erfolgreich gespeichert."
 msgstr "The selection was saved successfully."
 
-#: templates/admin/misc/theme.twig:141
-#: templates/admin/misc/theme.twig:222
+#: templates/admin/misc/theme.twig:96
+#: templates/admin/misc/theme.twig:191
+#: templates/admin/misc/theme.twig:310
+#: templates/admin/misc/theme.twig:362
 msgid "Auswählen"
 msgstr "Choose"
 
-#: templates/admin/misc/theme.twig:162
+#: templates/admin/misc/theme.twig:250
 msgid "Design-Info"
 msgstr "Design info"
 
-#: templates/admin/misc/theme.twig:174
+#: templates/admin/misc/theme.twig:262
 msgid "Pfad"
 msgstr "Path"
 
-#: templates/admin/misc/theme.twig:181
+#: templates/admin/misc/theme.twig:269
 msgid "Titel"
 msgstr "Title"
 
-#: templates/admin/misc/theme.twig:195
+#: templates/admin/misc/theme.twig:283
 msgid "Webseite"
 msgstr "Website"
 
-#: templates/admin/misc/theme.twig:209
+#: templates/admin/misc/theme.twig:297
 msgid "Autoren"
 msgstr "Authors"
+
+#: templates/admin/misc/theme.twig:46
+msgid "Das Design konnte nicht gelöscht werden."
+msgstr "The design could not be deleted."
+
+#: templates/admin/misc/theme.twig:46
+msgid "Das Design wurde erfolgreich gelöscht."
+msgstr "The design was successfully deleted."
+
+#: templates/admin/misc/theme.twig:46
+msgid "Das Design konnte nicht hochgeladen werden."
+msgstr "The design could not be uploaded."
+
+#: templates/admin/misc/theme.twig:46
+msgid "Das Design wurde erfolgreich hochgeladen."
+msgstr "The design has been uploaded successfully."
+
+#: templates/admin/misc/theme.twig:92
+msgid "Neues Design hochladen"
+msgstr "Upload new design"
+
+#: templates/admin/misc/theme.twig:96
+msgid "Design hochladen"
+msgstr "Upload design"
+
+#: templates/admin/misc/theme.twig:100
+msgid "Bestehendes überschreiben"
+msgstr "Overwrite existing"
+
+#: templates/admin/misc/theme.twig:107
+msgid "Hochladen"
+msgstr "Upload"
+
+#: templates/admin/misc/theme.twig:185
+#: templates/admin/misc/theme.twig:357
+msgid "Ausgewählt"
+msgstr "Chosen"
+
+#: templates/admin/misc/theme.twig:216
+msgid "Design löschen"
+msgstr "Delete design"
+
+#: templates/admin/misc/theme.twig:225
+msgid "Möchtest du das Design wirklich unwiderruflich löschen?"
+msgstr "Do you really want to delete the design irrevocably?"
+
+#: templates/admin/misc/theme.twig:235
+msgid "Ja, Design löschen"
+msgstr "Yes, delete design"
