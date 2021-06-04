@@ -10,8 +10,5 @@
 /public/css/**/*.css
 /public/css/**/*.css.map
 /public/editor
-/public/uploads
-/public/thumbs
-/public/thumb
 /dist
 *.zip

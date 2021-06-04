@@ -1,5 +1,6 @@
 <nav class="mt-2 border rounded bg-light navbar navbar-expand-lg navbar-light">
-    {% set navigation = module.getByName('navigation').getConfig()|json_decode %}
+    {% set locale = page.getLanguage().getLocale() %}
+    {% set navigation = module.getByName('navigation-' ~ locale).getConfig()|json_decode %}
     <a class="navbar-brand d-lg-none" href="#">{{ navigation.label }}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="fa fa-bars px-1 py-1"></span>
