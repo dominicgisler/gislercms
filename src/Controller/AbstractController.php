@@ -72,7 +72,11 @@ abstract class AbstractController
             'widget_translation' => new WidgetTranslation(),
             'module' => new Module()
         ];
-        return $this->get('view')->render($response, $template, array_merge($arr, $data));
+        return $this->get('view')->render(
+            $response->withHeader('Cache-Control', 'no-cache')->withHeader('Pragma', 'no-cache'),
+            $template,
+            array_merge($arr, $data)
+        );
     }
 
     /**

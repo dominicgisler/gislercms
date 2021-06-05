@@ -134,8 +134,12 @@ class SetupController extends AbstractController
             }
         }
 
-        return $this->get('view')->render($response, 'admin/setup.twig', array_merge([
-            'admin_url' => $this->get('base_url') . $this->get('settings')['global']['admin_route']
-        ], $data));
+        return $this->get('view')->render(
+            $response->withHeader('Cache-Control', 'no-cache')->withHeader('Pragma', 'no-cache'),
+            'admin/setup.twig',
+            array_merge([
+                'admin_url' => $this->get('base_url') . $this->get('settings')['global']['admin_route']
+            ], $data)
+        );
     }
 }

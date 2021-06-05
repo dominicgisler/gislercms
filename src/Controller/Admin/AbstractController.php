@@ -80,7 +80,11 @@ abstract class AbstractController
             'user' => $user,
             'navigation' => $nav
         ];
-        return $this->get('view')->render($response, $template, array_merge($arr, $data));
+        return $this->get('view')->render(
+            $response->withHeader('Cache-Control', 'no-cache')->withHeader('Pragma', 'no-cache'),
+            $template,
+            array_merge($arr, $data)
+        );
     }
 
     /**
