@@ -49,8 +49,8 @@
                     <img src="{{ base_url() ~ '/img/admin/theme-noscreen.png' }}" class="card-img-top" alt="screenshot">
                     <div class="card-body">
                         <h5 class="card-title">{{ 'Neues Design hochladen'|trans }}</h5>
-                        {{ forms.form_group('file', 'new_theme', '', 'Auswählen'|trans, 'Design hochladen'|trans, 'new_theme' in errors ? 'is-invalid' : '') }}
-                        {{ forms.form_group('checkbox', 'overwrite', '', 'Bestehendes überschreiben'|trans, '', 'overwrite' in errors ? 'is-invalid' : '') }}
+                        {{ forms.form_group('file', 'new_theme', '', 'Auswählen'|trans, 'Design hochladen'|trans, '', '', '.zip') }}
+                        {{ forms.form_group('checkbox', 'overwrite', '', 'Bestehendes überschreiben'|trans) }}
                     </div>
                     <div class="card-footer text-right">
                         <button type="submit" class="btn btn-primary" name="upload">

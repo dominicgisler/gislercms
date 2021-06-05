@@ -3,7 +3,7 @@
     {% if type == 'checkbox' %}
         {{ forms.checkbox(name, value, label, class, hint) }}
     {% elseif type == 'file' %}
-        {{ forms.file(name, label, placeholder, class, hint) }}
+        {{ forms.file(name, label, placeholder, class, hint, options) }}
     {% else %}
         {% set id = name|replace({'[': '_', ']': '_'}) %}
         <div class="form-group">
@@ -80,10 +80,10 @@
     </div>
 {% endmacro %}
 
-{% macro file(name, label, placeholder, class, hint) %}
+{% macro file(name, label, placeholder, class, hint, accept) %}
     {% set id = name|replace({'[': '_', ']': '_'}) %}
     <div class="custom-file mb-2">
-        <input type="file" class="custom-file-input" name="{{ name }}" id="{{ id }}">
+        <input type="file" class="custom-file-input" name="{{ name }}" id="{{ id }}" accept="{{ accept }}">
         <label class="custom-file-label" for="{{ id }}" data-browse="{{ label }}" data-placeholder="{{ placeholder }}">{{ placeholder }}</label>
         {% if hint %}<small id="hint_{{ id }}" class="form-text text-muted">{{ hint }}</small>{% endif %}
     </div>

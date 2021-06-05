@@ -31,8 +31,6 @@ cp README.md ${tempdir}/.
 # remove folders which will be rebuilt with composer
 rm -rf ${tempdir}/public/css/webfonts
 rm -rf ${tempdir}/public/editor
-rm -rf ${tempdir}/public/uploads
-rm -rf ${tempdir}/public/thumbs
 rm ${tempdir}/config/local.php
 
 # build composer

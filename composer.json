@@ -67,9 +67,7 @@
       "cp vendor/datatables/datatables/media/js/dataTables.bootstrap4.min.js public/js/.",
       "cp vendor/nnnick/chartjs/dist/Chart.min.js public/js/.",
       "./build_css.sh",
-      "cp -r vendor/dominicgisler/gislercms-editor public/editor",
-      "mkdir public/uploads && chmod 755 public/uploads",
-      "mkdir public/thumbs && chmod 755 public/thumbs"
+      "cp -r vendor/dominicgisler/gislercms-editor public/editor"
     ]
   }
 }

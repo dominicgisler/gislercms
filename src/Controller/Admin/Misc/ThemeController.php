@@ -24,9 +24,7 @@ class ThemeController extends AbstractController
     const THEME_CONFIG = 'theme.json';
     const THEME_SCREEN = 'screenshot.png';
 
-    const NODELETE = [
-        'gcms-default'
-    ];
+    const DEFAULT = 'gcms-default';
 
     /**
      * @param Request $request
@@ -39,11 +37,12 @@ class ThemeController extends AbstractController
         $path = realpath(self::THEME_PATH);
         $msg = false;
         $current = $this->get('settings')['theme']['name'];
-        $nodelete = self::NODELETE;
+        $nodelete = [self::DEFAULT];
         $nodelete[] = $current;
 
         if ($request->isPost()) {
             if (!is_null($request->getParsedBodyParam('upload'))) {
+                $msg = 'upload_error';
                 $upload = $request->getUploadedFiles()['new_theme'];
                 $overwrite = boolval($request->getParsedBodyParam('overwrite'));
                 if ($upload->getClientMediaType() == 'application/zip') {
@@ -52,9 +51,8 @@ class ThemeController extends AbstractController
                     $upload->moveTo($zipPath);
                     $name = $info['filename'];
 
-                    $msg = 'upload_error';
                     $themePath = $path . '/' . $name;
-                    if (!file_exists($themePath) || $overwrite) {
+                    if ($name != self::DEFAULT && (!file_exists($themePath) || $overwrite)) {
                         FileSystemHelper::remove($themePath);
                         $zip = new ZipArchive();
                         $res = $zip->open($zipPath);
@@ -73,17 +71,22 @@ class ThemeController extends AbstractController
                     $config->setValue($theme);
                     $res = $config->save();
                     if (!is_null($res)) {
-                        $msg = 'save_success';
                         $current = $theme;
-                        $nodelete = self::NODELETE;
+                        $nodelete = [self::DEFAULT];
                         $nodelete[] = $current;
+                        $cacheDir = $this->get('settings')['data_cache'];
+                        $caches = array_filter(glob($cacheDir . '/*'), 'is_dir');
+                        foreach ($caches as $cache) {
+                            FileSystemHelper::remove($cache);
+                        }
+                        $msg = 'save_success';
                     } else {
                         $msg = 'save_error';
                     }
                 }
             } else if (!is_null($request->getParsedBodyParam('delete'))) {
                 $theme = $request->getParsedBodyParam('delete');
-                if (!in_array($theme, self::NODELETE)) {
+                if (!in_array($theme, $nodelete)) {
                     FileSystemHelper::remove($path . '/' . $theme);
                     $msg = 'delete_success';
                 } else {
@@ -106,7 +109,7 @@ class ThemeController extends AbstractController
             if (file_exists($cfgFile)) {
                 $cfg = json_decode(file_get_contents($cfgFile), true);
                 if ($cfg) {
-                    $themes[$name] = $cfg;
+                    $themes[$name] = array_merge($themes[$name], $cfg);
                 }
             }
             if (file_exists($screenshot)) {
