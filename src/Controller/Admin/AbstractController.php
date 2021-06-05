@@ -81,7 +81,7 @@ abstract class AbstractController
             'navigation' => $nav
         ];
         return $this->get('view')->render(
-            $response->withHeader('Cache-Control', 'no-cache')->withHeader('Pragma', 'no-cache'),
+            $response->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Pragma', 'no-cache'),
             $template,
             array_merge($arr, $data)
         );
