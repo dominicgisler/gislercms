@@ -2,6 +2,10 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+use PDOStatement;
+
 /**
  * Class Language
  * @package GislerCMS\Model
@@ -69,15 +73,15 @@ class Language extends DbModel
      * @param array $args
      * @param string $orderBy
      * @return Language[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = [], string $orderBy = ''): array
     {
         $arr = [];
         $stmt = self::getPDO()->prepare("SELECT * FROM `cms__language` " . (!empty($where) ? 'WHERE ' . $where : '') . (!empty($orderBy) ? 'ORDER BY ' . $orderBy : ''));
-        if ($stmt instanceof \PDOStatement) {
+        if ($stmt instanceof PDOStatement) {
             $stmt->execute($args);
-            $languages = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $languages = $stmt->fetchAll(PDO::FETCH_OBJ);
             if (sizeof($languages) > 0) {
                 foreach ($languages as $language) {
                     $arr[] = new Language(
@@ -98,7 +102,7 @@ class Language extends DbModel
      * @param string $where
      * @param array $args
      * @return Language
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): Language
     {
@@ -111,7 +115,7 @@ class Language extends DbModel
 
     /**
      * @return Language[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAll(): array
     {
@@ -121,7 +125,7 @@ class Language extends DbModel
     /**
      * @param string $locale
      * @return Language
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getLanguage(string $locale): Language
     {
@@ -131,7 +135,7 @@ class Language extends DbModel
     /**
      * @param int $id
      * @return Language
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): Language
     {
@@ -140,7 +144,7 @@ class Language extends DbModel
 
     /**
      * @return Language|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?Language
     {
@@ -174,7 +178,7 @@ class Language extends DbModel
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(): bool
     {

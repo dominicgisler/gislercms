@@ -14,7 +14,7 @@ class TwigJsonDecode extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('json_decode', [$this, 'jsonDecode'])
@@ -25,7 +25,7 @@ class TwigJsonDecode extends AbstractExtension
      * @param string $input
      * @return mixed
      */
-    public function jsonDecode($input)
+    public function jsonDecode(string $input)
     {
         return json_decode($input, true);
     }

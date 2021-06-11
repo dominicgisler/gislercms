@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Misc;
 
+use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\Page;
@@ -24,9 +25,9 @@ class TrashController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         if ($request->isPost()) {
             $method = 'restore';
@@ -75,7 +76,8 @@ class TrashController extends AbstractController
      * @param array $elems
      * @return array
      */
-    private function buildTrashArray(array $elems) {
+    private function buildTrashArray(array $elems): array
+    {
         $arr = [];
         foreach ($elems as $elem) {
             $elArr = [];

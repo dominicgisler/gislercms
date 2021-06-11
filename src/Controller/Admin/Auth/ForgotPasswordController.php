@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Auth;
 
+use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Model\Mailer;
 use GislerCMS\Model\User;
@@ -18,13 +19,15 @@ class ForgotPasswordController extends AbstractController
     const PATTERN = '{admin_route}/forgot-password';
     const METHODS = ['GET', 'POST'];
 
+    const TOKEN_LENGTH = 128;
+
     /**
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $data = [];
 
@@ -32,10 +35,9 @@ class ForgotPasswordController extends AbstractController
             $username = $request->getParsedBodyParam('username');
 
             $error = false;
-            $msg = '';
             $user = User::getByUsername($username);
             if ($user->getUserId() > 0) {
-                $user->setResetKey($this->getToken(128));
+                $user->setResetKey($this->getToken());
 
                 $adminURL = $this->get('base_url') . $this->get('settings')['global']['admin_route'];
                 $subject = $this->get('view')->fetch('mailer/forgot-password-subject.twig');
@@ -74,11 +76,10 @@ class ForgotPasswordController extends AbstractController
     }
 
     /**
-     * @param int $length
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
-    private function getToken($length)
+    private function getToken(): string
     {
         $token = "";
         $codeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -86,7 +87,7 @@ class ForgotPasswordController extends AbstractController
         $codeAlphabet .= "0123456789";
         $max = strlen($codeAlphabet);
 
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < self::TOKEN_LENGTH; $i++) {
             $token .= $codeAlphabet[random_int(0, $max - 1)];
         }
 

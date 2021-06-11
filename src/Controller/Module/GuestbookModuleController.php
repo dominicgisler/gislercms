@@ -125,11 +125,10 @@ class GuestbookModuleController extends AbstractModuleController
      * @return string
      * @throws LoaderError
      */
-    public function onGet($request)
+    public function onGet(Request $request): string
     {
         $elems = $this->config['elements'];
-        $html = $this->getForm($elems);
-        return $html;
+        return $this->getForm($elems);
     }
 
     /**
@@ -140,7 +139,7 @@ class GuestbookModuleController extends AbstractModuleController
      * @throws LoaderError
      * @throws Exception
      */
-    public function onPost($request)
+    public function onPost(Request $request): string
     {
         // handle post-request
         $elems = $this->config['elements'];
@@ -228,7 +227,7 @@ class GuestbookModuleController extends AbstractModuleController
      * @throws LoaderError
      * @throws Exception
      */
-    private function getForm(array $elems, $postData = [], array $errors = [], array $message = []): string
+    private function getForm(array $elems, array $postData = [], array $errors = [], array $message = []): string
     {
         return $this->view->fetch('module/guestbook/form.twig', [
             'recaptcha' => $this->config['recaptcha'],
@@ -245,7 +244,7 @@ class GuestbookModuleController extends AbstractModuleController
      * @param array $elems
      * @return InputFilterInterface
      */
-    private function getInputFilter(array $elems)
+    private function getInputFilter(array $elems): InputFilterInterface
     {
         $spec = [];
         foreach ($elems as $key => $elem) {

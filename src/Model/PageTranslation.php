@@ -2,6 +2,8 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
 use Slim\Http\Request;
 use Slim\Views\Twig;
 
@@ -84,8 +86,8 @@ class PageTranslation extends DbModel
     /**
      * PageTranslation constructor.
      * @param int $pageTranslationId
-     * @param Page $page
-     * @param Language $language
+     * @param Page|null $page
+     * @param Language|null $language
      * @param string $name
      * @param string $title
      * @param string $content
@@ -135,7 +137,7 @@ class PageTranslation extends DbModel
      * @param string $where
      * @param array $args
      * @return PageTranslation[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
     {
@@ -188,7 +190,7 @@ class PageTranslation extends DbModel
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
         $stmt->execute($args);
-        $pageTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
+        $pageTranslations = $stmt->fetchAll(PDO::FETCH_OBJ);
         if (sizeof($pageTranslations) > 0) {
             foreach ($pageTranslations as $pageTranslation) {
                 $arr[$pageTranslation->l_locale] = new PageTranslation(
@@ -238,7 +240,7 @@ class PageTranslation extends DbModel
      * @param string $where
      * @param array $args
      * @return PageTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): PageTranslation
     {
@@ -252,7 +254,7 @@ class PageTranslation extends DbModel
     /**
      * @param int $id
      * @return PageTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): PageTranslation
     {
@@ -262,7 +264,7 @@ class PageTranslation extends DbModel
     /**
      * @param Page $page
      * @return PageTranslation[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getPageTranslations(Page $page): array
     {
@@ -272,7 +274,7 @@ class PageTranslation extends DbModel
     /**
      * @param string $name
      * @return PageTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getDefaultByName(string $name): PageTranslation
     {
@@ -301,7 +303,7 @@ class PageTranslation extends DbModel
      * @param string $name
      * @param Language $language
      * @return PageTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getByName(string $name, Language $language): PageTranslation
     {
@@ -323,7 +325,7 @@ class PageTranslation extends DbModel
     /**
      * @param Page $page
      * @return PageTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getDefaultPageTranslation(Page $page): PageTranslation
     {
@@ -334,7 +336,7 @@ class PageTranslation extends DbModel
      * @param Page $page
      * @param Language $language
      * @return PageTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getPageTranslation(Page $page, Language $language): PageTranslation
     {
@@ -347,7 +349,7 @@ class PageTranslation extends DbModel
 
     /**
      * @return PageTranslation|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?PageTranslation
     {
@@ -624,6 +626,9 @@ class PageTranslation extends DbModel
         $this->updatedAt = $updatedAt;
     }
 
+    /**
+     * @throws Exception
+     */
     public function replaceWidgets(): void
     {
         $this->setContent(self::replaceWidgetPlaceholders($this->getContent(), $this->getLanguage()));
@@ -632,7 +637,7 @@ class PageTranslation extends DbModel
     /**
      * @param Request $request
      * @param Twig $view
-     * @throws \Exception
+     * @throws Exception
      */
     public function replaceModules(Request $request, Twig $view): void
     {
@@ -642,7 +647,7 @@ class PageTranslation extends DbModel
     /**
      * @param Request $request
      * @param Twig $view
-     * @throws \Exception
+     * @throws Exception
      */
     public function replacePosts(Request $request, Twig $view): void
     {

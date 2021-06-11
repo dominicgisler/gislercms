@@ -2,6 +2,10 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+use PDOStatement;
+
 /**
  * Class Module
  * @package GislerCMS\Model
@@ -84,15 +88,15 @@ class Module extends DbModel
      * @param string $where
      * @param array $args
      * @return Module[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
     {
         $arr = [];
         $stmt = self::getPDO()->prepare("SELECT * FROM `cms__module` " . (!empty($where) ? 'WHERE ' . $where : ''));
-        if ($stmt instanceof \PDOStatement) {
+        if ($stmt instanceof PDOStatement) {
             $stmt->execute($args);
-            $modules = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $modules = $stmt->fetchAll(PDO::FETCH_OBJ);
             if (sizeof($modules) > 0) {
                 foreach ($modules as $module) {
                     $arr[] = new Module(
@@ -115,7 +119,7 @@ class Module extends DbModel
      * @param string $where
      * @param array $args
      * @return Module
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): Module
     {
@@ -128,7 +132,7 @@ class Module extends DbModel
 
     /**
      * @return Config[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAll(): array
     {
@@ -138,7 +142,7 @@ class Module extends DbModel
     /**
      * @param int $id
      * @return Module
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): Module
     {
@@ -148,7 +152,7 @@ class Module extends DbModel
     /**
      * @param string $name
      * @return Module
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getByName(string $name): Module
     {
@@ -157,7 +161,7 @@ class Module extends DbModel
 
     /**
      * @return Module|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?Module
     {
@@ -195,7 +199,7 @@ class Module extends DbModel
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(): bool
     {

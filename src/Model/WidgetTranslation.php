@@ -2,6 +2,10 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+use PDOStatement;
+
 /**
  * Class WidgetTranslation
  * @package GislerCMS\Model
@@ -46,8 +50,8 @@ class WidgetTranslation extends DbModel
     /**
      * WidgetTranslation constructor.
      * @param int $widgetTranslationId
-     * @param Widget $widget
-     * @param Language $language
+     * @param Widget|null $widget
+     * @param Language|null $language
      * @param string $content
      * @param bool $enabled
      * @param string $createdAt
@@ -76,7 +80,7 @@ class WidgetTranslation extends DbModel
      * @param string $where
      * @param array $args
      * @return WidgetTranslation[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
     {
@@ -103,9 +107,9 @@ class WidgetTranslation extends DbModel
             
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
-        if ($stmt instanceof \PDOStatement) {
+        if ($stmt instanceof PDOStatement) {
             $stmt->execute($args);
-            $widgetTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $widgetTranslations = $stmt->fetchAll(PDO::FETCH_OBJ);
             if (sizeof($widgetTranslations) > 0) {
                 foreach ($widgetTranslations as $widgetTranslation) {
                     $arr[$widgetTranslation->locale] = new WidgetTranslation(
@@ -134,7 +138,7 @@ class WidgetTranslation extends DbModel
      * @param string $where
      * @param array $args
      * @return WidgetTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): WidgetTranslation
     {
@@ -148,7 +152,7 @@ class WidgetTranslation extends DbModel
     /**
      * @param int $id
      * @return WidgetTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): WidgetTranslation
     {
@@ -158,7 +162,7 @@ class WidgetTranslation extends DbModel
     /**
      * @param Widget $widget
      * @return WidgetTranslation[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWidgetTranslations(Widget $widget): array
     {
@@ -168,7 +172,7 @@ class WidgetTranslation extends DbModel
     /**
      * @param Widget $widget
      * @return WidgetTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getDefaultWidgetTranslation(Widget $widget): WidgetTranslation
     {
@@ -179,7 +183,7 @@ class WidgetTranslation extends DbModel
      * @param Widget $widget
      * @param Language $language
      * @return WidgetTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWidgetTranslation(Widget $widget, Language $language): WidgetTranslation
     {
@@ -192,7 +196,7 @@ class WidgetTranslation extends DbModel
 
     /**
      * @return WidgetTranslation|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?WidgetTranslation
     {

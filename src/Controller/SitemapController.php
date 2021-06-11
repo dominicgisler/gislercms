@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller;
 
+use Exception;
 use GislerCMS\Controller\Module\AbstractModuleController;
 use GislerCMS\Model\Module;
 use GislerCMS\Model\Page;
@@ -24,9 +25,9 @@ class SitemapController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $arr = [];
 

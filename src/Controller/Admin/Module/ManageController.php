@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Module;
 
+use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Controller\Module\AbstractModuleController;
 use GislerCMS\Helper\SessionHelper;
@@ -24,9 +25,9 @@ class ManageController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $id = $request->getAttribute('route')->getArgument('id');
         $conts = ModuleControllerExists::getModuleControllers();
@@ -53,7 +54,7 @@ class ManageController extends AbstractController
                 /** @var AbstractModuleController $cont */
                 $cont = '\\GislerCMS\\Controller\\Module\\' . $mod->getController();
                 $manageCont = $cont::getManageController();
-                /** @var \GislerCMS\Controller\Admin\Module\Manage\AbstractController $manageCont */
+                /** @var Manage\AbstractController $manageCont */
                 $manageCont = new $manageCont($cfg, $this->get('view'));
                 $modContent = $manageCont->manage($mod, $request);
 

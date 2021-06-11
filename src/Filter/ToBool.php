@@ -16,8 +16,8 @@ class ToBool extends AbstractFilter
      * @param string $value
      * @return bool
      */
-    public function filter($value)
+    public function filter($value): bool
     {
-        return $value ? true : false;
+        return boolval($value);
     }
 }

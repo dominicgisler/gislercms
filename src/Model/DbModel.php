@@ -2,9 +2,12 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
 use GislerCMS\Controller\Module\AbstractModuleController;
+use PDO;
 use Slim\Http\Request;
 use Slim\Views\Twig;
+use Twig\Error\LoaderError;
 
 /**
  * Class DbModel
@@ -13,34 +16,35 @@ use Slim\Views\Twig;
 abstract class DbModel
 {
     /**
-     * @var \PDO
+     * @var PDO
      */
     private static $pdo;
 
     /**
-     * @param \PDO $pdo
+     * @param PDO $pdo
      */
-    public static function init(\PDO $pdo): void
+    public static function init(PDO $pdo): void
     {
         self::$pdo = $pdo;
     }
 
     /**
-     * @return \PDO
-     * @throws \Exception
+     * @return PDO
+     * @throws Exception
      */
-    protected static function getPDO(): \PDO
+    protected static function getPDO(): PDO
     {
-        if (self::$pdo instanceof \PDO) {
+        if (self::$pdo instanceof PDO) {
             return self::$pdo;
         }
-        throw new \Exception('Please init $pdo first, use DbModel::init($pdo)');
+        throw new Exception('Please init $pdo first, use DbModel::init($pdo)');
     }
 
     /**
      * @param string $html
      * @param Language $language
      * @return string|null
+     * @throws Exception
      */
     protected static function replaceWidgetPlaceholders(string $html, Language $language): string
     {
@@ -65,7 +69,9 @@ abstract class DbModel
      * @param string $html
      * @param Request $request
      * @param Twig $view
-     * @return string|null
+     * @return string
+     * @throws LoaderError
+     * @throws Exception
      */
     protected static function replaceModulePlaceholders(string $html, Request $request, Twig $view): string
     {

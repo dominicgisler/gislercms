@@ -14,7 +14,7 @@ class TwigFileExists extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('file_exists', [$this, 'fileExists'])
@@ -23,9 +23,9 @@ class TwigFileExists extends AbstractExtension
 
     /**
      * @param string $file
-     * @return array|false
+     * @return bool
      */
-    public function fileExists($file)
+    public function fileExists(string $file): bool
     {
         return file_exists($file);
     }

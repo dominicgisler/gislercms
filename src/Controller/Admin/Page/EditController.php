@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Page;
 
+use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Filter\ToBool;
 use GislerCMS\Filter\ToLanguage;
@@ -36,9 +37,9 @@ class EditController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $cont = SessionHelper::getContainer();
         /** @var User $user */
@@ -183,6 +184,7 @@ class EditController extends AbstractController
         }
 
         $history = [];
+        unset($translation);
         foreach ($translations as $translation) {
             $history[$translation->getLanguage()->getLocale()] = PageTranslationHistory::getHistory($translation);
         }
@@ -203,7 +205,7 @@ class EditController extends AbstractController
     /**
      * @return InputFilterInterface
      */
-    private function getPageInputFilter()
+    private function getPageInputFilter(): InputFilterInterface
     {
         $factory = new Factory();
         return $factory->createInputFilter([
@@ -242,7 +244,7 @@ class EditController extends AbstractController
     /**
      * @return InputFilterInterface
      */
-    private function getTranslationInputFilter()
+    private function getTranslationInputFilter(): InputFilterInterface
     {
         $factory = new Factory();
         return $factory->createInputFilter([

@@ -44,7 +44,7 @@ class GalleryModuleController extends AbstractModuleController
      * @return string
      * @throws LoaderError
      */
-    public function onGet($request)
+    public function onGet(Request $request): string
     {
         $gallery = $request->getAttribute('arguments');
 

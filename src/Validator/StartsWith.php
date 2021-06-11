@@ -29,7 +29,7 @@ class StartsWith extends AbstractValidator
      * @param  Page $value
      * @return bool
      */
-    public function isValid($value)
+    public function isValid($value): bool
     {
         if (!is_string($value)) {
             $this->error('wrong input type');

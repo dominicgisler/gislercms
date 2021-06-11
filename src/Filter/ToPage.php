@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Filter;
 
+use Exception;
 use GislerCMS\Model\Page;
 use Laminas\Filter\AbstractFilter;
 
@@ -16,9 +17,9 @@ class ToPage extends AbstractFilter
      *
      * @param string $value
      * @return Page
-     * @throws \Exception
+     * @throws Exception
      */
-    public function filter($value)
+    public function filter($value): Page
     {
         return Page::get(intval($value));
     }

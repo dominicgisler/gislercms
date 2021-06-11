@@ -2,6 +2,10 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+use PDOStatement;
+
 /**
  * Class Page
  * @package GislerCMS\Model
@@ -49,7 +53,7 @@ class Page extends DbModel
      * @param string $name
      * @param bool $enabled
      * @param bool $trash
-     * @param Language $language
+     * @param Language|null $language
      * @param string $createdAt
      * @param string $updatedAt
      */
@@ -76,7 +80,7 @@ class Page extends DbModel
      * @param string $where
      * @param array $args
      * @return Page[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
     {
@@ -105,9 +109,9 @@ class Page extends DbModel
             
             ORDER BY `enabled` DESC, `name` ASC
         ");
-        if ($stmt instanceof \PDOStatement) {
+        if ($stmt instanceof PDOStatement) {
             $stmt->execute($args);
-            $pages = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $pages = $stmt->fetchAll(PDO::FETCH_OBJ);
             if (sizeof($pages) > 0) {
                 foreach ($pages as $page) {
                     $arr[] = new Page(
@@ -136,7 +140,7 @@ class Page extends DbModel
      * @param string $where
      * @param array $args
      * @return Page
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): Page
     {
@@ -149,7 +153,7 @@ class Page extends DbModel
 
     /**
      * @return Page[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAll(): array
     {
@@ -158,7 +162,7 @@ class Page extends DbModel
 
     /**
      * @return Page[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAvailable(): array
     {
@@ -167,7 +171,7 @@ class Page extends DbModel
 
     /**
      * @return Page[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getTrash(): array
     {
@@ -177,7 +181,7 @@ class Page extends DbModel
     /**
      * @param int $id
      * @return Page
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): Page
     {
@@ -186,7 +190,7 @@ class Page extends DbModel
 
     /**
      * @return Page|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?Page
     {
@@ -222,7 +226,7 @@ class Page extends DbModel
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(): bool
     {
@@ -239,9 +243,9 @@ class Page extends DbModel
 
     /**
      * @return PageTranslation
-     * @throws \Exception
+     * @throws Exception
      */
-    public function getDefaultPageTranslation()
+    public function getDefaultPageTranslation(): PageTranslation
     {
         return PageTranslation::getDefaultPageTranslation($this);
     }
@@ -249,9 +253,9 @@ class Page extends DbModel
     /**
      * @param Language $language
      * @return PageTranslation
-     * @throws \Exception
+     * @throws Exception
      */
-    public function getPageTranslation(Language $language)
+    public function getPageTranslation(Language $language): PageTranslation
     {
         return PageTranslation::getPageTranslation($this, $language);
     }

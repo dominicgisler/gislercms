@@ -2,6 +2,7 @@
 
 namespace GislerCMS;
 
+use Exception;
 use GislerCMS\TwigExtension\TwigFileExists;
 use GislerCMS\TwigExtension\TwigGlob;
 use GislerCMS\Middleware\LoginMiddleware;
@@ -12,10 +13,13 @@ use GislerCMS\TwigExtension\TwigJsonDecode;
 use GislerCMS\TwigExtension\TwigTrans;
 use Locale;
 use pavlakis\cli\CliRequest;
+use PDO;
+use PDOException;
 use Slim\App;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 use Laminas\Config\Config;
+use Throwable;
 
 /**
  * Class Application
@@ -36,6 +40,7 @@ class Application
 
     /**
      * Start that thing
+     * @throws Throwable
      */
     public function run()
     {
@@ -53,8 +58,9 @@ class Application
 
     /**
      * @return array
+     * @throws Exception
      */
-    protected function getSettings()
+    protected function getSettings(): array
     {
         $configPaths = [
             __DIR__ . '/../config/default.php',
@@ -75,7 +81,7 @@ class Application
         if (isset($cfg['settings']['database'])) {
             try {
                 $db = $cfg['settings']['database'];
-                $pdo = new \PDO(
+                $pdo = new PDO(
                     sprintf('mysql:host=%s;dbname=%s;port=3306;charset=utf8', $db['host'], $db['data']),
                     $db['user'],
                     $db['pass']
@@ -84,7 +90,7 @@ class Application
                 foreach (Model\Config::getAll() as $elem) {
                     $cfg['settings'][$elem->getSection()][$elem->getName()] = $elem->getValue();
                 }
-            } catch(\PDOException $e) {
+            } catch(PDOException $e) {
             }
         }
 
@@ -138,7 +144,7 @@ class Application
         $container['pdo'] = function ($container) {
             $cfg = $container['settings']['database'];
 
-            return new \PDO(
+            return new PDO(
                 sprintf('mysql:host=%s;dbname=%s;port=3306', $cfg['host'], $cfg['data']),
                 $cfg['user'],
                 $cfg['pass']
@@ -151,7 +157,6 @@ class Application
      */
     protected function registerMiddleware()
     {
-        // middleware
         $this->app->add(new CliRequest());
     }
 

@@ -2,6 +2,9 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+
 /**
  * Class PostAttribute
  * @package GislerCMS\Model
@@ -41,7 +44,7 @@ class PostAttribute extends DbModel
     /**
      * PostTranslation constructor.
      * @param int $postAttributeId
-     * @param Post $post
+     * @param Post|null $post
      * @param string $name
      * @param string $value
      * @param string $createdAt
@@ -69,7 +72,7 @@ class PostAttribute extends DbModel
      * @param array $args
      * @param bool $withPost
      * @return PostAttribute[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = [], bool $withPost = false): array
     {
@@ -88,7 +91,7 @@ class PostAttribute extends DbModel
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
         $stmt->execute($args);
-        $postAttributes = $stmt->fetchAll(\PDO::FETCH_OBJ);
+        $postAttributes = $stmt->fetchAll(PDO::FETCH_OBJ);
         if (sizeof($postAttributes) > 0) {
             foreach ($postAttributes as $postAttribute) {
                 $arr[] = new PostAttribute(
@@ -108,7 +111,7 @@ class PostAttribute extends DbModel
      * @param string $where
      * @param array $args
      * @return PostAttribute
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): PostAttribute
     {
@@ -122,7 +125,7 @@ class PostAttribute extends DbModel
     /**
      * @param int $id
      * @return PostAttribute
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): PostAttribute
     {
@@ -132,7 +135,7 @@ class PostAttribute extends DbModel
     /**
      * @param int $id
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getByPostId(int $id): array
     {
@@ -142,7 +145,7 @@ class PostAttribute extends DbModel
     /**
      * @param Post $post
      * @return PostAttribute[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getPostAttributes(Post $post): array
     {
@@ -151,7 +154,7 @@ class PostAttribute extends DbModel
 
     /**
      * @return PostAttribute|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?PostAttribute
     {
@@ -188,7 +191,7 @@ class PostAttribute extends DbModel
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(): bool
     {

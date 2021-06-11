@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin;
 
+use Exception;
 use GislerCMS\Application;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\DbModel;
@@ -10,6 +11,8 @@ use GislerCMS\Model\Page;
 use GislerCMS\Model\Post;
 use GislerCMS\Model\User;
 use GislerCMS\Model\Widget;
+use Psr\Container\ContainerInterface;
+use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Route;
@@ -21,15 +24,15 @@ use Slim\Route;
 abstract class AbstractController
 {
     /**
-     * @var \Slim\Container|\Psr\Container\ContainerInterface
+     * @var Container|ContainerInterface
      */
     protected $container;
 
     /**
-     * @param \Slim\Container|\Psr\Container\ContainerInterface $container
+     * @param Container|ContainerInterface $container
      * @param bool $initDBModel
      */
-    public function __construct($container, $initDBModel = true)
+    public function __construct($container, bool $initDBModel = true)
     {
         if (PHP_SAPI == "cli") {
             exit;
@@ -44,7 +47,7 @@ abstract class AbstractController
      * @param string $var
      * @return mixed
      */
-    protected function get($var)
+    protected function get(string $var)
     {
         return $this->container->get($var);
     }
@@ -55,7 +58,7 @@ abstract class AbstractController
      * @param string $template
      * @param array $data
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     protected function render(Request $request, Response $response, string $template, array $data = []): Response
     {
@@ -90,7 +93,7 @@ abstract class AbstractController
     /**
      * @param $val
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     private function replacePlaceholders($val)
     {

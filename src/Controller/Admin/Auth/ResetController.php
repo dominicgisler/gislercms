@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Auth;
 
+use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Model\User;
 use Slim\Http\Request;
@@ -26,9 +27,9 @@ class ResetController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $key = $request->getAttribute('route')->getArgument('key');
 
@@ -40,7 +41,7 @@ class ResetController extends AbstractController
 
             if ($request->isPost()) {
                 $data = $request->getParsedBody();
-                $filter = $this->getInputFilter($user);
+                $filter = $this->getInputFilter();
                 $filter->setData($data);
                 if (!$filter->isValid()) {
                     $errors = array_merge($errors, array_keys($filter->getMessages()));
@@ -79,10 +80,9 @@ class ResetController extends AbstractController
     }
 
     /**
-     * @param User $user
      * @return InputFilterInterface
      */
-    private function getInputFilter(User $user)
+    private function getInputFilter(): InputFilterInterface
     {
         $factory = new Factory();
         return $factory->createInputFilter([

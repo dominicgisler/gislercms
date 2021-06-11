@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Module\Manage;
 
+use Exception;
 use GislerCMS\Model\GuestbookEntry;
 use GislerCMS\Model\Module;
 use GislerCMS\Validator\ValidJson;
@@ -19,7 +20,7 @@ class GuestbookController extends AbstractController
      * @param Module $mod
      * @param Request $request
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function manage(Module $mod, Request $request): string
     {
@@ -73,7 +74,7 @@ class GuestbookController extends AbstractController
     /**
      * @return InputFilterInterface
      */
-    private function getInputFilter()
+    private function getInputFilter(): InputFilterInterface
     {
         $factory = new Factory();
         return $factory->createInputFilter([

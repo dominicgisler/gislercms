@@ -2,6 +2,10 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+use PDOStatement;
+
 /**
  * Class Visit
  * @package GislerCMS\Model
@@ -68,7 +72,7 @@ class Visit extends DbModel
      * @param string $where
      * @param array $args
      * @return Visit[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
     {
@@ -108,9 +112,9 @@ class Visit extends DbModel
                 
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
-        if ($stmt instanceof \PDOStatement) {
+        if ($stmt instanceof PDOStatement) {
             $stmt->execute($args);
-            $visits = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $visits = $stmt->fetchAll(PDO::FETCH_OBJ);
             if (sizeof($visits) > 0) {
                 foreach ($visits as $visit) {
                     $arr[] = new Visit(
@@ -152,7 +156,7 @@ class Visit extends DbModel
      * @param string $where
      * @param array $args
      * @return Visit
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): Visit
     {
@@ -166,7 +170,7 @@ class Visit extends DbModel
     /**
      * @param int $id
      * @return Visit
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): Visit
     {
@@ -175,7 +179,7 @@ class Visit extends DbModel
 
     /**
      * @return Visit[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAll(): array
     {
@@ -184,7 +188,7 @@ class Visit extends DbModel
 
     /**
      * @return Visit|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?Visit
     {

@@ -17,7 +17,7 @@ class ModuleControllerExists extends AbstractValidator
      * @param  string $value
      * @return bool
      */
-    public function isValid($value)
+    public function isValid($value): bool
     {
         $this->setValue($value);
 

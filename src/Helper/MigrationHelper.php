@@ -2,8 +2,10 @@
 
 namespace GislerCMS\Helper;
 
+use Exception;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\Migration;
+use PDO;
 
 /**
  * Class MigrationHelper
@@ -14,12 +16,12 @@ class MigrationHelper
     const MIGRATIONS = __DIR__ . '/../../mysql/*.sql';
 
     /**
-     * @param \PDO $pdo
+     * @param PDO $pdo
      * @param bool $fresh
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
-    public static function executeMigrations(\PDO $pdo, bool $fresh = false): array
+    public static function executeMigrations(PDO $pdo, bool $fresh = false): array
     {
         $response = [];
         $error = false;

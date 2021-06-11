@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Module;
 
+use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Controller\Module\AbstractModuleController;
 use GislerCMS\Helper\SessionHelper;
@@ -27,9 +28,9 @@ class AddController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $id = $request->getAttribute('route')->getArgument('id');
         $conts = ModuleControllerExists::getModuleControllers();
@@ -100,7 +101,7 @@ class AddController extends AbstractController
     /**
      * @return InputFilterInterface
      */
-    private function getInputFilter()
+    private function getInputFilter(): InputFilterInterface
     {
         $factory = new Factory();
         return $factory->createInputFilter([

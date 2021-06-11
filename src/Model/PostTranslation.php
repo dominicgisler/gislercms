@@ -2,8 +2,8 @@
 
 namespace GislerCMS\Model;
 
-use Slim\Http\Request;
-use Slim\Views\Twig;
+use Exception;
+use PDO;
 
 /**
  * Class PostTranslation
@@ -84,8 +84,8 @@ class PostTranslation extends DbModel
     /**
      * PostTranslation constructor.
      * @param int $postTranslationId
-     * @param Post $post
-     * @param Language $language
+     * @param Post|null $post
+     * @param Language|null $language
      * @param string $name
      * @param string $title
      * @param string $content
@@ -135,7 +135,7 @@ class PostTranslation extends DbModel
      * @param string $where
      * @param array $args
      * @return PostTranslation[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
     {
@@ -173,7 +173,7 @@ class PostTranslation extends DbModel
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
         $stmt->execute($args);
-        $postTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
+        $postTranslations = $stmt->fetchAll(PDO::FETCH_OBJ);
         if (sizeof($postTranslations) > 0) {
             foreach ($postTranslations as $postTranslation) {
                 $arr[$postTranslation->locale] = new PostTranslation(
@@ -208,7 +208,7 @@ class PostTranslation extends DbModel
      * @param string $where
      * @param array $args
      * @return PostTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): PostTranslation
     {
@@ -222,7 +222,7 @@ class PostTranslation extends DbModel
     /**
      * @param int $id
      * @return PostTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): PostTranslation
     {
@@ -232,7 +232,7 @@ class PostTranslation extends DbModel
     /**
      * @param Post $post
      * @return PostTranslation[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getPostTranslations(Post $post): array
     {
@@ -242,7 +242,7 @@ class PostTranslation extends DbModel
     /**
      * @param string $name
      * @return PostTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getDefaultByName(string $name): PostTranslation
     {
@@ -271,7 +271,7 @@ class PostTranslation extends DbModel
      * @param string $name
      * @param Language $language
      * @return PostTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getByName(string $name, Language $language): PostTranslation
     {
@@ -293,7 +293,7 @@ class PostTranslation extends DbModel
     /**
      * @param Post $post
      * @return PostTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getDefaultPostTranslation(Post $post): PostTranslation
     {
@@ -304,7 +304,7 @@ class PostTranslation extends DbModel
      * @param Post $post
      * @param Language $language
      * @return PostTranslation
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getPostTranslation(Post $post, Language $language): PostTranslation
     {
@@ -317,7 +317,7 @@ class PostTranslation extends DbModel
 
     /**
      * @return PostTranslation|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?PostTranslation
     {

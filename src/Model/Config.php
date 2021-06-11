@@ -2,6 +2,10 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+use PDOStatement;
+
 /**
  * Class Config
  * @package GislerCMS\Model
@@ -70,7 +74,7 @@ class Config extends DbModel
         switch ($this->type) {
             case 'bool':
             case 'boolean':
-                $this->value = $value ? true : false;
+                $this->value = boolval($value);
                 break;
             case 'int':
             case 'integer':
@@ -90,15 +94,15 @@ class Config extends DbModel
      * @param string $where
      * @param array $args
      * @return Config[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
     {
         $arr = [];
         $stmt = self::getPDO()->prepare("SELECT * FROM `cms__config` " . (!empty($where) ? 'WHERE ' . $where : ''));
-        if ($stmt instanceof \PDOStatement) {
+        if ($stmt instanceof PDOStatement) {
             $stmt->execute($args);
-            $configs = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $configs = $stmt->fetchAll(PDO::FETCH_OBJ);
             if (sizeof($configs) > 0) {
                 foreach ($configs as $config) {
                     $arr[] = new Config(
@@ -120,7 +124,7 @@ class Config extends DbModel
      * @param string $where
      * @param array $args
      * @return Config
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): Config
     {
@@ -133,7 +137,7 @@ class Config extends DbModel
 
     /**
      * @return Config[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAll(): array
     {
@@ -143,7 +147,7 @@ class Config extends DbModel
     /**
      * @param string $section
      * @return Config[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getBySection(string $section): array
     {
@@ -154,7 +158,7 @@ class Config extends DbModel
      * @param string $section
      * @param string $name
      * @return Config
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getConfig(string $section, string $name): Config
     {
@@ -164,7 +168,7 @@ class Config extends DbModel
     /**
      * @param int $id
      * @return Config
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): Config
     {
@@ -173,7 +177,7 @@ class Config extends DbModel
 
     /**
      * @return Config|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?Config
     {
@@ -209,7 +213,7 @@ class Config extends DbModel
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(): bool
     {

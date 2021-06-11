@@ -2,6 +2,10 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+use PDOStatement;
+
 /**
  * Class Client
  * @package GislerCMS\Model
@@ -52,15 +56,15 @@ class Client extends DbModel
      * @param string $where
      * @param array $args
      * @return Client[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
     {
         $arr = [];
         $stmt = self::getPDO()->prepare("SELECT * FROM `cms__client` " . (!empty($where) ? 'WHERE ' . $where : ''));
-        if ($stmt instanceof \PDOStatement) {
+        if ($stmt instanceof PDOStatement) {
             $stmt->execute($args);
-            $clients = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $clients = $stmt->fetchAll(PDO::FETCH_OBJ);
             if (sizeof($clients) > 0) {
                 foreach ($clients as $client) {
                     $arr[] = new Client(
@@ -79,7 +83,7 @@ class Client extends DbModel
      * @param string $where
      * @param array $args
      * @return Client
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): Client
     {
@@ -93,7 +97,7 @@ class Client extends DbModel
     /**
      * @param int $id
      * @return Client
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): Client
     {
@@ -103,7 +107,7 @@ class Client extends DbModel
     /**
      * @param string $uuid
      * @return Client
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getClient(string $uuid): Client
     {
@@ -112,7 +116,7 @@ class Client extends DbModel
 
     /**
      * @return Client[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAll(): array
     {
@@ -121,7 +125,7 @@ class Client extends DbModel
 
     /**
      * @return Client|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?Client
     {

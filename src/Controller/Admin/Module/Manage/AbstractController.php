@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Module\Manage;
 
+use Exception;
 use GislerCMS\Model\Module;
 use GislerCMS\Validator\ValidJson;
 use Slim\Http\Request;
@@ -30,7 +31,7 @@ abstract class AbstractController
      * @param array $config
      * @param Twig $view
      */
-    public function __construct($config, $view)
+    public function __construct(array $config, Twig $view)
     {
         $this->config = $config;
         $this->view = $view;
@@ -40,7 +41,7 @@ abstract class AbstractController
      * @param Module $mod
      * @param Request $request
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function manage(Module $mod, Request $request): string
     {
@@ -81,7 +82,7 @@ abstract class AbstractController
     /**
      * @return InputFilterInterface
      */
-    private function getInputFilter()
+    private function getInputFilter(): InputFilterInterface
     {
         $factory = new Factory();
         return $factory->createInputFilter([

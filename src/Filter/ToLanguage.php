@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Filter;
 
+use Exception;
 use GislerCMS\Model\Language;
 use Laminas\Filter\AbstractFilter;
 
@@ -16,9 +17,9 @@ class ToLanguage extends AbstractFilter
      *
      * @param string $value
      * @return Language
-     * @throws \Exception
+     * @throws Exception
      */
-    public function filter($value)
+    public function filter($value): Language
     {
         if (!is_string($value)) {
             return new Language();

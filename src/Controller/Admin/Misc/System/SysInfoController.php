@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Misc\System;
 
+use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -20,9 +21,9 @@ class SysInfoController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $cmsVersion = $this->get('settings')['version'];
 

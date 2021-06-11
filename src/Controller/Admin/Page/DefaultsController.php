@@ -2,13 +2,12 @@
 
 namespace GislerCMS\Controller\Admin\Page;
 
+use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Filter\ToLanguage;
-use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Config;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\Page;
-use GislerCMS\Model\User;
 use GislerCMS\Validator\LanguageExists;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -30,14 +29,10 @@ class DefaultsController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
-        $cont = SessionHelper::getContainer();
-        /** @var User $user */
-        $user = $cont->offsetGet('user');
-
         $languages = Language::getAll();
         $configs = Config::getBySection('page');
         $data = [];
@@ -82,6 +77,7 @@ class DefaultsController extends AbstractController
                     $msg = 'save_error';
                 } else {
                     $msg = 'save_success';
+                    unset($config);
                     foreach (Config::getAll() as $config) {
                         $data[$config->getName()] = $config->getValue();
                     }
@@ -101,7 +97,7 @@ class DefaultsController extends AbstractController
     /**
      * @return InputFilterInterface
      */
-    private function getInputFilter()
+    private function getInputFilter(): InputFilterInterface
     {
         $factory = new Factory();
         return $factory->createInputFilter([

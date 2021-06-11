@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller;
 
+use Exception;
 use GislerCMS\Application;
 use GislerCMS\Model\Config;
 use GislerCMS\Model\Language;
@@ -23,9 +24,9 @@ class PageLangController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $lang = $request->getAttribute('route')->getArgument('lang');
         $name = $request->getAttribute('route')->getArgument('page');

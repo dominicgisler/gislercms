@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin;
 
+use Exception;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -19,9 +20,9 @@ class PreviewController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         return $this->render($request, $response, 'admin/preview.twig');
     }

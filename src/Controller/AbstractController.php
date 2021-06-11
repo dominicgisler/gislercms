@@ -50,7 +50,7 @@ abstract class AbstractController
      * @param string $var
      * @return mixed
      */
-    protected function get($var)
+    protected function get(string $var)
     {
         return $this->container->get($var);
     }
@@ -155,7 +155,7 @@ abstract class AbstractController
      * @return Response
      * @throws Exception
      */
-    protected function renderPage($request, $response, PageTranslation $page, string $reqName = '')
+    protected function renderPage(Request $request, Response $response, PageTranslation $page, string $reqName = ''): Response
     {
         if ($page->getPageTranslationId() == 0 || !$page->getPage()->isEnabled()) {
             $page = PageTranslation::getDefaultByName('error-404');

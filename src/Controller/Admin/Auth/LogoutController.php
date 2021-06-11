@@ -22,7 +22,7 @@ class LogoutController extends AbstractController
      * @param Response $response
      * @return Response
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $cont = SessionHelper::getContainer();
         $cont->offsetUnset('user');

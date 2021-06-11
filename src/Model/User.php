@@ -2,6 +2,9 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+
 /**
  * Class User
  * @package GislerCMS\Model
@@ -132,7 +135,7 @@ class User extends DbModel
      * @param string $where
      * @param array $args
      * @return User[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
     {
@@ -142,7 +145,7 @@ class User extends DbModel
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
         $stmt->execute($args);
-        $users = $stmt->fetchAll(\PDO::FETCH_OBJ);
+        $users = $stmt->fetchAll(PDO::FETCH_OBJ);
         if (sizeof($users) > 0) {
             foreach ($users as $user) {
                 $arr[] = new User(
@@ -170,7 +173,7 @@ class User extends DbModel
      * @param string $where
      * @param array $args
      * @return User
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): User
     {
@@ -184,7 +187,7 @@ class User extends DbModel
     /**
      * @param int $id
      * @return User
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): User
     {
@@ -196,7 +199,7 @@ class User extends DbModel
      * @param string $where
      * @param array $args
      * @return User
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getByUsername(string $username, string $where = '', array $args = []): User
     {
@@ -208,7 +211,7 @@ class User extends DbModel
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAll(): array
     {
@@ -217,7 +220,7 @@ class User extends DbModel
 
     /**
      * @return User|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?User
     {
@@ -274,7 +277,7 @@ class User extends DbModel
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(): bool
     {

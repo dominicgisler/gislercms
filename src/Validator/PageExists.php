@@ -17,7 +17,7 @@ class PageExists extends AbstractValidator
      * @param  Page $value
      * @return bool
      */
-    public function isValid($value)
+    public function isValid($value): bool
     {
         if (!($value instanceof Page)) {
             $this->error('wrong input type');

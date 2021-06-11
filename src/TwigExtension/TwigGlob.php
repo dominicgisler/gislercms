@@ -14,7 +14,7 @@ class TwigGlob extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('glob', [$this, 'glob'])
@@ -25,7 +25,7 @@ class TwigGlob extends AbstractExtension
      * @param string $pattern
      * @return array|false
      */
-    public function glob($pattern)
+    public function glob(string $pattern)
     {
         return glob($pattern);
     }

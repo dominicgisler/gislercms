@@ -2,10 +2,12 @@
 
 namespace GislerCMS\Controller\Admin;
 
+use Exception;
 use GislerCMS\Application;
 use GislerCMS\Helper\MigrationHelper;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\User;
+use PDO;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -33,7 +35,7 @@ class SetupController extends AbstractController
      * @param Response $response
      * @return Response
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
         if (!in_array($locale, ['de', 'en'])) {
@@ -69,7 +71,7 @@ class SetupController extends AbstractController
             }
 
             try {
-                $pdo = new \PDO(
+                $pdo = new PDO(
                     'mysql:host=' . $data['db_host'] . ';dbname=' . $data['db_database'] . ';port=3306',
                     $data['db_user'],
                     $data['db_password']
@@ -122,7 +124,7 @@ class SetupController extends AbstractController
                         }
                     }
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $data['error'] = true;
                 $data['messages']['exec_migration'] = [
                     'message' => $e->getMessage()

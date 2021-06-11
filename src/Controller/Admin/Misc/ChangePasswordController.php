@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Misc;
 
+use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\User;
@@ -28,9 +29,9 @@ class ChangePasswordController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $cont = SessionHelper::getContainer();
         /** @var User $user */
@@ -81,7 +82,7 @@ class ChangePasswordController extends AbstractController
      * @param User $user
      * @return InputFilterInterface
      */
-    private function getInputFilter(User $user)
+    private function getInputFilter(User $user): InputFilterInterface
     {
         $factory = new Factory();
         return $factory->createInputFilter([

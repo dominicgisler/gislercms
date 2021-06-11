@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Post;
 
+use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Filter\ToBool;
 use GislerCMS\Filter\ToLanguage;
@@ -34,9 +35,9 @@ class EditController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $id = (int) $request->getAttribute('route')->getArgument('id');
         $post = Post::get($id);
@@ -180,7 +181,7 @@ class EditController extends AbstractController
     /**
      * @return InputFilterInterface
      */
-    private function getPostInputFilter()
+    private function getPostInputFilter(): InputFilterInterface
     {
         $factory = new Factory();
         return $factory->createInputFilter([
@@ -234,7 +235,7 @@ class EditController extends AbstractController
     /**
      * @return InputFilterInterface
      */
-    private function getTranslationInputFilter()
+    private function getTranslationInputFilter(): InputFilterInterface
     {
         $factory = new Factory();
         return $factory->createInputFilter([

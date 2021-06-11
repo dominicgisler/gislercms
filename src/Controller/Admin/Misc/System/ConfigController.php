@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Misc\System;
 
+use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Filter\ToBool;
 use GislerCMS\Filter\ToPage;
@@ -34,9 +35,9 @@ class ConfigController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $cont = SessionHelper::getContainer();
 
@@ -107,7 +108,7 @@ class ConfigController extends AbstractController
     /**
      * @return InputFilterInterface
      */
-    private function getInputFilter()
+    private function getInputFilter(): InputFilterInterface
     {
         $factory = new Factory();
         return $factory->createInputFilter([

@@ -3,6 +3,8 @@
 namespace GislerCMS\Model;
 
 use Exception;
+use PDO;
+use PDOStatement;
 
 /**
  * Class GuestbookEntry
@@ -68,9 +70,9 @@ class GuestbookEntry extends DbModel
     {
         $arr = [];
         $stmt = self::getPDO()->prepare("SELECT * FROM `cms__guestbook_entry` " . (!empty($where) ? 'WHERE ' . $where : ''));
-        if ($stmt instanceof \PDOStatement) {
+        if ($stmt instanceof PDOStatement) {
             $stmt->execute($args);
-            $entries = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $entries = $stmt->fetchAll(PDO::FETCH_OBJ);
             if (sizeof($entries) > 0) {
                 foreach ($entries as $entry) {
                     $arr[] = new GuestbookEntry(
@@ -164,7 +166,7 @@ class GuestbookEntry extends DbModel
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(): bool
     {

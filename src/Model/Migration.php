@@ -2,6 +2,10 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+use PDOStatement;
+
 /**
  * Class Migration
  * @package GislerCMS\Model
@@ -60,15 +64,15 @@ class Migration extends DbModel
      * @param string $where
      * @param array $args
      * @return Migration[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
     {
         $arr = [];
         $stmt = self::getPDO()->prepare("SELECT * FROM `cms__migration` " . (!empty($where) ? 'WHERE ' . $where : ''));
-        if ($stmt instanceof \PDOStatement) {
+        if ($stmt instanceof PDOStatement) {
             $stmt->execute($args);
-            $migs = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $migs = $stmt->fetchAll(PDO::FETCH_OBJ);
             if (sizeof($migs) > 0) {
                 foreach ($migs as $mig) {
                     $arr[] = new Migration(
@@ -88,7 +92,7 @@ class Migration extends DbModel
      * @param string $where
      * @param array $args
      * @return Migration
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): Migration
     {
@@ -101,7 +105,7 @@ class Migration extends DbModel
 
     /**
      * @return Migration[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAll(): array
     {
@@ -111,7 +115,7 @@ class Migration extends DbModel
     /**
      * @param string $name
      * @return Migration
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getMigration(string $name): Migration
     {
@@ -121,7 +125,7 @@ class Migration extends DbModel
     /**
      * @param int $id
      * @return Migration
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): Migration
     {
@@ -130,7 +134,7 @@ class Migration extends DbModel
 
     /**
      * @return Migration|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?Migration
     {
@@ -162,7 +166,7 @@ class Migration extends DbModel
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public static function deleteAll(): bool
     {

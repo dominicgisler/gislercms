@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Auth;
 
+use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\DbModel;
@@ -26,9 +27,9 @@ class LoginController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $status = self::HTTP_OK;
         $data = [];

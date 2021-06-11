@@ -16,7 +16,7 @@ class ValidJson extends AbstractValidator
      * @param  string $value
      * @return bool
      */
-    public function isValid($value)
+    public function isValid($value): bool
     {
         json_decode($value);
         return (json_last_error() == JSON_ERROR_NONE);

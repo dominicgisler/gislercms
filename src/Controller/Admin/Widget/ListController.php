@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller\Admin\Widget;
 
+use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Model\Widget;
 use Slim\Http\Request;
@@ -21,9 +22,9 @@ class ListController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $widgets = Widget::getAvailable();
         return $this->render($request, $response, 'admin/widget/list.twig', [

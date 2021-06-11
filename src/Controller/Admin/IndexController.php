@@ -26,7 +26,7 @@ class IndexController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $track = Config::getConfig('global', 'enable_tracking')->getValue();
 
@@ -149,7 +149,7 @@ class IndexController extends AbstractController
      * @param array $arr
      * @return array
      */
-    private static function countDate(string $date, array $arr)
+    private static function countDate(string $date, array $arr): array
     {
         $timestamp = strtotime($date);
         $times = [
@@ -173,7 +173,7 @@ class IndexController extends AbstractController
      * @param array $graph
      * @return array
      */
-    private static function mapGraphData(array $graph)
+    private static function mapGraphData(array $graph): array
     {
         $graphData = [];
         foreach (['year', 'month', 'day', 'hour'] as $type) {

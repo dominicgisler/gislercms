@@ -17,7 +17,7 @@ class LanguageExists extends AbstractValidator
      * @param  Language $value
      * @return bool
      */
-    public function isValid($value)
+    public function isValid($value): bool
     {
         if (!($value instanceof Language)) {
             $this->error('wrong input type');

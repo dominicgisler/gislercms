@@ -16,7 +16,7 @@ class TwigGoogleReviews extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('getGoogleReviews', [$this, 'getGoogleReviews'])
@@ -28,7 +28,7 @@ class TwigGoogleReviews extends AbstractExtension
      * @param int $minRating
      * @return array
      */
-    public function getGoogleReviews($cid, $minRating = 4)
+    public function getGoogleReviews(string $cid, int $minRating = 4): array
     {
         $cacheFile = sprintf(self::CACHE_FILE, $cid);
         if (file_exists($cacheFile)) {
@@ -50,6 +50,7 @@ class TwigGoogleReviews extends AbstractExtension
         $result = curl_exec($ch);
         curl_close($ch);
         $pattern = '/window\.APP_INITIALIZATION_STATE(.*);window\.APP_FLAGS=/ms';
+        $reviews = [];
         if (preg_match($pattern, $result, $match)) {
             $match[1] = trim($match[1], ' =;');
             $reviews = json_decode($match[1]);

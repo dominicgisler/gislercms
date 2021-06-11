@@ -38,7 +38,7 @@ abstract class AbstractModuleController
      * @param array $config
      * @param Twig $view
      */
-    public function __construct($config, $view)
+    public function __construct(array $config, Twig $view)
     {
         $this->config = $config;
         $this->view = $view;
@@ -49,7 +49,7 @@ abstract class AbstractModuleController
      * @return string
      * @throws LoaderError
      */
-    public function execute($request): string
+    public function execute(Request $request): string
     {
         if ($request->isPost()) {
             return $this->onPost($request);
@@ -65,7 +65,7 @@ abstract class AbstractModuleController
      * @return string
      * @throws LoaderError
      */
-    public function onGet($request)
+    public function onGet(Request $request): string
     {
         return $this->view->fetch('module/not-implemented.twig');
     }
@@ -77,7 +77,7 @@ abstract class AbstractModuleController
      * @return string
      * @throws LoaderError
      */
-    public function onPost($request)
+    public function onPost(Request $request): string
     {
         return self::onGet($request);
     }

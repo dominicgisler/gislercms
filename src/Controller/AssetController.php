@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Controller;
 
+use Exception;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\Stream;
@@ -27,9 +28,9 @@ class AssetController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $asset = $request->getAttribute('route')->getArgument('asset');
 

@@ -2,6 +2,7 @@
 
 namespace GislerCMS\Middleware;
 
+use Exception;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\User;
@@ -25,7 +26,7 @@ class NoLoginMiddleware
     /**
      * @param ContainerInterface $container
      */
-    public function __construct($container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
@@ -33,12 +34,12 @@ class NoLoginMiddleware
     /**
      * @param  ServerRequestInterface|Request $request  PSR7 request
      * @param  ResponseInterface|Response     $response PSR7 response
-     * @param  callable                       $next     Next middleware
+     * @param callable $next     Next middleware
      *
      * @return ResponseInterface|Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke($request, $response, $next)
+    public function __invoke($request, $response, callable $next)
     {
         $cont = SessionHelper::getContainer();
 

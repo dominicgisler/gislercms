@@ -2,6 +2,9 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+
 /**
  * Class PageTranslationHistory
  * @package GislerCMS\Model
@@ -81,7 +84,7 @@ class PageTranslationHistory extends DbModel
     /**
      * PageTranslationHistory constructor.
      * @param int $pageTranslationHistoryId
-     * @param PageTranslation $pageTranslation
+     * @param PageTranslation|null $pageTranslation
      * @param string $name
      * @param string $title
      * @param string $content
@@ -91,7 +94,7 @@ class PageTranslationHistory extends DbModel
      * @param string $metaCopyright
      * @param string $metaImage
      * @param bool $enabled
-     * @param User $user
+     * @param User|null $user
      * @param string $createdAt
      * @param string $updatedAt
      */
@@ -132,7 +135,7 @@ class PageTranslationHistory extends DbModel
      * @param string $where
      * @param array $args
      * @return PageTranslationHistory[]
-     * @throws \Exception
+     * @throws Exception
      */
     private static function getWhere(string $where = '', array $args = []): array
     {
@@ -173,7 +176,7 @@ class PageTranslationHistory extends DbModel
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
         $stmt->execute($args);
-        $pageTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
+        $pageTranslations = $stmt->fetchAll(PDO::FETCH_OBJ);
         if (sizeof($pageTranslations) > 0) {
             foreach ($pageTranslations as $pageTranslation) {
                 $arr[] = new PageTranslationHistory(
@@ -216,7 +219,7 @@ class PageTranslationHistory extends DbModel
      * @param string $where
      * @param array $args
      * @return PageTranslationHistory
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): PageTranslationHistory
     {
@@ -230,7 +233,7 @@ class PageTranslationHistory extends DbModel
     /**
      * @param int $id
      * @return PageTranslationHistory
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): PageTranslationHistory
     {
@@ -240,7 +243,7 @@ class PageTranslationHistory extends DbModel
     /**
      * @param PageTranslation $pt
      * @return PageTranslationHistory[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getHistory(PageTranslation $pt): array
     {
@@ -249,7 +252,7 @@ class PageTranslationHistory extends DbModel
 
     /**
      * @return PageTranslationHistory|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?PageTranslationHistory
     {

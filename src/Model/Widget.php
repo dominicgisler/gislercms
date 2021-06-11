@@ -2,6 +2,10 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+use PDOStatement;
+
 /**
  * Class Widget
  * @package GislerCMS\Model
@@ -49,7 +53,7 @@ class Widget extends DbModel
      * @param string $name
      * @param bool $enabled
      * @param bool $trash
-     * @param Language $language
+     * @param Language|null $language
      * @param string $createdAt
      * @param string $updatedAt
      */
@@ -76,7 +80,7 @@ class Widget extends DbModel
      * @param string $where
      * @param array $args
      * @return Widget[]
-     * @throws \Exception
+     * @throws Exception
      */
     private static function getWhere(string $where = '', array $args = []): array
     {
@@ -105,9 +109,9 @@ class Widget extends DbModel
             
             ORDER BY `enabled` DESC, `name` ASC
         ");
-        if ($stmt instanceof \PDOStatement) {
+        if ($stmt instanceof PDOStatement) {
             $stmt->execute($args);
-            $widgets = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $widgets = $stmt->fetchAll(PDO::FETCH_OBJ);
             if (sizeof($widgets) > 0) {
                 foreach ($widgets as $widget) {
                     $arr[] = new Widget(
@@ -136,7 +140,7 @@ class Widget extends DbModel
      * @param string $where
      * @param array $args
      * @return Widget
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): Widget
     {
@@ -149,7 +153,7 @@ class Widget extends DbModel
 
     /**
      * @return Widget[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAll(): array
     {
@@ -158,7 +162,7 @@ class Widget extends DbModel
 
     /**
      * @return Widget[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAvailable(): array
     {
@@ -167,7 +171,7 @@ class Widget extends DbModel
 
     /**
      * @return Widget[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getTrash(): array
     {
@@ -177,7 +181,7 @@ class Widget extends DbModel
     /**
      * @param int $id
      * @return Widget
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): Widget
     {
@@ -187,7 +191,7 @@ class Widget extends DbModel
     /**
      * @param string $name
      * @return Widget
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWidget(string $name): Widget
     {
@@ -196,7 +200,7 @@ class Widget extends DbModel
 
     /**
      * @return Widget|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?Widget
     {
@@ -232,7 +236,7 @@ class Widget extends DbModel
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(): bool
     {
@@ -249,9 +253,9 @@ class Widget extends DbModel
 
     /**
      * @return WidgetTranslation
-     * @throws \Exception
+     * @throws Exception
      */
-    public function getDefaultWidgetTranslation()
+    public function getDefaultWidgetTranslation(): WidgetTranslation
     {
         return WidgetTranslation::getDefaultWidgetTranslation($this);
     }
@@ -259,9 +263,9 @@ class Widget extends DbModel
     /**
      * @param Language $language
      * @return WidgetTranslation
-     * @throws \Exception
+     * @throws Exception
      */
-    public function getWidgetTranslation(Language $language)
+    public function getWidgetTranslation(Language $language): WidgetTranslation
     {
         return WidgetTranslation::getWidgetTranslation($this, $language);
     }

@@ -2,6 +2,10 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+use PDOStatement;
+
 /**
  * Class Session
  * @package GislerCMS\Model
@@ -92,7 +96,7 @@ class Session extends DbModel
      * @param string $where
      * @param array $args
      * @return Session[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
     {
@@ -120,9 +124,9 @@ class Session extends DbModel
             
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
-        if ($stmt instanceof \PDOStatement) {
+        if ($stmt instanceof PDOStatement) {
             $stmt->execute($args);
-            $sessions = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $sessions = $stmt->fetchAll(PDO::FETCH_OBJ);
             if (sizeof($sessions) > 0) {
                 foreach ($sessions as $session) {
                     $arr[] = new Session(
@@ -151,7 +155,7 @@ class Session extends DbModel
      * @param string $where
      * @param array $args
      * @return Session
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): Session
     {
@@ -165,7 +169,7 @@ class Session extends DbModel
     /**
      * @param int Session
      * @return Session
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): Session
     {
@@ -175,7 +179,7 @@ class Session extends DbModel
     /**
      * @param string $uuid
      * @return Session
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getSession(string $uuid): Session
     {
@@ -184,7 +188,7 @@ class Session extends DbModel
 
     /**
      * @return Session[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAll(): array
     {
@@ -193,7 +197,7 @@ class Session extends DbModel
 
     /**
      * @return Session|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?Session
     {

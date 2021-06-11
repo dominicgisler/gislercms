@@ -4,6 +4,7 @@ namespace GislerCMS\Controller\Module;
 
 use GislerCMS\Controller\Admin\Module\Manage\ContactController;
 use GislerCMS\Model\Mailer;
+use PHPMailer\PHPMailer\Exception;
 use Slim\Http\Request;
 use Twig\Error\LoaderError;
 use Laminas\InputFilter\Factory;
@@ -166,12 +167,12 @@ class ContactModuleController extends AbstractModuleController
      *
      * @param Request $request
      * @return string
+     * @throws LoaderError
      */
-    public function onGet($request)
+    public function onGet(Request $request): string
     {
         $elems = $this->config['elements'];
-        $html = $this->getForm($elems);
-        return $html;
+        return $this->getForm($elems);
     }
 
     /**
@@ -180,9 +181,9 @@ class ContactModuleController extends AbstractModuleController
      * @param Request $request
      * @return string
      * @throws LoaderError
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
-    public function onPost($request)
+    public function onPost(Request $request): string
     {
         // handle post-request
         $elems = $this->config['elements'];
@@ -266,7 +267,7 @@ class ContactModuleController extends AbstractModuleController
      * @return string
      * @throws LoaderError
      */
-    private function getForm(array $elems, $postData = [], array $errors = [], array $message = []): string
+    private function getForm(array $elems, array $postData = [], array $errors = [], array $message = []): string
     {
         return $this->view->fetch('module/contact/form.twig', [
             'recaptcha' => $this->config['recaptcha'],
@@ -281,7 +282,7 @@ class ContactModuleController extends AbstractModuleController
      * @param array $elems
      * @return InputFilterInterface
      */
-    private function getInputFilter(array $elems)
+    private function getInputFilter(array $elems): InputFilterInterface
     {
         $spec = [];
         foreach ($elems as $key => $elem) {

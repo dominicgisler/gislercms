@@ -2,6 +2,10 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+use PDOStatement;
+
 /**
  * Class Post
  * @package GislerCMS\Model
@@ -64,7 +68,7 @@ class Post extends DbModel
      * @param string $name
      * @param bool $enabled
      * @param bool $trash
-     * @param Language $language
+     * @param Language|null $language
      * @param string $publishAt
      * @param string[] $categories
      * @param array $attributes
@@ -100,9 +104,9 @@ class Post extends DbModel
      * @param string $where
      * @param array $args
      * @return Post[]
-     * @throws \Exception
+     * @throws Exception
      */
-    private static function getWhere($where = '', array $args = []): array
+    private static function getWhere(string $where = '', array $args = []): array
     {
         $arr = [];
         $stmt = self::getPDO()->prepare("
@@ -131,9 +135,9 @@ class Post extends DbModel
             
             ORDER BY `enabled` DESC, `p`.`publish_at` DESC, `name` ASC
         ");
-        if ($stmt instanceof \PDOStatement) {
+        if ($stmt instanceof PDOStatement) {
             $stmt->execute($args);
-            $posts = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            $posts = $stmt->fetchAll(PDO::FETCH_OBJ);
             if (sizeof($posts) > 0) {
                 foreach ($posts as $post) {
                     $cats = explode("\0", $post->categories);
@@ -169,7 +173,7 @@ class Post extends DbModel
      * @param string $where
      * @param array $args
      * @return Post
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): Post
     {
@@ -182,7 +186,7 @@ class Post extends DbModel
 
     /**
      * @return Post[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAll(): array
     {
@@ -191,7 +195,7 @@ class Post extends DbModel
 
     /**
      * @return Post[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getAvailable(): array
     {
@@ -200,7 +204,7 @@ class Post extends DbModel
 
     /**
      * @return Post[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getTrash(): array
     {
@@ -210,7 +214,7 @@ class Post extends DbModel
     /**
      * @param string $name
      * @return Post[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getByCategory(string $name): array
     {
@@ -220,7 +224,7 @@ class Post extends DbModel
     /**
      * @param int $id
      * @return Post
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): Post
     {
@@ -229,7 +233,7 @@ class Post extends DbModel
 
     /**
      * @return Post|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?Post
     {
@@ -269,7 +273,7 @@ class Post extends DbModel
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(): bool
     {
@@ -286,9 +290,9 @@ class Post extends DbModel
 
     /**
      * @return PostTranslation
-     * @throws \Exception
+     * @throws Exception
      */
-    public function getDefaultPostTranslation()
+    public function getDefaultPostTranslation(): PostTranslation
     {
         return PostTranslation::getDefaultPostTranslation($this);
     }
@@ -296,9 +300,9 @@ class Post extends DbModel
     /**
      * @param Language $language
      * @return PostTranslation
-     * @throws \Exception
+     * @throws Exception
      */
-    public function getPostTranslation(Language $language)
+    public function getPostTranslation(Language $language): PostTranslation
     {
         return PostTranslation::getPostTranslation($this, $language);
     }

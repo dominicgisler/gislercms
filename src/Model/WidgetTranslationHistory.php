@@ -2,6 +2,9 @@
 
 namespace GislerCMS\Model;
 
+use Exception;
+use PDO;
+
 /**
  * Class WidgetTranslationHistory
  * @package GislerCMS\Model
@@ -46,10 +49,10 @@ class WidgetTranslationHistory extends DbModel
     /**
      * WidgetTranslationHistory constructor.
      * @param int $widgetTranslationHistoryId
-     * @param WidgetTranslation $widgetTranslation
+     * @param WidgetTranslation|null $widgetTranslation
      * @param string $content
      * @param bool $enabled
-     * @param User $user
+     * @param User|null $user
      * @param string $createdAt
      * @param string $updatedAt
      */
@@ -76,7 +79,7 @@ class WidgetTranslationHistory extends DbModel
      * @param string $where
      * @param array $args
      * @return WidgetTranslationHistory[]
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getWhere(string $where = '', array $args = []): array
     {
@@ -99,7 +102,7 @@ class WidgetTranslationHistory extends DbModel
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
         $stmt->execute($args);
-        $widgetTranslations = $stmt->fetchAll(\PDO::FETCH_OBJ);
+        $widgetTranslations = $stmt->fetchAll(PDO::FETCH_OBJ);
         if (sizeof($widgetTranslations) > 0) {
             foreach ($widgetTranslations as $widgetTranslation) {
                 if ($widgetTranslation) {
@@ -122,7 +125,7 @@ class WidgetTranslationHistory extends DbModel
      * @param string $where
      * @param array $args
      * @return WidgetTranslationHistory
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getObjectWhere(string $where = '', array $args = []): WidgetTranslationHistory
     {
@@ -136,7 +139,7 @@ class WidgetTranslationHistory extends DbModel
     /**
      * @param int $id
      * @return WidgetTranslationHistory
-     * @throws \Exception
+     * @throws Exception
      */
     public static function get(int $id): WidgetTranslationHistory
     {
@@ -146,7 +149,7 @@ class WidgetTranslationHistory extends DbModel
     /**
      * @param WidgetTranslation $wt
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getHistory(WidgetTranslation $wt): array
     {
@@ -155,7 +158,7 @@ class WidgetTranslationHistory extends DbModel
 
     /**
      * @return WidgetTranslationHistory|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): ?WidgetTranslationHistory
     {
