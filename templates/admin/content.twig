@@ -94,3 +94,32 @@
         </div>
     </div>
 {% endblock %}
+
+{% block scripts %}
+    <script>
+        const BASE_URL = '{{ base_url() }}';
+        const TRANS_LOCALE = '{{ user.getLocale() ?: 'de' }}';
+        const TMCE_TRANS = {
+            addElement: '{{ 'Element hinzufügen'|trans }}',
+            posts: '{{ 'Beiträge'|trans }}',
+            module: '{{ 'Module'|trans }}',
+            widget: '{{ 'Widgets'|trans }}'
+        };
+    </script>
+    <script src="{{ base_url() }}/js/jquery.min.js"></script>
+    <script src="{{ base_url() }}/js/jquery.dataTables.min.js"></script>
+    <script src="{{ base_url() }}/js/dataTables.bootstrap4.min.js"></script>
+    <script src="{{ base_url() }}/js/select2.min.js"></script>
+    <script src="{{ base_url() }}/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ base_url() }}/editor/tinymce/tinymce.min.js"></script>
+    <script src="{{ base_url() }}/js/admin.js"></script>
+
+    <script>
+        function autocompletePageWidgets() {
+            autocompleteWidgets([{% for widget in widgets %}{% if not widget.isTrash() and widget.isEnabled() %}'{{ widget.getName() }}',{% endif %}{% endfor %}]);
+        }
+        function autocompletePageModules() {
+            autocompleteModules([{% for module in modules %}{% if not module.isTrash() and module.isEnabled() %}'{{ module.getName() }}',{% endif %}{% endfor %}]);
+        }
+    </script>
+{% endblock %}
