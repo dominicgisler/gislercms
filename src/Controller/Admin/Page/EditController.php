@@ -166,8 +166,39 @@ class EditController extends AbstractController
                     if ($saveError) {
                         $msg = 'save_error';
                     } else {
-                        $cont->offsetSet('page_saved', true);
-                        return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/page/' . $page->getPageId());
+                        $pid = $page->getPageId();
+                        $pname = $page->getName();
+                        $ptrans = $page->getPageTranslations();
+                        if (!is_null($request->getParsedBodyParam('duplicate'))) {
+                            $page->setPageId(0);
+                            $page->setName($pname . ' (Copy)');
+                            $res = $page->save();
+                            if (!is_null($res)) {
+                                $pid = $res->getPageId();
+                                /** @var PageTranslation $trans */
+                                foreach ($ptrans as $trans) {
+                                    $trans->setPageTranslationId(0);
+                                    $trans->setName($trans->getName() . '-copy');
+                                    $trans->setPage($res);
+                                    $tres = $trans->save();
+                                    if (is_null($tres)) {
+                                        $res->delete();
+                                        $saveError = true;
+                                    }
+                                }
+                            } else {
+                                $saveError = true;
+                            }
+                        }
+
+                        if ($saveError) {
+                            $page->setPageId($pid);
+                            $page->setName($pname);
+                            $msg = 'save_error';
+                        } else {
+                            $cont->offsetSet('page_saved', true);
+                            return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/page/' . $pid);
+                        }
                     }
                 } else {
                     $msg = 'invalid_input';
