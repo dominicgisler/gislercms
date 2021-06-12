@@ -333,6 +333,7 @@ msgstr ""
 #: templates/admin/misc/system/config.twig:97
 #: templates/admin/misc/system/mailer.twig:47
 #: templates/admin/post/edit.twig:82
+#: templates/admin/redirect/edit.twig:46
 msgid "Es sind Fehler aufgetreten, bitte prüfe deine Eingaben."
 msgstr ""
 
@@ -351,6 +352,7 @@ msgstr ""
 #: templates/admin/misc/system/config.twig:97
 #: templates/admin/misc/system/mailer.twig:47
 #: templates/admin/post/edit.twig:82
+#: templates/admin/redirect/edit.twig:46
 msgid "Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut."
 msgstr ""
 
@@ -399,6 +401,7 @@ msgstr ""
 #: templates/admin/misc/system/backup.twig:200
 #: templates/admin/content.twig:283
 #: templates/admin/post/edit.twig:389
+#: templates/admin/redirect/edit.twig:151
 msgid "Abbrechen"
 msgstr ""
 
@@ -424,6 +427,8 @@ msgstr ""
 #: templates/admin/post/list.twig:65
 #: templates/admin/post/edit.twig:129
 #: templates/admin/post/attribute-row.twig:62
+#: templates/admin/redirect/list.twig:65
+#: templates/admin/redirect/edit.twig:103
 #: templates/admin/setup.twig:266
 #: templates/admin/setup.twig:274
 msgid "Name"
@@ -474,6 +479,7 @@ msgstr ""
 #: templates/admin/misc/system/config.twig:171
 #: templates/admin/misc/system/mailer.twig:135
 #: templates/admin/post/edit.twig:349
+#: templates/admin/redirect/edit.twig:124
 msgid "Speichern"
 msgstr ""
 
@@ -612,6 +618,7 @@ msgstr ""
 #: templates/admin/misc/language/list.twig:78
 #: templates/admin/misc/system/migration.twig:121
 #: templates/admin/post/list.twig:77
+#: templates/admin/redirect/list.twig:77
 msgid "Status"
 msgstr ""
 
@@ -619,6 +626,7 @@ msgstr ""
 #: templates/admin/page/list.twig:117
 #: templates/admin/misc/language/list.twig:108
 #: templates/admin/post/list.twig:127
+#: templates/admin/redirect/list.twig:144
 msgid "Aktiv"
 msgstr ""
 
@@ -626,6 +634,7 @@ msgstr ""
 #: templates/admin/page/list.twig:123
 #: templates/admin/misc/language/list.twig:114
 #: templates/admin/post/list.twig:133
+#: templates/admin/redirect/list.twig:150
 msgid "Inaktiv"
 msgstr ""
 
@@ -649,6 +658,7 @@ msgstr ""
 #: templates/admin/widget/edit.twig:115
 #: templates/admin/page/edit.twig:115
 #: templates/admin/post/edit.twig:129
+#: templates/admin/redirect/edit.twig:103
 msgid "Nur als interne Bezeichnung"
 msgstr ""
 
@@ -701,6 +711,7 @@ msgstr ""
 #: templates/admin/misc/user/edit.twig:139
 #: templates/admin/misc/trash.twig:135
 #: templates/admin/post/edit.twig:341
+#: templates/admin/redirect/edit.twig:120
 msgid "Löschen"
 msgstr ""
 
@@ -1726,6 +1737,8 @@ msgid "Design-Info"
 msgstr ""
 
 #: templates/admin/misc/theme.twig:262
+#: templates/admin/redirect/list.twig:69
+#: templates/admin/redirect/edit.twig:111
 msgid "Pfad"
 msgstr ""
 
@@ -1806,4 +1819,55 @@ msgstr ""
 
 #: templates/admin/content.twig:153
 msgid "Inhalt erstellen"
+msgstr ""
+
+#: templates/admin/redirect/list.twig:50
+msgid "Weiterleitungen"
+msgstr ""
+
+#: templates/admin/redirect/list.twig:73
+#: templates/admin/redirect/edit.twig:115
+msgid "Ziel"
+msgstr ""
+
+#: templates/admin/redirect/list.twig:171
+#: templates/admin/redirect/edit.twig:59
+msgid "Neue Weiterleitung"
+msgstr ""
+
+#: templates/admin/redirect/edit.twig:46
+msgid "Die Weiterleitung wurde erfolgreich gespeichert."
+msgstr ""
+
+#: templates/admin/redirect/edit.twig:57
+msgid "Weiterleitung bearbeiten"
+msgstr ""
+
+#: templates/admin/redirect/edit.twig:91
+#: templates/admin/redirect/edit.twig:178
+msgid "extern"
+msgstr ""
+
+#: templates/admin/redirect/edit.twig:107
+msgid "Weiterleitung aktiviert"
+msgstr ""
+
+#: templates/admin/redirect/edit.twig:111
+msgid "Der Pfad, welcher in der URL verwendet wird"
+msgstr ""
+
+#: templates/admin/redirect/edit.twig:115
+msgid "Das Ziel der Weiterleitung"
+msgstr ""
+
+#: templates/admin/redirect/edit.twig:136
+msgid "Weiterleitung löschen"
+msgstr ""
+
+#: templates/admin/redirect/edit.twig:145
+msgid "Möchtest du die Weiterleitung wirklich unwiderruflich löschen?"
+msgstr ""
+
+#: templates/admin/redirect/edit.twig:155
+msgid "Ja, Weiterleitung löschen"
 msgstr ""

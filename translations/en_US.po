@@ -333,6 +333,7 @@ msgstr "Real visitor"
 #: templates/admin/misc/system/config.twig:97
 #: templates/admin/misc/system/mailer.twig:47
 #: templates/admin/post/edit.twig:82
+#: templates/admin/redirect/edit.twig:46
 msgid "Es sind Fehler aufgetreten, bitte prüfe deine Eingaben."
 msgstr "Errors have occurred, please check your entries."
 
@@ -351,6 +352,7 @@ msgstr "Errors have occurred, please check your entries."
 #: templates/admin/misc/system/config.twig:97
 #: templates/admin/misc/system/mailer.twig:47
 #: templates/admin/post/edit.twig:82
+#: templates/admin/redirect/edit.twig:46
 msgid "Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut."
 msgstr "An error occurred while saving, please check your entries or try again later."
 
@@ -399,6 +401,7 @@ msgstr "Do you really want to delete this module irrevocably?"
 #: templates/admin/misc/system/backup.twig:200
 #: templates/admin/content.twig:283
 #: templates/admin/post/edit.twig:389
+#: templates/admin/redirect/edit.twig:151
 msgid "Abbrechen"
 msgstr "Cancel"
 
@@ -424,6 +427,8 @@ msgstr "Yes, delete module"
 #: templates/admin/post/list.twig:65
 #: templates/admin/post/edit.twig:129
 #: templates/admin/post/attribute-row.twig:62
+#: templates/admin/redirect/list.twig:65
+#: templates/admin/redirect/edit.twig:103
 #: templates/admin/setup.twig:266
 #: templates/admin/setup.twig:274
 msgid "Name"
@@ -474,6 +479,7 @@ msgstr "Configuration"
 #: templates/admin/misc/system/config.twig:171
 #: templates/admin/misc/system/mailer.twig:135
 #: templates/admin/post/edit.twig:349
+#: templates/admin/redirect/edit.twig:124
 msgid "Speichern"
 msgstr "Save"
 
@@ -612,6 +618,7 @@ msgstr "Default language"
 #: templates/admin/misc/language/list.twig:78
 #: templates/admin/misc/system/migration.twig:121
 #: templates/admin/post/list.twig:77
+#: templates/admin/redirect/list.twig:77
 msgid "Status"
 msgstr "Status"
 
@@ -619,6 +626,7 @@ msgstr "Status"
 #: templates/admin/page/list.twig:117
 #: templates/admin/misc/language/list.twig:108
 #: templates/admin/post/list.twig:127
+#: templates/admin/redirect/list.twig:144
 msgid "Aktiv"
 msgstr "Active"
 
@@ -626,6 +634,7 @@ msgstr "Active"
 #: templates/admin/page/list.twig:123
 #: templates/admin/misc/language/list.twig:114
 #: templates/admin/post/list.twig:133
+#: templates/admin/redirect/list.twig:150
 msgid "Inaktiv"
 msgstr "Inactive"
 
@@ -649,6 +658,7 @@ msgstr "Edit widget"
 #: templates/admin/widget/edit.twig:115
 #: templates/admin/page/edit.twig:115
 #: templates/admin/post/edit.twig:129
+#: templates/admin/redirect/edit.twig:103
 msgid "Nur als interne Bezeichnung"
 msgstr "Only as internal designation"
 
@@ -701,6 +711,7 @@ msgstr "Final delete"
 #: templates/admin/misc/user/edit.twig:139
 #: templates/admin/misc/trash.twig:135
 #: templates/admin/post/edit.twig:341
+#: templates/admin/redirect/edit.twig:120
 msgid "Löschen"
 msgstr "Delete"
 
@@ -1726,6 +1737,8 @@ msgid "Design-Info"
 msgstr "Design info"
 
 #: templates/admin/misc/theme.twig:262
+#: templates/admin/redirect/list.twig:69
+#: templates/admin/redirect/edit.twig:111
 msgid "Pfad"
 msgstr "Path"
 
@@ -1807,3 +1820,54 @@ msgstr "Value"
 #: templates/admin/content.twig:153
 msgid "Inhalt erstellen"
 msgstr "Create content"
+
+#: templates/admin/redirect/list.twig:50
+msgid "Weiterleitungen"
+msgstr "Redirects"
+
+#: templates/admin/redirect/list.twig:73
+#: templates/admin/redirect/edit.twig:115
+msgid "Ziel"
+msgstr "Destination"
+
+#: templates/admin/redirect/list.twig:171
+#: templates/admin/redirect/edit.twig:59
+msgid "Neue Weiterleitung"
+msgstr "New redirect"
+
+#: templates/admin/redirect/edit.twig:46
+msgid "Die Weiterleitung wurde erfolgreich gespeichert."
+msgstr "The redirect was saved successfully."
+
+#: templates/admin/redirect/edit.twig:57
+msgid "Weiterleitung bearbeiten"
+msgstr "Edit redirect"
+
+#: templates/admin/redirect/edit.twig:91
+#: templates/admin/redirect/edit.twig:178
+msgid "extern"
+msgstr "external"
+
+#: templates/admin/redirect/edit.twig:107
+msgid "Weiterleitung aktiviert"
+msgstr "Redirect enabled"
+
+#: templates/admin/redirect/edit.twig:111
+msgid "Der Pfad, welcher in der URL verwendet wird"
+msgstr "The path which is used in the URL"
+
+#: templates/admin/redirect/edit.twig:115
+msgid "Das Ziel der Weiterleitung"
+msgstr "The destination of the redirect"
+
+#: templates/admin/redirect/edit.twig:136
+msgid "Weiterleitung löschen"
+msgstr "Delete redirect"
+
+#: templates/admin/redirect/edit.twig:145
+msgid "Möchtest du die Weiterleitung wirklich unwiderruflich löschen?"
+msgstr "Do you really want to delete the redirect irrevocably?"
+
+#: templates/admin/redirect/edit.twig:155
+msgid "Ja, Weiterleitung löschen"
+msgstr "Yes, delete redirect"

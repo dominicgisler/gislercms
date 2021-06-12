@@ -17,16 +17,9 @@
         save_success: {
             class: 'success',
             message: 'Die Weiterleitung wurde erfolgreich gespeichert.'|trans
-        },
-        is_trash: {
-            class: 'warning',
-            message: 'Diese Weiterleitung befindet sich im Papierkorb, speichere sie um sie wiederherzustellen.'|trans
         }
     }
 %}
-{% if redirect.isTrash() %}
-    {% set message = 'is_trash' %}
-{% endif %}
 
 {% block content %}
     {% if message %}
@@ -37,7 +30,7 @@
             </button>
         </div>
     {% endif %}
-    <form method="post" id="widget-form">
+    <form method="post" id="redirect-form">
         {% if redirect.location starts with 'http://' or redirect.location starts with 'https://' %}
             {% set loc_prepend = 'extern'|trans %}
         {% else %}
@@ -48,8 +41,8 @@
         {{ forms.form_group('text', 'redirect[route]', redirect.route, 'Pfad'|trans, '', 'route' in errors ? 'is-invalid' : '', 'Der Pfad, welcher in der URL verwendet wird'|trans) }}
         {{ forms.form_group('text', 'redirect[location]', redirect.location, 'Ziel'|trans, '', 'location' in errors ? 'is-invalid' : '', 'Das Ziel der Weiterleitung'|trans, { prepend: loc_prepend }) }}
         <div class="text-right mb-4">
-            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if widget.isTrash() %}{{ 'Endgültig löschen'|trans }}{% else %}{{ 'Löschen'|trans }}{% endif %}</button>
-            <button class="btn btn-primary" name="save">{% if widget.isTrash() %}{{ 'Wiederherstellen'|trans }}{% else %}{{ 'Speichern'|trans }}{% endif %}</button>
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{{ 'Löschen'|trans }}</button>
+            <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
         </div>
 
         {# confirm delete modal #}
@@ -63,11 +56,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        {% if widget.isTrash() %}
-                            {{ 'Möchtest du die Weiterleitung wirklich unwiderruflich löschen?'|trans }}
-                        {% else %}
-                            {{ 'Möchtest du die Weiterleitung wirklich löschen?'|trans }}
-                        {% endif %}
+                        {{ 'Möchtest du die Weiterleitung wirklich unwiderruflich löschen?'|trans }}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
