@@ -38,7 +38,7 @@
         {% endif %}
         {{ forms.form_group('text', 'redirect[name]', redirect.name, 'Name'|trans, '', 'name' in errors ? 'is-invalid' : '', 'Nur als interne Bezeichnung'|trans) }}
         {{ forms.form_group('checkbox', 'redirect[enabled]', redirect.enabled, 'Weiterleitung aktiviert'|trans) }}
-        {{ forms.form_group('text', 'redirect[route]', redirect.route, 'Pfad'|trans, '', 'route' in errors ? 'is-invalid' : '', 'Der Pfad, welcher in der URL verwendet wird'|trans) }}
+        {{ forms.form_group('text', 'redirect[route]', redirect.route, 'Pfad'|trans, '', 'route' in errors ? 'is-invalid' : '', 'Der Pfad, welcher in der URL verwendet wird'|trans, { prepend: base_url() ~ '/' }) }}
         {{ forms.form_group('text', 'redirect[location]', redirect.location, 'Ziel'|trans, '', 'location' in errors ? 'is-invalid' : '', 'Das Ziel der Weiterleitung'|trans, { prepend: loc_prepend }) }}
         <div class="text-right mb-4">
             <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{{ 'Löschen'|trans }}</button>

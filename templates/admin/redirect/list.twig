@@ -25,7 +25,7 @@
                         {% endif %}
                     </td>
                     <td>{{ val.getName() }}</td>
-                    <td>{{ val.getRoute() }}</td>
+                    <td>{{ base_url() ~ '/' ~ val.getRoute() }}</td>
                     <td>
                         {% set loc = val.getLocation() %}
                         {% if loc starts with 'http://' or loc starts with 'https://' %}
