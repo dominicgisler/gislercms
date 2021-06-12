@@ -1,0 +1,93 @@
+{% import "admin/forms.twig" as forms %}
+
+{% extends 'admin/content.twig' %}
+
+{% block title %}{% if redirect.getRedirectId() > 0 %}{{ 'Weiterleitung bearbeiten'|trans }}{% else %}{{ 'Neue Weiterleitung'|trans }}{% endif %}{% endblock %}
+
+{%
+    set messages = {
+        invalid_input: {
+            class: 'danger',
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'|trans
+        },
+        save_error: {
+            class: 'danger',
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'|trans
+        },
+        save_success: {
+            class: 'success',
+            message: 'Die Weiterleitung wurde erfolgreich gespeichert.'|trans
+        },
+        is_trash: {
+            class: 'warning',
+            message: 'Diese Weiterleitung befindet sich im Papierkorb, speichere sie um sie wiederherzustellen.'|trans
+        }
+    }
+%}
+{% if redirect.isTrash() %}
+    {% set message = 'is_trash' %}
+{% endif %}
+
+{% block content %}
+    {% if message %}
+        <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
+            {{ messages[message].message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <form method="post" id="widget-form">
+        {% if redirect.location starts with 'http://' or redirect.location starts with 'https://' %}
+            {% set loc_prepend = 'extern'|trans %}
+        {% else %}
+            {% set loc_prepend = base_url() ~ '/' %}
+        {% endif %}
+        {{ forms.form_group('text', 'redirect[name]', redirect.name, 'Name'|trans, '', 'name' in errors ? 'is-invalid' : '', 'Nur als interne Bezeichnung'|trans) }}
+        {{ forms.form_group('checkbox', 'redirect[enabled]', redirect.enabled, 'Weiterleitung aktiviert'|trans) }}
+        {{ forms.form_group('text', 'redirect[route]', redirect.route, 'Pfad'|trans, '', 'route' in errors ? 'is-invalid' : '', 'Der Pfad, welcher in der URL verwendet wird'|trans) }}
+        {{ forms.form_group('text', 'redirect[location]', redirect.location, 'Ziel'|trans, '', 'location' in errors ? 'is-invalid' : '', 'Das Ziel der Weiterleitung'|trans, { prepend: loc_prepend }) }}
+        <div class="text-right mb-4">
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if widget.isTrash() %}{{ 'Endgültig löschen'|trans }}{% else %}{{ 'Löschen'|trans }}{% endif %}</button>
+            <button class="btn btn-primary" name="save">{% if widget.isTrash() %}{{ 'Wiederherstellen'|trans }}{% else %}{{ 'Speichern'|trans }}{% endif %}</button>
+        </div>
+
+        {# confirm delete modal #}
+        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Weiterleitung löschen'|trans }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {% if widget.isTrash() %}
+                            {{ 'Möchtest du die Weiterleitung wirklich unwiderruflich löschen?'|trans }}
+                        {% else %}
+                            {{ 'Möchtest du die Weiterleitung wirklich löschen?'|trans }}
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="submit" name="delete" class="btn btn-danger">{{ 'Ja, Weiterleitung löschen'|trans }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script>
+        $('#input_redirect_location_').on('keydown keyup change', function() {
+            if ($(this).val().lastIndexOf('http://', 0) === 0 || $(this).val().lastIndexOf('https://', 0) === 0) {
+                $('#redirect_location__prepend .input-group-text').text('{{ 'extern'|trans }}');
+            } else {
+                $('#redirect_location__prepend .input-group-text').text('{{ base_url() }}/');
+            }
+        });
+    </script>
+{% endblock %}

@@ -19,7 +19,7 @@
             {% elseif type == 'fileurl' %}
                 {{ forms.fileurl(name, value, placeholder, class, hint) }}
             {% else %}
-                {{ forms.input(type, name, value, placeholder, class, hint) }}
+                {{ forms.input(type, name, value, placeholder, class, hint, options) }}
             {% endif %}
             {% if hint %}<small id="hint_{{ id }}" class="form-text text-muted">{{ hint }}</small>{% endif %}
         </div>
@@ -65,9 +65,21 @@
     <div class="mt-3"></div>
 {% endmacro %}
 
-{% macro input(type, name, value, placeholder, class, hint) %}
+{% macro input(type, name, value, placeholder, class, hint, options) %}
     {% set id = name|replace({'[': '_', ']': '_'}) %}
-    <input type="{{ type }}" name="{{ name }}" class="form-control {{ class }}" id="input_{{ id }}" {% if hint %}aria-describedby="hint_{{ id }}"{% endif %} value="{{ value }}" placeholder="{{ placeholder }}">
+    <div class="input-group">
+        {% if options.prepend %}
+            <div class="input-group-prepend" id="{{ id }}_prepend">
+                <div class="input-group-text">{{ options.prepend }}</div>
+            </div>
+        {% endif %}
+        <input type="{{ type }}" name="{{ name }}" class="form-control {{ class }}" id="input_{{ id }}" {% if hint %}aria-describedby="hint_{{ id }}"{% endif %} value="{{ value }}" placeholder="{{ placeholder }}">
+        {% if options.append %}
+            <div class="input-group-append" id="{{ id }}_append">
+                <div class="input-group-text">{{ options.append }}</div>
+            </div>
+        {% endif %}
+    </div>
 {% endmacro %}
 
 {% macro fileurl(name, value, placeholder, class, hint) %}

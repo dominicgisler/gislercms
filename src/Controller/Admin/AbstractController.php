@@ -9,6 +9,7 @@ use GislerCMS\Model\DbModel;
 use GislerCMS\Model\Module;
 use GislerCMS\Model\Page;
 use GislerCMS\Model\Post;
+use GislerCMS\Model\Redirect;
 use GislerCMS\Model\User;
 use GislerCMS\Model\Widget;
 use Psr\Container\ContainerInterface;
@@ -103,6 +104,7 @@ abstract class AbstractController
             $val = str_replace('{posts_count}', sizeof(Post::getAvailable()), $val);
             $val = str_replace('{widgets_count}', sizeof(Widget::getAvailable()), $val);
             $val = str_replace('{modules_count}', sizeof(Module::getAll()), $val);
+            $val = str_replace('{redirects_count}', sizeof(Redirect::getAll()), $val);
             $val = str_replace('{trash_count}', sizeof(Page::getTrash()) + sizeof(Post::getTrash()) + sizeof(Widget::getTrash()), $val);
         } elseif (is_iterable($val)) {
             foreach ($val as &$elem) {

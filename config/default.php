@@ -87,7 +87,9 @@ return [
                 \GislerCMS\Controller\Admin\Misc\System\ChangelogController::class,
                 \GislerCMS\Controller\Admin\Module\AddController::class,
                 \GislerCMS\Controller\Admin\Module\ListController::class,
-                \GislerCMS\Controller\Admin\Module\ManageController::class
+                \GislerCMS\Controller\Admin\Module\ManageController::class,
+                \GislerCMS\Controller\Admin\Redirect\ListController::class,
+                \GislerCMS\Controller\Admin\Redirect\EditController::class
             ],
             'require_nologin' => [
                 \GislerCMS\Controller\Admin\Auth\LoginController::class,

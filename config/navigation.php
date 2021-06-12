@@ -88,6 +88,13 @@ return [
                         'count' => '{modules_count}'
                     ],
                     [
+                        'route' => ['admin-redirect-list', 'admin-redirect-edit'],
+                        'label' => 'Weiterleitungen',
+                        'icon' => 'fa-location-arrow',
+                        'href' => '{admin_url}/redirect/list',
+                        'count' => '{redirects_count}'
+                    ],
+                    [
                         'route' => 'admin-page-defaults',
                         'label' => 'Standardwerte',
                         'icon' => 'fa-cog',
