@@ -122,7 +122,7 @@ msgid "Papierkorb"
 msgstr "Trash"
 
 #: templates/trans-keys.twig:137
-#: templates/admin/content.twig:285
+#: templates/admin/content.twig:325
 #: templates/admin/post/list.twig:50
 msgid "Beiträge"
 msgstr "Posts"
@@ -133,7 +133,7 @@ msgstr "All posts"
 
 #: templates/trans-keys.twig:149
 #: templates/admin/widget/list.twig:50
-#: templates/admin/content.twig:293
+#: templates/admin/content.twig:333
 msgid "Widgets"
 msgstr "Widgets"
 
@@ -143,7 +143,7 @@ msgstr "All widgets"
 
 #: templates/trans-keys.twig:161
 #: templates/admin/module/list.twig:50
-#: templates/admin/content.twig:289
+#: templates/admin/content.twig:329
 msgid "Module"
 msgstr "Modules"
 
@@ -387,7 +387,7 @@ msgstr "Do you really want to delete this module irrevocably?"
 #: templates/admin/partial/insert-widget-modal.twig:60
 #: templates/admin/partial/insert-posts-modal.twig:58
 #: templates/admin/partial/insert-module-modal.twig:60
-#: templates/admin/widget/edit.twig:385
+#: templates/admin/widget/edit.twig:390
 #: templates/admin/page/edit.twig:440
 #: templates/admin/misc/language/edit.twig:139
 #: templates/admin/misc/user/edit.twig:170
@@ -397,7 +397,7 @@ msgstr "Do you really want to delete this module irrevocably?"
 #: templates/admin/misc/system/update.twig:128
 #: templates/admin/misc/system/migration.twig:227
 #: templates/admin/misc/system/backup.twig:200
-#: templates/admin/content.twig:243
+#: templates/admin/content.twig:283
 #: templates/admin/post/edit.twig:389
 msgid "Abbrechen"
 msgstr "Cancel"
@@ -464,7 +464,7 @@ msgstr "Configuration"
 #: templates/admin/module/manage/guestbook.twig:72
 #: templates/admin/module/manage/default.twig:72
 #: templates/admin/module/add.twig:111
-#: templates/admin/widget/edit.twig:345
+#: templates/admin/widget/edit.twig:350
 #: templates/admin/page/edit.twig:400
 #: templates/admin/page/defaults.twig:123
 #: templates/admin/misc/language/edit.twig:104
@@ -663,7 +663,7 @@ msgid "Übersetzung aktiviert"
 msgstr "Translation enabled"
 
 #: templates/admin/widget/edit.twig:243
-#: templates/admin/widget/edit.twig:404
+#: templates/admin/widget/edit.twig:409
 #: templates/admin/page/edit.twig:279
 #: templates/admin/page/edit.twig:460
 msgid "Bearbeitungsverlauf"
@@ -689,13 +689,13 @@ msgstr "Action"
 msgid "Ansehen"
 msgstr "View"
 
-#: templates/admin/widget/edit.twig:335
+#: templates/admin/widget/edit.twig:340
 #: templates/admin/page/edit.twig:390
 #: templates/admin/post/edit.twig:339
 msgid "Endgültig löschen"
 msgstr "Final delete"
 
-#: templates/admin/widget/edit.twig:337
+#: templates/admin/widget/edit.twig:342
 #: templates/admin/page/edit.twig:392
 #: templates/admin/misc/language/edit.twig:100
 #: templates/admin/misc/user/edit.twig:139
@@ -704,8 +704,8 @@ msgstr "Final delete"
 msgid "Löschen"
 msgstr "Delete"
 
-#: templates/admin/widget/edit.twig:343
-#: templates/admin/widget/edit.twig:425
+#: templates/admin/widget/edit.twig:348
+#: templates/admin/widget/edit.twig:430
 #: templates/admin/page/edit.twig:398
 #: templates/admin/page/edit.twig:509
 #: templates/admin/misc/trash.twig:131
@@ -713,28 +713,28 @@ msgstr "Delete"
 msgid "Wiederherstellen"
 msgstr "Restore"
 
-#: templates/admin/widget/edit.twig:358
+#: templates/admin/widget/edit.twig:363
 msgid "Widget löschen"
 msgstr "Delete widget"
 
-#: templates/admin/widget/edit.twig:370
+#: templates/admin/widget/edit.twig:375
 msgid "Möchtest du das Widget wirklich unwiderruflich löschen?"
 msgstr "Do you really want to delete the widget irrevocably?"
 
-#: templates/admin/widget/edit.twig:376
+#: templates/admin/widget/edit.twig:381
 msgid "Möchtest du das Widget wirklich löschen?"
 msgstr "Do you really want to delete the widget?"
 
-#: templates/admin/widget/edit.twig:389
+#: templates/admin/widget/edit.twig:394
 msgid "Ja, Widget löschen"
 msgstr "Yes, delete widget"
 
-#: templates/admin/widget/edit.twig:414
+#: templates/admin/widget/edit.twig:419
 #: templates/admin/page/edit.twig:498
 msgid "Inhalt:"
 msgstr "Content:"
 
-#: templates/admin/widget/edit.twig:421
+#: templates/admin/widget/edit.twig:426
 #: templates/admin/page/edit.twig:505
 msgid "Schliessen"
 msgstr "Close"
@@ -970,7 +970,7 @@ msgstr "Please check your email inbox."
 
 #: templates/trans-keys.twig:105
 #: templates/admin/filemanager.twig:50
-#: templates/admin/content.twig:228
+#: templates/admin/content.twig:268
 msgid "Dateiverwaltung"
 msgstr "File management"
 
@@ -1367,7 +1367,7 @@ msgstr "Do you really want to delete the selected elements irrevocably?"
 msgid "Möchtest du die ausgewählten Elemente wirklich wiederherstellen?"
 msgstr "Do you really want to restore the selected elements?"
 
-#: templates/admin/content.twig:281
+#: templates/admin/content.twig:321
 msgid "Element hinzufügen"
 msgstr "Add element"
 
@@ -1790,6 +1790,7 @@ msgstr "Do you really want to delete the design irrevocably?"
 msgid "Ja, Design löschen"
 msgstr "Yes, delete design"
 
+#: templates/admin/widget/edit.twig:335
 #: templates/admin/page/edit.twig:385
 #: templates/admin/post/edit.twig:334
 msgid "Duplizieren"
@@ -1798,3 +1799,11 @@ msgstr "Duplicate"
 #: templates/trans-keys.twig:290
 msgid "Korrekte Verknüpfung der Post-Attribute"
 msgstr "Correct linking of the post attributes"
+
+#: templates/admin/post/attribute-row.twig:78
+msgid "Wert"
+msgstr "Value"
+
+#: templates/admin/content.twig:153
+msgid "Inhalt erstellen"
+msgstr "Create content"

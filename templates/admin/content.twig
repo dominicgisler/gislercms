@@ -45,7 +45,21 @@
                                 <div class="list-group-item font-weight-bold">
                                     {{ group.title|trans }}
                                     {% if group.link %}
-                                        <a href="{{ group.link.href }}" class="float-right text-dark mr-1"><i class="fa {{ group.link.icon }}"></i></a>
+                                        {% if group.link.href is iterable %}
+                                            <div class="dropdown d-inline">
+                                                <a href="#" class="float-right text-dark mr-1"  type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa {{ group.link.icon }}"></i>
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <h6 class="dropdown-header">{{ 'Inhalt erstellen'|trans }}</h6>
+                                                    {% for label, href in group.link.href %}
+                                                        <a class="dropdown-item" href="{{ href }}">{{ label }}</a>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <a href="{{ group.link.href }}" class="float-right text-dark mr-1"><i class="fa {{ group.link.icon }}"></i></a>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             {% endif %}
