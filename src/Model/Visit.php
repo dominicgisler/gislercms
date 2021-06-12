@@ -28,6 +28,11 @@ class Visit extends DbModel
     private $arguments;
 
     /**
+     * @var Redirect
+     */
+    private $redirect;
+
+    /**
      * @var Session
      */
     private $session;
@@ -47,6 +52,7 @@ class Visit extends DbModel
      * @param int $visitId
      * @param PageTranslation|null $pageTranslation
      * @param string $arguments
+     * @param Redirect|null $redirect
      * @param Session|null $session
      * @param string $createdAt
      * @param string $updatedAt
@@ -55,6 +61,7 @@ class Visit extends DbModel
         int $visitId = 0,
         PageTranslation $pageTranslation = null,
         string $arguments = '',
+        Redirect $redirect = null,
         Session $session = null,
         string $createdAt = '',
         string $updatedAt = ''
@@ -63,6 +70,7 @@ class Visit extends DbModel
         $this->visitId = $visitId;
         $this->pageTranslation = $pageTranslation;
         $this->arguments = $arguments;
+        $this->redirect = $redirect;
         $this->session = $session;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
@@ -83,6 +91,8 @@ class Visit extends DbModel
                    `v`.*,
                    `p`.`page_id` AS 'p_page_id',
                    `p`.`name` AS 'p_name',
+                   `r`.`redirect_id` AS 'r_redirect_id',
+                   `r`.`name` AS 'r_name',
                    `l`.`language_id` AS 'l_language_id',
                    `l`.`locale` AS 'l_locale',
                    `l`.`description` AS 'l_description',
@@ -98,17 +108,20 @@ class Visit extends DbModel
             
             FROM `cms__visit` `v`
             
-            INNER JOIN `cms__page_translation` `pt`
-            ON `v`.`fk_page_translation_id` = `pt`.`page_translation_id`
-            
-            INNER JOIN `cms__page` `p`
-            ON `pt`.`fk_page_id` = `p`.`page_id`
-            
-            INNER JOIN `cms__language` `l`
-            ON `pt`.`fk_language_id` = `l`.`language_id`
-            
             INNER JOIN `cms__session` `s`
             ON `v`.`fk_session_id` = `s`.`session_id`
+                
+            LEFT JOIN `cms__page_translation` `pt`
+            ON `v`.`fk_page_translation_id` = `pt`.`page_translation_id`
+            
+            LEFT JOIN `cms__page` `p`
+            ON `pt`.`fk_page_id` = `p`.`page_id`
+            
+            LEFT JOIN `cms__language` `l`
+            ON `pt`.`fk_language_id` = `l`.`language_id`
+                
+            LEFT JOIN `cms__redirect` `r`
+            ON `v`.`fk_redirect_id` = `r`.`redirect_id`
                 
             " . (!empty($where) ? 'WHERE ' . $where : '') . "
         ");
@@ -120,18 +133,22 @@ class Visit extends DbModel
                     $arr[] = new Visit(
                         $visit->visit_id,
                         new PageTranslation(
-                            $visit->fk_page_translation_id,
+                            $visit->fk_page_translation_id ?: 0,
                             new Page(
-                                $visit->p_page_id,
-                                $visit->p_name
+                                $visit->p_page_id ?: 0,
+                                $visit->p_name ?: ''
                             ),
                             new Language(
-                                $visit->l_language_id,
-                                $visit->l_locale,
-                                $visit->l_description
+                                $visit->l_language_id ?: 0,
+                                $visit->l_locale ?: '',
+                                $visit->l_description ?: ''
                             )
                         ),
                         $visit->arguments,
+                        new Redirect(
+                            $visit->r_redirect_id ?: 0,
+                            $visit->r_name ?: ''
+                        ),
                         new Session(
                             $visit->s_session_id,
                             new Client($visit->s_fk_client_id),
@@ -196,24 +213,26 @@ class Visit extends DbModel
         if ($this->getVisitId() > 0) {
             $stmt = $pdo->prepare("
                 UPDATE `cms__visit`
-                SET `fk_page_translation_id` = ?, `arguments` = ?, `fk_session_id` = ?
+                SET `fk_page_translation_id` = ?, `arguments` = ?, `fk_redirect_id` = ?, `fk_session_id` = ?
                 WHERE `visit_id` = ?
             ");
             $res = $stmt->execute([
-                $this->getPageTranslation()->getPageTranslationId(),
+                $this->getPageTranslation()->getPageTranslationId() ?: null,
                 $this->getArguments(),
+                $this->getRedirect()->getRedirectId() ?: null,
                 $this->getSession()->getSessionId(),
                 $this->getVisitId()
             ]);
             return $res ? self::get($this->getVisitId()) : null;
         } else {
             $stmt = $pdo->prepare("
-                INSERT INTO `cms__visit` (`fk_page_translation_id`, `arguments`, `fk_session_id`)
-                VALUES (?, ?, ?)
+                INSERT INTO `cms__visit` (`fk_page_translation_id`, `arguments`, `fk_redirect_id`, `fk_session_id`)
+                VALUES (?, ?, ?, ?)
             ");
             $res = $stmt->execute([
-                $this->getPageTranslation()->getPageTranslationId(),
+                $this->getPageTranslation()->getPageTranslationId() ?: null,
                 $this->getArguments(),
+                $this->getRedirect()->getRedirectId() ?: null,
                 $this->getSession()->getSessionId()
             ]);
             return $res ? self::get($pdo->lastInsertId()) : null;
@@ -266,6 +285,22 @@ class Visit extends DbModel
     public function setArguments(string $arguments): void
     {
         $this->arguments = $arguments;
+    }
+
+    /**
+     * @return Redirect
+     */
+    public function getRedirect(): Redirect
+    {
+        return $this->redirect;
+    }
+
+    /**
+     * @param Redirect $redirect
+     */
+    public function setRedirect(Redirect $redirect): void
+    {
+        $this->redirect = $redirect;
     }
 
     /**

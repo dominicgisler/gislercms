@@ -12,6 +12,7 @@ use GislerCMS\Model\Config;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\Module;
 use GislerCMS\Model\PageTranslation;
+use GislerCMS\Model\Redirect;
 use GislerCMS\Model\Session;
 use GislerCMS\Model\Visit;
 use GislerCMS\Model\Widget;
@@ -88,6 +89,31 @@ abstract class AbstractController
      */
     protected function trackPage(Request $request, Response $response, PageTranslation $pTrans): ResponseInterface
     {
+        return $this->trackVisit($request, $response, $pTrans, new Redirect());
+    }
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param Redirect $redirect
+     * @return ResponseInterface
+     * @throws Exception
+     */
+    protected function trackRedirect(Request $request, Response $response, Redirect $redirect): ResponseInterface
+    {
+        return $this->trackVisit($request, $response, new PageTranslation(), $redirect);
+    }
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param PageTranslation $pTrans
+     * @param Redirect $redirect
+     * @return ResponseInterface
+     * @throws Exception
+     */
+    protected function trackVisit(Request $request, Response $response, PageTranslation $pTrans, Redirect $redirect): ResponseInterface
+    {
         $track = Config::getConfig('global', 'enable_tracking');
         if (!$track->getValue()) {
             return $response;
@@ -128,6 +154,7 @@ abstract class AbstractController
 
         $visit = new Visit();
         $visit->setPageTranslation($pTrans);
+        $visit->setRedirect($redirect);
         $visit->setArguments($request->getAttribute('arguments') ?: '');
         $visit->setSession($session);
         $visit->save();

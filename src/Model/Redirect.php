@@ -151,6 +151,16 @@ class Redirect extends DbModel
     }
 
     /**
+     * @param string $route
+     * @return Redirect
+     * @throws Exception
+     */
+    public static function getByRoute(string $route): Redirect
+    {
+        return self::getObjectWhere('`route` = ?', [$route]);
+    }
+
+    /**
      * @return Redirect|null
      * @throws Exception
      */

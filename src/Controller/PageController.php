@@ -7,6 +7,7 @@ use GislerCMS\Application;
 use GislerCMS\Model\Config;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\PageTranslation;
+use GislerCMS\Model\Redirect;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -35,6 +36,19 @@ class PageController extends AbstractController
         $maint = Config::getConfig('global', 'maintenance_mode');
         if ($maint->getValue()) {
             return $this->render($request, $response, 'maintenance.twig');
+        }
+
+        $redirect = Redirect::getByRoute($name);
+        if ($redirect->getRedirectId() > 0) {
+            $this->trackRedirect($request, $response, $redirect);
+            $url = $this->get('base_url') . '/' . $redirect->getLocation();
+            if (substr($redirect->getLocation(), 0, 7) === 'http://' || substr($redirect->getLocation(), 0, 8) === 'https://') {
+                $url = $redirect->getLocation();
+            }
+            return $response
+                ->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
+                ->withHeader('Pragma', 'no-cache')
+                ->withRedirect($url, 301);
         }
 
         $page = PageTranslation::getByName($name, Language::getLanguage($locale));
