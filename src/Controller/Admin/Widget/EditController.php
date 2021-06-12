@@ -135,8 +135,22 @@ class EditController extends AbstractController
                     if ($saveError) {
                         $msg = 'save_error';
                     } else {
-                        $cont->offsetSet('widget_saved', true);
-                        return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/widget/' . $widget->getWidgetId());
+                        $wid = $widget->getWidgetId();
+                        if (!is_null($request->getParsedBodyParam('duplicate'))) {
+                            $res = $widget->duplicate();
+                            if (!is_null($res)) {
+                                $wid = $res->getWidgetId();
+                            } else {
+                                $saveError = true;
+                            }
+                        }
+
+                        if ($saveError) {
+                            $msg = 'save_error';
+                        } else {
+                            $cont->offsetSet('widget_saved', true);
+                            return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/widget/' . $wid);
+                        }
                     }
                 } else {
                     $msg = 'invalid_input';

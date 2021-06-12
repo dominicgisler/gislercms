@@ -252,6 +252,34 @@ class Widget extends DbModel
     }
 
     /**
+     * @return Widget|null
+     * @throws Exception
+     */
+    public function duplicate(): ?Widget
+    {
+        $dup = self::get($this->widgetId);
+        $dup->setWidgetId(0);
+        $dup->setName($this->name . ' (Copy)');
+        $dup->setEnabled(false);
+        $dup = $dup->save();
+        if (!is_null($dup)) {
+            /** @var WidgetTranslation $trans */
+            foreach (self::getWidgetTranslations() as $trans) {
+                $trans->setWidgetTranslationId(0);
+                $trans->setWidget($dup);
+                $tres = $trans->save();
+                if (is_null($tres)) {
+                    $dup->delete();
+                    return null;
+                }
+            }
+        } else {
+            return null;
+        }
+        return $dup;
+    }
+
+    /**
      * @return WidgetTranslation
      * @throws Exception
      */
@@ -268,6 +296,15 @@ class Widget extends DbModel
     public function getWidgetTranslation(Language $language): WidgetTranslation
     {
         return WidgetTranslation::getWidgetTranslation($this, $language);
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function getWidgetTranslations(): array
+    {
+        return WidgetTranslation::getWidgetTranslations($this);
     }
 
     /**

@@ -104,6 +104,8 @@
             {% endfor %}
         </div>
         <div class="text-right mb-4">
+            <input type="submit" class="d-none" name="save">
+            <button class="btn btn-info" type="submit" name="duplicate">{{ 'Duplizieren'|trans }}</button>
             <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if widget.isTrash() %}{{ 'Endgültig löschen'|trans }}{% else %}{{ 'Löschen'|trans }}{% endif %}</button>
             <button class="btn btn-primary" name="save">{% if widget.isTrash() %}{{ 'Wiederherstellen'|trans }}{% else %}{{ 'Speichern'|trans }}{% endif %}</button>
         </div>
