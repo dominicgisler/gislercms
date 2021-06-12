@@ -151,8 +151,22 @@ class EditController extends AbstractController
                     if ($saveError) {
                         $msg = 'save_error';
                     } else {
-                        $cnt->offsetSet('post_saved', true);
-                        return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/post/' . $post->getPostId());
+                        $pid = $post->getPostId();
+                        if (!is_null($request->getParsedBodyParam('duplicate'))) {
+                            $res = $post->duplicate();
+                            if (!is_null($res)) {
+                                $pid = $res->getPostId();
+                            } else {
+                                $saveError = true;
+                            }
+                        }
+
+                        if ($saveError) {
+                            $msg = 'save_error';
+                        } else {
+                            $cnt->offsetSet('post_saved', true);
+                            return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/post/' . $pid);
+                        }
                     }
                 } else {
                     $msg = 'invalid_input';

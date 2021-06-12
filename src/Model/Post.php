@@ -289,6 +289,45 @@ class Post extends DbModel
     }
 
     /**
+     * @return Post|null
+     * @throws Exception
+     */
+    public function duplicate(): ?Post
+    {
+        $dup = self::get($this->postId);
+        $dup->setPostId(0);
+        $dup->setName($this->name . ' (Copy)');
+        $dup->setEnabled(false);
+        $dup = $dup->save();
+        if (!is_null($dup)) {
+            /** @var PostTranslation $trans */
+            foreach (self::getPostTranslations() as $trans) {
+                $trans->setPostTranslationId(0);
+                $trans->setName($trans->getName() . '-copy');
+                $trans->setPost($dup);
+                $tres = $trans->save();
+                if (is_null($tres)) {
+                    $dup->delete();
+                    return null;
+                }
+            }
+            /** @var PostAttribute $attr */
+            foreach (self::getPostAttributes() as $attr) {
+                $attr->setPostAttributeId(0);
+                $attr->setPost($dup);
+                $ares = $attr->save();
+                if (is_null($ares)) {
+                    $dup->delete();
+                    return null;
+                }
+            }
+        } else {
+            return null;
+        }
+        return $dup;
+    }
+
+    /**
      * @return PostTranslation
      * @throws Exception
      */
@@ -305,6 +344,24 @@ class Post extends DbModel
     public function getPostTranslation(Language $language): PostTranslation
     {
         return PostTranslation::getPostTranslation($this, $language);
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function getPostTranslations(): array
+    {
+        return PostTranslation::getPostTranslations($this);
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function getPostAttributes(): array
+    {
+        return PostAttribute::getPostAttributes($this);
     }
 
     /**

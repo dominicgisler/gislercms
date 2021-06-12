@@ -398,7 +398,7 @@ msgstr ""
 #: templates/admin/misc/system/migration.twig:227
 #: templates/admin/misc/system/backup.twig:200
 #: templates/admin/content.twig:243
-#: templates/admin/post/edit.twig:384
+#: templates/admin/post/edit.twig:389
 msgid "Abbrechen"
 msgstr ""
 
@@ -473,7 +473,7 @@ msgstr ""
 #: templates/admin/misc/profile.twig:123
 #: templates/admin/misc/system/config.twig:171
 #: templates/admin/misc/system/mailer.twig:135
-#: templates/admin/post/edit.twig:344
+#: templates/admin/post/edit.twig:349
 msgid "Speichern"
 msgstr ""
 
@@ -691,7 +691,7 @@ msgstr ""
 
 #: templates/admin/widget/edit.twig:335
 #: templates/admin/page/edit.twig:390
-#: templates/admin/post/edit.twig:334
+#: templates/admin/post/edit.twig:339
 msgid "Endgültig löschen"
 msgstr ""
 
@@ -700,7 +700,7 @@ msgstr ""
 #: templates/admin/misc/language/edit.twig:100
 #: templates/admin/misc/user/edit.twig:139
 #: templates/admin/misc/trash.twig:135
-#: templates/admin/post/edit.twig:336
+#: templates/admin/post/edit.twig:341
 msgid "Löschen"
 msgstr ""
 
@@ -709,7 +709,7 @@ msgstr ""
 #: templates/admin/page/edit.twig:398
 #: templates/admin/page/edit.twig:509
 #: templates/admin/misc/trash.twig:131
-#: templates/admin/post/edit.twig:342
+#: templates/admin/post/edit.twig:347
 msgid "Wiederherstellen"
 msgstr ""
 
@@ -1282,19 +1282,19 @@ msgstr ""
 msgid "Titelbild, wird z.B. beim Teilen auf Facebook dargestellt, von Seite übernommen, falls leer"
 msgstr ""
 
-#: templates/admin/post/edit.twig:357
+#: templates/admin/post/edit.twig:362
 msgid "Beitrag löschen"
 msgstr ""
 
-#: templates/admin/post/edit.twig:369
+#: templates/admin/post/edit.twig:374
 msgid "Möchtest du den Beitrag wirklich unwiderruflich löschen?"
 msgstr ""
 
-#: templates/admin/post/edit.twig:375
+#: templates/admin/post/edit.twig:380
 msgid "Möchtest du den Beitrag wirklich löschen?"
 msgstr ""
 
-#: templates/admin/post/edit.twig:388
+#: templates/admin/post/edit.twig:393
 msgid "Ja, Beitrag löschen"
 msgstr ""
 
@@ -1791,5 +1791,10 @@ msgid "Ja, Design löschen"
 msgstr ""
 
 #: templates/admin/page/edit.twig:385
+#: templates/admin/post/edit.twig:334
 msgid "Duplizieren"
+msgstr ""
+
+#: templates/trans-keys.twig:290
+msgid "Korrekte Verknüpfung der Post-Attribute"
 msgstr ""

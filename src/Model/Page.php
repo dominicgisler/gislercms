@@ -250,6 +250,7 @@ class Page extends DbModel
         $dup = self::get($this->pageId);
         $dup->setPageId(0);
         $dup->setName($this->name . ' (Copy)');
+        $dup->setEnabled(false);
         $dup = $dup->save();
         if (!is_null($dup)) {
             /** @var PageTranslation $trans */
