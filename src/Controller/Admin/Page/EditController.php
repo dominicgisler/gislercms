@@ -167,33 +167,16 @@ class EditController extends AbstractController
                         $msg = 'save_error';
                     } else {
                         $pid = $page->getPageId();
-                        $pname = $page->getName();
-                        $ptrans = $page->getPageTranslations();
                         if (!is_null($request->getParsedBodyParam('duplicate'))) {
-                            $page->setPageId(0);
-                            $page->setName($pname . ' (Copy)');
-                            $res = $page->save();
+                            $res = $page->duplicate();
                             if (!is_null($res)) {
                                 $pid = $res->getPageId();
-                                /** @var PageTranslation $trans */
-                                foreach ($ptrans as $trans) {
-                                    $trans->setPageTranslationId(0);
-                                    $trans->setName($trans->getName() . '-copy');
-                                    $trans->setPage($res);
-                                    $tres = $trans->save();
-                                    if (is_null($tres)) {
-                                        $res->delete();
-                                        $saveError = true;
-                                    }
-                                }
                             } else {
                                 $saveError = true;
                             }
                         }
 
                         if ($saveError) {
-                            $page->setPageId($pid);
-                            $page->setName($pname);
                             $msg = 'save_error';
                         } else {
                             $cont->offsetSet('page_saved', true);

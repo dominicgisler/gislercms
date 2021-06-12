@@ -242,6 +242,34 @@ class Page extends DbModel
     }
 
     /**
+     * @return Page|null
+     * @throws Exception
+     */
+    public function duplicate(): ?Page
+    {
+        $dup = self::get($this->pageId);
+        $dup->setPageId(0);
+        $dup->setName($this->name . ' (Copy)');
+        $dup = $dup->save();
+        if (!is_null($dup)) {
+            /** @var PageTranslation $trans */
+            foreach (self::getPageTranslations() as $trans) {
+                $trans->setPageTranslationId(0);
+                $trans->setName($trans->getName() . '-copy');
+                $trans->setPage($dup);
+                $tres = $trans->save();
+                if (is_null($tres)) {
+                    $dup->delete();
+                    return null;
+                }
+            }
+        } else {
+            return null;
+        }
+        return $dup;
+    }
+
+    /**
      * @return PageTranslation
      * @throws Exception
      */
