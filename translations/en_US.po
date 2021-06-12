@@ -238,14 +238,14 @@ msgstr "Language"
 msgid "Parameter"
 msgstr "Parameter"
 
-#: templates/admin/stats/visits.twig:80
+#: templates/admin/stats/visits.twig:84
 #: templates/admin/stats/sessions.twig:73
 #: templates/admin/stats/clients.twig:50
 #: templates/admin/index.twig:115
 msgid "Besucher"
 msgstr "Visitors"
 
-#: templates/admin/stats/visits.twig:84
+#: templates/admin/stats/visits.twig:88
 msgid "Besuch"
 msgstr "Visit"
 
@@ -1871,3 +1871,11 @@ msgstr "Do you really want to delete the redirect irrevocably?"
 #: templates/admin/redirect/edit.twig:155
 msgid "Ja, Weiterleitung löschen"
 msgstr "Yes, delete redirect"
+
+#: templates/trans-keys.twig:294
+msgid "Ergänzt visit-Tabelle mit Weiterleitung"
+msgstr "Complements visit table with redirect"
+
+#: templates/admin/stats/visits.twig:80
+msgid "Weiterleitung"
+msgstr "Redirect"

@@ -238,14 +238,14 @@ msgstr ""
 msgid "Parameter"
 msgstr ""
 
-#: templates/admin/stats/visits.twig:80
+#: templates/admin/stats/visits.twig:84
 #: templates/admin/stats/sessions.twig:73
 #: templates/admin/stats/clients.twig:50
 #: templates/admin/index.twig:115
 msgid "Besucher"
 msgstr ""
 
-#: templates/admin/stats/visits.twig:84
+#: templates/admin/stats/visits.twig:88
 msgid "Besuch"
 msgstr ""
 
@@ -1870,4 +1870,12 @@ msgstr ""
 
 #: templates/admin/redirect/edit.twig:155
 msgid "Ja, Weiterleitung löschen"
+msgstr ""
+
+#: templates/trans-keys.twig:294
+msgid "Ergänzt visit-Tabelle mit Weiterleitung"
+msgstr ""
+
+#: templates/admin/stats/visits.twig:80
+msgid "Weiterleitung"
 msgstr ""
