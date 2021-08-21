@@ -44,6 +44,10 @@ class ContactModuleController extends AbstractModuleController
             'email' => 'max.muster@example.com',
             'name' => 'Max Muster'
         ],
+        'reply_to' => [
+            'email' => 'email',
+            'name' => 'name'
+        ],
         'subject' => 'Anfrage',
         'elements' => [
             'name' => [
@@ -223,11 +227,20 @@ class ContactModuleController extends AbstractModuleController
             $to = $this->config['to'];
             $subject = $this->config['subject'];
 
+            $replyMail = $this->config['reply_to']['email'] ?: '';
+            $replyName = $this->config['reply_to']['name'] ?: '';
+
             $message = $subject . PHP_EOL . PHP_EOL;
             foreach ($postData as $key => $input) {
                 if ($elems[$key]) {
                     $label = !empty($elems[$key]['label']) ? $elems[$key]['label'] : $key;
                     $message .= $label . ': ' . $input . PHP_EOL;
+                    if (!empty($replyMail) && $key == $replyMail) {
+                        $replyMail = $input;
+                    }
+                    if (!empty($replyName) && $key == $replyName) {
+                        $replyName = $input;
+                    }
                 }
             }
 
@@ -236,6 +249,10 @@ class ContactModuleController extends AbstractModuleController
             $mailer->addAddress($to['email'], $to['name']);
             $mailer->Subject = $subject;
             $mailer->Body = $message;
+
+            if (!empty($replyMail)) {
+                $mailer->addReplyTo($replyMail, $replyName);
+            }
 
             if ($mailer->send()) {
                 $postData = [];
