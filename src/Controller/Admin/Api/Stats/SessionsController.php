@@ -40,10 +40,14 @@ class SessionsController extends AbstractController
         $orderCol = $columns[$order['column']]['data'];
         $orderDir = $order['dir'];
 
+        $search = '%' . $search . '%';
+        $recordsTotal = sizeof(Session::getAll());
         if ($id > 0) {
-            $sessions = Session::getWhere(sprintf('`fk_client_id` = ? ORDER BY %s %s LIMIT %d, %d', $orderCol, $orderDir, $start, $length), [$id]);
+            $recordsFiltered = sizeof(Session::getWhere('`fk_client_id` = ? AND (platform LIKE ? OR browser LIKE ? OR user_agent LIKE ?)', [$search, $search, $search, $id]));
+            $sessions = Session::getWhere(sprintf('`fk_client_id` = ? AND (platform LIKE ? OR browser LIKE ? OR user_agent LIKE ?) ORDER BY %s %s LIMIT %d, %d', $orderCol, $orderDir, $start, $length), [$id, $search, $search, $search]);
         } else {
-            $sessions = Session::getWhere(sprintf('1 ORDER BY %s %s LIMIT %d, %d', $orderCol, $orderDir, $start, $length));
+            $recordsFiltered = sizeof(Session::getWhere('(platform LIKE ? OR browser LIKE ? OR user_agent LIKE ?)', [$search, $search, $search]));
+            $sessions = Session::getWhere(sprintf('(platform LIKE ? OR browser LIKE ? OR user_agent LIKE ?) ORDER BY %s %s LIMIT %d, %d', $orderCol, $orderDir, $start, $length), [$search, $search, $search]);
         }
 
         $adminURL = $this->get('base_url') . $this->get('settings')['global']['admin_route'];
@@ -58,16 +62,21 @@ class SessionsController extends AbstractController
                 'session_id' => $session->getSessionId(),
                 'created_at' => date('d.m.Y H:i:s', strtotime($session->getCreatedAt())),
                 'updated_at' => date('d.m.Y H:i:s', strtotime($session->getUpdatedAt())),
-                'client_id' => sprintf('<a href="%s/stats/sessions/%d">#%s</a>', $adminURL, $session->getClient()->getClientId(), $session->getClient()->getClientId()),
+                'client_id' => sprintf('<a href="%s/stats/sessions/%d">#%d</a>', $adminURL, $session->getClient()->getClientId(), $session->getClient()->getClientId()),
                 'ip' => sprintf('<a href="https://ipinfo.io/%s" target="_blank">%s</a>', $session->getIp(), $session->getIp()),
                 'platform' => $session->getPlatform(),
                 'browser' => $session->getBrowser(),
                 'user_agent' => $session->getUserAgent(),
                 'duration' => $duration,
-                'visits' => sizeof(Visit::getWhere('`fk_session_id` = ?', [$session->getSessionId()]))
+                'visits' => sprintf('<a href="%s/stats/visits/%d">%d</a>', $adminURL, $session->getSessionId(), sizeof(Visit::getWhere('`fk_session_id` = ?', [$session->getSessionId()])))
             ];
         }
 
-        return $response->withJson(['data' => $stats]);
+        return $response->withJson([
+            'draw' => $draw,
+            'data' => $stats,
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered
+        ]);
     }
 }

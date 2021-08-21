@@ -3,17 +3,19 @@
 {% block title %}{{ 'Besucher'|trans }}{% endblock %}
 
 {% block content %}
-    <table class="table table-bordered table-responsive-xs" data-order='[[ 0, "desc" ]]' data-search="0" id="table-clients">
+    <div class="mb-4">
+        <table class="table table-bordered table-responsive-xs " data-order='[[ 0, "desc" ]]' data-searching="false" id="table-clients">
             <thead>
-                <tr>
-                    <th>#</th>
-                    <th>{{ 'Erster Besuch'|trans }}</th>
-                    <th>{{ 'Letzter Besuch'|trans }}</th>
-                    <th>{{ 'Besuche'|trans }}</th>
-                    <th>{{ 'Echter Besucher'|trans }}</th>
-                </tr>
+            <tr>
+                <th>#</th>
+                <th>{{ 'Erster Besuch'|trans }}</th>
+                <th>{{ 'Letzter Besuch'|trans }}</th>
+                <th>{{ 'Besuche'|trans }}</th>
+                <th>{{ 'Echter Besucher'|trans }}</th>
+            </tr>
             </thead>
-    </table>
+        </table>
+    </div>
 {% endblock %}
 
 {% block scripts %}
@@ -24,16 +26,19 @@
         {% set url = admin_url ~ '/api/stats/clients' %}
     {% endif %}
     <script>
-        $('#table-clients').DataTable( {
+        $('#table-clients').DataTable({
+            language: {
+                url: BASE_URL + '/js/dataTables/' + TRANS_LOCALE + '.json'
+            },
             ajax: '{{ url }}',
             columns: [
-                { data: 'client_id', searchable: false },
-                { data: 'created_at', searchable: false },
-                { data: 'updated_at', searchable: false },
-                { data: 'sessions', orderable: false, searchable: false },
-                { data: 'real', orderable: false, searchable: false },
+                { data: 'client_id' },
+                { data: 'created_at' },
+                { data: 'updated_at' },
+                { data: 'sessions', orderable: false },
+                { data: 'real', orderable: false }
             ],
             serverSide: true,
-        } );
+        });
     </script>
 {% endblock %}

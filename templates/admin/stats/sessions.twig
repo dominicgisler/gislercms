@@ -3,22 +3,24 @@
 {% block title %}{{ 'Seitenbesuche'|trans }}{% endblock %}
 
 {% block content %}
-    <table class="table table-bordered table-responsive" data-order='[[ 0, "desc" ]]' id="sessions">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>{{ 'Zeitpunkt von'|trans }}</th>
-            <th>{{ 'Zeitpunkt bis'|trans }}</th>
-            <th>{{ 'Besucher'|trans }}</th>
-            <th>{{ 'IP'|trans }}</th>
-            <th>{{ 'Betriebssystem'|trans }}</th>
-            <th>{{ 'Browser'|trans }}</th>
-            <th>{{ 'User Agent'|trans }}</th>
-            <th>{{ 'Dauer (hh:mm:ss)'|trans }}</th>
-            <th>{{ 'Seitenaufrufe'|trans }}</th>
-        </tr>
-        </thead>
-    </table>
+    <div class="mb-4">
+        <table class="table table-bordered table-responsive" data-order='[[ 0, "desc" ]]' id="sessions">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>{{ 'Zeitpunkt von'|trans }}</th>
+                <th>{{ 'Zeitpunkt bis'|trans }}</th>
+                <th>{{ 'Besucher'|trans }}</th>
+                <th>{{ 'IP'|trans }}</th>
+                <th>{{ 'Betriebssystem'|trans }}</th>
+                <th>{{ 'Browser'|trans }}</th>
+                <th>{{ 'User Agent'|trans }}</th>
+                <th>{{ 'Dauer (hh:mm:ss)'|trans }}</th>
+                <th>{{ 'Seitenaufrufe'|trans }}</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
 {% endblock %}
 
 {% block scripts %}
@@ -30,6 +32,9 @@
             {% set url = admin_url ~ '/api/stats/sessions' %}
         {% endif %}
         $('#sessions').DataTable( {
+            language: {
+                url: BASE_URL + '/js/dataTables/' + TRANS_LOCALE + '.json'
+            },
             ajax: '{{ url }}',
             columns: [
                 { data: 'session_id' },
@@ -41,7 +46,7 @@
                 { data: 'browser' },
                 { data: 'user_agent' },
                 { data: 'duration', orderable: false },
-                { data: 'visits', orderable: false },
+                { data: 'visits', orderable: false }
             ],
             serverSide: true,
         } );
