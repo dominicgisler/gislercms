@@ -28,13 +28,25 @@ class SessionsController extends AbstractController
     public function __invoke(Request $request, Response $response): Response
     {
         $id = (int) $request->getAttribute('route')->getArgument('id');
-        if ($id > 0) {
-            $sessions = Session::getWhere('`fk_client_id` = ?', [$id]);
-        } else {
-            $sessions = Session::getAll();
-        }
         $stats = [];
 
+        $draw = $request->getQueryParam('draw');
+        $start = intval($request->getQueryParam('start'));
+        $length = intval($request->getQueryParam('length'));
+        $search = $request->getQueryParam('search')['value'];
+        $columns = $request->getQueryParam('columns');
+        $order = $request->getQueryParam('order')[0];
+
+        $orderCol = $columns[$order['column']]['data'];
+        $orderDir = $order['dir'];
+
+        if ($id > 0) {
+            $sessions = Session::getWhere(sprintf('`fk_client_id` = ? ORDER BY %s %s LIMIT %d, %d', $orderCol, $orderDir, $start, $length), [$id]);
+        } else {
+            $sessions = Session::getWhere(sprintf('1 ORDER BY %s %s LIMIT %d, %d', $orderCol, $orderDir, $start, $length));
+        }
+
+        $adminURL = $this->get('base_url') . $this->get('settings')['global']['admin_route'];
         foreach ($sessions as $session) {
             $time = strtotime($session->getUpdatedAt()) - strtotime($session->getCreatedAt());
             $hours = round($time / 3600);
@@ -44,10 +56,10 @@ class SessionsController extends AbstractController
 
             $stats[] = [
                 'session_id' => $session->getSessionId(),
-                'created_at' => $session->getCreatedAt(),
-                'updated_at' => $session->getUpdatedAt(),
-                'client_id' => $session->getClient()->getClientId(),
-                'ip' => $session->getIp(),
+                'created_at' => date('d.m.Y H:i:s', strtotime($session->getCreatedAt())),
+                'updated_at' => date('d.m.Y H:i:s', strtotime($session->getUpdatedAt())),
+                'client_id' => sprintf('<a href="%s/stats/sessions/%d">#%s</a>', $adminURL, $session->getClient()->getClientId(), $session->getClient()->getClientId()),
+                'ip' => sprintf('<a href="https://ipinfo.io/%s" target="_blank">%s</a>', $session->getIp(), $session->getIp()),
                 'platform' => $session->getPlatform(),
                 'browser' => $session->getBrowser(),
                 'user_agent' => $session->getUserAgent(),

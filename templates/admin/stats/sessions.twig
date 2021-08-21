@@ -3,7 +3,7 @@
 {% block title %}{{ 'Seitenbesuche'|trans }}{% endblock %}
 
 {% block content %}
-    <table class="table table-bordered table-responsive datatable" data-order='[[ 0, "desc" ]]' id="sessions">
+    <table class="table table-bordered table-responsive" data-order='[[ 0, "desc" ]]' id="sessions">
         <thead>
         <tr>
             <th>#</th>
@@ -11,7 +11,6 @@
             <th>{{ 'Zeitpunkt bis'|trans }}</th>
             <th>{{ 'Besucher'|trans }}</th>
             <th>{{ 'IP'|trans }}</th>
-            <th data-sortable="false">{{ 'Land'|trans }}</th>
             <th>{{ 'Betriebssystem'|trans }}</th>
             <th>{{ 'Browser'|trans }}</th>
             <th>{{ 'User Agent'|trans }}</th>
@@ -19,47 +18,32 @@
             <th>{{ 'Seitenaufrufe'|trans }}</th>
         </tr>
         </thead>
-        <tbody>
-        {% for ses in stats %}
-            <tr>
-                <td>{{ ses.session_id }}</td>
-                <td data-order="{{ ses.created_at }}">{{ ses.created_at|date('d.m.Y H:i:s') }}</td>
-                <td data-order="{{ ses.updated_at }}">{{ ses.updated_at|date('d.m.Y H:i:s') }}</td>
-                <td><a href="{{ admin_url }}/stats/sessions/{{ ses.client_id }}">#{{ ses.client_id }}</a></td>
-                <td class="ip">{{ ses.ip }}</td>
-                <td class="country">-</td>
-                <td>{{ ses.platform ?: 'Unbekannt'|trans }}</td>
-                <td>{{ ses.browser ?: 'Unbekannt'|trans }}</td>
-                <td>{{ ses.user_agent }}</td>
-                <td>{{ ses.duration }}</td>
-                <td><a href="{{ admin_url }}/stats/visits/{{ ses.session_id }}">{{ ses.visits }}</a></td>
-            </tr>
-        {% endfor %}
-        </tbody>
     </table>
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
     <script>
-        var ips = [];
-        setInterval(function () {
-            $('#sessions tbody tr').each(function () {
-                var ip = $(this).find('td.ip').text();
-                var $country = $(this).find('td.country');
-                if (ips[ip]) {
-                    if ($country.text() !== ips[ip].country) {
-                        $country.text(ips[ip].country);
-                    }
-                } else {
-                    ips[ip] = {country: '-'};
-                    $.get('https://ipinfo.io/' + ip + '/geo', function (data) {
-                        if (data.country) {
-                            ips[ip].country = data.country;
-                        }
-                    });
-                }
-            });
-        }, 1000);
+        {% if id %}
+            {% set url = admin_url ~ '/api/stats/sessions/' ~ id %}
+        {% else %}
+            {% set url = admin_url ~ '/api/stats/sessions' %}
+        {% endif %}
+        $('#sessions').DataTable( {
+            ajax: '{{ url }}',
+            columns: [
+                { data: 'session_id' },
+                { data: 'created_at' },
+                { data: 'updated_at' },
+                { data: 'client_id' },
+                { data: 'ip' },
+                { data: 'platform' },
+                { data: 'browser' },
+                { data: 'user_agent' },
+                { data: 'duration', orderable: false },
+                { data: 'visits', orderable: false },
+            ],
+            serverSide: true,
+        } );
     </script>
 {% endblock %}

@@ -28,36 +28,9 @@ class SessionsController extends AbstractController
     public function __invoke(Request $request, Response $response): Response
     {
         $id = (int) $request->getAttribute('route')->getArgument('id');
-        if ($id > 0) {
-            $sessions = Session::getWhere('`fk_client_id` = ?', [$id]);
-        } else {
-            $sessions = Session::getAll();
-        }
-        $stats = [];
-
-        foreach ($sessions as $session) {
-            $time = strtotime($session->getUpdatedAt()) - strtotime($session->getCreatedAt());
-            $hours = round($time / 3600);
-            $mins = round(($time % 3600) / 60);
-            $secs = ($time % 3600 % 60);
-            $duration = ($hours < 10 ? '0' . $hours : $hours) . ':' . ($mins < 10 ? '0' . $mins : $mins) . ':' . ($secs < 10 ? '0' . $secs : $secs);
-
-            $stats[] = [
-                'session_id' => $session->getSessionId(),
-                'created_at' => $session->getCreatedAt(),
-                'updated_at' => $session->getUpdatedAt(),
-                'client_id' => $session->getClient()->getClientId(),
-                'ip' => $session->getIp(),
-                'platform' => $session->getPlatform(),
-                'browser' => $session->getBrowser(),
-                'user_agent' => $session->getUserAgent(),
-                'duration' => $duration,
-                'visits' => sizeof(Visit::getWhere('`fk_session_id` = ?', [$session->getSessionId()]))
-            ];
-        }
 
         return $this->render($request, $response, 'admin/stats/sessions.twig', [
-            'stats' => $stats
+            'id' => $id
         ]);
     }
 }
