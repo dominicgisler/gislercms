@@ -89,7 +89,10 @@ return [
                 \GislerCMS\Controller\Admin\Module\ListController::class,
                 \GislerCMS\Controller\Admin\Module\ManageController::class,
                 \GislerCMS\Controller\Admin\Redirect\ListController::class,
-                \GislerCMS\Controller\Admin\Redirect\EditController::class
+                \GislerCMS\Controller\Admin\Redirect\EditController::class,
+                \GislerCMS\Controller\Admin\Api\Stats\ClientsController::class,
+                \GislerCMS\Controller\Admin\Api\Stats\VisitsController::class,
+                \GislerCMS\Controller\Admin\Api\Stats\SessionsController::class
             ],
             'require_nologin' => [
                 \GislerCMS\Controller\Admin\Auth\LoginController::class,

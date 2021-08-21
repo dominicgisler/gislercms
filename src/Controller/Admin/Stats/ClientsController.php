@@ -28,25 +28,9 @@ class ClientsController extends AbstractController
     public function __invoke(Request $request, Response $response): Response
     {
         $opt = $request->getAttribute('route')->getArgument('option');
-        if ($opt == 'real') {
-            $clients = Client::getWhere('`created_at` != `updated_at`');
-        } else {
-            $clients = Client::getAll();
-        }
-        $stats = [];
-
-        foreach ($clients as $client) {
-            $stats[] = [
-                'client_id' => $client->getClientId(),
-                'created_at' => $client->getCreatedAt(),
-                'updated_at' => $client->getUpdatedAt(),
-                'sessions' => sizeof(Session::getWhere('`fk_client_id` = ?', [$client->getClientId()])),
-                'real' => $client->getCreatedAt() != $client->getUpdatedAt()
-            ];
-        }
 
         return $this->render($request, $response, 'admin/stats/clients.twig', [
-            'stats' => $stats
+            'opt' => $opt
         ]);
     }
 }

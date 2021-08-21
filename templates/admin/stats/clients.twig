@@ -3,32 +3,37 @@
 {% block title %}{{ 'Besucher'|trans }}{% endblock %}
 
 {% block content %}
-    <table class="table table-bordered table-responsive-xs datatable" data-order='[[ 0, "desc" ]]' id="sessions">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>{{ 'Erster Besuch'|trans }}</th>
-            <th>{{ 'Letzter Besuch'|trans }}</th>
-            <th>{{ 'Besuche'|trans }}</th>
-            <th>{{ 'Echter Besucher'|trans }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for cl in stats %}
-            <tr>
-                <td>{{ cl.client_id }}</td>
-                <td data-order="{{ cl.created_at }}">{{ cl.created_at|date('d.m.Y H:i:s') }}</td>
-                <td data-order="{{ cl.updated_at }}">{{ cl.updated_at|date('d.m.Y H:i:s') }}</td>
-                <td><a href="{{ admin_url }}/stats/sessions/{{ cl.client_id }}">{{ cl.sessions }}</a></td>
-                <td>
-                    {% if cl.real %}
-                        <i class="fa fa-check text-success"></i>
-                    {% else %}
-                        <i class="fa fa-times text-danger"></i>
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
+    <table class="table table-bordered table-responsive-xs" data-order='[[ 0, "desc" ]]' data-search="0" id="table-clients">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{{ 'Erster Besuch'|trans }}</th>
+                    <th>{{ 'Letzter Besuch'|trans }}</th>
+                    <th>{{ 'Besuche'|trans }}</th>
+                    <th>{{ 'Echter Besucher'|trans }}</th>
+                </tr>
+            </thead>
     </table>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    {% if opt %}
+        {% set url = admin_url ~ '/api/stats/clients/' ~ opt %}
+    {% else %}
+        {% set url = admin_url ~ '/api/stats/clients' %}
+    {% endif %}
+    <script>
+        $('#table-clients').DataTable( {
+            ajax: '{{ url }}',
+            columns: [
+                { data: 'client_id', searchable: false },
+                { data: 'created_at', searchable: false },
+                { data: 'updated_at', searchable: false },
+                { data: 'sessions', orderable: false, searchable: false },
+                { data: 'real', orderable: false, searchable: false },
+            ],
+            serverSide: true,
+        } );
+    </script>
 {% endblock %}
