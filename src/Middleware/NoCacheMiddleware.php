@@ -1,0 +1,43 @@
+<?php
+
+namespace GislerCMS\Middleware;
+
+use Exception;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
+/**
+ * Class NoCacheMiddleware
+ * @package GislerCMS\Middleware
+ */
+class NoCacheMiddleware
+{
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * @param ContainerInterface $container
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
+     * @param  ServerRequestInterface|Request $request  PSR7 request
+     * @param  ResponseInterface|Response     $response PSR7 response
+     * @param callable $next     Next middleware
+     *
+     * @return ResponseInterface|Response
+     * @throws Exception
+     */
+    public function __invoke($request, $response, callable $next)
+    {
+        return $next($request, $response->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Pragma', 'no-cache'));
+    }
+}

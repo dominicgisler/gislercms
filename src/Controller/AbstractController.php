@@ -74,7 +74,7 @@ abstract class AbstractController
             'module' => new Module()
         ];
         return $this->get('view')->render(
-            $response->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Pragma', 'no-cache'),
+            $response,
             $template,
             array_merge($arr, $data)
         );

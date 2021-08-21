@@ -3,6 +3,7 @@
 namespace GislerCMS;
 
 use Exception;
+use GislerCMS\Middleware\NoCacheMiddleware;
 use GislerCMS\TwigExtension\TwigFileExists;
 use GislerCMS\TwigExtension\TwigGlob;
 use GislerCMS\Middleware\LoginMiddleware;
@@ -171,15 +172,22 @@ class Application
         foreach ($classes['require_login'] as $class) {
             $this->app->map($class::METHODS, str_replace('{admin_route}', $adminRoute, $class::PATTERN), $class)
                 ->add(LoginMiddleware::class)
+                ->add(NoCacheMiddleware::class)
                 ->setName($class::NAME);
         }
         foreach ($classes['require_nologin'] as $class) {
             $this->app->map($class::METHODS, str_replace('{admin_route}', $adminRoute, $class::PATTERN), $class)
                 ->add(NoLoginMiddleware::class)
+                ->add(NoCacheMiddleware::class)
                 ->setName($class::NAME);
         }
         foreach ($classes['default'] as $class) {
             $this->app->map($class::METHODS, str_replace('{admin_route}', $adminRoute, $class::PATTERN), $class)->setName($class::NAME);
+        }
+        foreach ($classes['default_nocache'] as $class) {
+            $this->app->map($class::METHODS, str_replace('{admin_route}', $adminRoute, $class::PATTERN), $class)
+                ->add(NoCacheMiddleware::class)
+                ->setName($class::NAME);
         }
     }
 

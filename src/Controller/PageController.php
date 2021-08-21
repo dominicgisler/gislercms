@@ -45,10 +45,7 @@ class PageController extends AbstractController
             if (substr($redirect->getLocation(), 0, 7) === 'http://' || substr($redirect->getLocation(), 0, 8) === 'https://') {
                 $url = $redirect->getLocation();
             }
-            return $response
-                ->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
-                ->withHeader('Pragma', 'no-cache')
-                ->withRedirect($url, 301);
+            return $response->withRedirect($url, 301);
         }
 
         $page = PageTranslation::getByName($name, Language::getLanguage($locale));
