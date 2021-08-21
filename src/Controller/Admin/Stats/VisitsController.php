@@ -27,14 +27,9 @@ class VisitsController extends AbstractController
     public function __invoke(Request $request, Response $response): Response
     {
         $id = (int) $request->getAttribute('route')->getArgument('id');
-        if ($id > 0) {
-            $visits = Visit::getWhere('`fk_session_id` = ?', [$id]);
-        } else {
-            $visits = Visit::getAll();
-        }
 
         return $this->render($request, $response, 'admin/stats/visits.twig', [
-            'visits' => $visits
+            'id' => $id
         ]);
     }
 }

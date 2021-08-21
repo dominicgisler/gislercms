@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="mb-4">
-        <table class="table table-bordered table-responsive-xs datatable" data-order='[[ 0, "desc" ]]'>
+        <table class="table table-bordered table-responsive-xs" data-order='[[ 0, "desc" ]]' id="visits">
             <thead>
             <tr>
                 <th>#</th>
@@ -17,38 +17,34 @@
                 <th>{{ 'Besuch'|trans }}</th>
             </tr>
             </thead>
-            <tbody>
-            {% for vis in visits %}
-                <tr>
-                    <td>{{ vis.getVisitId() }}</td>
-                    <td data-order="{{ vis.getCreatedAt() }}">{{ vis.getCreatedAt()|date('d.m.Y H:i:s') }}</td>
-                    <td>
-                        {% if vis.getPageTranslation().getPageTranslationId() > 0 %}
-                            <a href="{{ admin_url }}/page/{{ vis.getPageTranslation().getPage().getPageId() }}">{{ vis.getPageTranslation().getPage().getName() }}</a>
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if vis.getPageTranslation().getPageTranslationId() > 0 %}
-                            {{ vis.getPageTranslation().getLanguage().getDescription() }}
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                    <td>{{ vis.getArguments() }}</td>
-                    <td>
-                        {% if vis.getRedirect().getRedirectId() > 0 %}
-                            <a href="{{ admin_url }}/redirect/{{ vis.getRedirect().getRedirectId() }}">{{ vis.getRedirect().getName() }}</a>
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                    <td><a href="{{ admin_url }}/stats/sessions/{{ vis.getSession().getClient().getClientId() }}">#{{ vis.getSession().getClient().getClientId() }}</a></td>
-                    <td><a href="{{ admin_url }}/stats/visits/{{ vis.getSession().getSessionId() }}">#{{ vis.getSession().getSessionId() }}</a></td>
-                </tr>
-            {% endfor %}
-            </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script>
+        {% if id %}
+            {% set url = admin_url ~ '/api/stats/visits/' ~ id %}
+        {% else %}
+            {% set url = admin_url ~ '/api/stats/visits' %}
+        {% endif %}
+        $('#visits').DataTable( {
+            language: {
+                url: BASE_URL + '/js/dataTables/' + TRANS_LOCALE + '.json'
+            },
+            ajax: '{{ url }}',
+            columns: [
+                { data: 'visit_id' },
+                { data: 'created_at' },
+                { data: 'page_id' },
+                { data: 'language_id' },
+                { data: 'arguments' },
+                { data: 'redirect_id' },
+                { data: 'client_id', orderable: false },
+                { data: 'session_id' }
+            ],
+            serverSide: true,
+        } );
+    </script>
 {% endblock %}
