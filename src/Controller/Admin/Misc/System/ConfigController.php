@@ -181,6 +181,17 @@ class ConfigController extends AbstractController
                         'haystack' => [0, 1, 3, 6, 12, 24, 168, 720]
                     ])
                 ]
+            ],
+            [
+                'name' => 'backup_count',
+                'required' => true,
+                'filters' => [],
+                'validators' => [
+                    new Between([
+                        'min' => 1,
+                        'max' => 1000
+                    ])
+                ]
             ]
         ]);
     }

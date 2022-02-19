@@ -213,17 +213,17 @@ msgstr "Our website is currently undergoing maintenance and is therefore unavail
 msgid "Bitte schauen Sie später erneut vorbei!"
 msgstr "Please check back later!"
 
-#: templates/admin/stats/visits.twig:64
+#: templates/admin/stats/visits.twig:66
 #: templates/admin/misc/system/backup.twig:88
 msgid "Zeitpunkt"
 msgstr "Date"
 
-#: templates/admin/stats/visits.twig:68
+#: templates/admin/stats/visits.twig:70
 #: templates/admin/misc/trash.twig:44
 msgid "Seite"
 msgstr "Page"
 
-#: templates/admin/stats/visits.twig:72
+#: templates/admin/stats/visits.twig:74
 #: templates/admin/index.twig:191
 #: templates/admin/misc/language/list.twig:70
 #: templates/admin/misc/language/edit.twig:87
@@ -233,19 +233,19 @@ msgstr "Page"
 msgid "Sprache"
 msgstr "Language"
 
-#: templates/admin/stats/visits.twig:76
+#: templates/admin/stats/visits.twig:78
 #: templates/admin/index.twig:195
 msgid "Parameter"
 msgstr "Parameter"
 
-#: templates/admin/stats/visits.twig:84
-#: templates/admin/stats/sessions.twig:73
-#: templates/admin/stats/clients.twig:50
+#: templates/admin/stats/visits.twig:86
+#: templates/admin/stats/sessions.twig:74
+#: templates/admin/stats/clients.twig:51
 #: templates/admin/index.twig:115
 msgid "Besucher"
 msgstr "Visitors"
 
-#: templates/admin/stats/visits.twig:88
+#: templates/admin/stats/visits.twig:90
 msgid "Besuch"
 msgstr "Visit"
 
@@ -254,67 +254,61 @@ msgstr "Visit"
 msgid "Seitenbesuche"
 msgstr "Page visits"
 
-#: templates/admin/stats/sessions.twig:65
+#: templates/admin/stats/sessions.twig:66
 msgid "Zeitpunkt von"
 msgstr "Date from"
 
-#: templates/admin/stats/sessions.twig:69
+#: templates/admin/stats/sessions.twig:70
 msgid "Zeitpunkt bis"
 msgstr "Date until"
 
-#: templates/admin/stats/sessions.twig:77
+#: templates/admin/stats/sessions.twig:78
 msgid "IP"
 msgstr "IP"
 
-#: templates/admin/stats/sessions.twig:81
-msgid "Land"
-msgstr "Country"
-
-#: templates/admin/stats/sessions.twig:85
+#: templates/admin/stats/sessions.twig:82
 msgid "Betriebssystem"
 msgstr "Operating system"
 
-#: templates/admin/stats/sessions.twig:89
+#: templates/admin/stats/sessions.twig:86
 #: templates/admin/index.twig:297
 msgid "Browser"
 msgstr "Browser"
 
-#: templates/admin/stats/sessions.twig:93
+#: templates/admin/stats/sessions.twig:90
 msgid "User Agent"
 msgstr "User Agent"
 
-#: templates/admin/stats/sessions.twig:97
+#: templates/admin/stats/sessions.twig:94
 msgid "Dauer (hh:mm:ss)"
 msgstr "Duration (hh:mm:ss)"
 
-#: templates/admin/stats/sessions.twig:101
+#: templates/admin/stats/sessions.twig:98
 #: templates/admin/index.twig:169
 msgid "Seitenaufrufe"
 msgstr "Page views"
 
-#: templates/admin/stats/sessions.twig:144
-#: templates/admin/stats/sessions.twig:148
 #: templates/admin/index.twig:274
 #: templates/admin/index.twig:322
 msgid "Unbekannt"
 msgstr "Unknown"
 
-#: templates/admin/stats/clients.twig:64
+#: templates/admin/stats/clients.twig:66
 msgid "Erster Besuch"
 msgstr "First visit"
 
-#: templates/admin/stats/clients.twig:68
+#: templates/admin/stats/clients.twig:70
 msgid "Letzter Besuch"
 msgstr "Last visit"
 
-#: templates/admin/stats/clients.twig:72
+#: templates/admin/stats/clients.twig:74
 #: templates/admin/index.twig:260
 #: templates/admin/index.twig:308
 #: templates/admin/index.twig:449
 msgid "Besuche"
 msgstr "Visits"
 
-#: templates/admin/stats/clients.twig:76
+#: templates/admin/stats/clients.twig:78
 msgid "Echter Besucher"
 msgstr "Real visitor"
 
@@ -476,7 +470,7 @@ msgstr "Configuration"
 #: templates/admin/misc/user/edit.twig:143
 #: templates/admin/misc/change-password.twig:96
 #: templates/admin/misc/profile.twig:123
-#: templates/admin/misc/system/config.twig:171
+#: templates/admin/misc/system/config.twig:175
 #: templates/admin/misc/system/mailer.twig:135
 #: templates/admin/post/edit.twig:349
 #: templates/admin/redirect/edit.twig:124
@@ -1876,6 +1870,14 @@ msgstr "Yes, delete redirect"
 msgid "Ergänzt visit-Tabelle mit Weiterleitung"
 msgstr "Complements visit table with redirect"
 
-#: templates/admin/stats/visits.twig:80
+#: templates/admin/stats/visits.twig:82
 msgid "Weiterleitung"
 msgstr "Redirect"
+
+#: templates/admin/misc/system/config.twig:170
+msgid "Maximale Anzahl Backups"
+msgstr "Maximum number of backups"
+
+#: templates/admin/misc/system/config.twig:170
+msgid "Wie viele Backups maximal gespeichert werden sollen, die ältesten Backups werden automatisch gelöscht"
+msgstr "How many backups should be stored at most, the oldest backups are deleted automatically"

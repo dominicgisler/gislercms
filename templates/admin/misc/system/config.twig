@@ -76,6 +76,7 @@
         </div>
         {{ forms.form_group('select', 'interval_stats_refresh', config.interval_stats_refresh, 'Aktualisierung der Statistiken'|trans, '', 'interval_stats_refresh' in errors ? 'is-invalid' : '', 'In welchen Zeitabständen die Statistiken automatisch aktualisiert werden'|trans, intvSelect) }}
         {{ forms.form_group('select', 'interval_backup', config.interval_backup, 'Erstellung von Backups'|trans, '', 'interval_backup' in errors ? 'is-invalid' : '', 'In welchen Zeitabständen automatische Backups erstellt werden'|trans, intv2Select) }}
+        {{ forms.form_group('number', 'backup_count', config.backup_count, 'Maximale Anzahl Backups'|trans, '', 'backup_count' in errors ? 'is-invalid' : '', 'Wie viele Backups maximal gespeichert werden sollen, die ältesten Backups werden automatisch gelöscht'|trans) }}
         <div class="text-right mb-4">
             <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
         </div>
