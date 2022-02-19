@@ -20,7 +20,7 @@ The demo will be reset to the latest release every hour.
 
 ## Global requirements
 
-- PHP 7.3
+- PHP 8.0
 - PDO
 - MySQL or MariaDB
 - Some kind of webserver
