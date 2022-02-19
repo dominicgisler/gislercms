@@ -5,6 +5,7 @@ namespace GislerCMS\Controller\Admin\Misc\System;
 use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Helper\SessionHelper;
+use GislerCMS\Model\Config;
 use Ifsnop\Mysqldump\Mysqldump;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -172,5 +173,17 @@ class BackupController extends AbstractController
 
         $zip->close();
         unlink($dumpFile);
+
+        $delLimit = 5;
+        $maxBackups = Config::getConfig('global', 'backup_count')->getValue();
+        $backups = self::getBackups($rootPath, false);
+        while (sizeof($backups) > $maxBackups && $delLimit-- > 0) {
+            $backup = reset($backups);
+            $path = $backupPath . '/' . $backup['filename'];
+            if (file_exists($path)) {
+                unlink($path);
+            }
+            $backups = self::getBackups($rootPath, false);
+        }
     }
 }
