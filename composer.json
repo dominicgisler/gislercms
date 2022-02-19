@@ -23,7 +23,7 @@
     }
   ],
   "require": {
-    "php": ">=7.3",
+    "php": ">=8.0",
     "ext-pdo": "*",
     "ext-curl": "*",
     "ext-intl": "*",
@@ -39,7 +39,7 @@
     "dominicgisler/gislercms-editor": "dev-master",
     "phpmailer/phpmailer": "^6.0",
     "donatj/phpuseragentparser": "^0.14.0",
-    "dflydev/fig-cookies": "^2.0",
+    "dflydev/fig-cookies": "^3.0",
     "select2/select2": "^4.0",
     "datatables/datatables": "^1.10",
     "nnnick/chartjs": "^2.9",
