@@ -28,12 +28,15 @@ class MigrationHelper
         DbModel::init($pdo);
 
         if ($fresh) {
-            Migration::deleteAll();
+            Migration::drop();
         }
 
         foreach (self::getMigrations() as $migration) {
             if ($error === false) {
-                $m = Migration::getMigration($migration['name']);
+                $m = new Migration();
+                if (!$fresh) {
+                    $m = Migration::getMigration($migration['name']);
+                }
                 if ($m->getMigrationId() === 0) {
                     if ($migration['sql']) {
                         $res = $pdo->exec($migration['sql']);

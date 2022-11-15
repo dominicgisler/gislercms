@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  gislercms:
+    container_name: "gislercms"
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ".:/var/www/html"
+      - "./logs:/var/log/apache2"
+    depends_on:
+      - mariadb
+    links:
+      - mariadb
+  mariadb:
+    container_name: "mariadb"
+    image: "mariadb"
+    restart: unless-stopped
+    ports:
+      - "13306:3306"
+    volumes:
+      - "gcms-data:/var/lib/mysql"
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: yes
+      MARIADB_USER: gcms_user
+      MARIADB_PASSWORD: gcms_pass
+      MARIADB_DATABASE: gcms_data
+
+volumes:
+  gcms-data:

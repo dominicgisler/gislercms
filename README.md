@@ -35,17 +35,31 @@ The demo will be reset to the latest release every hour.
 
 ### Use Source
 
-#### Requirements
+#### Requirements (docker)
 
-- See `Global requirements`
-- npm sass (`npm install -g sass`)
-- npm uglifycss (`npm install -g uglifycss`)
-- [composer](https://getcomposer.org/download/)
+- docker
+- docker-compose
+- make
+
+#### Requirements (native)
+
+- sass
+- minify
+- composer
+- see `Dockerfile` for an example how to install these tools
 
 #### Install
 
 - Download or clone the project
-- Run composer (`composer install`)
+- Use the following commands to build and run the project in a docker container
+- The commands can also be executed without docker, see `makefile`
+
+```bash
+make docker
+make dependencies
+make css
+docker-compose up -d
+```
 
 ### Setup
 

@@ -32,10 +32,10 @@ return [
         ],
 
         'database' => [
-            'host' => 'localhost',
-            'user' => 'root',
-            'pass' => 'root',
-            'data' => 'gislercms'
+            'host' => 'mariadb',
+            'user' => 'gcms_user',
+            'pass' => 'gcms_pass',
+            'data' => 'gcms_data'
         ],
 
         'enable_setup' => true,

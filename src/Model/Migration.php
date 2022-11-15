@@ -168,10 +168,10 @@ class Migration extends DbModel
      * @return bool
      * @throws Exception
      */
-    public static function deleteAll(): bool
+    public static function drop(): bool
     {
         $pdo = self::getPDO();
-        $stmt = $pdo->prepare("DELETE FROM `cms__migration`");
+        $stmt = $pdo->prepare("DROP TABLE IF EXISTS `cms__migration`");
         return $stmt->execute();
     }
 

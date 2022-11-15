@@ -19,7 +19,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "ssh://git@github.com:22/dominicgisler/gislercms-editor.git"
+      "url": "https://github.com/dominicgisler/gislercms-editor.git"
     }
   ],
   "require": {
@@ -66,7 +66,7 @@
       "cp vendor/datatables/datatables/media/js/jquery.dataTables.min.js public/js/.",
       "cp vendor/datatables/datatables/media/js/dataTables.bootstrap4.min.js public/js/.",
       "cp vendor/nnnick/chartjs/dist/Chart.min.js public/js/.",
-      "./build_css.sh",
+      "rm -rf public/editor",
       "cp -r vendor/dominicgisler/gislercms-editor public/editor"
     ]
   }
