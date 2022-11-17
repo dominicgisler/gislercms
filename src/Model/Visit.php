@@ -241,6 +241,72 @@ class Visit extends DbModel
 
     /**
      * @return int
+     * @throws Exception
+     */
+    public static function countAll(): int
+    {
+        return self::getPDO()->query("SELECT COUNT(*) FROM `cms__visit`")->fetchColumn();
+    }
+
+    /**
+     * @param string $format
+     * @return array
+     * @throws Exception
+     */
+    public static function countByTimestamp(string $format): array
+    {
+        $stmt = self::getPDO()->prepare("SELECT DATE_FORMAT(created_at, ?), COUNT(*) FROM cms__visit GROUP BY DATE_FORMAT(created_at, ?) ORDER BY created_at DESC LIMIT 31");
+        $stmt->execute([$format, $format]);
+        $arr = [];
+        foreach($stmt->fetchAll() as $row) {
+            $arr[$row[0]] = $row[1];
+        }
+        return $arr;
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function getPageVisits(): array
+    {
+        $stmt = self::getPDO()->query("
+            SELECT
+                
+                p.page_id AS page_id,
+                p.name AS page_name,
+                l.description AS language,
+                v.arguments AS arguments,
+                COUNT(*) AS visits
+            
+            FROM cms__visit v
+            
+            INNER JOIN cms__page_translation pt
+            ON pt.page_translation_id = v.fk_page_translation_id
+            
+            INNER JOIN cms__page p
+            ON p.page_id = pt.fk_page_id
+            
+            INNER JOIN cms__language l
+            ON l.language_id = pt.fk_language_id
+            
+            GROUP BY CONCAT(fk_page_translation_id, arguments);
+        ");
+        $arr = [];
+        foreach($stmt->fetchAll() as $row) {
+            $arr[] = [
+                'page_id' => $row['page_id'],
+                'page_name' => $row['page_name'],
+                'language' => $row['language'],
+                'arguments' => $row['arguments'],
+                'visits' => $row['visits']
+            ];
+        }
+        return $arr;
+    }
+
+    /**
+     * @return int
      */
     public function getVisitId(): int
     {

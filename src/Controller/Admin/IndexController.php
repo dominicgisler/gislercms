@@ -75,98 +75,43 @@ class IndexController extends AbstractController
      */
     public static function calculateStats(string $cacheFile)
     {
-        set_time_limit(300);
-
-        $clients = Client::getAll();
-        $sessions = Session::getAll();
-        $visits = Visit::getAll();
         $stats = [
             'counts' => [
-                'clients' => sizeof($clients),
-                'real_clients' => 0,
-                'sessions' => sizeof($sessions),
-                'visits' => sizeof($visits)
+                'clients' => Client::countAll(),
+                'real_clients' => Client::countReal(),
+                'sessions' => Session::countAll(),
+                'visits' => Visit::countAll()
             ],
-            'pages' => [],
-            'platforms' => [],
-            'browsers' => []
+            'pages' => Visit::getPageVisits(),
+            'platforms' => Session::countPlatforms(),
+            'browsers' => Session::countBrowsers()
         ];
         $graph = [
-            'sessions' => [],
-            'visits' => [],
-            'clients' => []
+            'sessions' => [
+                'year' => Session::countByTimestamp('%Y'),
+                'month' => Session::countByTimestamp('%Y-%m'),
+                'day' => Session::countByTimestamp('%Y-%m-%d'),
+                'hour' => Session::countByTimestamp('%Y-%m-%d %H:00')
+            ],
+            'visits' => [
+                'year' => Visit::countByTimestamp('%Y'),
+                'month' => Visit::countByTimestamp('%Y-%m'),
+                'day' => Visit::countByTimestamp('%Y-%m-%d'),
+                'hour' => Visit::countByTimestamp('%Y-%m-%d %H:00')
+            ],
+            'clients' => [
+                'year' => Client::countByTimestamp('%Y'),
+                'month' => Client::countByTimestamp('%Y-%m'),
+                'day' => Client::countByTimestamp('%Y-%m-%d'),
+                'hour' => Client::countByTimestamp('%Y-%m-%d %H:00')
+            ]
         ];
-
-        foreach ($clients as $client) {
-            if ($client->getCreatedAt() != $client->getUpdatedAt()) {
-                $stats['counts']['real_clients']++;
-            }
-            $graph['clients'] = self::countDate($client->getCreatedAt(), $graph['clients']);
-        }
-
-        foreach ($visits as $visit) {
-            $pt = $visit->getPageTranslation();
-            $index = $pt->getPageTranslationId() . $visit->getArguments();
-            if (!isset($stats['pages'][$index])) {
-                $stats['pages'][$index] = [
-                    'page' => [
-                        'id' => $pt->getPage()->getPageId(),
-                        'name' => $pt->getPage()->getName()
-                    ],
-                    'language' => $pt->getLanguage()->getDescription(),
-                    'arguments' => $visit->getArguments(),
-                    'visits' => 0
-                ];
-            }
-            $stats['pages'][$index]['visits']++;
-
-            $graph['visits'] = self::countDate($visit->getCreatedAt(), $graph['visits']);
-        }
-
-        foreach ($sessions as $session) {
-            if (!isset($stats['platforms'][$session->getPlatform()])) {
-                $stats['platforms'][$session->getPlatform()] = 0;
-            }
-            $stats['platforms'][$session->getPlatform()]++;
-
-            if (!isset($stats['browsers'][$session->getBrowser()])) {
-                $stats['browsers'][$session->getBrowser()] = 0;
-            }
-            $stats['browsers'][$session->getBrowser()]++;
-
-            $graph['sessions'] = self::countDate($session->getCreatedAt(), $graph['sessions']);
-        }
 
         file_put_contents($cacheFile, json_encode([
             'calculation_date' => date('Y-m-d H:i:s'),
             'stats' => mb_convert_encoding($stats, "UTF-8", "UTF-8"),
             'graph' => self::mapGraphData($graph)
         ]));
-    }
-
-    /**
-     * @param string $date
-     * @param array $arr
-     * @return array
-     */
-    private static function countDate(string $date, array $arr): array
-    {
-        $timestamp = strtotime($date);
-        $times = [
-            'year' => date('Y', $timestamp),
-            'month' => date('Y-m', $timestamp),
-            'day' => date('Y-m-d', $timestamp),
-            'hour' => date('Y-m-d H:00', $timestamp)
-        ];
-
-        foreach ($times as $key => $time) {
-            if (!isset($arr[$key][$time])) {
-                $arr[$key][$time] = 0;
-            }
-            $arr[$key][$time]++;
-        }
-
-        return $arr;
     }
 
     /**

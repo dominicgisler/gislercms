@@ -237,6 +237,59 @@ class Session extends DbModel
 
     /**
      * @return int
+     * @throws Exception
+     */
+    public static function countAll(): int
+    {
+        return self::getPDO()->query("SELECT COUNT(*) FROM `cms__session`")->fetchColumn();
+    }
+
+    /**
+     * @param string $format
+     * @return array
+     * @throws Exception
+     */
+    public static function countByTimestamp(string $format): array
+    {
+        $stmt = self::getPDO()->prepare("SELECT DATE_FORMAT(created_at, ?), COUNT(*) FROM cms__session GROUP BY DATE_FORMAT(created_at, ?) ORDER BY created_at DESC LIMIT 31");
+        $stmt->execute([$format, $format]);
+        $arr = [];
+        foreach($stmt->fetchAll() as $row) {
+            $arr[$row[0]] = $row[1];
+        }
+        return $arr;
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function countPlatforms(): array
+    {
+        $stmt = self::getPDO()->query("SELECT platform, COUNT(*) FROM cms__session GROUP BY platform;");
+        $arr = [];
+        foreach($stmt->fetchAll() as $row) {
+            $arr[$row[0]] = $row[1];
+        }
+        return $arr;
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function countBrowsers(): array
+    {
+        $stmt = self::getPDO()->query("SELECT browser, COUNT(*) FROM cms__session GROUP BY browser;");
+        $arr = [];
+        foreach($stmt->fetchAll() as $row) {
+            $arr[$row[0]] = $row[1];
+        }
+        return $arr;
+    }
+
+    /**
+     * @return int
      */
     public function getSessionId(): int
     {
