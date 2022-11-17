@@ -52,10 +52,7 @@ class UpdateController extends AbstractController
             $update['filename'] = '';
             $update['release_notes'] = $release['body'];
             foreach ($release['assets'] as $asset) {
-                if (empty($update['url']) &&
-                    $asset['content_type'] == 'application/zip' &&
-                    substr($asset['name'], 0, strlen('gislercms')) === 'gislercms'
-                ) {
+                if (empty($update['url']) && $asset['name'] == 'gislercms.zip') {
                     $update['url'] = $asset['browser_download_url'];
                     $update['filename'] = $asset['name'];
                 }

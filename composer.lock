@@ -150,12 +150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dominicgisler/gislercms-editor.git",
-                "reference": "9f45937d62d2fb5cf7cf114c9fa952ba82ca6b68"
+                "reference": "e3d43c800ee1901590a55081f53ebb2d503e1ecd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dominicgisler/gislercms-editor/zipball/9f45937d62d2fb5cf7cf114c9fa952ba82ca6b68",
-                "reference": "9f45937d62d2fb5cf7cf114c9fa952ba82ca6b68",
+                "url": "https://api.github.com/repos/dominicgisler/gislercms-editor/zipball/e3d43c800ee1901590a55081f53ebb2d503e1ecd",
+                "reference": "e3d43c800ee1901590a55081f53ebb2d503e1ecd",
                 "shasum": ""
             },
             "default-branch": true,
@@ -171,7 +171,7 @@
                 "source": "https://github.com/dominicgisler/gislercms-editor/tree/master",
                 "issues": "https://github.com/dominicgisler/gislercms-editor/issues"
             },
-            "time": "2022-11-15T21:49:23+00:00"
+            "time": "2022-11-17T15:39:24+00:00"
         },
         {
             "name": "donatj/phpuseragentparser",

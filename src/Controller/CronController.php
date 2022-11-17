@@ -59,12 +59,12 @@ class CronController
         $intervalStats = Config::getConfig('global', 'interval_stats_refresh')->getValue();
         $intervalBackup = Config::getConfig('global', 'interval_backup')->getValue();
 
-        if ($intervalStats > 0) {
-            $this->handleStatistics($intervalStats);
-        }
-
         if ($intervalBackup > 0) {
             $this->handleBackup($intervalBackup);
+        }
+
+        if ($intervalStats > 0) {
+            $this->handleStatistics($intervalStats);
         }
 
         return $response;
