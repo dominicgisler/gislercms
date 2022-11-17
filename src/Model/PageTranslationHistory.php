@@ -82,6 +82,11 @@ class PageTranslationHistory extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__page_translation_history';
+
+    /**
      * PageTranslationHistory constructor.
      * @param int $pageTranslationHistoryId
      * @param PageTranslation|null $pageTranslation
@@ -99,20 +104,20 @@ class PageTranslationHistory extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $pageTranslationHistoryId = 0,
+        int             $pageTranslationHistoryId = 0,
         PageTranslation $pageTranslation = null,
-        string $name = '',
-        string $title = '',
-        string $content = '',
-        string $metaKeywords = '',
-        string $metaDescription = '',
-        string $metaAuthor = '',
-        string $metaCopyright = '',
-        string $metaImage = '',
-        bool $enabled = false,
-        User $user = null,
-        string $createdAt = '',
-        string $updatedAt = ''
+        string          $name = '',
+        string          $title = '',
+        string          $content = '',
+        string          $metaKeywords = '',
+        string          $metaDescription = '',
+        string          $metaAuthor = '',
+        string          $metaCopyright = '',
+        string          $metaImage = '',
+        bool            $enabled = false,
+        User            $user = null,
+        string          $createdAt = '',
+        string          $updatedAt = ''
     )
     {
         $this->pageTranslationHistoryId = $pageTranslationHistoryId;

@@ -58,6 +58,11 @@ class Session extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__session';
+
+    /**
      * Session constructor.
      * @param int $sessionId
      * @param Client|null $client
@@ -70,7 +75,7 @@ class Session extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $sessionId = 0,
+        int    $sessionId = 0,
         Client $client = null,
         string $uuid = '',
         string $ip = '',
@@ -236,28 +241,6 @@ class Session extends DbModel
     }
 
     /**
-     * @param string $where
-     * @param array $args
-     * @return int
-     * @throws Exception
-     */
-    public static function countWhere(string $where = '', array $args = []): int
-    {
-        $stmt = self::getPDO()->prepare("SELECT COUNT(*) FROM `cms__session` " . (!empty($where) ? 'WHERE ' . $where : ''));
-        $stmt->execute($args);
-        return $stmt->fetchColumn();
-    }
-
-    /**
-     * @return int
-     * @throws Exception
-     */
-    public static function countAll(): int
-    {
-        return self::countWhere();
-    }
-
-    /**
      * @param string $format
      * @return array
      * @throws Exception
@@ -267,7 +250,7 @@ class Session extends DbModel
         $stmt = self::getPDO()->prepare("SELECT DATE_FORMAT(created_at, ?), COUNT(*) FROM cms__session GROUP BY DATE_FORMAT(created_at, ?) ORDER BY created_at DESC LIMIT 31");
         $stmt->execute([$format, $format]);
         $arr = [];
-        foreach($stmt->fetchAll() as $row) {
+        foreach ($stmt->fetchAll() as $row) {
             $arr[$row[0]] = $row[1];
         }
         return $arr;
@@ -281,7 +264,7 @@ class Session extends DbModel
     {
         $stmt = self::getPDO()->query("SELECT platform, COUNT(*) FROM cms__session GROUP BY platform;");
         $arr = [];
-        foreach($stmt->fetchAll() as $row) {
+        foreach ($stmt->fetchAll() as $row) {
             $arr[$row[0]] = $row[1];
         }
         return $arr;
@@ -295,7 +278,7 @@ class Session extends DbModel
     {
         $stmt = self::getPDO()->query("SELECT browser, COUNT(*) FROM cms__session GROUP BY browser;");
         $arr = [];
-        foreach($stmt->fetchAll() as $row) {
+        foreach ($stmt->fetchAll() as $row) {
             $arr[$row[0]] = $row[1];
         }
         return $arr;

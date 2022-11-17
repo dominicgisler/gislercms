@@ -33,6 +33,11 @@ class Client extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__client';
+
+    /**
      * Client constructor.
      * @param int $clientId
      * @param string $uuid
@@ -40,7 +45,7 @@ class Client extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $clientId = 0,
+        int    $clientId = 0,
         string $uuid = '',
         string $createdAt = '',
         string $updatedAt = ''
@@ -154,28 +159,6 @@ class Client extends DbModel
     }
 
     /**
-     * @param string $where
-     * @param array $args
-     * @return int
-     * @throws Exception
-     */
-    public static function countWhere(string $where = '', array $args = []): int
-    {
-        $stmt = self::getPDO()->prepare("SELECT COUNT(*) FROM `cms__client` " . (!empty($where) ? 'WHERE ' . $where : ''));
-        $stmt->execute($args);
-        return $stmt->fetchColumn();
-    }
-
-    /**
-     * @return int
-     * @throws Exception
-     */
-    public static function countAll(): int
-    {
-        return self::countWhere();
-    }
-
-    /**
      * @return int
      * @throws Exception
      */
@@ -194,7 +177,7 @@ class Client extends DbModel
         $stmt = self::getPDO()->prepare("SELECT DATE_FORMAT(created_at, ?), COUNT(*) FROM cms__client GROUP BY DATE_FORMAT(created_at, ?) ORDER BY created_at DESC LIMIT 31");
         $stmt->execute([$format, $format]);
         $arr = [];
-        foreach($stmt->fetchAll() as $row) {
+        foreach ($stmt->fetchAll() as $row) {
             $arr[$row[0]] = $row[1];
         }
         return $arr;

@@ -48,6 +48,11 @@ class Page extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__page';
+
+    /**
      * Page constructor.
      * @param int $pageId
      * @param string $name
@@ -58,13 +63,13 @@ class Page extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $pageId = 0,
-        string $name = '',
-        bool $enabled = true,
-        bool $trash = false,
+        int      $pageId = 0,
+        string   $name = '',
+        bool     $enabled = true,
+        bool     $trash = false,
         Language $language = null,
-        string $createdAt = '',
-        string $updatedAt = ''
+        string   $createdAt = '',
+        string   $updatedAt = ''
     )
     {
         $this->pageId = $pageId;
@@ -170,12 +175,30 @@ class Page extends DbModel
     }
 
     /**
+     * @return int
+     * @throws Exception
+     */
+    public static function countAvailable(): int
+    {
+        return self::countWhere('`trash` = 0');
+    }
+
+    /**
      * @return Page[]
      * @throws Exception
      */
     public static function getTrash(): array
     {
-        return self::getWhere('`p`.`trash` = 1');
+        return self::getWhere('`trash` = 1');
+    }
+
+    /**
+     * @return int
+     * @throws Exception
+     */
+    public static function countTrash(): int
+    {
+        return self::countWhere('`trash` = 1');
     }
 
     /**

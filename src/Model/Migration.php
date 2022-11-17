@@ -38,6 +38,11 @@ class Migration extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__migration';
+
+    /**
      * Config constructor.
      * @param int $migrationId
      * @param string $name
@@ -46,7 +51,7 @@ class Migration extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $migrationId = 0,
+        int    $migrationId = 0,
         string $name = '',
         string $description = '',
         string $createdAt = '',

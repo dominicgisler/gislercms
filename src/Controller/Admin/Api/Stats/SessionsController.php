@@ -68,7 +68,7 @@ class SessionsController extends AbstractController
                 'browser' => $session->getBrowser(),
                 'user_agent' => $session->getUserAgent(),
                 'duration' => $duration,
-                'visits' => sprintf('<a href="%s/stats/visits/%d">%d</a>', $adminURL, $session->getSessionId(), sizeof(Visit::getWhere('`fk_session_id` = ?', [$session->getSessionId()])))
+                'visits' => sprintf('<a href="%s/stats/visits/%d">%d</a>', $adminURL, $session->getSessionId(), Visit::countWhere('`fk_session_id` = ?', [$session->getSessionId()]))
             ];
         }
 

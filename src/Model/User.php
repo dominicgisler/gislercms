@@ -82,6 +82,11 @@ class User extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__user';
+
+    /**
      * User constructor.
      * @param int $userId
      * @param string $username
@@ -99,15 +104,15 @@ class User extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $userId = 0,
+        int    $userId = 0,
         string $username = '',
         string $firstname = '',
         string $lastname = '',
         string $email = '',
         string $password = '',
         string $locale = '',
-        int $failedLogins = 0,
-        bool $locked = false,
+        int    $failedLogins = 0,
+        bool   $locked = false,
         string $resetKey = '',
         string $lastLogin = '',
         string $lastActivity = '',

@@ -84,6 +84,11 @@ class PageTranslation extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__page_translation';
+
+    /**
      * PageTranslation constructor.
      * @param int $pageTranslationId
      * @param Page|null $page
@@ -101,20 +106,20 @@ class PageTranslation extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $pageTranslationId = 0,
-        Page $page = null,
+        int      $pageTranslationId = 0,
+        Page     $page = null,
         Language $language = null,
-        string $name = '',
-        string $title = '',
-        string $content = '',
-        string $metaKeywords = '',
-        string $metaDescription = '',
-        string $metaAuthor = '',
-        string $metaCopyright = '',
-        string $metaImage = '',
-        bool $enabled = false,
-        string $createdAt = '',
-        string $updatedAt = ''
+        string   $name = '',
+        string   $title = '',
+        string   $content = '',
+        string   $metaKeywords = '',
+        string   $metaDescription = '',
+        string   $metaAuthor = '',
+        string   $metaCopyright = '',
+        string   $metaImage = '',
+        bool     $enabled = false,
+        string   $createdAt = '',
+        string   $updatedAt = ''
     )
     {
         $this->pageTranslationId = $pageTranslationId;

@@ -82,6 +82,11 @@ class PostTranslation extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__post_translation';
+
+    /**
      * PostTranslation constructor.
      * @param int $postTranslationId
      * @param Post|null $post
@@ -99,20 +104,20 @@ class PostTranslation extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $postTranslationId = 0,
-        Post $post = null,
+        int      $postTranslationId = 0,
+        Post     $post = null,
         Language $language = null,
-        string $name = '',
-        string $title = '',
-        string $content = '',
-        string $metaKeywords = '',
-        string $metaDescription = '',
-        string $metaAuthor = '',
-        string $metaCopyright = '',
-        string $metaImage = '',
-        bool $enabled = false,
-        string $createdAt = '',
-        string $updatedAt = ''
+        string   $name = '',
+        string   $title = '',
+        string   $content = '',
+        string   $metaKeywords = '',
+        string   $metaDescription = '',
+        string   $metaAuthor = '',
+        string   $metaCopyright = '',
+        string   $metaImage = '',
+        bool     $enabled = false,
+        string   $createdAt = '',
+        string   $updatedAt = ''
     )
     {
         $this->postTranslationId = $postTranslationId;

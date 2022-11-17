@@ -48,6 +48,11 @@ class WidgetTranslation extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__widget_translation';
+
+    /**
      * WidgetTranslation constructor.
      * @param int $widgetTranslationId
      * @param Widget|null $widget
@@ -58,13 +63,13 @@ class WidgetTranslation extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $widgetTranslationId = 0,
-        Widget $widget = null,
+        int      $widgetTranslationId = 0,
+        Widget   $widget = null,
         Language $language = null,
-        string $content = '',
-        bool $enabled = false,
-        string $createdAt = '',
-        string $updatedAt = ''
+        string   $content = '',
+        bool     $enabled = false,
+        string   $createdAt = '',
+        string   $updatedAt = ''
     )
     {
         $this->widgetTranslationId = $widgetTranslationId;

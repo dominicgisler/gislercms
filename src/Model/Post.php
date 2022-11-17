@@ -63,6 +63,11 @@ class Post extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__post';
+
+    /**
      * Post constructor.
      * @param int $postId
      * @param string $name
@@ -76,16 +81,16 @@ class Post extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $postId = 0,
-        string $name = '',
-        bool $enabled = true,
-        bool $trash = false,
+        int      $postId = 0,
+        string   $name = '',
+        bool     $enabled = true,
+        bool     $trash = false,
         Language $language = null,
-        string $publishAt = '',
-        array $categories = [],
-        array $attributes = [],
-        string $createdAt = '',
-        string $updatedAt = ''
+        string   $publishAt = '',
+        array    $categories = [],
+        array    $attributes = [],
+        string   $createdAt = '',
+        string   $updatedAt = ''
     )
     {
         $this->postId = $postId;
@@ -203,12 +208,30 @@ class Post extends DbModel
     }
 
     /**
+     * @return int
+     * @throws Exception
+     */
+    public static function countAvailable(): int
+    {
+        return self::countWhere('`trash` = 0');
+    }
+
+    /**
      * @return Post[]
      * @throws Exception
      */
     public static function getTrash(): array
     {
         return self::getWhere('`p`.`trash` = 1');
+    }
+
+    /**
+     * @return int
+     * @throws Exception
+     */
+    public static function countTrash(): int
+    {
+        return self::countWhere('`trash` = 1');
     }
 
     /**

@@ -43,6 +43,11 @@ class Language extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__language';
+
+    /**
      * Language constructor.
      * @param int $languageId
      * @param string $locale
@@ -52,10 +57,10 @@ class Language extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $languageId = 0,
+        int    $languageId = 0,
         string $locale = '',
         string $description = '',
-        bool $enabled = true,
+        bool   $enabled = true,
         string $createdAt = '',
         string $updatedAt = ''
     )

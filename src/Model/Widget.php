@@ -48,6 +48,11 @@ class Widget extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__widget';
+
+    /**
      * Widget constructor.
      * @param int $widgetId
      * @param string $name
@@ -58,13 +63,13 @@ class Widget extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $widgetId = 0,
-        string $name = '',
-        bool $enabled = true,
-        bool $trash = false,
+        int      $widgetId = 0,
+        string   $name = '',
+        bool     $enabled = true,
+        bool     $trash = false,
         Language $language = null,
-        string $createdAt = '',
-        string $updatedAt = ''
+        string   $createdAt = '',
+        string   $updatedAt = ''
     )
     {
         $this->widgetId = $widgetId;
@@ -170,12 +175,30 @@ class Widget extends DbModel
     }
 
     /**
+     * @return int
+     * @throws Exception
+     */
+    public static function countAvailable(): int
+    {
+        return self::countWhere('`trash` = 0');
+    }
+
+    /**
      * @return Widget[]
      * @throws Exception
      */
     public static function getTrash(): array
     {
         return self::getWhere('`w`.`trash` = 1');
+    }
+
+    /**
+     * @return int
+     * @throws Exception
+     */
+    public static function countTrash(): int
+    {
+        return self::countWhere('`trash` = 1');
     }
 
     /**

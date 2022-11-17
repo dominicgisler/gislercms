@@ -48,6 +48,11 @@ class Visit extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__visit';
+
+    /**
      * Visit constructor.
      * @param int $visitId
      * @param PageTranslation|null $pageTranslation
@@ -58,13 +63,13 @@ class Visit extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $visitId = 0,
+        int             $visitId = 0,
         PageTranslation $pageTranslation = null,
-        string $arguments = '',
-        Redirect $redirect = null,
-        Session $session = null,
-        string $createdAt = '',
-        string $updatedAt = ''
+        string          $arguments = '',
+        Redirect        $redirect = null,
+        Session         $session = null,
+        string          $createdAt = '',
+        string          $updatedAt = ''
     )
     {
         $this->visitId = $visitId;
@@ -240,28 +245,6 @@ class Visit extends DbModel
     }
 
     /**
-     * @param string $where
-     * @param array $args
-     * @return int
-     * @throws Exception
-     */
-    public static function countWhere(string $where = '', array $args = []): int
-    {
-        $stmt = self::getPDO()->prepare("SELECT COUNT(*) FROM `cms__visit` " . (!empty($where) ? 'WHERE ' . $where : ''));
-        $stmt->execute($args);
-        return $stmt->fetchColumn();
-    }
-
-    /**
-     * @return int
-     * @throws Exception
-     */
-    public static function countAll(): int
-    {
-        return self::countWhere();
-    }
-
-    /**
      * @param string $format
      * @return array
      * @throws Exception
@@ -271,7 +254,7 @@ class Visit extends DbModel
         $stmt = self::getPDO()->prepare("SELECT DATE_FORMAT(created_at, ?), COUNT(*) FROM cms__visit GROUP BY DATE_FORMAT(created_at, ?) ORDER BY created_at DESC LIMIT 31");
         $stmt->execute([$format, $format]);
         $arr = [];
-        foreach($stmt->fetchAll() as $row) {
+        foreach ($stmt->fetchAll() as $row) {
             $arr[$row[0]] = $row[1];
         }
         return $arr;
@@ -306,7 +289,7 @@ class Visit extends DbModel
             GROUP BY CONCAT(fk_page_translation_id, arguments);
         ");
         $arr = [];
-        foreach($stmt->fetchAll() as $row) {
+        foreach ($stmt->fetchAll() as $row) {
             $arr[] = [
                 'page_id' => $row['page_id'],
                 'page_name' => $row['page_name'],

@@ -53,6 +53,11 @@ class Module extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__module';
+
+    /**
      * Config constructor.
      * @param int $moduleId
      * @param string $name
@@ -64,10 +69,10 @@ class Module extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $moduleId = 0,
+        int    $moduleId = 0,
         string $name = '',
-        bool $enabled = false,
-        bool $trash = false,
+        bool   $enabled = false,
+        bool   $trash = false,
         string $controller = '',
         string $config = '',
         string $createdAt = '',

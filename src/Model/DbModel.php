@@ -21,6 +21,11 @@ abstract class DbModel
     private static $pdo;
 
     /**
+     * @var string
+     */
+    protected static $table = '';
+
+    /**
      * @param PDO $pdo
      */
     public static function init(PDO $pdo): void
@@ -38,6 +43,28 @@ abstract class DbModel
             return self::$pdo;
         }
         throw new Exception('Please init $pdo first, use DbModel::init($pdo)');
+    }
+
+    /**
+     * @param string $where
+     * @param array $args
+     * @return int
+     * @throws Exception
+     */
+    public static function countWhere(string $where = '', array $args = []): int
+    {
+        $stmt = self::getPDO()->prepare("SELECT COUNT(*) FROM `" . static::$table . "` " . (!empty($where) ? 'WHERE ' . $where : ''));
+        $stmt->execute($args);
+        return $stmt->fetchColumn();
+    }
+
+    /**
+     * @return int
+     * @throws Exception
+     */
+    public static function countAll(): int
+    {
+        return self::countWhere();
     }
 
     /**

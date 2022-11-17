@@ -48,6 +48,11 @@ class Redirect extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__redirect';
+
+    /**
      * Redirect constructor.
      * @param int $redirectId
      * @param string $name
@@ -58,9 +63,9 @@ class Redirect extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $redirectId = 0,
+        int    $redirectId = 0,
         string $name = '',
-        bool $enabled = false,
+        bool   $enabled = false,
         string $route = '',
         string $location = '',
         string $createdAt = '',

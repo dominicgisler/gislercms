@@ -42,6 +42,11 @@ class PostAttribute extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__post_attribute';
+
+    /**
      * PostTranslation constructor.
      * @param int $postAttributeId
      * @param Post|null $post
@@ -51,8 +56,8 @@ class PostAttribute extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $postAttributeId = 0,
-        Post $post = null,
+        int    $postAttributeId = 0,
+        Post   $post = null,
         string $name = '',
         string $value = '',
         string $createdAt = '',

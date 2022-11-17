@@ -38,6 +38,11 @@ class GuestbookEntry extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__guestbook_entry';
+
+    /**
      * Client constructor.
      * @param int $guestbookEntryId
      * @param string $guestbookIdentifer
@@ -46,7 +51,7 @@ class GuestbookEntry extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $guestbookEntryId = 0,
+        int    $guestbookEntryId = 0,
         string $guestbookIdentifer = '',
         string $input = '',
         string $createdAt = '',

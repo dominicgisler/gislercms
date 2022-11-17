@@ -48,6 +48,11 @@ class Config extends DbModel
     private $updatedAt;
 
     /**
+     * @var string
+     */
+    protected static $table = 'cms__config';
+
+    /**
      * Config constructor.
      * @param int $configId
      * @param string $section
@@ -58,11 +63,11 @@ class Config extends DbModel
      * @param string $updatedAt
      */
     public function __construct(
-        int $configId = 0,
+        int    $configId = 0,
         string $section = '',
         string $name = '',
         string $type = '',
-        $value = null,
+        mixed  $value = null,
         string $createdAt = '',
         string $updatedAt = ''
     )
