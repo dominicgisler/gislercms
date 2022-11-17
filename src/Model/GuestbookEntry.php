@@ -15,32 +15,32 @@ class GuestbookEntry extends DbModel
     /**
      * @var int
      */
-    private $guestbookEntryId;
+    private int $guestbookEntryId;
 
     /**
      * @var string
      */
-    private $guestbookIdentifier;
+    private string $guestbookIdentifier;
 
     /**
      * @var string
      */
-    private $input;
+    private string $input;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $updatedAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__guestbook_entry';
+    protected static string $table = 'cms__guestbook_entry';
 
     /**
      * Client constructor.

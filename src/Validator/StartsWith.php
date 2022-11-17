@@ -11,7 +11,10 @@ use Laminas\Validator\AbstractValidator;
  */
 class StartsWith extends AbstractValidator
 {
-    private $str;
+    /**
+     * @var string
+     */
+    private string $str;
 
     /**
      * StartsWith constructor.
@@ -26,7 +29,7 @@ class StartsWith extends AbstractValidator
     /**
      * Returns true if the string starts with $str
      *
-     * @param  Page $value
+     * @param Page $value
      * @return bool
      */
     public function isValid($value): bool
@@ -38,7 +41,7 @@ class StartsWith extends AbstractValidator
 
         $this->setValue($value);
 
-        if (!(substr($value, 0, strlen($this->str)) === $this->str)) {
+        if (!str_starts_with($value, $this->str)) {
             $this->error('value does not start with "' . $this->str . '"');
         }
 

@@ -15,42 +15,42 @@ class Page extends DbModel
     /**
      * @var int
      */
-    private $pageId;
+    private int $pageId;
 
     /**
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * @var bool
      */
-    private $enabled;
+    private bool $enabled;
 
     /**
      * @var bool
      */
-    private $trash;
+    private bool $trash;
 
     /**
-     * @var Language
+     * @var ?Language
      */
-    private $language;
-
-    /**
-     * @var string
-     */
-    private $createdAt;
+    private ?Language $language;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__page';
+    private string $updatedAt;
+
+    /**
+     * @var string
+     */
+    protected static string $table = 'cms__page';
 
     /**
      * Page constructor.

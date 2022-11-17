@@ -15,32 +15,32 @@ class Migration extends DbModel
     /**
      * @var int
      */
-    private $migrationId;
+    private int $migrationId;
 
     /**
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string
      */
-    private $description;
+    private string $description;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $updatedAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__migration';
+    protected static string $table = 'cms__migration';
 
     /**
      * Config constructor.

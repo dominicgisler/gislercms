@@ -13,7 +13,7 @@ class ValidJson extends AbstractValidator
     /**
      * Returns true if the json is valid
      *
-     * @param  string $value
+     * @param string $value
      * @return bool
      */
     public function isValid($value): bool

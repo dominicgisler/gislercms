@@ -15,52 +15,52 @@ class Session extends DbModel
     /**
      * @var int
      */
-    private $sessionId;
+    private int $sessionId;
 
     /**
-     * @var Client
+     * @var ?Client
      */
-    private $client;
-
-    /**
-     * @var string
-     */
-    private $uuid;
+    private ?Client $client;
 
     /**
      * @var string
      */
-    private $ip;
+    private string $uuid;
 
     /**
      * @var string
      */
-    private $platform;
+    private string $ip;
 
     /**
      * @var string
      */
-    private $browser;
+    private string $platform;
 
     /**
      * @var string
      */
-    private $userAgent;
+    private string $browser;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $userAgent;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__session';
+    private string $updatedAt;
+
+    /**
+     * @var string
+     */
+    protected static string $table = 'cms__session';
 
     /**
      * Session constructor.
@@ -172,7 +172,7 @@ class Session extends DbModel
     }
 
     /**
-     * @param int Session
+     * @param int $id
      * @return Session
      * @throws Exception
      */

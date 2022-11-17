@@ -13,7 +13,7 @@ class SessionHelper
     const CNT_KEY = 'gislercms';
 
     /**
-     * @var Container
+     * @var ?Container
      */
     private static $container;
 

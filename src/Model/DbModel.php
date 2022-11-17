@@ -18,12 +18,12 @@ abstract class DbModel
     /**
      * @var PDO
      */
-    private static $pdo;
+    private static PDO $pdo;
 
     /**
      * @var string
      */
-    protected static $table = '';
+    protected static string $table = '';
 
     /**
      * @param PDO $pdo
@@ -70,7 +70,7 @@ abstract class DbModel
     /**
      * @param string $html
      * @param Language $language
-     * @return string|null
+     * @return string
      * @throws Exception
      */
     protected static function replaceWidgetPlaceholders(string $html, Language $language): string
@@ -114,7 +114,6 @@ abstract class DbModel
                         if (!empty($mod->getController()) && is_array($cfg)) {
                             $cont = '\\GislerCMS\\Controller\\Module\\' . $mod->getController();
                             if (class_exists($cont) && is_subclass_of($cont, AbstractModuleController::class)) {
-                                /** @var AbstractModuleController $class */
                                 $class = new $cont($cfg, $view);
                                 $res = $class->execute($request);
                             }

@@ -15,42 +15,42 @@ class WidgetTranslation extends DbModel
     /**
      * @var int
      */
-    private $widgetTranslationId;
+    private int $widgetTranslationId;
 
     /**
-     * @var Widget
+     * @var ?Widget
      */
-    private $widget;
+    private ?Widget $widget;
 
     /**
-     * @var Language
+     * @var ?Language
      */
-    private $language;
+    private ?Language $language;
 
     /**
      * @var string
      */
-    private $content;
+    private string $content;
 
     /**
      * @var bool
      */
-    private $enabled;
+    private bool $enabled;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $updatedAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__widget_translation';
+    protected static string $table = 'cms__widget_translation';
 
     /**
      * WidgetTranslation constructor.

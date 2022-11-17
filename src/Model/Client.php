@@ -15,27 +15,27 @@ class Client extends DbModel
     /**
      * @var int
      */
-    private $clientId;
+    private int $clientId;
 
     /**
      * @var string
      */
-    private $uuid;
+    private string $uuid;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $updatedAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__client';
+    protected static string $table = 'cms__client';
 
     /**
      * Client constructor.

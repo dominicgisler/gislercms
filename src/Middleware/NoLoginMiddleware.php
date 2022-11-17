@@ -6,7 +6,9 @@ use Exception;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\User;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Http\Request;
@@ -21,7 +23,7 @@ class NoLoginMiddleware
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     /**
      * @param ContainerInterface $container
@@ -32,14 +34,16 @@ class NoLoginMiddleware
     }
 
     /**
-     * @param  ServerRequestInterface|Request $request  PSR7 request
-     * @param  ResponseInterface|Response     $response PSR7 response
-     * @param callable $next     Next middleware
+     * @param Request|ServerRequestInterface $request PSR7 request
+     * @param Response|ResponseInterface $response PSR7 response
+     * @param callable $next Next middleware
      *
      * @return ResponseInterface|Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
-    public function __invoke($request, $response, callable $next)
+    public function __invoke(Request|ServerRequestInterface $request, Response|ResponseInterface $response, callable $next): Response|ResponseInterface
     {
         $cont = SessionHelper::getContainer();
 

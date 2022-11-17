@@ -14,42 +14,42 @@ class WidgetTranslationHistory extends DbModel
     /**
      * @var int
      */
-    private $widgetTranslationHistoryId;
+    private int $widgetTranslationHistoryId;
 
     /**
-     * @var WidgetTranslation
+     * @var ?WidgetTranslation
      */
-    private $widgetTranslation;
+    private ?WidgetTranslation $widgetTranslation;
 
     /**
      * @var string
      */
-    private $content;
+    private string $content;
 
     /**
      * @var bool
      */
-    private $enabled;
+    private bool $enabled;
 
     /**
-     * @var User
+     * @var ?User
      */
-    private $user;
-
-    /**
-     * @var string
-     */
-    private $createdAt;
+    private ?User $user;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__widget_translation_history';
+    private string $updatedAt;
+
+    /**
+     * @var string
+     */
+    protected static string $table = 'cms__widget_translation_history';
 
     /**
      * WidgetTranslationHistory constructor.

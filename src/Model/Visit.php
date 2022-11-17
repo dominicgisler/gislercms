@@ -15,42 +15,42 @@ class Visit extends DbModel
     /**
      * @var int
      */
-    private $visitId;
+    private int $visitId;
 
     /**
-     * @var PageTranslation
+     * @var ?PageTranslation
      */
-    private $pageTranslation;
-
-    /**
-     * @var string
-     */
-    private $arguments;
-
-    /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
-     * @var Session
-     */
-    private $session;
+    private ?PageTranslation $pageTranslation;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $arguments;
+
+    /**
+     * @var ?Redirect
+     */
+    private ?Redirect $redirect;
+
+    /**
+     * @var ?Session
+     */
+    private ?Session $session;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__visit';
+    private string $updatedAt;
+
+    /**
+     * @var string
+     */
+    protected static string $table = 'cms__visit';
 
     /**
      * Visit constructor.

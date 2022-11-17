@@ -31,7 +31,7 @@ class Application
     /**
      * @var App
      */
-    protected $app;
+    protected App $app;
 
     private const LOCALE_MAP = [
         'de' => 'de_DE',
@@ -43,7 +43,7 @@ class Application
      * Start that thing
      * @throws Throwable
      */
-    public function run()
+    public function run(): void
     {
         $cfg = $this->getSettings();
         if (!empty($cfg['settings']['timezone'])) {
@@ -73,7 +73,6 @@ class Application
         $config = new Config([]);
         foreach ($configPaths as $configPath) {
             foreach (glob($configPath) as $filename) {
-                /** @noinspection PhpIncludeInspection */
                 $config->merge(new Config(include $filename));
             }
         }
@@ -91,7 +90,7 @@ class Application
                 foreach (Model\Config::getAll() as $elem) {
                     $cfg['settings'][$elem->getSection()][$elem->getName()] = $elem->getValue();
                 }
-            } catch(PDOException $e) {
+            } catch (PDOException) {
             }
         }
 
@@ -108,9 +107,8 @@ class Application
     /**
      * Kind of a service manager
      */
-    protected function registerServices()
+    protected function registerServices(): void
     {
-        // services
         $container = $this->app->getContainer();
 
         $container['base_url'] =
@@ -131,7 +129,6 @@ class Application
                 'cache' => $cfg['cache']
             ]);
 
-            // Instantiate and add Slim specific extension
             $twig->addExtension(new TwigExtension($container['router'], $container['base_url']));
             $twig->addExtension(new TwigGlob());
             $twig->addExtension(new TwigJsonDecode());
@@ -156,7 +153,7 @@ class Application
     /**
      * Register middleware
      */
-    protected function registerMiddleware()
+    protected function registerMiddleware(): void
     {
         $this->app->add(new CliRequest());
     }
@@ -164,7 +161,7 @@ class Application
     /**
      * Register routes
      */
-    protected function registerRoutes()
+    protected function registerRoutes(): void
     {
         $classes = $this->app->getContainer()['settings']['classes'];
         $adminRoute = $this->app->getContainer()['settings']['global']['admin_route'];

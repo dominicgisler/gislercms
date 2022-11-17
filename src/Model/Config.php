@@ -15,42 +15,42 @@ class Config extends DbModel
     /**
      * @var int
      */
-    private $configId;
+    private int $configId;
 
     /**
      * @var string
      */
-    private $section;
+    private string $section;
 
     /**
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string
      */
-    private $type;
+    private string $type;
 
     /**
      * @var mixed
      */
-    private $value;
+    private mixed $value;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $updatedAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__config';
+    protected static string $table = 'cms__config';
 
     /**
      * Config constructor.

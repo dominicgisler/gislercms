@@ -16,7 +16,7 @@ class TwigTrans extends AbstractExtension
     /**
      * @var Translator
      */
-    private $translator;
+    private Translator $translator;
 
     /**
      * TwigTrans constructor.

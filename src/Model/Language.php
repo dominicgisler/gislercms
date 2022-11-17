@@ -15,37 +15,37 @@ class Language extends DbModel
     /**
      * @var int
      */
-    private $languageId;
+    private int $languageId;
 
     /**
      * @var string
      */
-    private $locale;
+    private string $locale;
 
     /**
      * @var string
      */
-    private $description;
+    private string $description;
 
     /**
      * @var bool
      */
-    private $enabled;
+    private bool $enabled;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $updatedAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__language';
+    protected static string $table = 'cms__language';
 
     /**
      * Language constructor.

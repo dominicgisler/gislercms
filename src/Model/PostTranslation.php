@@ -14,77 +14,77 @@ class PostTranslation extends DbModel
     /**
      * @var int
      */
-    private $postTranslationId;
+    private int $postTranslationId;
 
     /**
-     * @var Post
+     * @var ?Post
      */
-    private $post;
+    private ?Post $post;
 
     /**
-     * @var Language
+     * @var ?Language
      */
-    private $language;
-
-    /**
-     * @var string
-     */
-    private $name;
+    private ?Language $language;
 
     /**
      * @var string
      */
-    private $title;
+    private string $name;
 
     /**
      * @var string
      */
-    private $content;
+    private string $title;
 
     /**
      * @var string
      */
-    private $metaKeywords;
+    private string $content;
 
     /**
      * @var string
      */
-    private $metaDescription;
+    private string $metaKeywords;
 
     /**
      * @var string
      */
-    private $metaAuthor;
+    private string $metaDescription;
 
     /**
      * @var string
      */
-    private $metaCopyright;
+    private string $metaAuthor;
 
     /**
      * @var string
      */
-    private $metaImage;
+    private string $metaCopyright;
+
+    /**
+     * @var string
+     */
+    private string $metaImage;
 
     /**
      * @var bool
      */
-    private $enabled;
+    private bool $enabled;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $updatedAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__post_translation';
+    protected static string $table = 'cms__post_translation';
 
     /**
      * PostTranslation constructor.

@@ -25,7 +25,7 @@ class TwigJsonDecode extends AbstractExtension
      * @param string $input
      * @return mixed
      */
-    public function jsonDecode(string $input)
+    public function jsonDecode(string $input): mixed
     {
         return json_decode($input, true);
     }

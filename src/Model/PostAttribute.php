@@ -14,37 +14,37 @@ class PostAttribute extends DbModel
     /**
      * @var int
      */
-    private $postAttributeId;
+    private int $postAttributeId;
 
     /**
-     * @var Post
+     * @var ?Post
      */
-    private $post;
-
-    /**
-     * @var string
-     */
-    private $name;
+    private ?Post $post;
 
     /**
      * @var string
      */
-    private $value;
+    private string $name;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $value;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__post_attribute';
+    private string $updatedAt;
+
+    /**
+     * @var string
+     */
+    protected static string $table = 'cms__post_attribute';
 
     /**
      * PostTranslation constructor.

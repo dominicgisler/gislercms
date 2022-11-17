@@ -11,7 +11,10 @@ use Laminas\Validator\AbstractValidator;
  */
 class DoesNotContain extends AbstractValidator
 {
-    private $str;
+    /**
+     * @var string
+     */
+    private string $str;
 
     /**
      * StartsWith constructor.
@@ -26,7 +29,7 @@ class DoesNotContain extends AbstractValidator
     /**
      * Returns true if the string does not contain $str
      *
-     * @param  Page $value
+     * @param Page $value
      * @return bool
      */
     public function isValid($value): bool
@@ -38,7 +41,7 @@ class DoesNotContain extends AbstractValidator
 
         $this->setValue($value);
 
-        if (strpos($value, $this->str) !== false) {
+        if (str_contains($value, $this->str)) {
             $this->error('value contains "' . $this->str . '"');
         }
 

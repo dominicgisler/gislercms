@@ -18,7 +18,7 @@ class NoCacheMiddleware
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     /**
      * @param ContainerInterface $container
@@ -29,14 +29,14 @@ class NoCacheMiddleware
     }
 
     /**
-     * @param  ServerRequestInterface|Request $request  PSR7 request
-     * @param  ResponseInterface|Response     $response PSR7 response
-     * @param callable $next     Next middleware
+     * @param Request|ServerRequestInterface $request PSR7 request
+     * @param Response|ResponseInterface $response PSR7 response
+     * @param callable $next Next middleware
      *
      * @return ResponseInterface|Response
      * @throws Exception
      */
-    public function __invoke($request, $response, callable $next)
+    public function __invoke(Request|ServerRequestInterface $request, Response|ResponseInterface $response, callable $next): Response|ResponseInterface
     {
         return $next($request, $response->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Pragma', 'no-cache'));
     }

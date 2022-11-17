@@ -14,77 +14,77 @@ class PageTranslationHistory extends DbModel
     /**
      * @var int
      */
-    private $pageTranslationHistoryId;
+    private int $pageTranslationHistoryId;
 
     /**
-     * @var PageTranslation
+     * @var ?PageTranslation
      */
-    private $pageTranslation;
-
-    /**
-     * @var string
-     */
-    private $name;
+    private ?PageTranslation $pageTranslation;
 
     /**
      * @var string
      */
-    private $title;
+    private string $name;
 
     /**
      * @var string
      */
-    private $content;
+    private string $title;
 
     /**
      * @var string
      */
-    private $metaKeywords;
+    private string $content;
 
     /**
      * @var string
      */
-    private $metaDescription;
+    private string $metaKeywords;
 
     /**
      * @var string
      */
-    private $metaAuthor;
+    private string $metaDescription;
 
     /**
      * @var string
      */
-    private $metaCopyright;
+    private string $metaAuthor;
 
     /**
      * @var string
      */
-    private $metaImage;
+    private string $metaCopyright;
+
+    /**
+     * @var string
+     */
+    private string $metaImage;
 
     /**
      * @var bool
      */
-    private $enabled;
+    private bool $enabled;
 
     /**
-     * @var User
+     * @var ?User
      */
-    private $user;
-
-    /**
-     * @var string
-     */
-    private $createdAt;
+    private ?User $user;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__page_translation_history';
+    private string $updatedAt;
+
+    /**
+     * @var string
+     */
+    protected static string $table = 'cms__page_translation_history';
 
     /**
      * PageTranslationHistory constructor.

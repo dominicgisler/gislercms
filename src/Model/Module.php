@@ -15,47 +15,47 @@ class Module extends DbModel
     /**
      * @var int
      */
-    private $moduleId;
+    private int $moduleId;
 
     /**
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * @var bool
      */
-    private $enabled;
+    private bool $enabled;
 
     /**
      * @var bool
      */
-    private $trash;
+    private bool $trash;
 
     /**
      * @var string
      */
-    private $controller;
+    private string $controller;
 
     /**
      * @var string
      */
-    private $config;
+    private string $config;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $updatedAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__module';
+    protected static string $table = 'cms__module';
 
     /**
      * Config constructor.

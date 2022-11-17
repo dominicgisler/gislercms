@@ -14,7 +14,7 @@ class PageExists extends AbstractValidator
     /**
      * Returns true if the page exists
      *
-     * @param  Page $value
+     * @param Page $value
      * @return bool
      */
     public function isValid($value): bool

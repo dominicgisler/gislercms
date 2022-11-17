@@ -25,7 +25,7 @@ class TwigGlob extends AbstractExtension
      * @param string $pattern
      * @return array|false
      */
-    public function glob(string $pattern)
+    public function glob(string $pattern): bool|array
     {
         return glob($pattern);
     }

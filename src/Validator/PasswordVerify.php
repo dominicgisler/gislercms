@@ -11,7 +11,10 @@ use Laminas\Validator\AbstractValidator;
  */
 class PasswordVerify extends AbstractValidator
 {
-    private $hash;
+    /**
+     * @var string
+     */
+    private string $hash;
 
     /**
      * StartsWith constructor.
@@ -26,7 +29,7 @@ class PasswordVerify extends AbstractValidator
     /**
      * Returns true if the string does not contain $str
      *
-     * @param  Page $value
+     * @param Page $value
      * @return bool
      */
     public function isValid($value): bool

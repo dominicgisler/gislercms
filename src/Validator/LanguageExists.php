@@ -14,7 +14,7 @@ class LanguageExists extends AbstractValidator
     /**
      * Returns true if the language exists
      *
-     * @param  Language $value
+     * @param Language $value
      * @return bool
      */
     public function isValid($value): bool

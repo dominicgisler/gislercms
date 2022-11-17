@@ -15,57 +15,57 @@ class Post extends DbModel
     /**
      * @var int
      */
-    private $postId;
+    private int $postId;
 
     /**
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * @var bool
      */
-    private $enabled;
+    private bool $enabled;
 
     /**
      * @var bool
      */
-    private $trash;
+    private bool $trash;
 
     /**
-     * @var Language
+     * @var ?Language
      */
-    private $language;
+    private ?Language $language;
 
     /**
      * @var string
      */
-    private $publishAt;
+    private string $publishAt;
 
     /**
      * @var string[]
      */
-    private $categories;
+    private array $categories;
 
     /**
      * @var PostAttribute[]
      */
-    private $attributes;
+    private array $attributes;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $updatedAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__post';
+    protected static string $table = 'cms__post';
 
     /**
      * Post constructor.

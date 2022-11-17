@@ -14,77 +14,77 @@ class User extends DbModel
     /**
      * @var int
      */
-    private $userId;
+    private int $userId;
 
     /**
      * @var string
      */
-    private $username;
+    private string $username;
 
     /**
      * @var string
      */
-    private $firstname;
+    private string $firstname;
 
     /**
      * @var string
      */
-    private $lastname;
+    private string $lastname;
 
     /**
      * @var string
      */
-    private $email;
+    private string $email;
 
     /**
      * @var string
      */
-    private $password;
+    private string $password;
 
     /**
      * @var string
      */
-    private $locale;
+    private string $locale;
 
     /**
      * @var int
      */
-    private $failedLogins;
+    private int $failedLogins;
 
     /**
      * @var bool
      */
-    private $locked;
+    private bool $locked;
 
     /**
      * @var string
      */
-    private $resetKey;
+    private string $resetKey;
 
     /**
      * @var string
      */
-    private $lastLogin;
+    private string $lastLogin;
 
     /**
      * @var string
      */
-    private $lastActivity;
+    private string $lastActivity;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $updatedAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__user';
+    protected static string $table = 'cms__user';
 
     /**
      * User constructor.

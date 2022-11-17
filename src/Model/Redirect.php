@@ -15,42 +15,42 @@ class Redirect extends DbModel
     /**
      * @var int
      */
-    private $redirectId;
+    private int $redirectId;
 
     /**
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * @var bool
      */
-    private $enabled;
+    private bool $enabled;
 
     /**
      * @var string
      */
-    private $route;
+    private string $route;
 
     /**
      * @var string
      */
-    private $location;
+    private string $location;
 
     /**
      * @var string
      */
-    private $createdAt;
+    private string $createdAt;
 
     /**
      * @var string
      */
-    private $updatedAt;
+    private string $updatedAt;
 
     /**
      * @var string
      */
-    protected static $table = 'cms__redirect';
+    protected static string $table = 'cms__redirect';
 
     /**
      * Redirect constructor.

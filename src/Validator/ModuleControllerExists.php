@@ -14,7 +14,7 @@ class ModuleControllerExists extends AbstractValidator
     /**
      * Returns true if the module controller exists
      *
-     * @param  string $value
+     * @param string $value
      * @return bool
      */
     public function isValid($value): bool
