@@ -41,12 +41,12 @@ class SessionsController extends AbstractController
         $orderDir = $order['dir'];
 
         $search = '%' . $search . '%';
-        $recordsTotal = sizeof(Session::getAll());
+        $recordsTotal = Session::countAll();
         if ($id > 0) {
-            $recordsFiltered = sizeof(Session::getWhere('`fk_client_id` = ? AND (platform LIKE ? OR browser LIKE ? OR user_agent LIKE ?)', [$search, $search, $search, $id]));
+            $recordsFiltered = Session::countWhere('`fk_client_id` = ? AND (platform LIKE ? OR browser LIKE ? OR user_agent LIKE ?)', [$search, $search, $search, $id]);
             $sessions = Session::getWhere(sprintf('`fk_client_id` = ? AND (platform LIKE ? OR browser LIKE ? OR user_agent LIKE ?) ORDER BY %s %s LIMIT %d, %d', $orderCol, $orderDir, $start, $length), [$id, $search, $search, $search]);
         } else {
-            $recordsFiltered = sizeof(Session::getWhere('(platform LIKE ? OR browser LIKE ? OR user_agent LIKE ?)', [$search, $search, $search]));
+            $recordsFiltered = Session::countWhere('(platform LIKE ? OR browser LIKE ? OR user_agent LIKE ?)', [$search, $search, $search]);
             $sessions = Session::getWhere(sprintf('(platform LIKE ? OR browser LIKE ? OR user_agent LIKE ?) ORDER BY %s %s LIMIT %d, %d', $orderCol, $orderDir, $start, $length), [$search, $search, $search]);
         }
 

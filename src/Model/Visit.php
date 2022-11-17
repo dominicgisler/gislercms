@@ -240,12 +240,25 @@ class Visit extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return int
+     * @throws Exception
+     */
+    public static function countWhere(string $where = '', array $args = []): int
+    {
+        $stmt = self::getPDO()->prepare("SELECT COUNT(*) FROM `cms__visit` " . (!empty($where) ? 'WHERE ' . $where : ''));
+        $stmt->execute($args);
+        return $stmt->fetchColumn();
+    }
+
+    /**
      * @return int
      * @throws Exception
      */
     public static function countAll(): int
     {
-        return self::getPDO()->query("SELECT COUNT(*) FROM `cms__visit`")->fetchColumn();
+        return self::countWhere();
     }
 
     /**

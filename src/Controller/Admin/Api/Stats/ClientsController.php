@@ -33,16 +33,15 @@ class ClientsController extends AbstractController
         $draw = $request->getQueryParam('draw');
         $start = intval($request->getQueryParam('start'));
         $length = intval($request->getQueryParam('length'));
-        $search = $request->getQueryParam('search')['value'];
         $columns = $request->getQueryParam('columns');
         $order = $request->getQueryParam('order')[0];
 
         $orderCol = $columns[$order['column']]['data'];
         $orderDir = $order['dir'];
 
-        $recordsTotal = sizeof(Client::getAll());
+        $recordsTotal = Client::countAll();
         if ($opt == 'real') {
-            $recordsFiltered = sizeof(Client::getWhere('`created_at` != `updated_at`'));
+            $recordsFiltered = Client::countWhere('`created_at` != `updated_at`');
             $clients = Client::getWhere(sprintf('`created_at` != `updated_at` ORDER BY %s %s LIMIT %d, %d', $orderCol, $orderDir, $start, $length));
         } else {
             $recordsFiltered = $recordsTotal;

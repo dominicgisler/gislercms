@@ -41,12 +41,12 @@ class VisitsController extends AbstractController
         $orderDir = $order['dir'];
 
         $search = '%' . $search . '%';
-        $recordsTotal = sizeof(Visit::getAll());
+        $recordsTotal = Visit::countAll();
         if ($id > 0) {
-            $recordsFiltered = sizeof(Visit::getWhere('`fk_session_id` = ? AND `arguments` LIKE ?', [$id, $search]));
+            $recordsFiltered = Visit::countWhere('`fk_session_id` = ? AND `arguments` LIKE ?', [$id, $search]);
             $visits = Visit::getWhere(sprintf('`fk_session_id` = ? AND `arguments` LIKE ? ORDER BY %s %s LIMIT %d, %d', $orderCol, $orderDir, $start, $length), [$id, $search]);
         } else {
-            $recordsFiltered = sizeof(Visit::getWhere('`arguments` LIKE ?', [$search]));
+            $recordsFiltered = Visit::countWhere('`arguments` LIKE ?', [$search]);
             $visits = Visit::getWhere(sprintf('`arguments` LIKE ? ORDER BY %s %s LIMIT %d, %d', $orderCol, $orderDir, $start, $length), [$search]);
         }
 

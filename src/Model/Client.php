@@ -154,12 +154,25 @@ class Client extends DbModel
     }
 
     /**
+     * @param string $where
+     * @param array $args
+     * @return int
+     * @throws Exception
+     */
+    public static function countWhere(string $where = '', array $args = []): int
+    {
+        $stmt = self::getPDO()->prepare("SELECT COUNT(*) FROM `cms__client` " . (!empty($where) ? 'WHERE ' . $where : ''));
+        $stmt->execute($args);
+        return $stmt->fetchColumn();
+    }
+
+    /**
      * @return int
      * @throws Exception
      */
     public static function countAll(): int
     {
-        return self::getPDO()->query("SELECT COUNT(*) FROM `cms__client`")->fetchColumn();
+        return self::countWhere();
     }
 
     /**
@@ -168,7 +181,7 @@ class Client extends DbModel
      */
     public static function countReal(): int
     {
-        return self::getPDO()->query("SELECT COUNT(*) FROM `cms__client` WHERE `created_at` != `updated_at`")->fetchColumn();
+        return self::countWhere('`created_at` != `updated_at`');
     }
 
     /**
