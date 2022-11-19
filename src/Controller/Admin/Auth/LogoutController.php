@@ -4,6 +4,8 @@ namespace GislerCMS\Controller\Admin\Auth;
 
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Helper\SessionHelper;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -21,6 +23,8 @@ class LogoutController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function __invoke(Request $request, Response $response): Response
     {

@@ -10,6 +10,8 @@ use GislerCMS\Model\Config;
 use GislerCMS\Model\Mailer;
 use GislerCMS\Model\User;
 use Laminas\Filter\ToInt;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Laminas\InputFilter\Factory;
@@ -29,6 +31,9 @@ class MailerController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
+     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     public function __invoke(Request $request, Response $response): Response

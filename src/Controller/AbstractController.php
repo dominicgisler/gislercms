@@ -17,7 +17,9 @@ use GislerCMS\Model\Session;
 use GislerCMS\Model\Visit;
 use GislerCMS\Model\Widget;
 use GislerCMS\Model\WidgetTranslation;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Container;
 use Slim\Http\Request;
@@ -33,12 +35,14 @@ abstract class AbstractController
     /**
      * @var Container|ContainerInterface
      */
-    private $container;
+    private Container|ContainerInterface $container;
 
     /**
-     * @param Container|ContainerInterface $container
+     * @param ContainerInterface|Container $container
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function __construct($container)
+    public function __construct(ContainerInterface|Container $container)
     {
         if (PHP_SAPI == "cli") {
             exit;
@@ -50,8 +54,10 @@ abstract class AbstractController
     /**
      * @param string $var
      * @return mixed
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    protected function get(string $var)
+    protected function get(string $var): mixed
     {
         return $this->container->get($var);
     }
@@ -62,6 +68,8 @@ abstract class AbstractController
      * @param string $template
      * @param array $data
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     protected function render(Request $request, ResponseInterface $response, string $template, array $data = []): Response
     {
@@ -130,7 +138,7 @@ abstract class AbstractController
                 ->withValue($cUuid)
                 ->withExpires(strtotime('+1 year'))
                 ->withPath('/')
-                ->withHttpOnly(true)
+                ->withHttpOnly()
         );
 
         $session = Session::getSession($sUuid);
@@ -180,6 +188,8 @@ abstract class AbstractController
      * @param PageTranslation $page
      * @param string $reqName
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     protected function renderPage(Request $request, Response $response, PageTranslation $page, string $reqName = ''): Response

@@ -14,6 +14,8 @@ use GislerCMS\Model\WidgetTranslation;
 use GislerCMS\Model\WidgetTranslationHistory;
 use GislerCMS\Model\User;
 use GislerCMS\Validator\LanguageExists;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Laminas\InputFilter\Factory;
@@ -35,6 +37,8 @@ class EditController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     public function __invoke(Request $request, Response $response): Response

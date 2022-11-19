@@ -26,7 +26,7 @@ class ContactModuleController extends AbstractModuleController
     /**
      * @var array
      */
-    protected static $exampleConfig = [
+    protected static array $exampleConfig = [
         'mailer' => [
             'smtp' => true,
             'host' => 'mail.example.com',
@@ -151,7 +151,7 @@ class ContactModuleController extends AbstractModuleController
     /**
      * @var array
      */
-    private $validatorMap = [
+    private array $validatorMap = [
         'not_empty' => NotEmpty::class,
         'string_length' => StringLength::class,
         'email_address' => EmailAddress::class,
@@ -164,7 +164,7 @@ class ContactModuleController extends AbstractModuleController
     /**
      * @var string
      */
-    protected static $manageController = ContactController::class;
+    protected static string $manageController = ContactController::class;
 
     /**
      * Render FORM on GET-Request

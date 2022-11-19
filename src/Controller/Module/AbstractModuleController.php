@@ -16,25 +16,24 @@ abstract class AbstractModuleController
     /**
      * @var array
      */
-    protected $config = [];
+    protected array $config = [];
 
     /**
      * @var Twig
      */
-    protected $view;
+    protected Twig $view;
 
     /**
      * @var array
      */
-    protected static $exampleConfig = [];
+    protected static array $exampleConfig = [];
 
     /**
      * @var string
      */
-    protected static $manageController = AbstractController::class;
+    protected static string $manageController = AbstractController::class;
 
     /**
-     * AbstractModuleController constructor.
      * @param array $config
      * @param Twig $view
      */

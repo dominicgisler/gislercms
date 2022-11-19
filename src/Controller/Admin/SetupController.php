@@ -8,6 +8,8 @@ use GislerCMS\Helper\MigrationHelper;
 use GislerCMS\Model\DbModel;
 use GislerCMS\Model\User;
 use PDO;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -22,8 +24,9 @@ class SetupController extends AbstractController
     const METHODS = ['GET', 'POST'];
 
     /**
-     * SetupController constructor.
      * @param $container
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function __construct($container)
     {
@@ -34,6 +37,8 @@ class SetupController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function __invoke(Request $request, Response $response): Response
     {

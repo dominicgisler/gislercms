@@ -7,6 +7,8 @@ use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Filter\ToBool;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Language;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Laminas\InputFilter\Factory;
@@ -27,11 +29,13 @@ class EditController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     public function __invoke(Request $request, Response $response): Response
     {
-        $id = (int) $request->getAttribute('route')->getArgument('id');
+        $id = (int)$request->getAttribute('route')->getArgument('id');
         $cont = SessionHelper::getContainer();
 
         $language = new Language();

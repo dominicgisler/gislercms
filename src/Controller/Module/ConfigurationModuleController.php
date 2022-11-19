@@ -13,7 +13,7 @@ class ConfigurationModuleController extends AbstractModuleController
     /**
      * @var array
      */
-    protected static $exampleConfig = [
+    protected static array $exampleConfig = [
         [
             'label' => 'Startseite',
             'href' => 'home'
@@ -27,5 +27,5 @@ class ConfigurationModuleController extends AbstractModuleController
     /**
      * @var string
      */
-    protected static $manageController = ConfigurationController::class;
+    protected static string $manageController = ConfigurationController::class;
 }

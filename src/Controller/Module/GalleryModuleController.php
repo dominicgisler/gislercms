@@ -16,7 +16,7 @@ class GalleryModuleController extends AbstractModuleController
     /**
      * @var array
      */
-    protected static $exampleConfig = [
+    protected static array $exampleConfig = [
         'title' => 'Galerie',
         'galleries' => [
             'test01' => [
@@ -37,7 +37,7 @@ class GalleryModuleController extends AbstractModuleController
     /**
      * @var string
      */
-    protected static $manageController = GalleryController::class;
+    protected static string $manageController = GalleryController::class;
 
     /**
      * @param Request $request

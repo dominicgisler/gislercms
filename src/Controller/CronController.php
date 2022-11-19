@@ -6,7 +6,9 @@ use Exception;
 use GislerCMS\Controller\Admin\Misc\System\BackupController;
 use GislerCMS\Model\Config;
 use GislerCMS\Model\DbModel;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -25,12 +27,14 @@ class CronController
     /**
      * @var Container|ContainerInterface
      */
-    private $container;
+    private Container|ContainerInterface $container;
 
     /**
-     * @param Container|ContainerInterface $container
+     * @param ContainerInterface|Container $container
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function __construct($container)
+    public function __construct(ContainerInterface|Container $container)
     {
         if (PHP_SAPI != "cli") {
             exit;
@@ -42,8 +46,10 @@ class CronController
     /**
      * @param string $var
      * @return mixed
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    protected function get(string $var)
+    protected function get(string $var): mixed
     {
         return $this->container->get($var);
     }
@@ -52,6 +58,8 @@ class CronController
      * @param Request $request
      * @param Response $response
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     public function __invoke(Request $request, Response $response): Response
@@ -72,9 +80,12 @@ class CronController
 
     /**
      * @param int $interval
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
-    private function handleStatistics(int $interval)
+    private function handleStatistics(int $interval): void
     {
         $cacheFile = $this->get('settings')['data_cache'] . 'dashboard.json';
         $doRefresh = true;
@@ -93,9 +104,12 @@ class CronController
 
     /**
      * @param int $interval
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
-    private function handleBackup(int $interval)
+    private function handleBackup(int $interval): void
     {
         $rootPath = $this->get('settings')['root_path'];
         $backups = BackupController::getBackups($rootPath, false);

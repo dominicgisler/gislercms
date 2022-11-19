@@ -7,6 +7,8 @@ use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Helper\FileSystemHelper;
 use GislerCMS\Helper\MigrationHelper;
 use GislerCMS\Helper\SessionHelper;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use ZipArchive;
@@ -28,6 +30,8 @@ class UpdateController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     public function __invoke(Request $request, Response $response): Response
@@ -87,7 +91,7 @@ class UpdateController extends AbstractController
     /**
      * @return mixed
      */
-    public static function getRelease()
+    public static function getRelease(): mixed
     {
         $context = stream_context_create([
             'http' => [
@@ -105,8 +109,9 @@ class UpdateController extends AbstractController
      * @param string $url
      * @param string $dir
      * @param string $filename
+     * @return void
      */
-    private function downloadRelease(string $url, string $dir, string $filename)
+    private function downloadRelease(string $url, string $dir, string $filename): void
     {
         $dlPath = sprintf('%s/%s', $dir, $filename);
         foreach (glob($dir . '/{,.}[!.,!..]*', GLOB_BRACE) as $file) {
@@ -126,8 +131,9 @@ class UpdateController extends AbstractController
     /**
      * @param string $rootPath
      * @param string $updatePath
+     * @return void
      */
-    private function installUpdate(string $rootPath, string $updatePath)
+    private function installUpdate(string $rootPath, string $updatePath): void
     {
         FileSystemHelper::remove($rootPath . '/cache');
         FileSystemHelper::remove($rootPath . '/mysql');
@@ -145,8 +151,9 @@ class UpdateController extends AbstractController
      * @param string $rootPath
      * @param string $updatePath
      * @param string $subPath
+     * @return void
      */
-    private function moveFolder(string $rootPath, string $updatePath, string $subPath)
+    private function moveFolder(string $rootPath, string $updatePath, string $subPath): void
     {
         foreach (glob($subPath . '/{,.}[!.,!..]*', GLOB_BRACE) as $file) {
             $relPath = substr($file, strlen($updatePath) + 1);

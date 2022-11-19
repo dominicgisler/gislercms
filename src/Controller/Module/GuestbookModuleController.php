@@ -27,7 +27,7 @@ class GuestbookModuleController extends AbstractModuleController
     /**
      * @var array
      */
-    protected static $exampleConfig = [
+    protected static array $exampleConfig = [
         'identifier' => 'guestbook',
         'notification' => [
             'enable' => false,
@@ -103,7 +103,7 @@ class GuestbookModuleController extends AbstractModuleController
     /**
      * @var array
      */
-    private $validatorMap = [
+    private array $validatorMap = [
         'not_empty' => NotEmpty::class,
         'string_length' => StringLength::class,
         'email_address' => EmailAddress::class,
@@ -116,7 +116,7 @@ class GuestbookModuleController extends AbstractModuleController
     /**
      * @var string
      */
-    protected static $manageController = GuestbookController::class;
+    protected static string $manageController = GuestbookController::class;
 
     /**
      * Render FORM on GET-Request

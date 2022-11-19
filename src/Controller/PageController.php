@@ -8,6 +8,8 @@ use GislerCMS\Model\Config;
 use GislerCMS\Model\Language;
 use GislerCMS\Model\PageTranslation;
 use GislerCMS\Model\Redirect;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -25,6 +27,8 @@ class PageController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
      * @throws Exception
      */
     public function __invoke(Request $request, Response $response): Response
@@ -42,7 +46,7 @@ class PageController extends AbstractController
         if ($redirect->getRedirectId() > 0) {
             $this->trackRedirect($request, $response, $redirect);
             $url = $this->get('base_url') . '/' . $redirect->getLocation();
-            if (substr($redirect->getLocation(), 0, 7) === 'http://' || substr($redirect->getLocation(), 0, 8) === 'https://') {
+            if (str_starts_with($redirect->getLocation(), 'http://') || str_starts_with($redirect->getLocation(), 'https://')) {
                 $url = $redirect->getLocation();
             }
             return $response->withRedirect($url, 301);

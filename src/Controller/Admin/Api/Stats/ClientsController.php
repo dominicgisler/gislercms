@@ -6,6 +6,8 @@ use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Model\Client;
 use GislerCMS\Model\Session;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -23,6 +25,8 @@ class ClientsController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     public function __invoke(Request $request, Response $response): Response

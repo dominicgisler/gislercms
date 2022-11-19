@@ -2,10 +2,9 @@
 
 namespace GislerCMS\Controller\Admin\Stats;
 
-use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
-use GislerCMS\Model\Session;
-use GislerCMS\Model\Visit;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -23,7 +22,8 @@ class SessionsController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws Exception
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function __invoke(Request $request, Response $response): Response
     {

@@ -2,8 +2,9 @@
 
 namespace GislerCMS\Controller\Admin\Misc\System;
 
-use Exception;
 use GislerCMS\Controller\Admin\AbstractController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -23,7 +24,8 @@ class ChangelogController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws Exception
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function __invoke(Request $request, Response $response): Response
     {
@@ -37,7 +39,7 @@ class ChangelogController extends AbstractController
     /**
      * @return mixed
      */
-    private function getReleases()
+    private function getReleases(): mixed
     {
         $context = stream_context_create([
             'http' => [

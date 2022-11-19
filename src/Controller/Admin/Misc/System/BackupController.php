@@ -7,6 +7,8 @@ use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Config;
 use Ifsnop\Mysqldump\Mysqldump;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Slim\Http\Request;
@@ -33,6 +35,8 @@ class BackupController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     public function __invoke(Request $request, Response $response): Response
@@ -137,9 +141,10 @@ class BackupController extends AbstractController
      * @param string $rootPath
      * @param array $dbCfg
      * @param string $cmsVersion
+     * @return void
      * @throws Exception
      */
-    public static function doBackup(string $rootPath, array $dbCfg, string $cmsVersion)
+    public static function doBackup(string $rootPath, array $dbCfg, string $cmsVersion): void
     {
         $rootPath = realpath($rootPath);
         $backupPath = realpath($rootPath . '/' . self::BACKUP_FOLDER);
@@ -164,7 +169,7 @@ class BackupController extends AbstractController
         foreach ($files as $file) {
             if (!$file->isDir()) {
                 $filePath = $file->getRealPath();
-                if (substr($filePath, 0, strlen($backupPath)) !== $backupPath) {
+                if (!str_starts_with($filePath, $backupPath)) {
                     $relativePath = substr($filePath, strlen($rootPath) + 1);
                     $zip->addFile($filePath, $relativePath);
                 }

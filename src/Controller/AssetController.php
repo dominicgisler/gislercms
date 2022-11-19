@@ -2,7 +2,8 @@
 
 namespace GislerCMS\Controller;
 
-use Exception;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\Stream;
@@ -28,7 +29,8 @@ class AssetController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
-     * @throws Exception
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function __invoke(Request $request, Response $response): Response
     {

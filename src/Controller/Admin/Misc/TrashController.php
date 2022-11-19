@@ -8,6 +8,8 @@ use GislerCMS\Model\DbModel;
 use GislerCMS\Model\Page;
 use GislerCMS\Model\Post;
 use GislerCMS\Model\Widget;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -25,6 +27,8 @@ class TrashController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     public function __invoke(Request $request, Response $response): Response
@@ -55,9 +59,11 @@ class TrashController extends AbstractController
     /**
      * @param array|null $elems
      * @param string $method
-     * @param $class String
+     * @param string $class
+     * @return void
      */
-    private function handleElements(?array $elems, string $method, string $class) {
+    private function handleElements(?array $elems, string $method, string $class): void
+    {
         /** @var DbModel $class */
         foreach ($elems as $key => $val) {
             if ($val) {

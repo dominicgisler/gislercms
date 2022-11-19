@@ -7,7 +7,8 @@ use GislerCMS\Controller\Admin\AbstractController;
 use GislerCMS\Filter\ToBool;
 use GislerCMS\Helper\SessionHelper;
 use GislerCMS\Model\Redirect;
-use GislerCMS\Model\User;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Laminas\InputFilter\Factory;
@@ -29,13 +30,13 @@ class EditController extends AbstractController
      * @param Request $request
      * @param Response $response
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     public function __invoke(Request $request, Response $response): Response
     {
         $cont = SessionHelper::getContainer();
-        /** @var User $user */
-        $user = $cont->offsetGet('user');
 
         $msg = false;
         if ($cont->offsetExists('redirect_saved')) {
@@ -43,7 +44,7 @@ class EditController extends AbstractController
             $msg = 'save_success';
         }
 
-        $id = (int) $request->getAttribute('route')->getArgument('id');
+        $id = (int)$request->getAttribute('route')->getArgument('id');
         $redirect = Redirect::get($id);
 
         $errors = [];

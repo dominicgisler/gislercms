@@ -19,15 +19,14 @@ abstract class AbstractController
     /**
      * @var array
      */
-    protected $config = [];
+    protected array $config = [];
 
     /**
      * @var Twig
      */
-    protected $view;
+    protected Twig $view;
 
     /**
-     * AbstractController constructor.
      * @param array $config
      * @param Twig $view
      */

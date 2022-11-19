@@ -12,7 +12,9 @@ use GislerCMS\Model\Post;
 use GislerCMS\Model\Redirect;
 use GislerCMS\Model\User;
 use GislerCMS\Model\Widget;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -27,13 +29,15 @@ abstract class AbstractController
     /**
      * @var Container|ContainerInterface
      */
-    protected $container;
+    protected Container|ContainerInterface $container;
 
     /**
-     * @param Container|ContainerInterface $container
+     * @param ContainerInterface|Container $container
      * @param bool $initDBModel
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function __construct($container, bool $initDBModel = true)
+    public function __construct(ContainerInterface|Container $container, bool $initDBModel = true)
     {
         if (PHP_SAPI == "cli") {
             exit;
@@ -47,8 +51,10 @@ abstract class AbstractController
     /**
      * @param string $var
      * @return mixed
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    protected function get(string $var)
+    protected function get(string $var): mixed
     {
         return $this->container->get($var);
     }
@@ -59,6 +65,8 @@ abstract class AbstractController
      * @param string $template
      * @param array $data
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     protected function render(Request $request, Response $response, string $template, array $data = []): Response
@@ -93,10 +101,12 @@ abstract class AbstractController
 
     /**
      * @param $val
-     * @return mixed
+     * @return array|mixed|string|string[]
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
-    private function replacePlaceholders($val)
+    private function replacePlaceholders($val): mixed
     {
         if (is_string($val)) {
             $val = str_replace('{admin_url}', $this->get('base_url') . $this->get('settings')['global']['admin_route'], $val);
