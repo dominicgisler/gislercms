@@ -66,8 +66,7 @@ class ForgotPasswordController extends AbstractController
                     $error = true;
                 }
             } else {
-                $msg = 'invalid_input';
-                $error = true;
+                $msg = 'success';
             }
 
             $data = [
