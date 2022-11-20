@@ -14,6 +14,7 @@ services:
       - mariadb
     links:
       - mariadb
+      - mariadb-test
   mariadb:
     container_name: "mariadb"
     image: "mariadb"
@@ -22,6 +23,15 @@ services:
       - "13306:3306"
     volumes:
       - "gcms-data:/var/lib/mysql"
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+      MARIADB_USER: "gcms_user"
+      MARIADB_PASSWORD: "gcms_pass"
+      MARIADB_DATABASE: "gcms_data"
+  mariadb-test:
+    container_name: "mariadb-test"
+    image: "mariadb"
+    restart: unless-stopped
     environment:
       MARIADB_RANDOM_ROOT_PASSWORD: "yes"
       MARIADB_USER: "gcms_user"

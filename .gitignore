@@ -11,4 +11,5 @@
 /public/css/**/*.css.map
 /public/editor
 /dist
+/drivers
 *.zip
