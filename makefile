@@ -16,9 +16,11 @@ css: docker
 test:
 	@docker-compose down
 	@docker-compose up -d
+	@sleep 10
 	@-mv config/local.php config/local.php.bak
 	@docker-compose run --rm gislercms vendor/bin/bdi detect drivers
-	@-docker-compose run --rm gislercms ./vendor/bin/phpunit tests
+	@-docker-compose run --rm gislercms ./vendor/bin/phpunit --testdox tests
+	@rm -rf config/local.php
 	@-mv config/local.php.bak config/local.php
 
 docker:
