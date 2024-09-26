@@ -32,9 +32,9 @@
                             type: 'menuitem',
                             text: TMCE_TRANS.posts,
                             onAction: function () {
-                                var elem = $('#insertPostsModal');
+                                let elem = $('#insertPostsModal');
                                 if (elem) {
-                                    elem.modal();
+                                    (new bootstrap.Modal(elem)).show();
                                 }
                             }
                         },
@@ -42,9 +42,9 @@
                             type: 'menuitem',
                             text: TMCE_TRANS.module,
                             onAction: function () {
-                                var elem = $('#insertModuleModal');
+                                let elem = $('#insertModuleModal');
                                 if (elem) {
-                                    elem.modal();
+                                    (new bootstrap.Modal(elem)).show();
                                 }
                             }
                         },
@@ -52,9 +52,9 @@
                             type: 'menuitem',
                             text: TMCE_TRANS.widget,
                             onAction: function () {
-                                var elem = $('#insertWidgetModal');
+                                let elem = $('#insertWidgetModal');
                                 if (elem) {
-                                    elem.modal();
+                                    (new bootstrap.Modal(elem)).show();
                                 }
                             }
                         },

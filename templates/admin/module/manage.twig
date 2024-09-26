@@ -33,14 +33,12 @@
     {% if message %}
         <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
             {{ messages[message].message|raw }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
     <form method="post" id="page-form">
-        <div class="text-right mb-4">
-            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{{ 'Modul löschen'|trans }}</button>
+        <div class="text-end mb-4">
+            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#confirmDelete">{{ 'Modul löschen'|trans }}</button>
         </div>
 
         {# confirm delete modal #}
@@ -49,15 +47,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Modul löschen'|trans }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         {{ 'Möchtest du dieses Modul wirklich unwiderruflich löschen?'|trans }}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
                         <button type="submit" name="delete" class="btn btn-danger">{{ 'Ja, Modul löschen'|trans }}</button>
                     </div>
                 </div>

@@ -60,12 +60,12 @@ class VisitsController extends AbstractController
             $stats[] = [
                 'visit_id' => $visit->getVisitId(),
                 'created_at' => date('d.m.Y H:i:s', strtotime($visit->getCreatedAt())),
-                'page_id' => sprintf('<a href="%s/page/%d">%s</a>', $adminURL, $ptrans->getPage()->getPageId(), $ptrans->getPage()->getName()),
-                'language_id' => sprintf('<a href="%s/misc/language/%d">%s</a>', $adminURL, $ptrans->getLanguage()->getLanguageId(), $ptrans->getLanguage()->getDescription()),
+                'page_id' => sprintf('<a href="%s/page/%d" class="text-decoration-none">%s</a>', $adminURL, $ptrans->getPage()->getPageId(), $ptrans->getPage()->getName()),
+                'language_id' => sprintf('<a href="%s/misc/language/%d" class="text-decoration-none">%s</a>', $adminURL, $ptrans->getLanguage()->getLanguageId(), $ptrans->getLanguage()->getDescription()),
                 'arguments' => $visit->getArguments(),
-                'redirect_id' => sprintf('<a href="%s/redirect/%d">%s</a>', $adminURL, $visit->getRedirect()->getRedirectId(), $visit->getRedirect()->getName()),
-                'client_id' => sprintf('<a href="%s/stats/sessions/%d">#%d</a>', $adminURL, $visit->getSession()->getClient()->getClientId(), $visit->getSession()->getClient()->getClientId()),
-                'session_id' => sprintf('<a href="%s/stats/visits/%d">#%d</a>', $adminURL, $visit->getSession()->getSessionId(), $visit->getSession()->getSessionId())
+                'redirect_id' => sprintf('<a href="%s/redirect/%d" class="text-decoration-none">%s</a>', $adminURL, $visit->getRedirect()->getRedirectId(), $visit->getRedirect()->getName()),
+                'client_id' => sprintf('<a href="%s/stats/sessions/%d" class="text-decoration-none">#%d</a>', $adminURL, $visit->getSession()->getClient()->getClientId(), $visit->getSession()->getClient()->getClientId()),
+                'session_id' => sprintf('<a href="%s/stats/visits/%d" class="text-decoration-none">#%d</a>', $adminURL, $visit->getSession()->getSessionId(), $visit->getSession()->getSessionId())
             ];
         }
 

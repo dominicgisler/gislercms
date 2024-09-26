@@ -1,72 +1,13 @@
 @import '../../../vendor/twbs/bootstrap/scss/bootstrap';
 @import '../../../vendor/select2/select2/dist/css/select2';
-@import '../../../vendor/datatables/datatables/media/css/dataTables.bootstrap4';
+@import '../../../vendor/datatables.net/datatables.net-bs5/css/dataTables.bootstrap5';
 
 $fa-font-path: "../webfonts" !default;
 @import '../../../vendor/fortawesome/font-awesome/scss/fontawesome';
 @import '../../../vendor/fortawesome/font-awesome/scss/solid';
 @import '../../../vendor/fortawesome/font-awesome/scss/brands';
 
-body {
-  font-size: .875rem;
-}
-
-/*
- * Sidebar
- */
-
-.sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 100; /* Behind the navbar */
-  padding: 48px 0 0; /* Height of navbar */
-}
-
-.sidebar, .sidebar .list-group-item {
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-}
-
-.sidebar .sidenav {
-  position: relative;
-  top: 0;
-  height: calc(100vh - 48px);
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-/*
- * Content
- */
-
-[role="main"] {
-  padding-top: 48px; /* Space for fixed navbar */
-}
-
-/*
- * Navbar
- */
-
-.navbar-brand {
-  padding-top: .75rem;
-  padding-bottom: .75rem;
-  font-size: 1rem;
-}
-
-.navbar .form-control {
-  padding: .75rem 1rem;
-  border-width: 0;
-  border-radius: 0;
-}
-
-.form-control-dark {
-  color: #fff;
-  background-color: rgba(255, 255, 255, .1);
-  border-color: rgba(255, 255, 255, .1);
-}
-
-.form-control-dark:focus {
-  border-color: transparent;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+.btn-close {
+  background: var(--bs-btn-close-bg) 0.5em no-repeat;
+  background-size: 1rem;
 }

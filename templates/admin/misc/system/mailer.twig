@@ -33,9 +33,7 @@
         <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
             {{ messages[message].message|raw }}<br>
             {{ errors.message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
     <form method="post" id="page-form">
@@ -51,7 +49,7 @@
         <h2 class="h4 mt-4">{{ 'Standardabsender'|trans }}</h2>
         {{ forms.form_group('text', 'default_name', data.default_name, 'Name'|trans, '', 'default_email' in errors ? 'is-invalid' : '') }}
         {{ forms.form_group('email', 'default_email', data.default_email, 'E-Mail'|trans, '', 'default_name' in errors ? 'is-invalid' : '') }}
-        <div class="text-right mb-4">
+        <div class="text-end mb-4">
             <button type="submit" name="save" class="d-none"></button>
             <button type="submit" class="btn btn-secondary" name="test">{{ 'Einstellungen testen'|trans }}</button>
             <button type="submit" class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>

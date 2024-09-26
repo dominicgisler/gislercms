@@ -18,11 +18,11 @@
             {{ forms.button(elem.type, key, elem.label, elem.value, elem.class) }}
         {% elseif elem.type == 'recaptcha' %}
             <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-            <div class="g-recaptcha mb-2 {{ key in errors ? 'border-left border-danger' : '' }}" data-sitekey="{{ elem.website_key }}"></div>
+            <div class="g-recaptcha mb-2 {{ key in errors ? 'border-start border-danger' : '' }}" data-sitekey="{{ elem.website_key }}"></div>
         {% else %}
-            <div class="form-group">
+            <div class="mb-3">
                 {% if elem.type != 'checkbox' %}
-                    <label for="input_{{ key }}">{{ elem.label }}</label>
+                    <label for="input_{{ key }}" class="form-label">{{ elem.label }}</label>
                 {% endif %}
 
                 {% if elem.type == 'textarea' %}
@@ -37,7 +37,7 @@
                     {{ forms.input(elem.type, key, data[key], elem.placeholder, elem.class ~ (key in errors ? ' is-invalid' : '')) }}
                 {% endif %}
 
-                {% if elem.hint %}<small id="hint_{{ elem.name }}" class="form-text text-muted">{{ elem.hint }}</small>{% endif %}
+                {% if elem.hint %}<div id="hint_{{ elem.name }}" class="form-text">{{ elem.hint }}</div>{% endif %}
             </div>
         {% endif %}
     {% endfor %}

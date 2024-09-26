@@ -34,9 +34,7 @@
     {% if message %}
         <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
             {{ messages[message].message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
     <form method="post" id="page-form">
@@ -45,7 +43,7 @@
         {{ forms.form_group('text', 'lastname', data.lastname, 'Name'|trans, '', 'lastname' in errors ? 'is-invalid' : '', 'max. 128 Zeichen'|trans) }}
         {{ forms.form_group('text', 'email', data.email, 'E-Mail'|trans, '', 'email' in errors ? 'is-invalid' : '', 'Die E-Mail Adresse benötigst du beispielsweise um dein Passwort zurückzusetzen'|trans) }}
         {{ forms.form_group('select', 'locale', data.locale, 'Sprache'|trans, '', 'locale' in errors ? 'is-invalid' : '', 'In dieser Sprache wird das CMS angezeigt'|trans, languageSelect) }}
-        <div class="text-right mb-4">
+        <div class="text-end mb-4">
             <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
         </div>
     </form>

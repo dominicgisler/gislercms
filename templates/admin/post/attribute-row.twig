@@ -1,36 +1,28 @@
 {% macro initialRow(name, key, value) %}
-    <div class="form-group">
-        <div class="form-row">
-            <div class="col-3">
-                <label>{{ 'Name'|trans }}</label>
-                <input type="text" name="{{ name }}[name]" class="form-control {{ class }}" id="input_{{ name }}_key" value="{{ key }}" placeholder="">
-            </div>
-            <div class="col-9">
-                <label>{{ 'Wert'|trans }}</label>
-                <div class="input-group">
-                    <input type="text" name="{{ name }}[value]" class="form-control {{ class }}" id="input_{{ name }}_value" value="{{ value }}" placeholder="{{ placeholder }}">
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-outline-secondary add-attribute"><i class="fa fa-plus"></i></button>
-                    </div>
-                </div>
+    <div class="row g-2">
+        <div class="col-3">
+            <label>{{ 'Name'|trans }}</label>
+            <input type="text" name="{{ name }}[name]" class="form-control {{ class }}" id="input_{{ name }}_key" value="{{ key }}" placeholder="">
+        </div>
+        <div class="col-9">
+            <label>{{ 'Wert'|trans }}</label>
+            <div class="input-group">
+                <input type="text" name="{{ name }}[value]" class="form-control {{ class }}" id="input_{{ name }}_value" value="{{ value }}" placeholder="{{ placeholder }}">
+                <button type="button" class="input-group-text btn btn-outline-secondary add-attribute"><i class="fa fa-plus"></i></button>
             </div>
         </div>
     </div>
 {% endmacro %}
 
 {% macro additionalRow(name, key, value) %}
-    <div class="form-group">
-        <div class="form-row">
-            <div class="col-3">
-                <input type="text" name="{{ name }}[name]" class="form-control {{ class }}" value="{{ key }}" placeholder="">
-            </div>
-            <div class="col-9">
-                <div class="input-group">
-                    <input type="text" name="{{ name }}[value]" class="form-control {{ class }}" value="{{ value }}" placeholder="{{ placeholder }}">
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-outline-secondary remove-attribute"><i class="fa fa-trash"></i></button>
-                    </div>
-                </div>
+    <div class="row g-2 mt-1">
+        <div class="col-3">
+            <input type="text" name="{{ name }}[name]" class="form-control {{ class }}" value="{{ key }}" placeholder="">
+        </div>
+        <div class="col-9">
+            <div class="input-group">
+                <input type="text" name="{{ name }}[value]" class="form-control {{ class }}" value="{{ value }}" placeholder="{{ placeholder }}">
+                <button type="button" class="input-group-text btn btn-outline-secondary remove-attribute"><i class="fa fa-trash"></i></button>
             </div>
         </div>
     </div>

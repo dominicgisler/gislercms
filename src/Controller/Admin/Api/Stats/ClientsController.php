@@ -58,7 +58,7 @@ class ClientsController extends AbstractController
                 'client_id' => $client->getClientId(),
                 'created_at' => date('d.m.Y H:i:s', strtotime($client->getCreatedAt())),
                 'updated_at' => date('d.m.Y H:i:s', strtotime($client->getUpdatedAt())),
-                'sessions' => sprintf('<a href="%s/stats/sessions/%d">%d</a>', $adminURL, $client->getClientId(), sizeof(Session::getWhere('`fk_client_id` = ?', [$client->getClientId()]))),
+                'sessions' => sprintf('<a href="%s/stats/sessions/%d" class="text-decoration-none">%d</a>', $adminURL, $client->getClientId(), sizeof(Session::getWhere('`fk_client_id` = ?', [$client->getClientId()]))),
                 'real' => $client->getCreatedAt() != $client->getUpdatedAt() ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>'
             ];
         }

@@ -49,15 +49,6 @@ return [
             ],
             [
                 'title' => 'Inhalte',
-                'link' => [
-                    'icon' => 'fa fa-plus',
-                    'href' => [
-                        'Seite' => '{admin_url}/page/add',
-                        'Beitrag' => '{admin_url}/post/add',
-                        'Widget' => '{admin_url}/widget/add',
-                        'Modul' => '{admin_url}/module/add'
-                    ]
-                ],
                 'items' => [
                     [
                         'route' => ['admin-page-list', 'admin-page-edit'],

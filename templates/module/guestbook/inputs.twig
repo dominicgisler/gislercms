@@ -3,7 +3,7 @@
 {% endmacro %}
 
 {% macro select(name, value, options, placeholder, class) %}
-    <select class="form-control {{ class }}" id="input_{{ name }}" name="{{ name }}">
+    <select class="form-select {{ class }}" id="input_{{ name }}" name="{{ name }}">
         {% for key, elem in options %}
             <option value="{{ key }}"{% if value == key %} selected{% endif %}>{{ elem }}</option>
         {% endfor %}
@@ -13,7 +13,7 @@
 {% macro radio(name, value, options, placeholder, class) %}
     {% for key, elem in options %}
         <div class="form-check form-check">
-            <input class="form-check-input" type="radio" name="{{ name }}" id="input_{{ name }}_{{ key }}" value="{{ key }}" {% if value == key %} checked{% endif %}>
+            <input class="form-check-input" type="radio" name="{{ name }}" id="input_{{ name }}_{{ key }}" value="{{ key }}" {% if value == key %}checked{% endif %}>
             <label class="form-check-label" for="input_{{ name }}_{{ key }}">{{ elem }}</label>
         </div>
     {% endfor %}

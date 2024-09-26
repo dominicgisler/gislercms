@@ -4,26 +4,19 @@
 
 {% block content %}
     <div class="table-responsive">
-        <table class="table table-hover border datatable" data-order='[[ 4, "asc" ], [ 1, "asc" ]]'>
-            <thead class="thead-light">
+        <table class="table {% if redirects|length > 0 %}table-hover{% endif %} border datatable" data-order='[[ 4, "asc" ], [ 1, "asc" ]]'>
+            <thead class="table-light">
             <tr>
-                <th style="width: 40px;"></th>
                 <th>{{ 'Name'|trans }}</th>
                 <th>{{ 'Pfad'|trans }}</th>
                 <th>{{ 'Ziel'|trans }}</th>
                 <th>{{ 'Status'|trans }}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             {% for key, val in redirects %}
                 <tr style="cursor: pointer;" onclick="window.location.href='{{ admin_url }}/redirect/{{ val.getRedirectId() }}';">
-                    <td class="text-center">
-                        {% if val.isEnabled() %}
-                            <i class="fa fa-location-arrow"></i>
-                        {% else %}
-                            <i class="fa fa-eye-slash"></i>
-                        {% endif %}
-                    </td>
                     <td>{{ val.getName() }}</td>
                     <td>{{ base_url() ~ '/' ~ val.getRoute() }}</td>
                     <td>
@@ -41,12 +34,19 @@
                             <i class="fa fa-times fa-fw text-danger"></i> {{ 'Inaktiv'|trans }}
                         {% endif %}
                     </td>
+                    <td class="text-end">
+                        {% if val.isEnabled() %}
+                            <i class="fa fa-location-arrow"></i>
+                        {% else %}
+                            <i class="fa fa-eye-slash"></i>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="text-right mt-2">
+    <div class="text-end mt-2">
         <a href="{{ admin_url }}/redirect/add" class="btn btn-primary">{{ 'Neue Weiterleitung'|trans }}</a>
     </div>
 {% endblock %}

@@ -1,9 +1,9 @@
-<nav class="mt-2 border rounded bg-light navbar navbar-expand-lg navbar-light">
+<nav class="mt-2 px-3 border rounded bg-light navbar navbar-expand-lg navbar-light">
     {% set locale = page.getLanguage().getLocale() %}
     {% set navigation = module.getByName('navigation-' ~ locale).getConfig()|json_decode %}
     <a class="navbar-brand d-lg-none" href="#">{{ navigation.label }}</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="fa fa-bars px-1 py-1"></span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav w-100">
@@ -13,7 +13,7 @@
                     {% if not (href starts with 'http://') and not (href starts with 'https://') %}
                         {% set href = base_url() ~ href %}
                     {% endif %}
-                    <a class="nav-link {% if elem.items %}dropdown-toggle{% endif %}" href="{{ href }}" {% if elem.items %} role="button" data-toggle="dropdown"{% endif %} {% if elem.target %}target="{{ elem.target }}"{% endif %}>
+                    <a class="nav-link {% if elem.items %}dropdown-toggle{% endif %}" href="{{ href }}" {% if elem.items %} role="button" data-bs-toggle="dropdown"{% endif %} {% if elem.target %}target="{{ elem.target }}"{% endif %}>
                         {{ elem.label }}
                     </a>
                     {% if elem.items %}

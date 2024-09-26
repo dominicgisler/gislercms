@@ -3,11 +3,11 @@
     {% if type == 'checkbox' %}
         {{ forms.checkbox(name, value, label, class, hint) }}
     {% elseif type == 'file' %}
-        {{ forms.file(name, label, placeholder, class, hint, options) }}
+        {{ forms.file(name, label, class, hint, options) }}
     {% else %}
         {% set id = name|replace({'[': '_', ']': '_'}) %}
-        <div class="form-group">
-            <label for="input_{{ id }}" class="{% if 'is-invalid' in class %}text-danger{% endif %}">{{ label }}</label>
+        <div class="mb-3">
+            <label for="input_{{ id }}" class="form-label {% if 'is-invalid' in class %}text-danger{% endif %}">{{ label }}</label>
             {% if type == 'textarea' %}
                 {{ forms.textarea(name, value, placeholder, class, hint) }}
             {% elseif type == 'json' %}
@@ -21,7 +21,7 @@
             {% else %}
                 {{ forms.input(type, name, value, placeholder, class, hint, options) }}
             {% endif %}
-            {% if hint %}<small id="hint_{{ id }}" class="form-text text-muted">{{ hint }}</small>{% endif %}
+            {% if hint %}<div id="hint_{{ id }}" class="form-text">{{ hint }}</div>{% endif %}
         </div>
     {% endif %}
 {% endmacro %}
@@ -39,7 +39,7 @@
 
 {% macro select(name, value, options, placeholder, class, hint) %}
     {% set id = name|replace({'[': '_', ']': '_'}) %}
-    <select class="form-control {{ class }}" id="input_{{ id }}" name="{{ name }}" {% if hint %}aria-describedby="hint_{{ id }}"{% endif %}>
+    <select class="form-select {{ class }}" id="input_{{ id }}" name="{{ name }}" {% if hint %}aria-describedby="hint_{{ id }}"{% endif %}>
         {% for elem in options %}
             <option value="{{ elem.value }}"{% if elem.selected %} selected{% endif %}>{{ elem.label }}</option>
         {% endfor %}
@@ -48,7 +48,7 @@
 
 {% macro multiselect(name, value, options, placeholder, class, hint) %}
     {% set id = name|replace({'[': '_', ']': '_'}) %}
-    <select class="form-control {{ class }}" id="input_{{ id }}" name="{{ name }}" {% if hint %}aria-describedby="hint_{{ id }}"{% endif %} multiple="multiple">
+    <select class="form-select {{ class }}" id="input_{{ id }}" name="{{ name }}" {% if hint %}aria-describedby="hint_{{ id }}"{% endif %} multiple="multiple">
         {% for elem in options %}
             <option value="{{ elem.value }}"{% if elem.selected %} selected{% endif %}>{{ elem.label }}</option>
         {% endfor %}
@@ -57,11 +57,11 @@
 
 {% macro checkbox(name, value, label, class, hint) %}
     {% set id = name|replace({'[': '_', ']': '_'}) %}
-    <div class="custom-control custom-checkbox {{ class }}">
-        <input type="checkbox" class="custom-control-input" id="input_{{ id }}" name="{{ name }}" {% if value %}checked{% endif %}>
-        <label class="custom-control-label" for="input_{{ id }}">{{ label }}</label>
+    <div class="form-check {{ class }}">
+        <input class="form-check-input" type="checkbox" id="input_{{ id }}" name="{{ name }}" {% if value %}checked{% endif %}>
+        <label class="form-check-label" for="input_{{ id }}">{{ label }}</label>
     </div>
-    {% if hint %}<small id="hint_{{ id }}" class="form-text text-muted">{{ hint }}</small>{% endif %}
+    {% if hint %}<div id="hint_{{ id }}" class="form-text">{{ hint }}</div>{% endif %}
     <div class="mt-3"></div>
 {% endmacro %}
 
@@ -69,34 +69,28 @@
     {% set id = name|replace({'[': '_', ']': '_'}) %}
     <div class="input-group">
         {% if options.prepend %}
-            <div class="input-group-prepend" id="{{ id }}_prepend">
-                <div class="input-group-text">{{ options.prepend }}</div>
-            </div>
+            <span class="input-group-text">{{ options.prepend }}</span>
         {% endif %}
         <input type="{{ type }}" name="{{ name }}" class="form-control {{ class }}" id="input_{{ id }}" {% if hint %}aria-describedby="hint_{{ id }}"{% endif %} value="{{ value }}" placeholder="{{ placeholder }}">
         {% if options.append %}
-            <div class="input-group-append" id="{{ id }}_append">
-                <div class="input-group-text">{{ options.append }}</div>
-            </div>
+            <span class="input-group-text">{{ options.append }}</span>
         {% endif %}
     </div>
 {% endmacro %}
 
-{% macro fileurl(name, value, placeholder, class, hint) %}
+{% macro fileurl(name, value, class, hint) %}
     {% set id = name|replace({'[': '_', ']': '_'}) %}
     <div class="input-group">
         <input type="text" name="{{ name }}" class="form-control {{ class }}" id="input_{{ id }}" {% if hint %}aria-describedby="hint_{{ id }}"{% endif %} value="{{ value }}" placeholder="{{ placeholder }}">
-        <div class="input-group-append">
-            <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#filemanagerModal" data-field="input_{{ id }}">Auswählen</button>
-        </div>
+        <button type="button" class="input-group-text btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#filemanagerModal" data-field="input_{{ id }}"> Auswählen</button>
     </div>
 {% endmacro %}
 
-{% macro file(name, label, placeholder, class, hint, accept) %}
+{% macro file(name, label, class, hint, accept) %}
     {% set id = name|replace({'[': '_', ']': '_'}) %}
-    <div class="custom-file mb-2">
-        <input type="file" class="custom-file-input" name="{{ name }}" id="{{ id }}" accept="{{ accept }}">
-        <label class="custom-file-label" for="{{ id }}" data-browse="{{ label }}" data-placeholder="{{ placeholder }}">{{ placeholder }}</label>
-        {% if hint %}<small id="hint_{{ id }}" class="form-text text-muted">{{ hint }}</small>{% endif %}
+    <div class="mb-2">
+        {% if label %}<label for="{{ id }}" class="form-label">{{ label }}</label>{% endif %}
+        <input class="form-control" type="file" name="{{ name }}" id="{{ id }}" accept="{{ accept }}">
+        {% if hint %}<div id="hint_{{ id }}" class="form-text">{{ hint }}</div>{% endif %}
     </div>
 {% endmacro %}

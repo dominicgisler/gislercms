@@ -8,7 +8,7 @@
     {% set hasUpdate = false %}
     <div class="table-responsive">
         <table class="table table-hover border datatable" data-order='[[ 2, "asc" ], [ 0, "asc" ]]'>
-            <thead class="thead-light">
+            <thead class="table-light">
                 <tr>
                     <th>{{ 'Sprache'|trans }}</th>
                     <th>{{ 'Abkürzung'|trans }}</th>
@@ -32,7 +32,7 @@
             </tbody>
         </table>
     </div>
-    <div class="text-right mt-2">
+    <div class="text-end mt-2">
         <a href="{{ admin_url }}/misc/language" class="btn btn-primary">{{ 'Neue Sprache'|trans }}</a>
     </div>
 {% endblock %}

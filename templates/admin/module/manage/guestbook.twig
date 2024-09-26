@@ -20,15 +20,13 @@
 {% if message %}
     <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
         {{ messages[message].message|raw }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 {% endif %}
 
 <form method="post" id="page-form">
     {{ forms.form_group('json', 'config', module.config, 'Konfiguration'|trans, '', 'config' in errors ? 'is-invalid' : '') }}
-    <div class="text-right mb-4">
+    <div class="text-end mb-4">
         <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
     </div>
 </form>
@@ -45,7 +43,7 @@
 <h2 class="h3">{{ 'Einträge'|trans }}</h2>
 <form method="post">
     <table class="table table-hover border">
-        <thead class="thead-light">
+        <thead class="table-light">
         <tr>
             <th>{{ 'Erstellt am'|trans }}</th>
             <th>{{ 'Inhalt'|trans }}</th>
@@ -64,7 +62,7 @@
                     {% endfor %}
                 </td>
                 <td class="align-middle">
-                    <a href="#" class="text-danger" data-toggle="modal" data-target="#confirmDeleteEntry" onclick="$('#deleteEntryButton').val({{ entry.getGuestbookEntryId() }});"><i class="fa fa-trash"></i></a>
+                    <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteEntry" onclick="$('#deleteEntryButton').val({{ entry.getGuestbookEntryId() }});"><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
         {% endfor %}
@@ -77,15 +75,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="confirmDeleteEntryLabel">{{ 'Eintrag löschen'|trans }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     {{ 'Möchtest du den Eintrag wirklich unwiderruflich löschen?'|trans }}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
                     <button type="submit" id="deleteEntryButton" name="delete_entry" value="" class="btn btn-danger">{{ 'Ja, Eintrag löschen'|trans }}</button>
                 </div>
             </div>

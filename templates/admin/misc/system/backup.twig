@@ -19,19 +19,17 @@
         {% if message %}
             <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
                 {{ messages[message].message|raw }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endif %}
         <table class="table datatable" data-order='[[ 2, "desc" ]]'>
-            <thead class="thead-light">
+            <thead class="table-light">
             <tr>
                 <th>{{ 'Dateiname'|trans }}</th>
                 <th>{{ 'Version'|trans }}</th>
                 <th>{{ 'Zeitpunkt'|trans }}</th>
                 <th>{{ 'Grösse'|trans }}</th>
-                <th class="text-right" data-sortable="false">{{ 'Aktionen'|trans }}</th>
+                <th class="text-end" data-sortable="false">{{ 'Aktionen'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -41,9 +39,9 @@
                     <td class="version">{{ backup.version ?: 'Unbekannt' }}</td>
                     <td class="timestamp" data-order="{{ backup.timestamp ? backup.timestamp|date('Y-m-d H:i:s') : '' }}">{{ backup.timestamp ? backup.timestamp|date('d.m.Y H:i:s') : 'Unbekannt' }}</td>
                     <td class="size">{{ backup.size }}</td>
-                    <td class="text-right">
+                    <td class="text-end">
                         <a href="{{ admin_url }}/misc/system/backup/download/{{ backup.filename }}"><i class="fa fa-download"></i></a>
-                        <a href="#" class="text-danger" type="button" data-toggle="modal" data-target="#confirmDelete"><i class="fa fa-trash-alt"></i></a>
+                        <a href="#" class="text-danger" type="button" data-bs-toggle="modal" data-bs-target="#confirmDelete"><i class="fa fa-trash-alt"></i></a>
                     </td>
                 </tr>
             {% endfor %}
@@ -51,7 +49,7 @@
         </table>
     </div>
     <form method="post" class="mt-2" id="backup">
-        <div class="text-right">
+        <div class="text-end">
             <button type="submit" name="backup" class="btn btn-primary">
                 <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                 {{ 'Backup erstellen'|trans }}
@@ -64,9 +62,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Backup löschen'|trans }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <p>
@@ -81,7 +77,7 @@
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
                         <button type="submit" name="delete" class="btn btn-danger">{{ 'Ja, Backup löschen'|trans }}</button>
                     </div>
                 </div>

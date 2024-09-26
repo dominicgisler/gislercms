@@ -12,10 +12,10 @@
 
 {% block content %}
     <form method="post">
-        <table class="table table-bordered {% if trash|length > 0 %}table-hover{% endif %} datatable" data-order='[[ 1, "asc" ]]'>
-            <thead class="thead-light">
+        <table class="table border {% if trash|length > 0 %}table-hover{% endif %} datatable" data-order='[[ 0, "asc" ]]'>
+            <thead class="table-light">
                 <tr>
-                    <th scope="col" style="width: 50px;" data-sortable="false"></th>
+                    <th scope="col" data-sortable="false"></th>
                     <th scope="col">{{ 'Name'|trans }}</th>
                     <th scope="col">{{ 'Typ'|trans }}</th>
                     <th scope="col" data-sortable="false"></th>
@@ -38,24 +38,22 @@
                 {% endfor %}
             </tbody>
         </table>
-        <div class="text-right mt-2">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmRestore">{{ 'Wiederherstellen'|trans }}</button>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete">{{ 'Löschen'|trans }}</button>
+        <div class="text-end mt-2">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmRestore">{{ 'Wiederherstellen'|trans }}</button>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDelete">{{ 'Löschen'|trans }}</button>
         </div>
         <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Elemente löschen'|trans }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         {{ 'Möchtest du die ausgewählten Elemente wirklich unwiderruflich löschen?'|trans }}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
                         <button type="submit" name="delete" class="btn btn-danger">{{ 'Elemente löschen'|trans }}</button>
                     </div>
                 </div>
@@ -66,15 +64,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="confirmRestoreLabel">{{ 'Elemente wiederherstellen'|trans }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         {{ 'Möchtest du die ausgewählten Elemente wirklich wiederherstellen?'|trans }}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
                         <button type="submit" name="restore" class="btn btn-primary">{{ 'Elemente wiederherstellen'|trans }}</button>
                     </div>
                 </div>

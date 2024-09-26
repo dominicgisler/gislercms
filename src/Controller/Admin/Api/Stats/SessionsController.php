@@ -66,13 +66,13 @@ class SessionsController extends AbstractController
                 'session_id' => $session->getSessionId(),
                 'created_at' => date('d.m.Y H:i:s', strtotime($session->getCreatedAt())),
                 'updated_at' => date('d.m.Y H:i:s', strtotime($session->getUpdatedAt())),
-                'client_id' => sprintf('<a href="%s/stats/sessions/%d">#%d</a>', $adminURL, $session->getClient()->getClientId(), $session->getClient()->getClientId()),
-                'ip' => sprintf('<a href="https://ipinfo.io/%s" target="_blank">%s</a>', $session->getIp(), $session->getIp()),
+                'client_id' => sprintf('<a href="%s/stats/sessions/%d" class="text-decoration-none">#%d</a>', $adminURL, $session->getClient()->getClientId(), $session->getClient()->getClientId()),
+                'ip' => sprintf('<a href="https://ipinfo.io/%s" class="text-decoration-none" target="_blank">%s</a>', $session->getIp(), $session->getIp()),
                 'platform' => $session->getPlatform(),
                 'browser' => $session->getBrowser(),
                 'user_agent' => $session->getUserAgent(),
                 'duration' => $duration,
-                'visits' => sprintf('<a href="%s/stats/visits/%d">%d</a>', $adminURL, $session->getSessionId(), Visit::countWhere('`fk_session_id` = ?', [$session->getSessionId()]))
+                'visits' => sprintf('<a href="%s/stats/visits/%d" class="text-decoration-none">%d</a>', $adminURL, $session->getSessionId(), Visit::countWhere('`fk_session_id` = ?', [$session->getSessionId()]))
             ];
         }
 

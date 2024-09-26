@@ -25,9 +25,7 @@
     {% if message %}
         <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
             {{ messages[message].message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
     <form method="post" id="redirect-form">
@@ -40,8 +38,8 @@
         {{ forms.form_group('checkbox', 'redirect[enabled]', redirect.enabled, 'Weiterleitung aktiviert'|trans) }}
         {{ forms.form_group('text', 'redirect[route]', redirect.route, 'Pfad'|trans, '', 'route' in errors ? 'is-invalid' : '', 'Der Pfad, welcher in der URL verwendet wird'|trans, { prepend: base_url() ~ '/' }) }}
         {{ forms.form_group('text', 'redirect[location]', redirect.location, 'Ziel'|trans, '', 'location' in errors ? 'is-invalid' : '', 'Das Ziel der Weiterleitung'|trans, { prepend: loc_prepend }) }}
-        <div class="text-right mb-4">
-            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{{ 'Löschen'|trans }}</button>
+        <div class="text-end mb-4">
+            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#confirmDelete">{{ 'Löschen'|trans }}</button>
             <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
         </div>
 
@@ -51,15 +49,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Weiterleitung löschen'|trans }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         {{ 'Möchtest du die Weiterleitung wirklich unwiderruflich löschen?'|trans }}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
                         <button type="submit" name="delete" class="btn btn-danger">{{ 'Ja, Weiterleitung löschen'|trans }}</button>
                     </div>
                 </div>

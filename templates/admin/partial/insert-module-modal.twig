@@ -3,20 +3,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="insertModuleModalLabel">{{ 'Module einfügen'|trans }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label for="input-module-name">Name</label>
                     <input type="text" name="module_name" autocomplete="off" class="form-control" id="input-module-name" onkeyup="autocompletePageModules();" onfocus="autocompleteModulesShow();" onfocusout="autocompleteModulesHide();">
-                    <ul class="list-group position-absolute w-100 pr-4" id="autocomplete-module-list">
+                    <ul class="list-group position-absolute w-100 pe-4" id="autocomplete-module-list">
                     </ul>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
                 <button type="submit" class="btn btn-primary">{{ 'Einfügen'|trans }}</button>
             </div>
         </div>

@@ -13,15 +13,13 @@
             {% else %}
                 {{ 'Datenbank-Update erfolgreich'|trans }}
             {% endif %}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
     {% set hasUpdate = false %}
     <div class="table-responsive">
         <table class="table">
-            <thead class="thead-light">
+            <thead class="table-light">
             <tr>
                 <th>{{ 'Name'|trans }}</th>
                 <th>{{ 'Beschreibung'|trans }}</th>
@@ -46,8 +44,8 @@
             </tbody>
         </table>
         {% if hasUpdate %}
-            <div class="text-right mb-4">
-                <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#confirmUpdate">{{ 'Update durchführen'|trans }}</button>
+            <div class="text-end mb-4">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#confirmUpdate">{{ 'Update durchführen'|trans }}</button>
             </div>
         {% endif %}
     </div>
@@ -59,9 +57,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="confirmUpdateLabel">{{ 'Update durchführen'|trans }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         {{ 'Möchtest du das Datenbank-Update durchführen?'|trans }}<br><br>
@@ -69,7 +65,7 @@
                         {{ 'Auch wenn der Update-Prozess grundsätzlich fehlerfrei verlaufen sollte können allfällige Fehler nicht ausgeschlossen werden.'|trans }}
                     </div>
                     <form method="post" class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
                         <button type="submit" name="update" class="btn btn-primary">{{ 'Ja, Update durchführen'|trans }}</button>
                     </form>
                 </div>

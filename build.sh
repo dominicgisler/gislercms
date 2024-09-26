@@ -27,6 +27,7 @@ cp composer.json ${tempdir}/.
 cp composer.lock ${tempdir}/.
 cp LICENSE ${tempdir}/.
 cp README.md ${tempdir}/.
+cp .htaccess ${tempdir}/.
 
 # remove folders which will be rebuilt with composer
 rm -rf ${tempdir}/public/css/webfonts

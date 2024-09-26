@@ -2,7 +2,7 @@
 {% if gallery.description %}
 <p>{{ gallery.description }}</p>
 {% endif %}
-<div class="form-row">
+<div class="row g-2">
     {% for img in glob('../public/uploads/' ~ gallery.path ~ '/*.*') %}
         {% set path = img|replace({ '../public/': '' }) %}
         {% if img|replace({ 'public/uploads': 'public/thumb' })|file_exists %}
@@ -11,7 +11,7 @@
             {% set path = img|replace({ '../public/uploads': 'thumbs' }) %}
         {% endif %}
         <div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
-            <a href="#" class="d-block background-cover gallery-item" style="background-image: url('{{ base_url() }}/{{ path }}');" data-toggle="modal" data-target="#item-modal" data-item="{{ loop.index0 }}"></a>
+            <a href="#" class="d-block background-cover gallery-item" style="background-image: url('{{ base_url() }}/{{ path }}');" data-bs-toggle="modal" data-bs-target="#item-modal" data-item="{{ loop.index0 }}"></a>
         </div>
     {% endfor %}
 </div>
@@ -27,11 +27,11 @@
                             </div>
                         {% endfor %}
                     </div>
-                    <a class="carousel-control-prev" href="#galleryCarousel" role="button" data-slide="prev">
+                    <a class="carousel-control-prev" href="#galleryCarousel" role="button" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
                     </a>
-                    <a class="carousel-control-next" href="#galleryCarousel" role="button" data-slide="next">
+                    <a class="carousel-control-next" href="#galleryCarousel" role="button" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>

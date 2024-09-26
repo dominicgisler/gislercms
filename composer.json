@@ -23,7 +23,7 @@
     }
   ],
   "require": {
-    "php": ">=8.1",
+    "php": ">=8.3",
     "ext-pdo": "*",
     "ext-curl": "*",
     "ext-intl": "*",
@@ -33,15 +33,12 @@
     "slim/slim": "^3.12",
     "slim/twig-view": "^2.4",
     "monolog/monolog": "^1.24",
-    "fortawesome/font-awesome": "^5.7",
-    "twbs/bootstrap": "^4.3",
     "components/jquery": "^3.3",
     "dominicgisler/gislercms-editor": "dev-master",
     "phpmailer/phpmailer": "^6.0",
     "donatj/phpuseragentparser": "^0.14.0",
     "dflydev/fig-cookies": "^3.0",
     "select2/select2": "^4.0",
-    "datatables/datatables": "^1.10",
     "nnnick/chartjs": "^2.9",
     "laminas/laminas-i18n": "^2.11",
     "laminas/laminas-servicemanager": "^3.6",
@@ -50,7 +47,10 @@
     "laminas/laminas-inputfilter": "^2.12",
     "laminas/laminas-validator": "^2.14",
     "ifsnop/mysqldump-php": "^2.9",
-    "pavlakis/slim-cli": "^1.2"
+    "pavlakis/slim-cli": "^1.2",
+    "twbs/bootstrap": "^5.3",
+    "fortawesome/font-awesome": "^6.6",
+    "datatables.net/datatables.net-bs5": "^2.1"
   },
   "autoload": {
     "psr-4": {
@@ -63,8 +63,8 @@
       "cp -r vendor/twbs/bootstrap/dist/js/* public/js/.",
       "cp -r vendor/components/jquery/*.js public/js/.",
       "cp -r vendor/select2/select2/dist/js/*.min.js public/js/.",
-      "cp vendor/datatables/datatables/media/js/jquery.dataTables.min.js public/js/.",
-      "cp vendor/datatables/datatables/media/js/dataTables.bootstrap4.min.js public/js/.",
+      "cp vendor/datatables.net/datatables.net/js/dataTables.min.js public/js/.",
+      "cp vendor/datatables.net/datatables.net-bs5/js/dataTables.bootstrap5.min.js public/js/.",
       "cp vendor/nnnick/chartjs/dist/Chart.min.js public/js/.",
       "rm -rf public/editor",
       "cp -r vendor/dominicgisler/gislercms-editor public/editor"

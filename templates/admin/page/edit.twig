@@ -43,9 +43,7 @@
     {% if message %}
         <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
             {{ messages[message].message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
     <form method="post" id="page-form">
@@ -57,7 +55,7 @@
             {% for language in languages %}
                 {% if language.isEnabled() %}
                     <li class="nav-item">
-                        <a class="nav-link {% if loop.first %}active{% endif %}" id="{{ language.locale }}-tab" data-toggle="tab" href="#lang-{{ language.locale }}" role="tab" aria-controls="lang-{{ language.locale }}" aria-selected="true">{{ language.description }}</a>
+                        <a class="nav-link {% if loop.first %}active{% endif %}" id="{{ language.locale }}-tab" data-bs-toggle="tab" href="#lang-{{ language.locale }}" role="tab" aria-controls="lang-{{ language.locale }}" aria-selected="true">{{ language.description }}</a>
                     </li>
                 {% endif %}
             {% endfor %}
@@ -67,7 +65,7 @@
                 {% if language.isEnabled() %}
                     <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="lang-{{ language.locale }}" data-locale="{{ language.locale }}" role="tabpanel" aria-labelledby="{{ language.locale }}-tab">
                         <div class="mb-3">
-                            <a href="#" class="insert-defaults">{{ 'Standardwerte einfügen'|trans }}</a>
+                            <a href="#" class="insert-defaults text-decoration-none">{{ 'Standardwerte einfügen'|trans }}</a>
                         </div>
                         {{ forms.form_group('checkbox', 'translation[' ~ language.locale ~ '][enabled]', translations[language.locale].enabled, 'Übersetzung aktiviert'|trans) }}
                         {{ forms.form_group('text', 'translation[' ~ language.locale ~ '][name]', translations[language.locale].name, 'Seitenname'|trans, '', language.locale ~ '_name' in errors ? 'is-invalid' : '', 'Der Name, welcher in der URL verwendet wird'|trans) }}
@@ -81,8 +79,8 @@
                         <div class="accordion mb-2" id="translation-history-{{ language.locale }}">
                             <div class="card">
                                 <div class="card-header" id="translation-history-{{ language.locale }}-heading">
-                                    <a type="button" data-toggle="collapse" data-target="#translation-history-{{ language.locale }}-collapse" aria-expanded="true" aria-controls="translation-history-{{ language.locale }}-controls">
-                                        <i class="fa fa-plus mr-2"></i> {{ 'Bearbeitungsverlauf'|trans }}
+                                    <a type="button" data-bs-toggle="collapse" data-bs-target="#translation-history-{{ language.locale }}-collapse" aria-expanded="true" aria-controls="translation-history-{{ language.locale }}-controls">
+                                        <i class="fa fa-plus me-2"></i> {{ 'Bearbeitungsverlauf'|trans }}
                                     </a>
                                 </div>
                                 <div id="translation-history-{{ language.locale }}-collapse" class="collapse" aria-labelledby="translation-history-{{ language.locale }}-heading" data-parent="#translation-history-{{ language.locale }}">
@@ -91,7 +89,7 @@
                                         <tr>
                                             <th>{{ 'Überschrieben am'|trans }}</th>
                                             <th>{{ 'von Benutzer'|trans }}</th>
-                                            <th class="text-right">{{ 'Aktion'|trans }}</th>
+                                            <th class="text-end">{{ 'Aktion'|trans }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -99,7 +97,7 @@
                                             <tr data-locale="{{ language.locale }}" data-enabled="{{ trans.isEnabled() }}" data-name="{{ trans.getName() }}" data-title="{{ trans.getTitle() }}" data-meta_keywords="{{ trans.getMetaKeywords() }}" data-meta_description="{{ trans.getMetaDescription() }}" data-meta_author="{{ trans.getMetaAuthor() }}" data-meta_copyright="{{ trans.getMetaCopyright() }}" data-meta_image="{{ trans.getMetaImage() }}" data-content="{{ trans.getContent() }}">
                                                 <td>{{ trans.getCreatedAt()|date('d.m.Y H:i:s') }}</td>
                                                 <td>{{ trans.getUser().getDisplayName() }}</td>
-                                                <td class="text-right">
+                                                <td class="text-end">
                                                     <a href="#" class="view-history">{{ 'Ansehen'|trans }}</a>
                                                 </td>
                                             </tr>
@@ -113,10 +111,10 @@
                 {% endif %}
             {% endfor %}
         </div>
-        <div class="text-right mb-4">
+        <div class="text-end mb-4">
             <input type="submit" class="d-none" name="save">
             <button class="btn btn-info" type="submit" name="duplicate">{{ 'Duplizieren'|trans }}</button>
-            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{% if page.isTrash() %}{{ 'Endgültig löschen'|trans }}{% else %}{{ 'Löschen'|trans }}{% endif %}</button>
+            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#confirmDelete">{% if page.isTrash() %}{{ 'Endgültig löschen'|trans }}{% else %}{{ 'Löschen'|trans }}{% endif %}</button>
             <button class="btn btn-primary" type="submit" name="save">{% if page.isTrash() %}{{ 'Wiederherstellen'|trans }}{% else %}{{ 'Speichern'|trans }}{% endif %}</button>
         </div>
 
@@ -126,9 +124,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Seite löschen'|trans }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         {% if page.isTrash() %}
@@ -138,7 +134,7 @@
                         {% endif %}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
                         <button type="submit" name="delete" class="btn btn-danger">{{ 'Ja, Seite löschen'|trans }}</button>
                     </div>
                 </div>
@@ -152,9 +148,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="viewHistoryTitle">{{ 'Bearbeitungsverlauf'|trans }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div id="history-data" class="d-none" data-locale=""></div>
@@ -169,7 +163,7 @@
                     <div id="history-content" class="border p-2"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Schliessen'|trans }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'Schliessen'|trans }}</button>
                     <button type="button" class="btn btn-primary restore-translation">{{ 'Wiederherstellen'|trans }}</button>
                 </div>
             </div>

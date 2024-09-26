@@ -29,17 +29,15 @@
     {% if message %}
         <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
             {{ messages[message].message|raw }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
     <form method="post" id="page-form">
         {{ forms.form_group('text', 'description', language.description, 'Sprache'|trans, '', 'description' in errors ? 'is-invalid' : '', 'Beschreibung zur internen Identifikation'|trans) }}
         {{ forms.form_group('text', 'locale', language.locale, 'Abkürzung'|trans, '', 'locale' in errors ? 'is-invalid' : '', 'Wird in der Seiten-URL verwendet, zwei Zeichen'|trans) }}
         {{ forms.form_group('checkbox', 'enabled', language.enabled, 'Sprache aktiviert'|trans, '', 'enabled' in errors ? 'is-invalid' : '') }}
-        <div class="text-right mb-4">
-            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete">{{ 'Löschen'|trans }}</button>
+        <div class="text-end mb-4">
+            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#confirmDelete">{{ 'Löschen'|trans }}</button>
             <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
         </div>
 
@@ -49,9 +47,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="confirmDeleteLabel">{{ 'Sprache löschen'|trans }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         {{ 'Möchtest du die Sprache wirklich unwiderruflich löschen?'|trans }}<br>
@@ -59,7 +55,7 @@
                         {{ 'Falls die Sprache noch bei einer Seite als Standardsprache ausgewählt ist kann sie nicht gelöscht werden.'|trans }}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'Abbrechen'|trans }}</button>
                         <button type="submit" name="delete" class="btn btn-danger">{{ 'Ja, Sprache löschen'|trans }}</button>
                     </div>
                 </div>
