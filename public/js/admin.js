@@ -79,11 +79,14 @@
     });
     $('#toggle-side-navigation').click(function () {
         var $nav = $('#side-navigation');
+        var $main = $('main');
         if ($nav.hasClass('d-none')) {
             $nav.removeClass('d-none');
+            $main.addClass('d-none');
             $(this).addClass('active');
         } else {
             $nav.addClass('d-none');
+            $main.removeClass('d-none');
             $(this).removeClass('active');
         }
     });

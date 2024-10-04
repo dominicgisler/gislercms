@@ -69,7 +69,7 @@
                         <div class="accordion mb-2" id="translation-history-{{ language.locale }}">
                             <div class="card">
                                 <div class="card-header" id="translation-history-{{ language.locale }}-heading">
-                                    <a type="button" data-bs-toggle="collapse" data-bs-target="#translation-history-{{ language.locale }}-collapse" aria-expanded="true" aria-controls="translation-history-{{ language.locale }}-controls">
+                                    <a type="button" class="text-decoration-none text-body" data-bs-toggle="collapse" data-bs-target="#translation-history-{{ language.locale }}-collapse" aria-expanded="true" aria-controls="translation-history-{{ language.locale }}-controls">
                                         <i class="fa fa-plus me-2"></i> {{ 'Bearbeitungsverlauf'|trans }}
                                     </a>
                                 </div>
@@ -165,7 +165,7 @@
             var $modal = $('#viewHistory');
             $modal.find('#history-data').data('locale', $tr.data('locale'));
             $modal.find('#history-content').html($tr.data('content'));
-            $modal.modal();
+            $modal.modal('show');
             return false;
         });
         $('.restore-translation').click(function() {

@@ -35,30 +35,30 @@
                         {{ 'Bitte konfiguriere deine Datenbank-Verbindungsdaten.'|trans }}
                     </p>
                 </div>
-                <div class="form-label-group">
+                <div class="form-floating mb-3">
                     <input type="text" id="dbHost" name="db_host" class="form-control" placeholder="{{ 'Host'|trans }}"
                            value="{{ db_host }}" required autofocus>
                     <label for="dbHost">{{ 'Host'|trans }}</label>
                 </div>
-                <div class="form-label-group">
+                <div class="form-floating mb-3">
                     <input type="text" id="dbDatabase" name="db_database" class="form-control"
                            placeholder="{{ 'Datenbank'|trans }}"
                            value="{{ db_database }}" required>
                     <label for="dbDatabase">{{ 'Datenbank'|trans }}</label>
                 </div>
-                <div class="form-label-group">
+                <div class="form-floating mb-3">
                     <input type="text" id="dbUser" name="db_user" class="form-control"
                            placeholder="{{ 'Benutzername'|trans }}"
                            value="{{ db_user }}" required>
                     <label for="dbUser">{{ 'Benutzername'|trans }}</label>
                 </div>
-                <div class="form-label-group">
+                <div class="form-floating mb-3">
                     <input type="password" id="dbPassword" name="db_password" class="form-control"
                            placeholder="{{ 'Passwort'|trans }}"
                            required>
                     <label for="dbPassword">{{ 'Passwort'|trans }}</label>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="button" data-bs-toggle="collapse"
+                <button class="btn btn-lg btn-primary w-100" type="button" data-bs-toggle="collapse"
                         data-bs-target=".multi-collapse" aria-expanded="false"
                         aria-controls="step1 step2">{{ 'Weiter'|trans }}
                 </button>
@@ -70,44 +70,44 @@
                         {{ 'Wie möchtest du dich einloggen?'|trans }}
                     </p>
                 </div>
-                <div class="form-label-group">
+                <div class="form-floating mb-3">
                     <input type="text" id="userUsername" name="user_username" class="form-control"
                            placeholder="{{ 'Benutzername'|trans }}"
                            value="{{ user_username }}" required>
                     <label for="userUsername">{{ 'Benutzername'|trans }}</label>
                 </div>
                 <div class="d-flex">
-                    <div class="form-label-group w-50 me-1">
+                    <div class="form-floating mb-3 w-50 me-1">
                         <input type="text" id="userFirstname" name="user_firstname" class="form-control"
                                placeholder="{{ 'Vorname'|trans }}"
                                value="{{ user_firstname }}" required>
                         <label for="userLastname">{{ 'Vorname'|trans }}</label>
                     </div>
-                    <div class="form-label-group w-50 ms-1">
+                    <div class="form-floating mb-3 w-50 ms-1">
                         <input type="text" id="userLastname" name="user_lastname" class="form-control"
                                placeholder="{{ 'Name'|trans }}"
                                value="{{ user_lastname }}" required>
                         <label for="userLastname">{{ 'Name'|trans }}</label>
                     </div>
                 </div>
-                <div class="form-label-group">
+                <div class="form-floating mb-3">
                     <input type="email" id="userEmail" name="user_email" class="form-control"
                            placeholder="{{ 'E-Mail'|trans }}"
                            value="{{ user_email }}" required>
                     <label for="userEmail">{{ 'E-Mail'|trans }}</label>
                 </div>
-                <div class="form-label-group">
+                <div class="form-floating mb-3">
                     <input type="password" id="userPassword" name="user_password" class="form-control"
                            placeholder="{{ 'Passwort'|trans }}"
                            required>
                     <label for="userPassword">{{ 'Passwort'|trans }}</label>
                 </div>
 
-                <button class="btn btn-lg btn-secondary btn-block" type="button" data-bs-toggle="collapse"
+                <button class="btn btn-lg btn-secondary w-100 mb-2" type="button" data-bs-toggle="collapse"
                         data-bs-target=".multi-collapse" aria-expanded="false"
                         aria-controls="step1 step2">{{ 'Zurück'|trans }}
                 </button>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'Setup'|trans }}</button>
+                <button class="btn btn-lg btn-primary w-100" type="submit">{{ 'Setup'|trans }}</button>
             </div>
         {% endif %}
         <p class="mt-5 mb-3 text-muted text-center">&copy; {{ now|date('Y') }} Gisler Software</p>

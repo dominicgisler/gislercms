@@ -36,20 +36,20 @@
         </div>
 
         {% if message != 'save_success' %}
-            <div class="form-label-group">
+            <div class="form-floating mb-3">
                 <input type="password" id="inputPasswordNew" name="password_new" class="form-control {{ 'password_new' in errors ? 'is-invalid' : '' }}" placeholder="{{ 'Neues Passwort'|trans }}" required autofocus>
                 <label for="inputPasswordNew">{{ 'Neues Passwort'|trans }}</label>
             </div>
 
-            <div class="form-label-group">
+            <div class="form-floating mb-3">
                 <input type="password" id="inputPasswordConfirm" name="password_confirm" class="form-control {{ 'password_confirm' in errors ? 'is-invalid' : '' }}" placeholder="{{ 'Passwort bestätigen'|trans }}" required>
                 <label for="inputPasswordConfirm">{{ 'Passwort bestätigen'|trans }}</label>
             </div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'Passwort zurücksetzen'|trans }}</button>
-            <a href="{{ admin_url }}/login" class="btn btn-lg btn-secondary btn-block">{{ 'Zurück'|trans }}</a>
+            <button class="btn btn-lg btn-primary w-100 mb-2" type="submit">{{ 'Passwort zurücksetzen'|trans }}</button>
+            <a href="{{ admin_url }}/login" class="btn btn-lg btn-secondary w-100">{{ 'Zurück'|trans }}</a>
         {% else %}
-            <a href="{{ admin_url }}/login" class="btn btn-lg btn-primary btn-block">{{ 'Zum Login'|trans }}</a>
+            <a href="{{ admin_url }}/login" class="btn btn-lg btn-primary w-100">{{ 'Zum Login'|trans }}</a>
         {% endif %}
         <p class="mt-5 mb-3 text-muted text-center">&copy; {{ now|date('Y') }} Gisler Software</p>
     </form>

@@ -10,7 +10,7 @@
             <button id="toggle-side-navigation" class="navbar-toggler" type="button" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse d-none d-md-block" id="navbarNavDropdown">
+            <div class="collapse navbar-collapse d-none d-lg-block" id="navbarNavDropdown">
                 <div class="navbar-nav ms-auto">
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -39,25 +39,25 @@
 
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-md-3 col-lg-2 d-none d-md-block nav flex-column py-3" id="side-navigation">
+            <nav class="col-lg-3 col-xl-2 d-none d-lg-block nav flex-column py-3" id="side-navigation">
                 {% for group in navigation %}
                     <div class="{{ group.class }}">
+                        {% if not loop.first %}
+                            <hr>
+                        {% endif %}
                         {% for item in group.items %}
                             <a class="nav-link {% if route in item.route %}active{% else %}text-body{% endif %}" aria-current="page" href="{{ item.href }}">
                                 <i class="fa {{ item.icon }} fa-fw me-2"></i>
-                                {{ item.label|trans }} {% if route == item.route %}<span class="sr-only">(current)</span>{% endif %}
+                                {{ item.label|trans }}
                                 {% if item.count > 0 %}
-                                    <span class="badge badge-dark badge-pill">{{ item.count }}</span>
+                                    <span class="badge bg-secondary rounded-pill float-end">{{ item.count }}</span>
                                 {% endif %}
                             </a>
                         {% endfor %}
-                        {% if not loop.last %}
-                            <hr>
-                        {% endif %}
                     </div>
                 {% endfor %}
             </nav>
-            <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-4">
+            <main role="main" class="d-lg-block ms-sm-auto col-lg-9 col-xl-10 px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">{% block title %}{% endblock %}</h1>
                 </div>

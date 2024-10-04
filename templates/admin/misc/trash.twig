@@ -25,7 +25,7 @@
                 {% for elem in trash %}
                     <tr onclick="toggleRow.apply(this, arguments);">
                         <th scope="row" class="text-center" style="width: 50px;">
-                            <input type="checkbox" class="select-elem" name="{{ elem.type }}[{{ elem.id }}]">
+                            <input class="form-check-input select-elem" type="checkbox" name="{{ elem.type }}[{{ elem.id }}]">
                         </th>
                         <td>{{ elem.name }}</td>
                         <td>{{ types[elem.type] }}</td>

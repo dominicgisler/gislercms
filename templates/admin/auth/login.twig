@@ -18,18 +18,18 @@
             {% endif %}
         </div>
 
-        <div class="form-label-group">
+        <div class="form-floating mb-3">
             <input type="text" id="inputUser" name="username" class="form-control" placeholder="{{ 'Benutzername'|trans }}" value="{{ username }}" required autofocus>
             <label for="inputUser">{{ 'Benutzername'|trans }}</label>
         </div>
 
-        <div class="form-label-group">
+        <div class="form-floating mb-3">
             <input type="password" id="inputPassword" name="password" class="form-control" placeholder="{{ 'Passwort'|trans }}" required>
             <label for="inputPassword">{{ 'Passwort'|trans }}</label>
         </div>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'Anmelden'|trans }}</button>
-        <a href="{{ admin_url }}/forgot-password" class="btn btn-lg btn-secondary btn-block">{{ 'Passwort vergessen'|trans }}</a>
+        <button class="btn btn-lg btn-primary w-100 mb-2" type="submit">{{ 'Anmelden'|trans }}</button>
+        <a href="{{ admin_url }}/forgot-password" class="btn btn-lg btn-secondary w-100">{{ 'Passwort vergessen'|trans }}</a>
         <p class="mt-5 mb-3 text-muted text-center">&copy; {{ now|date('Y') }} Gisler Software</p>
     </form>
 {% endblock %}

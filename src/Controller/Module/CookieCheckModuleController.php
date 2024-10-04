@@ -44,4 +44,13 @@ class CookieCheckModuleController extends AbstractModuleController
         }
         return '';
     }
+
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function onPost(Request $request): string
+    {
+        return $this->onGet($request);
+    }
 }
