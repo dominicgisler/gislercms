@@ -14,6 +14,25 @@
                 <div class="navbar-nav ms-auto">
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-sun" id="theme-toggle"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#" data-bs-theme-value="light">
+                                <i class="fa-solid fa-sun fa-fw me-2"></i>
+                                {{ 'Hell'|trans }}
+                            </a>
+                            <a class="dropdown-item" href="#" data-bs-theme-value="dark">
+                                <i class="fa fa-moon fa-fw me-2"></i>
+                                {{ 'Dunkel'|trans }}
+                            </a>
+                            <a class="dropdown-item" href="#" data-bs-theme-value="auto">
+                                <i class="fa fa-circle-half-stroke fa-fw me-2"></i>
+                                {{ 'Auto'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ user.getDisplayName() }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
@@ -46,7 +65,7 @@
                             <hr>
                         {% endif %}
                         {% for item in group.items %}
-                            <a class="nav-link {% if route in item.route %}active{% else %}text-body{% endif %}" aria-current="page" href="{{ item.href }}">
+                            <a class="nav-link {% if route in item.route %}active{% else %}text-body{% endif %}" aria-current="page" href="{{ item.href }}" {% for k, v in item.attributes %}{{ k }}="{{ v }}"{% endfor %}>
                                 <i class="fa {{ item.icon }} fa-fw me-2"></i>
                                 {{ item.label|trans }}
                                 {% if item.count > 0 %}

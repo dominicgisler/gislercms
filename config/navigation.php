@@ -26,28 +26,6 @@ return [
                 ]
             ],
             [
-                'class' => 'd-md-none',
-                'items' => [
-                    [
-                        'route' => 'admin-misc-profile',
-                        'label' => 'Profil',
-                        'icon' => 'fa-user',
-                        'href' => '{admin_url}/misc/profile'
-                    ],
-                    [
-                        'route' => 'admin-misc-change-password',
-                        'label' => 'Passwort ändern',
-                        'icon' => 'fa-key',
-                        'href' => '{admin_url}/misc/change-password'
-                    ],
-                    [
-                        'label' => 'Abmelden',
-                        'icon' => 'fa-sign-out-alt',
-                        'href' => '{admin_url}/logout'
-                    ]
-                ]
-            ],
-            [
                 'title' => 'Inhalte',
                 'items' => [
                     [
@@ -140,6 +118,57 @@ return [
                         'label' => 'Lizenz',
                         'icon' => 'fa-info',
                         'href' => '{admin_url}/misc/license'
+                    ]
+                ]
+            ],
+            [
+                'class' => 'd-md-none',
+                'items' => [
+                    [
+                        'label' => 'Light',
+                        'icon' => 'fa-sun',
+                        'href' => '#',
+                        'attributes' => [
+                            'data-bs-theme-value' => 'light'
+                        ]
+                    ],
+                    [
+                        'label' => 'Dark',
+                        'icon' => 'fa-moon',
+                        'href' => '#',
+                        'attributes' => [
+                            'data-bs-theme-value' => 'dark'
+                        ]
+                    ],
+                    [
+                        'label' => 'Auto',
+                        'icon' => 'fa-circle-half-stroke',
+                        'href' => '#',
+                        'attributes' => [
+                            'data-bs-theme-value' => 'auto'
+                        ]
+                    ]
+                ]
+            ],
+            [
+                'class' => 'd-md-none',
+                'items' => [
+                    [
+                        'route' => 'admin-misc-profile',
+                        'label' => 'Profil',
+                        'icon' => 'fa-user',
+                        'href' => '{admin_url}/misc/profile'
+                    ],
+                    [
+                        'route' => 'admin-misc-change-password',
+                        'label' => 'Passwort ändern',
+                        'icon' => 'fa-key',
+                        'href' => '{admin_url}/misc/change-password'
+                    ],
+                    [
+                        'label' => 'Abmelden',
+                        'icon' => 'fa-sign-out-alt',
+                        'href' => '{admin_url}/logout'
                     ]
                 ]
             ]
