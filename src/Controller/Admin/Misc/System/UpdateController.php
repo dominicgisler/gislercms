@@ -85,12 +85,12 @@ class UpdateController extends AbstractController
         }
 
         if ($update['type'] == 'unavailable') {
-            $update['type'] = 'uptodate';
-            if ($update['current'] != $update['latest']) {
-                $update['type'] = 'newupdate';
-            }
             if ($cmsVersion === 'dev-latest') {
                 $update['type'] = 'usingdev';
+            } else if ($update['latest'] != '' && $update['current'] != $update['latest']) {
+                $update['type'] = 'newupdate';
+            } else if ($update['latest'] != '') {
+                $update['type'] = 'uptodate';
             }
         }
 
