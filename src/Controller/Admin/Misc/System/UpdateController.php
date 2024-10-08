@@ -23,8 +23,8 @@ class UpdateController extends AbstractController
     const PATTERN = '{admin_route}/misc/system/update';
     const METHODS = ['GET', 'POST'];
 
-    const API_RELEASE_URL = 'https://api.github.com/repos/dominicgisler/gislercms/releases/latest';
-    const API_DEV_RELEASE_URL = 'https://api.github.com/repos/dominicgisler/gislercms/releases/tags/dev-latest';
+    const API_RELEASE_URL = 'https://api.gisler-software.ch/github.php?type=gcms-latest';
+    const API_DEV_RELEASE_URL = 'https://api.gisler-software.ch/github.php?type=gcms-dev-latest';
     const UPDATE_FOLDER = 'update';
 
     /**

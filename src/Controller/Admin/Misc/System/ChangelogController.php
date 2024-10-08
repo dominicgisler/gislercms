@@ -18,7 +18,7 @@ class ChangelogController extends AbstractController
     const PATTERN = '{admin_route}/misc/system/changelog';
     const METHODS = ['GET'];
 
-    const API_RELEASES_URL = 'https://api.github.com/repos/dominicgisler/gislercms/releases';
+    const API_RELEASES_URL = 'https://api.gisler-software.ch/github.php?type=gcms-releases';
 
     /**
      * @param Request $request
