@@ -2,7 +2,7 @@
 
 return [
     'settings' => [
-        'version' => 'v1.4.1',
+        'version' => 'dev-latest',
 
         'displayErrorDetails' => true,
         'addContentLengthHeader' => false,

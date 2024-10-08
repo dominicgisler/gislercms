@@ -388,7 +388,8 @@ msgstr "Do you really want to delete this module irrevocably?"
 #: templates/admin/misc/language/edit.twig:135
 #: templates/admin/misc/user/edit.twig:166
 #: templates/admin/misc/system/backup.twig:196
-#: templates/admin/misc/system/update.twig:126
+#: templates/admin/misc/system/update.twig:170
+#: templates/admin/misc/system/update.twig:214
 #: templates/admin/misc/system/migration.twig:223
 #: templates/admin/misc/theme.twig:227
 #: templates/admin/post/edit.twig:385
@@ -1493,6 +1494,7 @@ msgid "Du hast bereits die aktuellste Version installiert (%s)."
 msgstr "You already have the latest version installed (%s)."
 
 #: templates/admin/misc/system/update.twig:46
+#: templates/admin/misc/system/update.twig:47
 msgid "Version erneut installieren"
 msgstr "Reinstall version"
 
@@ -1512,15 +1514,18 @@ msgstr "An error occurred during the update. Please try again or install manuall
 msgid "Update"
 msgstr "Update"
 
-#: templates/admin/misc/system/update.twig:78
+#: templates/admin/misc/system/update.twig:80
+#: templates/admin/misc/system/update.twig:96
 msgid "Neuerungen in %s"
 msgstr "New features in %s"
 
-#: templates/admin/misc/system/update.twig:116
+#: templates/admin/misc/system/update.twig:160
+#: templates/admin/misc/system/update.twig:204
 msgid "Bitte erstelle zuerst ein Backup, bevor die Installation durchgeführt wird."
 msgstr "Please make a backup first before performing the installation."
 
-#: templates/admin/misc/system/update.twig:120
+#: templates/admin/misc/system/update.twig:164
+#: templates/admin/misc/system/update.twig:208
 msgid "Möchtest du den Prozess wirklich starten?"
 msgstr "Do you really want to start the process?"
 
@@ -1880,3 +1885,35 @@ msgstr "Dark"
 #: templates/admin/content.twig:93
 msgid "Auto"
 msgstr "Auto"
+
+#: templates/admin/misc/system/update.twig:46
+#: templates/admin/misc/system/update.twig:47
+#: templates/admin/misc/system/update.twig:189
+#: templates/admin/misc/system/update.twig:218
+msgid "Entwicklungsversion installieren"
+msgstr "Install development version"
+
+#: templates/admin/misc/system/update.twig:47
+msgid "Du hast aktuell eine Entwicklungsversion installiert (dev-latest)."
+msgstr "You currently have a development version installed (dev-latest)."
+
+#: templates/admin/misc/system/update.twig:47
+msgid "Entwicklungsversion aktualisieren"
+msgstr "Update development version"
+
+#: templates/admin/misc/system/update.twig:115
+msgid "Update läuft..."
+msgstr "Update in progress..."
+
+#: templates/admin/misc/system/update.twig:153
+#: templates/admin/misc/system/update.twig:174
+msgid "Version installieren"
+msgstr "Install version"
+
+#: templates/admin/misc/system/update.twig:196
+msgid "Die aktuelle Entwicklungsversion (dev-latest) beinhaltet alle Änderungen, welche noch nicht in einer regulären Version zusammengefasst wurden."
+msgstr "The current development version (dev-latest) contains all changes that have not yet been summarized in a regular version."
+
+#: templates/admin/misc/system/update.twig:200
+msgid "Diese Änderungen können unvollständig und/oder fehleranfällig sein."
+msgstr "These changes may be incomplete and/or error-prone."

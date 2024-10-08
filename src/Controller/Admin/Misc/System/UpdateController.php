@@ -24,6 +24,7 @@ class UpdateController extends AbstractController
     const METHODS = ['GET', 'POST'];
 
     const API_RELEASE_URL = 'https://api.github.com/repos/dominicgisler/gislercms/releases/latest';
+    const API_DEV_RELEASE_URL = 'https://api.github.com/repos/dominicgisler/gislercms/releases/tags/dev-latest';
     const UPDATE_FOLDER = 'update';
 
     /**
@@ -48,12 +49,21 @@ class UpdateController extends AbstractController
 
         $rootPath = realpath($this->get('settings')['root_path']);
         $cmsVersion = $this->get('settings')['version'];
-        $release = $this->getRelease();
+        $release = $this->getRelease(self::API_RELEASE_URL);
+        $releaseDev = $this->getRelease(self::API_DEV_RELEASE_URL);
+
+        $update['current'] = $cmsVersion;
+        $update['latest'] = '';
+        $update['release_notes'] = '';
+        $update['url'] = '';
+        $update['filename'] = '';
+        $update['dev_latest'] = '';
+        $update['dev_release_notes'] = '';
+        $update['dev_url'] = '';
+        $update['dev_filename'] = '';
+
         if (!empty($release['tag_name'])) {
-            $update['current'] = $cmsVersion;
             $update['latest'] = $release['tag_name'];
-            $update['url'] = '';
-            $update['filename'] = '';
             $update['release_notes'] = $release['body'];
             foreach ($release['assets'] as $asset) {
                 if (empty($update['url']) && $asset['name'] == 'gislercms.zip') {
@@ -61,26 +71,45 @@ class UpdateController extends AbstractController
                     $update['filename'] = $asset['name'];
                 }
             }
-            if ($update['type'] == 'unavailable') {
-                $update['type'] = 'uptodate';
-                if ($update['current'] != $update['latest']) {
-                    $update['type'] = 'newupdate';
+        }
+
+        if (!empty($releaseDev['tag_name'])) {
+            $update['dev_latest'] = $releaseDev['tag_name'];
+            $update['dev_release_notes'] = $releaseDev['body'];
+            foreach ($releaseDev['assets'] as $asset) {
+                if (empty($update['dev_url']) && $asset['name'] == 'gislercms.zip') {
+                    $update['dev_url'] = $asset['browser_download_url'];
+                    $update['dev_filename'] = $asset['name'];
                 }
             }
+        }
 
-            if ($request->isPost() && !is_null($request->getParsedBodyParam('update'))) {
-                $updatePath = sprintf('%s/%s', $rootPath, self::UPDATE_FOLDER);
+        if ($update['type'] == 'unavailable') {
+            $update['type'] = 'uptodate';
+            if ($update['current'] != $update['latest']) {
+                $update['type'] = 'newupdate';
+            }
+            if ($cmsVersion === 'dev-latest') {
+                $update['type'] = 'usingdev';
+            }
+        }
+
+        if ($request->isPost() && (!is_null($request->getParsedBodyParam('update')) || !is_null($request->getParsedBodyParam('dev-update')))) {
+            $updatePath = sprintf('%s/%s', $rootPath, self::UPDATE_FOLDER);
+            if (!is_null($request->getParsedBodyParam('dev-update'))) {
+                $this->downloadRelease($update['dev_url'], $updatePath, $update['dev_filename']);
+            } else {
                 $this->downloadRelease($update['url'], $updatePath, $update['filename']);
-                $this->installUpdate($rootPath, $updatePath);
-                $res = MigrationHelper::executeMigrations($this->get('pdo'));
-                if ($res['status'] == 'success') {
-                    $cnt->offsetSet('update_success', true);
-                } else {
-                    $cnt->offsetSet('update_failed', true);
-                }
-
-                return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/misc/system/update');
             }
+            $this->installUpdate($rootPath, $updatePath);
+            $res = MigrationHelper::executeMigrations($this->get('pdo'));
+            if ($res['status'] == 'success') {
+                $cnt->offsetSet('update_success', true);
+            } else {
+                $cnt->offsetSet('update_failed', true);
+            }
+
+            return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route'] . '/misc/system/update');
         }
 
         return $this->render($request, $response, 'admin/misc/system/update.twig', [
@@ -89,9 +118,10 @@ class UpdateController extends AbstractController
     }
 
     /**
+     * @param string $url
      * @return mixed
      */
-    public static function getRelease(): mixed
+    public static function getRelease(string $url): mixed
     {
         $context = stream_context_create([
             'http' => [
@@ -101,7 +131,7 @@ class UpdateController extends AbstractController
                 ]
             ]
         ]);
-        $content = file_get_contents(self::API_RELEASE_URL, false, $context);
+        $content = file_get_contents($url, false, $context);
         return json_decode($content, true);
     }
 
@@ -143,6 +173,10 @@ class UpdateController extends AbstractController
         FileSystemHelper::remove($rootPath . '/vendor');
         FileSystemHelper::remove($rootPath . '/LICENSE');
         FileSystemHelper::remove($rootPath . '/README.md');
+        FileSystemHelper::remove($rootPath . '/public/css');
+        FileSystemHelper::remove($rootPath . '/public/editor');
+        FileSystemHelper::remove($rootPath . '/public/img');
+        FileSystemHelper::remove($rootPath . '/public/js');
 
         $this->moveFolder($rootPath, $updatePath, $updatePath);
     }
