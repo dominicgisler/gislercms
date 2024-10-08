@@ -10,9 +10,17 @@
         {% elseif img|replace({ 'public/uploads': 'public/thumbs' })|file_exists %}
             {% set path = img|replace({ '../public/uploads': 'thumbs' }) %}
         {% endif %}
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
-            <a href="#" class="d-block background-cover gallery-item" style="background-image: url('{{ base_url() }}/{{ path }}');" data-bs-toggle="modal" data-bs-target="#item-modal" data-item="{{ loop.index0 }}"></a>
-        </div>
+        {% if img ends with '.mov' or img ends with '.mp4' %}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
+                <a href="#" class="d-block background-cover gallery-item d-flex justify-content-center align-items-center bg-secondary text-white text-decoration-none" data-bs-toggle="modal" data-bs-target="#item-modal" data-item="{{ loop.index0 }}">
+                    <i class="fa fa-play fa-4x"></i>
+                </a>
+            </div>
+        {% else %}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
+                <a href="#" class="d-block background-cover gallery-item" style="background-image: url('{{ base_url() }}/{{ path }}');" data-bs-toggle="modal" data-bs-target="#item-modal" data-item="{{ loop.index0 }}"></a>
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
 <div class="modal fade" id="item-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -23,7 +31,11 @@
                     <div class="carousel-inner">
                         {% for img in glob('../public/uploads/' ~ gallery.path ~ '/*.*') %}
                             <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                <img data-src="{{ base_url() }}/{{ img|replace({ '../public/': '' }) }}" class="d-block w-100">
+                                {% if img ends with '.mov' or img ends with '.mp4' %}
+                                    <video src="{{ base_url() }}/{{ img|replace({ '../public/': '' }) }}" class="d-block w-100 elem"></video>
+                                {% else %}
+                                    <img data-src="{{ base_url() }}/{{ img|replace({ '../public/': '' }) }}" class="d-block w-100 elem">
+                                {% endif %}
                             </div>
                         {% endfor %}
                     </div>
@@ -42,25 +54,44 @@
     function modalListener() {
         if (window.jQuery) {
             $('#item-modal').on('show.bs.modal', function (event) {
-                var target = $(event.relatedTarget);
-                var item = target.data('item');
-                var modal = $(this);
+                let target = $(event.relatedTarget);
+                let item = target.data('item');
+                let modal = $(this);
 
-                var img = modal.find('#galleryCarousel').find('.carousel-item img')[item];
-                if (!$(img).attr('src')) {
-                    $(img).attr('src', $(img).data('src'));
+                let elem = modal.find('#galleryCarousel').find('.carousel-item .elem')[item];
+                controlVideos(elem);
+                if (!$(elem).attr('src')) {
+                    $(elem).attr('src', $(elem).data('src'));
+                }
+                if ($(elem).is('video')) {
+                    elem.currentTime = 0;
+                    elem.play();
                 }
                 modal.find('#galleryCarousel').carousel(item);
             });
             $('#galleryCarousel').on('slide.bs.carousel', function(e) {
-                var $img = $(e.relatedTarget).find('img');
-                if (!$img.attr('src')) {
-                    $img.attr('src', $img.data('src'));
+                let $elem = $(e.relatedTarget).find('.elem');
+                controlVideos($elem.get(0));
+                if (!$elem.attr('src')) {
+                    $elem.attr('src', $elem.data('src'));
                 }
+            });
+            $('#item-modal').on('hide.bs.modal', function () {
+                controlVideos();
             });
         } else {
             window.setTimeout(modalListener, 100);
         }
+    }
+    function controlVideos(current) {
+        $('#galleryCarousel video').each(function() {
+            this.currentTime = 0;
+            if (this === current) {
+                this.play();
+            } else {
+                this.pause();
+            }
+        });
     }
     modalListener();
 </script>
