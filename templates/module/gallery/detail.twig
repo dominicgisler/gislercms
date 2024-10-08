@@ -1,3 +1,10 @@
+{% if gallery.download %}
+    <form method="post">
+        <button type="submit" name="download" class="float-end btn btn-primary">
+            <i class="fa fa-download"></i>
+        </button>
+    </form>
+{% endif %}
 <h1>{{ gallery.title }}</h1>
 {% if gallery.description %}
 <p>{{ gallery.description }}</p>
