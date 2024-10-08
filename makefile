@@ -1,4 +1,4 @@
-.PHONY: default release hook dependencies update-dependencies css test docker dev-latest
+.PHONY: default release dependencies update-dependencies css test docker dev-latest
 .DEFAULT_GOAL := default
 
 default: css
@@ -12,10 +12,6 @@ release: css
 	@sed -i 's/dev-latest/$(version)/g' config/default.php
 	@docker-compose run --rm gislercms ./build.sh
 	@sed -i 's/$(version)/dev-latest/g' config/default.php
-
-hook:
-	@echo "!/bin/bash\nmake dev-latest" > .git/hooks/post-commit
-	@chmod +x .git/hooks/post-commit
 
 dependencies: docker
 	@docker-compose run --rm gislercms composer install
