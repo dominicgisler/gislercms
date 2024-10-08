@@ -64,7 +64,7 @@ class UpdateController extends AbstractController
 
         if (!empty($release['tag_name'])) {
             $update['latest'] = $release['tag_name'];
-            $update['release_notes'] = $release['body'];
+            $update['release_notes'] = preg_replace('/https:\/\/(.*)/i', '<a href="https://${1}" target="_blank">https://${1}</a>', str_replace('**', '', $release['body']));
             foreach ($release['assets'] as $asset) {
                 if (empty($update['url']) && $asset['name'] == 'gislercms.zip') {
                     $update['url'] = $asset['browser_download_url'];
@@ -75,7 +75,7 @@ class UpdateController extends AbstractController
 
         if (!empty($releaseDev['tag_name'])) {
             $update['dev_latest'] = $releaseDev['tag_name'];
-            $update['dev_release_notes'] = $releaseDev['body'];
+            $update['dev_release_notes'] = preg_replace('/https:\/\/(.*)/i', '<a href="https://${1}" target="_blank">https://${1}</a>', str_replace('**', '', $releaseDev['body']));
             foreach ($releaseDev['assets'] as $asset) {
                 if (empty($update['dev_url']) && $asset['name'] == 'gislercms.zip') {
                     $update['dev_url'] = $asset['browser_download_url'];

@@ -31,6 +31,10 @@ class ChangelogController extends AbstractController
     {
         $rel = $this->getReleases();
 
+        foreach ($rel as $key => $release) {
+            $rel[$key]['body']  = preg_replace('/https:\/\/(.*)/i', '<a href="https://${1}" target="_blank">https://${1}</a>', str_replace('**', '', $release['body']));
+        }
+
         return $this->render($request, $response, 'admin/misc/system/changelog.twig', [
             'releases' => $rel
         ]);

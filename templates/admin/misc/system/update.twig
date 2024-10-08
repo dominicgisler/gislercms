@@ -52,15 +52,15 @@
         </div>
     {% endif %}
     {% if update.release_notes %}
-        <div class="mb-3">
+        <div class="mb-4">
             <h2 class="h4">{{ 'Neuerungen in %s'|trans|format(update.latest) }}</h2>
-            {{ update.release_notes|nl2br }}
+            {{ update.release_notes|raw|nl2br }}
         </div>
     {% endif %}
     {% if update.dev_release_notes %}
-        <div class="mb-3">
+        <div class="mb-4">
             <h2 class="h4">{{ 'Neuerungen in %s'|trans|format(update.dev_latest) }}</h2>
-            {{ update.dev_release_notes|nl2br }}
+            {{ update.dev_release_notes|raw|nl2br }}
         </div>
     {% endif %}
     {% if types[update.type].buttons %}

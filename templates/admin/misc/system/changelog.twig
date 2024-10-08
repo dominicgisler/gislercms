@@ -21,7 +21,7 @@
         <p>
             <small>{{ 'Veröffentlicht von %s am %s um %s'|trans|format(rel.author.login, rel.published_at|date('d.m.Y'), rel.published_at|date('H:i:s')) }}</small>
         </p>
-        {{ rel.body|nl2br }}
+        {{ rel.body|raw|nl2br }}
         {% if not loop.last %}
             <hr>
         {% endif %}
