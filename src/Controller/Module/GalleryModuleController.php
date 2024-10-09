@@ -116,6 +116,7 @@ class GalleryModuleController extends AbstractModuleController
         header('Content-Disposition: attachment; filename=' . $gallery . '.zip');
         readfile($filename);
         unlink($filename);
+        die();
 
         return '';
     }
