@@ -103,7 +103,7 @@ class BackupController extends AbstractController
     {
         $sz = 'BKMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);
-        return sprintf("%.2f", $bytes / pow(1024, $factor)) . @$sz[$factor ?: 0];
+        return sprintf("%.2f %sB", $bytes / pow(1024, $factor), @$sz[$factor ?: 0]);
     }
 
     /**
@@ -118,7 +118,7 @@ class BackupController extends AbstractController
         $backups = [];
         foreach (glob($backupPath . '/backup-*.zip') as $path) {
             $filename = basename($path);
-            preg_match('/^backup-(v[0-9]\.[0-9]\.[0-9])-([0-9]+)\.zip/', $filename, $matches);
+            preg_match('/^backup-(dev-latest|v[0-9]\.[0-9]\.[0-9])-([0-9]+)\.zip/', $filename, $matches);
             $version = '';
             $timestamp = '';
             $size = $withSize ? filesize($path) : 0;
@@ -133,6 +133,9 @@ class BackupController extends AbstractController
                 'size' => self::humanFilesize($size)
             ];
         }
+        usort($backups, function ($a, $b) {
+            return $a['timestamp'] > $b['timestamp'];
+        });
 
         return $backups;
     }

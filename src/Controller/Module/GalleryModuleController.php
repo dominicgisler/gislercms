@@ -98,6 +98,7 @@ class GalleryModuleController extends AbstractModuleController
         if (empty($gallery) || !isset($this->config['galleries'][$gallery]) || !$this->config['galleries'][$gallery]['download']) {
             return $this->onGet($request);
         }
+        set_time_limit(300);
 
         $filename = tempnam(sys_get_temp_dir(), 'gallery-export');
 
