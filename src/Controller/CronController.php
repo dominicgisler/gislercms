@@ -187,7 +187,7 @@ class CronController
                         if (file_exists($zipPath)) {
                             unlink($zipPath);
                         }
-                        if (file_exists($tmpfile)) {
+                        if (sizeof($files) > 0 && file_exists($tmpfile)) {
                             rename($tmpfile, $zipPath);
                         }
                     }
