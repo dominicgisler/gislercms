@@ -25,6 +25,7 @@
 {% endif %}
 
 <form method="post" id="page-form">
+    {{ forms.form_group('text', 'name', module.name, 'Name'|trans, '', 'name' in errors ? 'is-invalid' : '') }}
     {{ forms.form_group('json', 'config', module.config, 'Konfiguration'|trans, '', 'config' in errors ? 'is-invalid' : '') }}
     <div class="text-end mb-4">
         <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>

@@ -5,6 +5,7 @@ namespace GislerCMS\Controller\Admin\Module\Manage;
 use Exception;
 use GislerCMS\Model\Module;
 use GislerCMS\Validator\ValidJson;
+use Laminas\Validator\StringLength;
 use Slim\Http\Request;
 use Slim\Views\Twig;
 use Laminas\InputFilter\Factory;
@@ -56,6 +57,7 @@ abstract class AbstractController
                     $errors = array_merge($errors, array_keys($filter->getMessages()));
                 }
                 $data = $filter->getValues();
+                $mod->setName($data['name']);
                 $mod->setConfig($data['config']);
 
                 if (sizeof($errors) == 0) {
@@ -85,6 +87,17 @@ abstract class AbstractController
     {
         $factory = new Factory();
         return $factory->createInputFilter([
+            [
+                'name' => 'name',
+                'required' => true,
+                'filters' => [],
+                'validators' => [
+                    new StringLength([
+                        'min' => 1,
+                        'max' => 128
+                    ])
+                ]
+            ],
             [
                 'name' => 'config',
                 'required' => true,
