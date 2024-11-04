@@ -28,10 +28,10 @@
             </thead>
             <tbody>
             {% for key, val in migrations %}
-                <tr class="{% if val.done %}alert-success{% else %}alert-danger{% endif %}">
-                    <td>{{ key }}</td>
-                    <td>{{ val.description|trans }}</td>
-                    <td>
+                <tr>
+                    <td class="{% if val.done %}text-success{% else %}text-danger{% endif %}">{{ key }}</td>
+                    <td class="{% if val.done %}text-success{% else %}text-danger{% endif %}">{{ val.description|trans }}</td>
+                    <td class="{% if val.done %}text-success{% else %}text-danger{% endif %}">
                         {% if val.done %}
                             <i class="fa fa-check fa-fw"></i> {{ val.done|date('d.m.Y H:i:s') }}
                         {% else %}

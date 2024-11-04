@@ -4,12 +4,12 @@
 
 {% block content %}
     <div class="table-responsive">
-        <table class="table {% if modules|length > 0 %}table-hover{% endif %} border datatable" data-column-defs="[{ width: '10px', targets: 0 }]" data-order='[[ 2, "asc" ], [ 1, "asc" ]]'>
+        <table class="table {% if modules|length > 0 %}table-hover{% endif %} border datatable" data-column-defs="[{ width: '10px', targets: 0 }]" data-order='[[ 1, "asc" ], [ 0, "asc" ]]'>
             <thead>
             <tr>
                 <th>{{ 'Name'|trans }}</th>
                 <th>{{ 'Typ'|trans }}</th>
-                <th></th>
+                <th data-sortable="false"></th>
             </tr>
             </thead>
             <tbody>

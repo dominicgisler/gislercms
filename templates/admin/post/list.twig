@@ -4,14 +4,14 @@
 
 {% block content %}
     <div class="table-responsive">
-        <table class="table {% if posts|length > 0 %}table-hover{% endif %} border datatable" data-order='[[ 4, "asc" ], [ 2, "desc" ]]'>
+        <table class="table {% if posts|length > 0 %}table-hover{% endif %} border datatable" data-order='[[ 3, "asc" ], [ 1, "desc" ]]'>
             <thead>
             <tr>
                 <th>{{ 'Name'|trans }}</th>
                 <th>{{ 'Veröffentlicht am'|trans }}</th>
                 <th>{{ 'Kategorien'|trans }}</th>
                 <th>{{ 'Status'|trans }}</th>
-                <th></th>
+                <th data-sortable="false"></th>
             </tr>
             </thead>
             <tbody>
