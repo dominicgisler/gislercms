@@ -1,9 +1,7 @@
-{% if gallery.download %}
-    <form method="post">
-        <button type="submit" name="download" class="float-end btn btn-primary">
-            <i class="fa fa-download"></i>
-        </button>
-    </form>
+{% if gallery.download and gallery.zip %}
+    <a class="float-end btn btn-primary" href="{{ base_url() }}{{ gallery.zip }}">
+        <i class="fa fa-download"></i>
+    </a>
 {% endif %}
 <h1>{{ gallery.title }}</h1>
 {% if gallery.description %}

@@ -58,6 +58,9 @@ class GalleryModuleController extends AbstractModuleController
         if (!empty($gallery)) {
             if (isset($this->config['galleries'][$gallery])) {
                 $gall = $this->config['galleries'][$gallery];
+                if (isset($gall['download']) && $gall['download']) {
+                    $gall['zip'] = str_replace(realpath(__DIR__ . '/../../../public'), '', realpath(__DIR__ . '/../../../public/uploads/' . $gall['path'] . '/../' . $gallery . '.zip'));
+                }
                 $html = $this->view->fetch('module/gallery/detail.twig', [
                     'page' => $page,
                     'gallery' => $gall
@@ -93,32 +96,6 @@ class GalleryModuleController extends AbstractModuleController
      */
     public function onPost(Request $request): string
     {
-        $gallery = $request->getAttribute('arguments');
-
-        if (empty($gallery) || !isset($this->config['galleries'][$gallery]) || !$this->config['galleries'][$gallery]['download']) {
-            return $this->onGet($request);
-        }
-        set_time_limit(300);
-
-        $filename = tempnam(sys_get_temp_dir(), 'gallery-export');
-
-        $zip = new ZipArchive();
-        $zip->open($filename, ZipArchive::CREATE | ZipArchive::OVERWRITE);
-
-        $galPath = realpath(__DIR__ . '/../../../public/uploads/' . $this->config['galleries'][$gallery]['path']);
-        foreach (glob($galPath . '/*.*') as $file) {
-            $relPath = substr($file, strlen($galPath) + 1);
-            $zip->addFile($file, $relPath);
-        }
-
-        $zip->close();
-
-        header('Content-Type: application/zip');
-        header('Content-Disposition: attachment; filename=' . $gallery . '.zip');
-        readfile($filename);
-        unlink($filename);
-        die();
-
-        return '';
+        return $this->onGet($request);
     }
 }
