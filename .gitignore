@@ -9,7 +9,6 @@
 /public/css/webfonts
 /public/css/**/*.css
 /public/css/**/*.css.map
-/public/editor
 /dist
 /drivers
 *.zip

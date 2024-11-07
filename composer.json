@@ -16,12 +16,6 @@
       "email": "domgisler@gmail.com"
     }
   ],
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/dominicgisler/gislercms-editor.git"
-    }
-  ],
   "require": {
     "php": ">=8.3",
     "ext-pdo": "*",
@@ -34,7 +28,6 @@
     "slim/twig-view": "^2.4",
     "monolog/monolog": "^1.24",
     "components/jquery": "^3.3",
-    "dominicgisler/gislercms-editor": "dev-master",
     "phpmailer/phpmailer": "^6.0",
     "donatj/phpuseragentparser": "^0.14.0",
     "dflydev/fig-cookies": "^3.0",
@@ -66,8 +59,7 @@
       "cp vendor/datatables.net/datatables.net/js/dataTables.min.js public/js/.",
       "cp vendor/datatables.net/datatables.net-bs5/js/dataTables.bootstrap5.min.js public/js/.",
       "cp vendor/nnnick/chartjs/dist/Chart.min.js public/js/.",
-      "rm -rf public/editor",
-      "cp -r vendor/dominicgisler/gislercms-editor public/editor"
+      "rm -rf public/editor"
     ]
   },
   "require-dev": {
