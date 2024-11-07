@@ -1,0 +1,15 @@
+<script src="{{ base_url() }}/editor/ace/src-min-noconflict/ace.js"></script>
+<script>
+    var editor = ace.edit("json-editor");
+    editor.session.setMode("ace/mode/json");
+    editor.session.on('change', function () {
+        $('#input_config').val(editor.getValue());
+    });
+    function setAceTheme(theme = 'dark') {
+        if (theme === 'dark') {
+            editor.setTheme('ace/theme/tomorrow_night');
+        } else {
+            editor.setTheme('ace/theme/tomorrow');
+        }
+    }
+</script>

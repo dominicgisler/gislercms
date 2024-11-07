@@ -16,10 +16,21 @@
 
         const setTheme = theme => {
             if (theme === 'auto') {
-                document.documentElement.setAttribute('data-bs-theme', (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))
-            } else {
-                document.documentElement.setAttribute('data-bs-theme', theme)
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             }
+            document.documentElement.setAttribute('data-bs-theme', theme)
+
+            let i = 0;
+            let intv = setInterval(function() {
+                i++;
+                if (typeof setAceTheme === 'function') {
+                    setAceTheme(theme);
+                    clearInterval(intv);
+                }
+                if (i > 100) {
+                    clearInterval(intv);
+                }
+            }, 0);
         }
 
         setTheme(getPreferredTheme())
