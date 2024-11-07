@@ -1,7 +1,19 @@
 {% extends 'admin/content.twig' %}
 
-{% block title %}{{ 'Seitenvorschau'|trans }}{% endblock %}
+{% block title %}
+    {{ 'Seitenvorschau'|trans }}
+    <div class="btn-group float-end preview-toggle d-none d-xl-inline-flex" role="group">
+        <button type="button" data-width="100%" data-height="100%" class="btn btn-outline-secondary active"><i class="fa fa-desktop"></i></button>
+        <button type="button" data-width="360" data-height="640" class="btn btn-outline-secondary"><i class="fa fa-mobile"></i></button>
+        <button type="button" data-width="800" data-height="1000" class="btn btn-outline-secondary"><i class="fa fa-tablet"></i></button>
+    </div>
+{% endblock %}
 
 {% block content %}
-    <iframe class="border" frameborder="0" src="/" width="100%" onload="this.height = window.innerHeight - 160;">{{ 'Iframe kann nicht angezeigt werden!'|trans }}</iframe>
+    <div class="text-center">
+        <iframe class="border mb-2 mx-auto" frameborder="0" src="/" width="100%" id="preview-frame">{{ 'Iframe kann nicht angezeigt werden!'|trans }}</iframe>
+    </div>
+    <script>
+        document.getElementById('preview-frame').height = window.innerHeight - 160;
+    </script>
 {% endblock %}
