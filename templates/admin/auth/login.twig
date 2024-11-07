@@ -9,7 +9,8 @@
 {% block body %}
     <form class="form-signin" method="post">
         <div class="text-center mb-4">
-            <img class="mb-4" src="{{ base_url() }}/img/admin/logo-black.png" alt="" width="72" height="72">
+            <img class="mb-4 hide-dark" src="{{ base_url() }}/img/admin/logo-black-small.png" alt="" width="72" height="72">
+            <img class="mb-4 hide-light" src="{{ base_url() }}/img/admin/logo-white-small.png" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">GislerCMS</h1>
             {% if error %}
                 <div class="alert alert-danger" role="alert">
