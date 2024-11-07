@@ -113,6 +113,17 @@
             $label.text($label.data('placeholder'));
         }
     });
+
+    $('.preview-toggle button').click(function() {
+        $('.preview-toggle button').removeClass('active');
+        $(this).addClass('active');
+        $('#preview-frame').attr('width', $(this).data('width'));
+        if ($(this).data('height') === '100%') {
+            $('#preview-frame').attr('height', window.innerHeight - 160);
+        } else {
+            $('#preview-frame').attr('height', $(this).data('height'));
+        }
+    });
 }());
 
 function autocompleteWidgets(widgets) {
