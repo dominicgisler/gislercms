@@ -31,7 +31,6 @@ cp .htaccess ${tempdir}/.
 
 # remove folders which will be rebuilt with composer
 rm -rf ${tempdir}/public/css/webfonts
-rm -rf ${tempdir}/public/editor
 rm ${tempdir}/config/local.php
 
 # build composer

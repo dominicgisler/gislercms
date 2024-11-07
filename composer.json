@@ -58,8 +58,7 @@
       "cp -r vendor/select2/select2/dist/js/*.min.js public/js/.",
       "cp vendor/datatables.net/datatables.net/js/dataTables.min.js public/js/.",
       "cp vendor/datatables.net/datatables.net-bs5/js/dataTables.bootstrap5.min.js public/js/.",
-      "cp vendor/nnnick/chartjs/dist/Chart.min.js public/js/.",
-      "rm -rf public/editor"
+      "cp vendor/nnnick/chartjs/dist/Chart.min.js public/js/."
     ]
   },
   "require-dev": {
