@@ -11,3 +11,15 @@ $fa-font-path: "../webfonts" !default;
   background: var(--bs-btn-close-bg) 0.5em no-repeat;
   background-size: 1rem;
 }
+
+$color-mode-type: data;
+@include color-mode(dark) {
+  .hide-dark {
+    display: none;
+  }
+}
+@include color-mode(light) {
+  .hide-light {
+    display: none;
+  }
+}
