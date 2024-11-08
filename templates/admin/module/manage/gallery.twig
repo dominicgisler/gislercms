@@ -1,0 +1,150 @@
+{% import "admin/forms.twig" as forms %}
+
+{%
+    set messages = {
+        invalid_input: {
+            class: 'danger',
+            message: 'Es sind Fehler aufgetreten, bitte prüfe deine Eingaben.'|trans
+        },
+        save_error: {
+            class: 'danger',
+            message: 'Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut.'|trans
+        },
+        save_success: {
+            class: 'success',
+            message: 'Die Konfiguration wurde erfolgreich gespeichert.'|trans
+        }
+    }
+%}
+
+{% if message %}
+    <div class="alert alert-{{ messages[message].class }} alert-dismissible fade show" role="alert">
+        {{ messages[message].message|raw }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endif %}
+
+<form method="post" id="page-form">
+    {{ forms.form_group('text', 'name', module.name, 'Name'|trans, '', 'name' in errors ? 'is-invalid' : '') }}
+    {{ forms.form_group('text', 'title', config.title, 'Titel'|trans, '', 'config[title]' in errors ? 'is-invalid' : '') }}
+    {% for name, gallery in config.galleries %}
+        <div class="gallery-row">
+            <div class="row">
+                <hr>
+                <div class="col-12 col-sm-4 col-md-3 col-xl-2 mb-3">
+                    <img src="{{ base_url() }}/uploads/{{ gallery.cover }}" class="mw-100 mb-2 cover">
+                    <div class="btn-group w-100 gallery-actions" role="group">
+                        <button type="button" onclick="galMoveUp(this);" class="btn btn-outline-secondary"><i class="fa fa-up-long"></i></button>
+                        <button type="button" onclick="galMoveDown(this);" class="btn btn-outline-secondary"><i class="fa fa-down-long"></i></button>
+                        <button type="button" onclick="galRemove(this);" class="btn btn-outline-secondary"><i class="fa fa-trash"></i></button>
+                        <button type="button" onclick="galAdd(this);" class="btn btn-outline-secondary"><i class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-8 col-md-9 col-xl-10">
+                    <div class="row g-2">
+                        <div class="col-12 col-md-6">
+                            {{ forms.form_group('text', 'galleries[' ~ loop.index0 ~ '][identifier]', name, 'Name'|trans, '', 'galleries[' ~ loop.index0 ~ '][identifier]' in errors ? 'is-invalid' : '', 'Der Name, welcher in der URL verwendet wird'|trans) }}
+                        </div>
+                        <div class="col-12 col-md-6">
+                            {{ forms.form_group('text', 'galleries[' ~ loop.index0 ~ '][title]', gallery.title, 'Titel'|trans, '', 'galleries[' ~ loop.index0 ~ '][title]' in errors ? 'is-invalid' : '') }}
+                        </div>
+                        <div class="col-12 col-md-6">
+                            {{ forms.form_group('text', 'galleries[' ~ loop.index0 ~ '][path]', gallery.path, 'Pfad'|trans, '', 'galleries[' ~ loop.index0 ~ '][path]' in errors ? 'is-invalid' : '') }}
+                        </div>
+                        <div class="col-12 col-md-6 cover">
+                            {{ forms.form_group('fileurl', 'galleries[' ~ loop.index0 ~ '][cover]', gallery.cover, 'Cover'|trans, '', 'galleries[' ~ loop.index0 ~ '][cover]' in errors ? 'is-invalid' : '') }}
+                        </div>
+                        <div class="col-12">
+                            {{ forms.form_group('textarea', 'galleries[' ~ loop.index0 ~ '][description]', gallery.description, 'Beschreibung'|trans, '', 'galleries[' ~ loop.index0 ~ '][description]' in errors ? 'is-invalid' : '') }}
+                            {{ forms.form_group('checkbox', 'galleries[' ~ loop.index0 ~ '][download]', gallery.download, 'Download erlauben'|trans, '', 'galleries[' ~ loop.index0 ~ '][download]' in errors ? 'is-invalid' : '') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="text-end mb-4">
+        <button class="btn btn-primary" name="save">{{ 'Speichern'|trans }}</button>
+    </div>
+</form>
+
+<div class="gallery-template d-none">
+    <div class="row">
+        <hr>
+        <div class="col-12 col-sm-4 col-md-3 col-xl-2 mb-3">
+            <img src="" class="mw-100 mb-2 cover">
+            <div class="btn-group w-100 gallery-actions" role="group">
+                <button type="button" onclick="galMoveUp(this);" class="btn btn-outline-secondary"><i class="fa fa-up-long"></i></button>
+                <button type="button" onclick="galMoveDown(this);" class="btn btn-outline-secondary"><i class="fa fa-down-long"></i></button>
+                <button type="button" onclick="galRemove(this);" class="btn btn-outline-secondary"><i class="fa fa-trash"></i></button>
+                <button type="button" onclick="galAdd(this);" class="btn btn-outline-secondary"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="col-12 col-sm-8 col-md-9 col-xl-10">
+            <div class="row g-2">
+                <div class="col-12 col-md-6">
+                    {{ forms.form_group('text', 'galleries[x][identifier]', name, 'Name'|trans, '', 'galleries[x][identifier]' in errors ? 'is-invalid' : '', 'Der Name, welcher in der URL verwendet wird'|trans) }}
+                </div>
+                <div class="col-12 col-md-6">
+                    {{ forms.form_group('text', 'galleries[x][title]', gallery.title, 'Titel'|trans, '', 'galleries[x][title]' in errors ? 'is-invalid' : '') }}
+                </div>
+                <div class="col-12 col-md-6">
+                    {{ forms.form_group('text', 'galleries[x][path]', gallery.path, 'Pfad'|trans, '', 'galleries[x]' in errors ? 'is-invalid' : '') }}
+                </div>
+                <div class="col-12 col-md-6 cover">
+                    {{ forms.form_group('text', 'galleries[x][cover]', gallery.cover, 'Cover'|trans, '', 'galleries[x][cover]' in errors ? 'is-invalid' : '') }}
+                </div>
+                <div class="col-12">
+                    {{ forms.form_group('textarea', 'galleries[x][description]', gallery.description, 'Beschreibung'|trans, '', 'galleries[x][description]' in errors ? 'is-invalid' : '') }}
+                    {{ forms.form_group('checkbox', 'galleries[x][download]', gallery.download, 'Download erlauben'|trans, '', 'galleries[x][download]' in errors ? 'is-invalid' : '') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function galMoveUp(elem) {
+        let $el = $(elem).closest('.gallery-row');
+        if ($el.prev().hasClass('gallery-row')) {
+            $el.insertBefore($el.prev());
+        }
+        setNumbers();
+    }
+    function galMoveDown(elem) {
+        let $el = $(elem).closest('.gallery-row');
+        if ($el.next().hasClass('gallery-row')) {
+            $el.insertAfter($el.next());
+        }
+        setNumbers();
+    }
+    function galRemove(elem) {
+        $(elem).closest('.gallery-row').remove();
+        setNumbers();
+    }
+    function galAdd(elem) {
+        let $new = $('.gallery-template').clone();
+        $new.insertAfter($(elem).closest('.gallery-row'));
+        $new.removeClass('d-none');
+        $new.removeClass('gallery-template');
+        $new.addClass('gallery-row');
+        setNumbers();
+    }
+    function setNumbers() {
+        let i = 0;
+        $('.gallery-row').each(function() {
+            $(this).find('input, textarea').each(function() {
+                $(this).attr('name', $(this).attr('name').replace(/galleries\[(\d|x)]\[(.*)]/i, 'galleries[' + i + '][$2]'))
+            });
+            i++;
+        });
+    }
+    defer(function() {
+        $('#filemanagerModal').on('hide.bs.modal', function () {
+            $('.cover input').each(function() {
+                $(this).val($(this).val().replace('{{ base_url() }}/uploads/', ''));
+                $(this).closest('.gallery-row').find('img.cover').attr('src', '{{ base_url() }}/uploads/' + $(this).val());
+            })
+        });
+    })
+</script>

@@ -2,15 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GislerCMS\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-05-21 18:06+0200\n"
+"PO-Revision-Date: 2024-11-08 01:52+0100\n"
 "Last-Translator: Dominic Gisler\n"
 "Language-Team: Dominic Gisler\n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-05-21 18:06+0200\n"
-"PO-Revision-Date: 2021-05-22 23:56+0200\n"
-"Language: en_US\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.5\n"
 
 #: templates/cookie-info.twig:42
 msgid "Mit der Verwendung der Webseite stimmst du der Nutzung von Cookies zu."
@@ -72,35 +73,29 @@ msgstr "Server port"
 msgid "Serversignatur"
 msgstr "Server signature"
 
-#: templates/trans-keys.twig:97
-#: templates/admin/index.twig:51
+#: templates/trans-keys.twig:97 templates/admin/index.twig:51
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: templates/trans-keys.twig:101
-#: templates/admin/preview.twig:50
+#: templates/trans-keys.twig:101 templates/admin/preview.twig:50
 msgid "Seitenvorschau"
 msgstr "Page preview"
 
-#: templates/trans-keys.twig:109
-#: templates/admin/misc/profile.twig:74
+#: templates/trans-keys.twig:109 templates/admin/misc/profile.twig:74
 #: templates/admin/content.twig:113
 msgid "Profil"
 msgstr "Profile"
 
-#: templates/trans-keys.twig:113
-#: templates/admin/misc/change-password.twig:55
+#: templates/trans-keys.twig:113 templates/admin/misc/change-password.twig:55
 #: templates/admin/content.twig:123
 msgid "Passwort ändern"
 msgstr "Change password"
 
-#: templates/trans-keys.twig:117
-#: templates/admin/content.twig:134
+#: templates/trans-keys.twig:117 templates/admin/content.twig:134
 msgid "Abmelden"
 msgstr "Logout"
 
-#: templates/trans-keys.twig:121
-#: templates/admin/index.twig:179
+#: templates/trans-keys.twig:121 templates/admin/index.twig:179
 #: templates/admin/page/list.twig:50
 msgid "Seiten"
 msgstr "Pages"
@@ -109,20 +104,16 @@ msgstr "Pages"
 msgid "Alle Seiten"
 msgstr "All pages"
 
-#: templates/trans-keys.twig:129
-#: templates/admin/page/defaults.twig:74
+#: templates/trans-keys.twig:129 templates/admin/page/defaults.twig:74
 msgid "Standardwerte"
 msgstr "Default values"
 
-#: templates/trans-keys.twig:133
-#: templates/trans-keys.twig:145
-#: templates/trans-keys.twig:157
-#: templates/admin/misc/trash.twig:54
+#: templates/trans-keys.twig:133 templates/trans-keys.twig:145
+#: templates/trans-keys.twig:157 templates/admin/misc/trash.twig:54
 msgid "Papierkorb"
 msgstr "Trash"
 
-#: templates/trans-keys.twig:137
-#: templates/admin/post/list.twig:50
+#: templates/trans-keys.twig:137 templates/admin/post/list.twig:50
 #: templates/admin/content.twig:322
 msgid "Beiträge"
 msgstr "Posts"
@@ -131,8 +122,7 @@ msgstr "Posts"
 msgid "Alle Beiträge"
 msgstr "All posts"
 
-#: templates/trans-keys.twig:149
-#: templates/admin/widget/list.twig:50
+#: templates/trans-keys.twig:149 templates/admin/widget/list.twig:50
 #: templates/admin/content.twig:330
 msgid "Widgets"
 msgstr "Widgets"
@@ -141,8 +131,7 @@ msgstr "Widgets"
 msgid "Alle Widgets"
 msgstr "All widgets"
 
-#: templates/trans-keys.twig:161
-#: templates/admin/module/list.twig:50
+#: templates/trans-keys.twig:161 templates/admin/module/list.twig:50
 #: templates/admin/content.twig:326
 msgid "Module"
 msgstr "Modules"
@@ -155,21 +144,17 @@ msgstr "All modules"
 msgid "Verschiedenes"
 msgstr "Miscellaneous"
 
-#: templates/trans-keys.twig:173
-#: templates/admin/misc/system/_system.twig:56
+#: templates/trans-keys.twig:173 templates/admin/misc/system/_system.twig:56
 msgid "System"
 msgstr "System"
 
-#: templates/trans-keys.twig:181
-#: templates/admin/widget/edit.twig:125
+#: templates/trans-keys.twig:181 templates/admin/widget/edit.twig:125
 #: templates/admin/misc/language/list.twig:53
-#: templates/admin/post/edit.twig:182
-#: templates/admin/page/edit.twig:125
+#: templates/admin/post/edit.twig:182 templates/admin/page/edit.twig:125
 msgid "Sprachen"
 msgstr "Languages"
 
-#: templates/trans-keys.twig:185
-#: templates/admin/misc/user/list.twig:53
+#: templates/trans-keys.twig:185 templates/admin/misc/user/list.twig:53
 msgid "Benutzer"
 msgstr "Users"
 
@@ -177,14 +162,12 @@ msgstr "Users"
 msgid "Datenbank-Update"
 msgstr "Database update"
 
-#: templates/trans-keys.twig:193
-#: templates/admin/misc/theme.twig:284
+#: templates/trans-keys.twig:193 templates/admin/misc/theme.twig:284
 #: templates/admin/misc/license.twig:50
 msgid "Lizenz"
 msgstr "License"
 
-#: templates/config-error.twig:49
-#: templates/config-error.twig:70
+#: templates/config-error.twig:49 templates/config-error.twig:70
 msgid "Datenbankfehler"
 msgstr "Database error"
 
@@ -200,8 +183,7 @@ msgstr "Have you already run the setup?"
 msgid "Klicke hier um zum Setup zu gelangen."
 msgstr "Click here to get to the setup."
 
-#: templates/maintenance.twig:49
-#: templates/maintenance.twig:70
+#: templates/maintenance.twig:49 templates/maintenance.twig:70
 msgid "Webseite wird gewartet"
 msgstr "Website is maintained"
 
@@ -218,8 +200,7 @@ msgstr "Please check back later!"
 msgid "Zeitpunkt"
 msgstr "Date"
 
-#: templates/admin/stats/visits.twig:70
-#: templates/admin/misc/trash.twig:44
+#: templates/admin/stats/visits.twig:70 templates/admin/misc/trash.twig:44
 msgid "Seite"
 msgstr "Page"
 
@@ -228,20 +209,16 @@ msgstr "Page"
 #: templates/admin/misc/language/edit.twig:85
 #: templates/admin/misc/user/list.twig:86
 #: templates/admin/misc/user/edit.twig:120
-#: templates/admin/misc/profile.twig:116
-#: templates/admin/index.twig:191
+#: templates/admin/misc/profile.twig:116 templates/admin/index.twig:191
 msgid "Sprache"
 msgstr "Language"
 
-#: templates/admin/stats/visits.twig:78
-#: templates/admin/index.twig:195
+#: templates/admin/stats/visits.twig:78 templates/admin/index.twig:195
 msgid "Parameter"
 msgstr "Parameter"
 
-#: templates/admin/stats/visits.twig:86
-#: templates/admin/stats/sessions.twig:74
-#: templates/admin/stats/clients.twig:51
-#: templates/admin/index.twig:115
+#: templates/admin/stats/visits.twig:86 templates/admin/stats/sessions.twig:74
+#: templates/admin/stats/clients.twig:51 templates/admin/index.twig:115
 msgid "Besucher"
 msgstr "Visitors"
 
@@ -249,8 +226,7 @@ msgstr "Visitors"
 msgid "Besuch"
 msgstr "Visit"
 
-#: templates/admin/stats/sessions.twig:51
-#: templates/admin/index.twig:151
+#: templates/admin/stats/sessions.twig:51 templates/admin/index.twig:151
 msgid "Seitenbesuche"
 msgstr "Page visits"
 
@@ -270,8 +246,7 @@ msgstr "IP"
 msgid "Betriebssystem"
 msgstr "Operating system"
 
-#: templates/admin/stats/sessions.twig:86
-#: templates/admin/index.twig:297
+#: templates/admin/stats/sessions.twig:86 templates/admin/index.twig:297
 msgid "Browser"
 msgstr "Browser"
 
@@ -283,13 +258,11 @@ msgstr "User Agent"
 msgid "Dauer (hh:mm:ss)"
 msgstr "Duration (hh:mm:ss)"
 
-#: templates/admin/stats/sessions.twig:98
-#: templates/admin/index.twig:169
+#: templates/admin/stats/sessions.twig:98 templates/admin/index.twig:169
 msgid "Seitenaufrufe"
 msgstr "Page views"
 
-#: templates/admin/index.twig:274
-#: templates/admin/index.twig:322
+#: templates/admin/index.twig:274 templates/admin/index.twig:322
 msgid "Unbekannt"
 msgstr "Unknown"
 
@@ -301,10 +274,8 @@ msgstr "First visit"
 msgid "Letzter Besuch"
 msgstr "Last visit"
 
-#: templates/admin/stats/clients.twig:74
-#: templates/admin/index.twig:260
-#: templates/admin/index.twig:308
-#: templates/admin/index.twig:449
+#: templates/admin/stats/clients.twig:74 templates/admin/index.twig:260
+#: templates/admin/index.twig:308 templates/admin/index.twig:449
 msgid "Besuche"
 msgstr "Visits"
 
@@ -312,56 +283,45 @@ msgstr "Visits"
 msgid "Echter Besucher"
 msgstr "Real visitor"
 
-#: templates/admin/redirect/edit.twig:46
-#: templates/admin/widget/edit.twig:68
+#: templates/admin/redirect/edit.twig:46 templates/admin/widget/edit.twig:68
 #: templates/admin/misc/language/edit.twig:45
 #: templates/admin/misc/user/edit.twig:45
 #: templates/admin/misc/system/config.twig:97
 #: templates/admin/misc/system/mailer.twig:47
 #: templates/admin/misc/profile.twig:64
 #: templates/admin/misc/change-password.twig:45
-#: templates/admin/auth/reset.twig:44
-#: templates/admin/post/edit.twig:82
-#: templates/admin/page/defaults.twig:64
-#: templates/admin/page/edit.twig:68
+#: templates/admin/auth/reset.twig:44 templates/admin/post/edit.twig:82
+#: templates/admin/page/defaults.twig:64 templates/admin/page/edit.twig:68
 #: templates/admin/module/manage/guestbook.twig:42
 #: templates/admin/module/manage/default.twig:42
-#: templates/admin/module/manage.twig:45
-#: templates/admin/module/add.twig:45
+#: templates/admin/module/manage.twig:45 templates/admin/module/add.twig:45
 msgid "Es sind Fehler aufgetreten, bitte prüfe deine Eingaben."
 msgstr "Errors have occurred, please check your entries."
 
-#: templates/admin/redirect/edit.twig:46
-#: templates/admin/widget/edit.twig:68
+#: templates/admin/redirect/edit.twig:46 templates/admin/widget/edit.twig:68
 #: templates/admin/misc/language/edit.twig:45
 #: templates/admin/misc/user/edit.twig:45
 #: templates/admin/misc/system/config.twig:97
 #: templates/admin/misc/system/mailer.twig:47
 #: templates/admin/misc/profile.twig:64
 #: templates/admin/misc/change-password.twig:45
-#: templates/admin/auth/reset.twig:44
-#: templates/admin/post/edit.twig:82
-#: templates/admin/page/defaults.twig:64
-#: templates/admin/page/edit.twig:68
+#: templates/admin/auth/reset.twig:44 templates/admin/post/edit.twig:82
+#: templates/admin/page/defaults.twig:64 templates/admin/page/edit.twig:68
 #: templates/admin/module/manage/guestbook.twig:42
 #: templates/admin/module/manage/default.twig:42
-#: templates/admin/module/manage.twig:45
-#: templates/admin/module/add.twig:45
+#: templates/admin/module/manage.twig:45 templates/admin/module/add.twig:45
 msgid "Beim Speichern ist ein Fehler aufgetreten, bitte prüfe deine Eingaben oder versuche es später erneut."
 msgstr "An error occurred while saving, please check your entries or try again later."
 
-#: templates/admin/module/manage.twig:45
-#: templates/admin/module/add.twig:45
+#: templates/admin/module/manage.twig:45 templates/admin/module/add.twig:45
 msgid "Das Modul wurde erfolgreich gespeichert."
 msgstr "The module was saved successfully."
 
-#: templates/admin/module/manage.twig:45
-#: templates/admin/module/add.twig:45
+#: templates/admin/module/manage.twig:45 templates/admin/module/add.twig:45
 msgid "Das Modul wurde erfolgreich gelöscht."
 msgstr "The module was successfully deleted."
 
-#: templates/admin/module/manage.twig:45
-#: templates/admin/module/add.twig:45
+#: templates/admin/module/manage.twig:45 templates/admin/module/add.twig:45
 msgid "Beim Löschen ist ein Fehler aufgetreten, bitte versuche es später erneut."
 msgstr "An error occurred while deleting, please try again later."
 
@@ -369,8 +329,7 @@ msgstr "An error occurred while deleting, please try again later."
 msgid "Modul \"%s\" verwalten (%s)"
 msgstr "Manage \"%s\" module (%s)"
 
-#: templates/admin/module/manage.twig:82
-#: templates/admin/module/manage.twig:94
+#: templates/admin/module/manage.twig:82 templates/admin/module/manage.twig:94
 msgid "Modul löschen"
 msgstr "Delete module"
 
@@ -381,22 +340,18 @@ msgstr "Do you really want to delete this module irrevocably?"
 #: templates/admin/partial/insert-module-modal.twig:58
 #: templates/admin/partial/insert-posts-modal.twig:56
 #: templates/admin/partial/insert-widget-modal.twig:58
-#: templates/admin/redirect/edit.twig:147
-#: templates/admin/widget/edit.twig:386
-#: templates/admin/misc/trash.twig:157
-#: templates/admin/misc/trash.twig:186
+#: templates/admin/redirect/edit.twig:147 templates/admin/widget/edit.twig:386
+#: templates/admin/misc/trash.twig:157 templates/admin/misc/trash.twig:186
 #: templates/admin/misc/language/edit.twig:135
 #: templates/admin/misc/user/edit.twig:166
 #: templates/admin/misc/system/backup.twig:196
 #: templates/admin/misc/system/update.twig:170
 #: templates/admin/misc/system/update.twig:214
 #: templates/admin/misc/system/migration.twig:223
-#: templates/admin/misc/theme.twig:227
-#: templates/admin/post/edit.twig:385
+#: templates/admin/misc/theme.twig:227 templates/admin/post/edit.twig:385
 #: templates/admin/page/edit.twig:436
 #: templates/admin/module/manage/guestbook.twig:203
-#: templates/admin/module/manage.twig:107
-#: templates/admin/content.twig:280
+#: templates/admin/module/manage.twig:107 templates/admin/content.twig:280
 msgid "Abbrechen"
 msgstr "Cancel"
 
@@ -404,33 +359,23 @@ msgstr "Cancel"
 msgid "Ja, Modul löschen"
 msgstr "Yes, delete module"
 
-#: templates/admin/redirect/list.twig:69
-#: templates/admin/redirect/edit.twig:101
-#: templates/admin/widget/list.twig:69
-#: templates/admin/widget/edit.twig:113
-#: templates/admin/misc/trash.twig:74
-#: templates/admin/misc/user/list.twig:78
+#: templates/admin/redirect/list.twig:69 templates/admin/redirect/edit.twig:101
+#: templates/admin/widget/list.twig:69 templates/admin/widget/edit.twig:113
+#: templates/admin/misc/trash.twig:74 templates/admin/misc/user/list.twig:78
 #: templates/admin/misc/user/edit.twig:112
 #: templates/admin/misc/system/migration.twig:111
 #: templates/admin/misc/system/mailer.twig:119
-#: templates/admin/misc/profile.twig:108
-#: templates/admin/setup.twig:267
-#: templates/admin/setup.twig:275
-#: templates/admin/index.twig:187
-#: templates/admin/index.twig:256
-#: templates/admin/index.twig:304
-#: templates/admin/post/list.twig:69
-#: templates/admin/post/attribute-row.twig:61
-#: templates/admin/post/edit.twig:127
-#: templates/admin/page/list.twig:69
-#: templates/admin/page/edit.twig:113
-#: templates/admin/module/list.twig:69
+#: templates/admin/misc/profile.twig:108 templates/admin/setup.twig:267
+#: templates/admin/setup.twig:275 templates/admin/index.twig:187
+#: templates/admin/index.twig:256 templates/admin/index.twig:304
+#: templates/admin/post/list.twig:69 templates/admin/post/attribute-row.twig:61
+#: templates/admin/post/edit.twig:127 templates/admin/page/list.twig:69
+#: templates/admin/page/edit.twig:113 templates/admin/module/list.twig:69
 #: templates/admin/module/add.twig:100
 msgid "Name"
 msgstr "Name"
 
-#: templates/admin/misc/trash.twig:78
-#: templates/admin/module/list.twig:73
+#: templates/admin/misc/trash.twig:78 templates/admin/module/list.twig:73
 #: templates/admin/module/add.twig:104
 msgid "Typ"
 msgstr "Type"
@@ -454,23 +399,20 @@ msgstr "The desired module was not found, please select a module from the list:"
 msgid "Die Konfiguration wurde erfolgreich gespeichert."
 msgstr "The configuration has been saved successfully."
 
-#: templates/admin/misc/system/_system.twig:46
-#: templates/admin/index.twig:67
+#: templates/admin/misc/system/_system.twig:46 templates/admin/index.twig:67
 #: templates/admin/module/manage/guestbook.twig:65
 #: templates/admin/module/manage/default.twig:65
 msgid "Konfiguration"
 msgstr "Configuration"
 
-#: templates/admin/redirect/edit.twig:122
-#: templates/admin/widget/edit.twig:348
+#: templates/admin/redirect/edit.twig:122 templates/admin/widget/edit.twig:348
 #: templates/admin/misc/language/edit.twig:102
 #: templates/admin/misc/user/edit.twig:141
 #: templates/admin/misc/system/config.twig:173
 #: templates/admin/misc/system/mailer.twig:133
 #: templates/admin/misc/profile.twig:121
 #: templates/admin/misc/change-password.twig:94
-#: templates/admin/post/edit.twig:347
-#: templates/admin/page/defaults.twig:121
+#: templates/admin/post/edit.twig:347 templates/admin/page/defaults.twig:121
 #: templates/admin/page/edit.twig:398
 #: templates/admin/module/manage/guestbook.twig:70
 #: templates/admin/module/manage/default.twig:70
@@ -486,8 +428,7 @@ msgstr "Entries"
 msgid "Erstellt am"
 msgstr "Created on"
 
-#: templates/admin/widget/edit.twig:222
-#: templates/admin/post/edit.twig:307
+#: templates/admin/widget/edit.twig:222 templates/admin/post/edit.twig:307
 #: templates/admin/page/edit.twig:258
 #: templates/admin/module/manage/guestbook.twig:101
 msgid "Inhalt"
@@ -518,8 +459,7 @@ msgstr "Create new module"
 msgid "Interne Bezeichnung des Modules"
 msgstr "Internal designation of the module"
 
-#: templates/admin/filemanager.twig:63
-#: templates/admin/preview.twig:59
+#: templates/admin/filemanager.twig:63 templates/admin/preview.twig:59
 msgid "Iframe kann nicht angezeigt werden!"
 msgstr "Iframe can not be displayed!"
 
@@ -547,8 +487,7 @@ msgstr "Refresh"
 msgid "Echte Besucher"
 msgstr "Real visitors"
 
-#: templates/admin/index.twig:199
-#: templates/admin/index.twig:461
+#: templates/admin/index.twig:199 templates/admin/index.twig:461
 msgid "Aufrufe"
 msgstr "Views"
 
@@ -556,8 +495,7 @@ msgstr "Views"
 msgid "Betriebssysteme"
 msgstr "Operating systems"
 
-#: templates/admin/misc/system/config.twig:130
-#: templates/admin/index.twig:345
+#: templates/admin/misc/system/config.twig:130 templates/admin/index.twig:345
 msgid "Statistiken"
 msgstr "Statistics"
 
@@ -599,42 +537,32 @@ msgstr "Insert posts"
 msgid "Module einfügen"
 msgstr "Insert modules"
 
-#: templates/admin/widget/list.twig:73
-#: templates/admin/widget/edit.twig:117
-#: templates/admin/post/edit.twig:135
-#: templates/admin/page/list.twig:73
-#: templates/admin/page/defaults.twig:116
-#: templates/admin/page/edit.twig:117
+#: templates/admin/widget/list.twig:73 templates/admin/widget/edit.twig:117
+#: templates/admin/post/edit.twig:135 templates/admin/page/list.twig:73
+#: templates/admin/page/defaults.twig:116 templates/admin/page/edit.twig:117
 msgid "Standardsprache"
 msgstr "Default language"
 
-#: templates/admin/redirect/list.twig:81
-#: templates/admin/widget/list.twig:77
+#: templates/admin/redirect/list.twig:81 templates/admin/widget/list.twig:77
 #: templates/admin/misc/language/list.twig:78
 #: templates/admin/misc/system/migration.twig:119
-#: templates/admin/post/list.twig:81
-#: templates/admin/page/list.twig:77
+#: templates/admin/post/list.twig:81 templates/admin/page/list.twig:77
 msgid "Status"
 msgstr "Status"
 
-#: templates/admin/redirect/list.twig:135
-#: templates/admin/widget/list.twig:108
+#: templates/admin/redirect/list.twig:135 templates/admin/widget/list.twig:108
 #: templates/admin/misc/language/list.twig:108
-#: templates/admin/post/list.twig:118
-#: templates/admin/page/list.twig:108
+#: templates/admin/post/list.twig:118 templates/admin/page/list.twig:108
 msgid "Aktiv"
 msgstr "Active"
 
-#: templates/admin/redirect/list.twig:141
-#: templates/admin/widget/list.twig:114
+#: templates/admin/redirect/list.twig:141 templates/admin/widget/list.twig:114
 #: templates/admin/misc/language/list.twig:114
-#: templates/admin/post/list.twig:124
-#: templates/admin/page/list.twig:114
+#: templates/admin/post/list.twig:124 templates/admin/page/list.twig:114
 msgid "Inaktiv"
 msgstr "Inactive"
 
-#: templates/admin/widget/list.twig:149
-#: templates/admin/widget/edit.twig:86
+#: templates/admin/widget/list.twig:149 templates/admin/widget/edit.twig:86
 msgid "Neues Widget"
 msgstr "New widget"
 
@@ -650,10 +578,8 @@ msgstr "This widget is in the trash, save it to restore it."
 msgid "Widget bearbeiten"
 msgstr "Edit widget"
 
-#: templates/admin/redirect/edit.twig:101
-#: templates/admin/widget/edit.twig:113
-#: templates/admin/post/edit.twig:127
-#: templates/admin/page/edit.twig:113
+#: templates/admin/redirect/edit.twig:101 templates/admin/widget/edit.twig:113
+#: templates/admin/post/edit.twig:127 templates/admin/page/edit.twig:113
 msgid "Nur als interne Bezeichnung"
 msgstr "Only as internal designation"
 
@@ -661,61 +587,48 @@ msgstr "Only as internal designation"
 msgid "Widget aktiviert"
 msgstr "Widget enabled"
 
-#: templates/admin/widget/edit.twig:218
-#: templates/admin/post/edit.twig:275
+#: templates/admin/widget/edit.twig:218 templates/admin/post/edit.twig:275
 #: templates/admin/page/edit.twig:226
 msgid "Übersetzung aktiviert"
 msgstr "Translation enabled"
 
-#: templates/admin/widget/edit.twig:241
-#: templates/admin/widget/edit.twig:405
-#: templates/admin/page/edit.twig:277
-#: templates/admin/page/edit.twig:456
+#: templates/admin/widget/edit.twig:241 templates/admin/widget/edit.twig:405
+#: templates/admin/page/edit.twig:277 templates/admin/page/edit.twig:456
 msgid "Bearbeitungsverlauf"
 msgstr "Editing history"
 
-#: templates/admin/widget/edit.twig:258
-#: templates/admin/page/edit.twig:294
+#: templates/admin/widget/edit.twig:258 templates/admin/page/edit.twig:294
 msgid "Überschrieben am"
 msgstr "Overwritten on"
 
-#: templates/admin/widget/edit.twig:262
-#: templates/admin/page/edit.twig:298
+#: templates/admin/widget/edit.twig:262 templates/admin/page/edit.twig:298
 msgid "von Benutzer"
 msgstr "from user"
 
-#: templates/admin/widget/edit.twig:266
-#: templates/admin/page/edit.twig:302
+#: templates/admin/widget/edit.twig:266 templates/admin/page/edit.twig:302
 msgid "Aktion"
 msgstr "Action"
 
-#: templates/admin/widget/edit.twig:295
-#: templates/admin/page/edit.twig:345
+#: templates/admin/widget/edit.twig:295 templates/admin/page/edit.twig:345
 msgid "Ansehen"
 msgstr "View"
 
-#: templates/admin/widget/edit.twig:338
-#: templates/admin/post/edit.twig:337
+#: templates/admin/widget/edit.twig:338 templates/admin/post/edit.twig:337
 #: templates/admin/page/edit.twig:388
 msgid "Endgültig löschen"
 msgstr "Final delete"
 
-#: templates/admin/redirect/edit.twig:118
-#: templates/admin/widget/edit.twig:340
+#: templates/admin/redirect/edit.twig:118 templates/admin/widget/edit.twig:340
 #: templates/admin/misc/trash.twig:135
 #: templates/admin/misc/language/edit.twig:98
-#: templates/admin/misc/user/edit.twig:137
-#: templates/admin/post/edit.twig:339
+#: templates/admin/misc/user/edit.twig:137 templates/admin/post/edit.twig:339
 #: templates/admin/page/edit.twig:390
 msgid "Löschen"
 msgstr "Delete"
 
-#: templates/admin/widget/edit.twig:346
-#: templates/admin/widget/edit.twig:424
-#: templates/admin/misc/trash.twig:131
-#: templates/admin/post/edit.twig:345
-#: templates/admin/page/edit.twig:396
-#: templates/admin/page/edit.twig:503
+#: templates/admin/widget/edit.twig:346 templates/admin/widget/edit.twig:424
+#: templates/admin/misc/trash.twig:131 templates/admin/post/edit.twig:345
+#: templates/admin/page/edit.twig:396 templates/admin/page/edit.twig:503
 msgid "Wiederherstellen"
 msgstr "Restore"
 
@@ -735,18 +648,15 @@ msgstr "Do you really want to delete the widget?"
 msgid "Ja, Widget löschen"
 msgstr "Yes, delete widget"
 
-#: templates/admin/widget/edit.twig:413
-#: templates/admin/page/edit.twig:492
+#: templates/admin/widget/edit.twig:413 templates/admin/page/edit.twig:492
 msgid "Inhalt:"
 msgstr "Content:"
 
-#: templates/admin/widget/edit.twig:420
-#: templates/admin/page/edit.twig:499
+#: templates/admin/widget/edit.twig:420 templates/admin/page/edit.twig:499
 msgid "Schliessen"
 msgstr "Close"
 
-#: templates/admin/page/list.twig:149
-#: templates/admin/page/edit.twig:86
+#: templates/admin/page/list.twig:149 templates/admin/page/edit.twig:86
 msgid "Neue Seite"
 msgstr "New page"
 
@@ -774,8 +684,7 @@ msgstr "Insert default values"
 msgid "Seitenname"
 msgstr "Page name"
 
-#: templates/admin/post/edit.twig:279
-#: templates/admin/page/edit.twig:230
+#: templates/admin/post/edit.twig:279 templates/admin/page/edit.twig:230
 msgid "Der Name, welcher in der URL verwendet wird"
 msgstr "The name which will be used in the URL"
 
@@ -787,8 +696,7 @@ msgstr "Page title"
 msgid "Der Titel, welcher im Browser angezeigt wird"
 msgstr "The title, which is displayed in the browser"
 
-#: templates/admin/post/edit.twig:287
-#: templates/admin/page/defaults.twig:100
+#: templates/admin/post/edit.twig:287 templates/admin/page/defaults.twig:100
 #: templates/admin/page/edit.twig:238
 msgid "Suchbegriffe"
 msgstr "Search terms"
@@ -798,10 +706,8 @@ msgid "Begriffe, über welche diese Seite gefunden werden soll (SEO)"
 msgstr "Terms through which this page should be found (SEO)"
 
 #: templates/admin/misc/system/migration.twig:115
-#: templates/admin/misc/theme.twig:270
-#: templates/admin/post/edit.twig:291
-#: templates/admin/page/defaults.twig:104
-#: templates/admin/page/edit.twig:242
+#: templates/admin/misc/theme.twig:270 templates/admin/post/edit.twig:291
+#: templates/admin/page/defaults.twig:104 templates/admin/page/edit.twig:242
 msgid "Beschreibung"
 msgstr "Description"
 
@@ -809,25 +715,21 @@ msgstr "Description"
 msgid "Eine kurze Beschreibung des Seiteninhalts (SEO)"
 msgstr "A brief description of the page content (SEO)"
 
-#: templates/admin/post/edit.twig:295
-#: templates/admin/page/defaults.twig:108
+#: templates/admin/post/edit.twig:295 templates/admin/page/defaults.twig:108
 #: templates/admin/page/edit.twig:246
 msgid "Autor"
 msgstr "Author"
 
-#: templates/admin/page/edit.twig:246
-#: templates/admin/page/edit.twig:250
+#: templates/admin/page/edit.twig:246 templates/admin/page/edit.twig:250
 msgid "Metadaten"
 msgstr "Metadata"
 
-#: templates/admin/post/edit.twig:299
-#: templates/admin/page/defaults.twig:112
+#: templates/admin/post/edit.twig:299 templates/admin/page/defaults.twig:112
 #: templates/admin/page/edit.twig:250
 msgid "Copyright"
 msgstr "Copyright"
 
-#: templates/admin/post/edit.twig:303
-#: templates/admin/page/edit.twig:254
+#: templates/admin/post/edit.twig:303 templates/admin/page/edit.twig:254
 msgid "Titelbild"
 msgstr "Cover image"
 
@@ -890,27 +792,23 @@ msgstr "Your password has been successfully changed."
 
 #: templates/mailer/forgot-password-subject.twig:37
 #: templates/admin/auth/forgot-password.twig:112
-#: templates/admin/auth/reset.twig:54
-#: templates/admin/auth/reset.twig:129
+#: templates/admin/auth/reset.twig:54 templates/admin/auth/reset.twig:129
 msgid "Passwort zurücksetzen"
 msgstr "Reset password"
 
 #: templates/admin/misc/user/edit.twig:124
 #: templates/admin/misc/change-password.twig:85
-#: templates/admin/auth/reset.twig:106
-#: templates/admin/auth/reset.twig:110
+#: templates/admin/auth/reset.twig:106 templates/admin/auth/reset.twig:110
 msgid "Neues Passwort"
 msgstr "New password"
 
 #: templates/admin/misc/user/edit.twig:128
 #: templates/admin/misc/change-password.twig:89
-#: templates/admin/auth/reset.twig:119
-#: templates/admin/auth/reset.twig:123
+#: templates/admin/auth/reset.twig:119 templates/admin/auth/reset.twig:123
 msgid "Passwort bestätigen"
 msgstr "Confirm password"
 
-#: templates/admin/misc/theme.twig:300
-#: templates/admin/setup.twig:311
+#: templates/admin/misc/theme.twig:300 templates/admin/setup.twig:311
 #: templates/admin/auth/forgot-password.twig:118
 #: templates/admin/auth/reset.twig:135
 msgid "Zurück"
@@ -931,24 +829,18 @@ msgstr "Please check your entries!"
 #: templates/admin/misc/user/list.twig:70
 #: templates/admin/misc/user/edit.twig:104
 #: templates/admin/misc/system/mailer.twig:98
-#: templates/admin/misc/profile.twig:100
-#: templates/admin/setup.twig:188
-#: templates/admin/setup.twig:196
-#: templates/admin/setup.twig:236
-#: templates/admin/setup.twig:244
-#: templates/admin/auth/login.twig:95
+#: templates/admin/misc/profile.twig:100 templates/admin/setup.twig:188
+#: templates/admin/setup.twig:196 templates/admin/setup.twig:236
+#: templates/admin/setup.twig:244 templates/admin/auth/login.twig:95
 #: templates/admin/auth/login.twig:101
 #: templates/admin/auth/forgot-password.twig:100
 #: templates/admin/auth/forgot-password.twig:106
 msgid "Benutzername"
 msgstr "Username"
 
-#: templates/admin/misc/system/mailer.twig:102
-#: templates/admin/setup.twig:203
-#: templates/admin/setup.twig:208
-#: templates/admin/setup.twig:298
-#: templates/admin/setup.twig:303
-#: templates/admin/auth/login.twig:108
+#: templates/admin/misc/system/mailer.twig:102 templates/admin/setup.twig:203
+#: templates/admin/setup.twig:208 templates/admin/setup.twig:298
+#: templates/admin/setup.twig:303 templates/admin/auth/login.twig:108
 #: templates/admin/auth/login.twig:112
 msgid "Passwort"
 msgstr "Password"
@@ -970,8 +862,7 @@ msgstr "An error occurred while sending the email, please check the configuratio
 msgid "Bitte prüfe deinen E-Mail Posteingang."
 msgstr "Please check your email inbox."
 
-#: templates/trans-keys.twig:105
-#: templates/admin/filemanager.twig:50
+#: templates/trans-keys.twig:105 templates/admin/filemanager.twig:50
 #: templates/admin/content.twig:267
 msgid "Dateiverwaltung"
 msgstr "File management"
@@ -1032,8 +923,7 @@ msgstr "Yes, delete language"
 
 #: templates/admin/misc/user/list.twig:74
 #: templates/admin/misc/user/edit.twig:108
-#: templates/admin/misc/profile.twig:104
-#: templates/admin/setup.twig:252
+#: templates/admin/misc/profile.twig:104 templates/admin/setup.twig:252
 #: templates/admin/setup.twig:260
 msgid "Vorname"
 msgstr "First name"
@@ -1041,8 +931,7 @@ msgstr "First name"
 #: templates/admin/misc/user/list.twig:82
 #: templates/admin/misc/user/edit.twig:116
 #: templates/admin/misc/system/mailer.twig:123
-#: templates/admin/misc/profile.twig:112
-#: templates/admin/setup.twig:283
+#: templates/admin/misc/profile.twig:112 templates/admin/setup.twig:283
 #: templates/admin/setup.twig:291
 msgid "E-Mail"
 msgstr "E-mail"
@@ -1083,8 +972,7 @@ msgstr "With this the user logs in, 3-128 characters"
 
 #: templates/admin/misc/user/edit.twig:108
 #: templates/admin/misc/user/edit.twig:112
-#: templates/admin/misc/profile.twig:104
-#: templates/admin/misc/profile.twig:108
+#: templates/admin/misc/profile.twig:104 templates/admin/misc/profile.twig:108
 msgid "max. 128 Zeichen"
 msgstr "max. 128 characters"
 
@@ -1118,8 +1006,7 @@ msgstr "Do you really want to delete the user irrevocably?"
 msgid "Ja, Benutzer löschen"
 msgstr "Yes, delete user"
 
-#: templates/admin/misc/system/migration.twig:86
-#: templates/admin/setup.twig:116
+#: templates/admin/misc/system/migration.twig:86 templates/admin/setup.twig:116
 msgid "Es sind Fehler aufgetregen, bitte versuche es erneut."
 msgstr "There are errors, please try again."
 
@@ -1217,13 +1104,11 @@ msgstr "Maximum number of failed attempts before a user is blocked"
 msgid "Veröffentlicht am"
 msgstr "Published on"
 
-#: templates/admin/post/list.twig:77
-#: templates/admin/post/edit.twig:139
+#: templates/admin/post/list.twig:77 templates/admin/post/edit.twig:139
 msgid "Kategorien"
 msgstr "Categories"
 
-#: templates/admin/post/list.twig:159
-#: templates/admin/post/edit.twig:98
+#: templates/admin/post/list.twig:159 templates/admin/post/edit.twig:98
 msgid "Neuer Beitrag"
 msgstr "New post"
 
@@ -1275,8 +1160,7 @@ msgstr "Terms, over which this contribution is to be found (SEO), taken over fro
 msgid "Eine kurze Beschreibung des Beitraginhalts (SEO), von Seite übernommen, falls leer"
 msgstr "A short description of the post content (SEO), taken from page if empty"
 
-#: templates/admin/post/edit.twig:295
-#: templates/admin/post/edit.twig:299
+#: templates/admin/post/edit.twig:295 templates/admin/post/edit.twig:299
 msgid "Von Seite übernommen, falls leer"
 msgstr "Taken from page if empty"
 
@@ -1300,8 +1184,7 @@ msgstr "Do you really want to delete the post?"
 msgid "Ja, Beitrag löschen"
 msgstr "Yes, delete post"
 
-#: templates/admin/setup.twig:52
-#: templates/admin/setup.twig:80
+#: templates/admin/setup.twig:52 templates/admin/setup.twig:80
 #: templates/admin/setup.twig:316
 msgid "Setup"
 msgstr "Setup"
@@ -1314,8 +1197,7 @@ msgstr "Setup successful"
 msgid "Weiter zum Login"
 msgstr "Continue to login"
 
-#: templates/admin/setup.twig:146
-#: templates/admin/setup.twig:223
+#: templates/admin/setup.twig:146 templates/admin/setup.twig:223
 msgid "Schritt %d"
 msgstr "Step %d"
 
@@ -1323,14 +1205,12 @@ msgstr "Step %d"
 msgid "Bitte konfiguriere deine Datenbank-Verbindungsdaten."
 msgstr "Please configure your database connection data."
 
-#: templates/admin/misc/system/mailer.twig:94
-#: templates/admin/setup.twig:158
+#: templates/admin/misc/system/mailer.twig:94 templates/admin/setup.twig:158
 #: templates/admin/setup.twig:166
 msgid "Host"
 msgstr "Host"
 
-#: templates/admin/misc/system/_system.twig:46
-#: templates/admin/setup.twig:173
+#: templates/admin/misc/system/_system.twig:46 templates/admin/setup.twig:173
 #: templates/admin/setup.twig:181
 msgid "Datenbank"
 msgstr "Database"
@@ -1351,13 +1231,11 @@ msgstr "Post"
 msgid "Widget"
 msgstr "Widget"
 
-#: templates/admin/misc/trash.twig:144
-#: templates/admin/misc/trash.twig:161
+#: templates/admin/misc/trash.twig:144 templates/admin/misc/trash.twig:161
 msgid "Elemente löschen"
 msgstr "Delete elements"
 
-#: templates/admin/misc/trash.twig:173
-#: templates/admin/misc/trash.twig:190
+#: templates/admin/misc/trash.twig:173 templates/admin/misc/trash.twig:190
 msgid "Elemente wiederherstellen"
 msgstr "Restore elements"
 
@@ -1703,8 +1581,7 @@ msgstr "Default sender"
 msgid "Einstellungen testen"
 msgstr "Test settings"
 
-#: templates/trans-keys.twig:177
-#: templates/admin/misc/theme.twig:56
+#: templates/trans-keys.twig:177 templates/admin/misc/theme.twig:56
 msgid "Design"
 msgstr "Design"
 
@@ -1720,8 +1597,7 @@ msgstr "The selection could not be saved."
 msgid "Die Auswahl wurde erfolgreich gespeichert."
 msgstr "The selection was saved successfully."
 
-#: templates/admin/misc/theme.twig:189
-#: templates/admin/misc/theme.twig:304
+#: templates/admin/misc/theme.twig:189 templates/admin/misc/theme.twig:304
 #: templates/admin/misc/theme.twig:356
 msgid "Auswählen"
 msgstr "Choose"
@@ -1730,8 +1606,7 @@ msgstr "Choose"
 msgid "Design-Info"
 msgstr "Design info"
 
-#: templates/admin/redirect/list.twig:73
-#: templates/admin/redirect/edit.twig:109
+#: templates/admin/redirect/list.twig:73 templates/admin/redirect/edit.twig:109
 #: templates/admin/misc/theme.twig:256
 msgid "Pfad"
 msgstr "Path"
@@ -1776,8 +1651,7 @@ msgstr "Overwrite existing"
 msgid "Hochladen"
 msgstr "Upload"
 
-#: templates/admin/misc/theme.twig:183
-#: templates/admin/misc/theme.twig:351
+#: templates/admin/misc/theme.twig:183 templates/admin/misc/theme.twig:351
 msgid "Ausgewählt"
 msgstr "Chosen"
 
@@ -1793,8 +1667,7 @@ msgstr "Do you really want to delete the design irrevocably?"
 msgid "Ja, Design löschen"
 msgstr "Yes, delete design"
 
-#: templates/admin/widget/edit.twig:333
-#: templates/admin/post/edit.twig:332
+#: templates/admin/widget/edit.twig:333 templates/admin/post/edit.twig:332
 #: templates/admin/page/edit.twig:383
 msgid "Duplizieren"
 msgstr "Duplicate"
@@ -1811,13 +1684,11 @@ msgstr "Value"
 msgid "Weiterleitungen"
 msgstr "Redirects"
 
-#: templates/admin/redirect/list.twig:77
-#: templates/admin/redirect/edit.twig:113
+#: templates/admin/redirect/list.twig:77 templates/admin/redirect/edit.twig:113
 msgid "Ziel"
 msgstr "Destination"
 
-#: templates/admin/redirect/list.twig:176
-#: templates/admin/redirect/edit.twig:59
+#: templates/admin/redirect/list.twig:176 templates/admin/redirect/edit.twig:59
 msgid "Neue Weiterleitung"
 msgstr "New redirect"
 
@@ -1829,8 +1700,7 @@ msgstr "The redirect was saved successfully."
 msgid "Weiterleitung bearbeiten"
 msgstr "Edit redirect"
 
-#: templates/admin/redirect/edit.twig:89
-#: templates/admin/redirect/edit.twig:174
+#: templates/admin/redirect/edit.twig:89 templates/admin/redirect/edit.twig:174
 msgid "extern"
 msgstr "external"
 
@@ -1917,3 +1787,6 @@ msgstr "The current development version (dev-latest) contains all changes that h
 #: templates/admin/misc/system/update.twig:200
 msgid "Diese Änderungen können unvollständig und/oder fehleranfällig sein."
 msgstr "These changes may be incomplete and/or error-prone."
+
+msgid "Download erlauben"
+msgstr "Allow download"

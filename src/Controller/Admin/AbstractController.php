@@ -60,6 +60,23 @@ abstract class AbstractController
     }
 
     /**
+     * @return User
+     */
+    protected function setTrans(): User
+    {
+        $cont = SessionHelper::getContainer();
+        /** @var User $user */
+        $user = $cont->offsetGet('user');
+        if ($user) {
+            Application::setTransLocale($user->getLocale());
+        } else {
+            $locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+            Application::setTransLocale($locale);
+        }
+        return $user;
+    }
+
+    /**
      * @param Request $request
      * @param Response $response
      * @param string $template
@@ -71,15 +88,7 @@ abstract class AbstractController
      */
     protected function render(Request $request, Response $response, string $template, array $data = []): Response
     {
-        $cont = SessionHelper::getContainer();
-        /** @var User $user */
-        $user = $cont->offsetGet('user');
-        if ($user) {
-            Application::setTransLocale($user->getLocale());
-        } else {
-            $locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-            Application::setTransLocale($locale);
-        }
+        $user = $this->setTrans();
 
         $nav = $this->get('settings')['admin_navigation'];
         $nav = $this->replacePlaceholders($nav);
