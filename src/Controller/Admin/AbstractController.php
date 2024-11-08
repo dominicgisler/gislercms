@@ -60,9 +60,9 @@ abstract class AbstractController
     }
 
     /**
-     * @return User
+     * @return User|null
      */
-    protected function setTrans(): User
+    protected function setTrans(): ?User
     {
         $cont = SessionHelper::getContainer();
         /** @var User $user */
