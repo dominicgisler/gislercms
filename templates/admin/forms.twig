@@ -78,7 +78,7 @@
     </div>
 {% endmacro %}
 
-{% macro fileurl(name, value, class, hint) %}
+{% macro fileurl(name, value, placeholder, class, hint) %}
     {% set id = name|replace({'[': '_', ']': '_'}) %}
     <div class="input-group">
         <input type="text" name="{{ name }}" class="form-control {{ class }}" id="input_{{ id }}" {% if hint %}aria-describedby="hint_{{ id }}"{% endif %} value="{{ value }}" placeholder="{{ placeholder }}">

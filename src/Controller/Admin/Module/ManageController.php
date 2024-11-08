@@ -35,6 +35,7 @@ class ManageController extends AbstractController
     {
         $id = $request->getAttribute('route')->getArgument('id');
         $conts = ModuleControllerExists::getModuleControllers();
+        $this->setTrans();
 
         if (intval($id) > 0) {
             $mod = Module::get($id);

@@ -12,6 +12,16 @@
         {% block stylesheets %}
             <link href="{{ base_url() }}/css/admin/style.min.css" rel="stylesheet">
         {% endblock %}
+
+        <script>
+            function defer(method) {
+                if (window.jQuery) {
+                    method();
+                } else {
+                    setTimeout(function() { defer(method) }, 50);
+                }
+            }
+        </script>
     </head>
     <body class="bg-body-tertiary">
         {% include 'admin/color-theme.twig' %}
