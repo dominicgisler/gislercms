@@ -2,7 +2,7 @@
 
 namespace GislerCMS\Controller\Module;
 
-use GislerCMS\Controller\Admin\Module\Manage\GalleryController;
+use GislerCMS\Controller\Admin\Module\Manage\CookieLoginController;
 use GislerCMS\Helper\SessionHelper;
 use Laminas\InputFilter\Factory;
 use Laminas\InputFilter\InputFilterInterface;
@@ -94,7 +94,7 @@ class CookieLoginModuleController extends AbstractModuleController
     /**
      * @var string
      */
-    protected static string $manageController = GalleryController::class;
+    protected static string $manageController = CookieLoginController::class;
 
     /**
      * Render FORM on GET-Request
