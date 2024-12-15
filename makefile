@@ -1,4 +1,4 @@
-.PHONY: default release dependencies update-dependencies css test docker dev-latest
+.PHONY: default release release-publish dependencies update-dependencies css test docker dev-latest
 .DEFAULT_GOAL := default
 
 default: css
@@ -12,6 +12,10 @@ release: css
 	@sed -i 's/dev-latest/$(version)/g' config/default.php
 	@docker compose run --rm gislercms ./build.sh
 	@sed -i 's/$(version)/dev-latest/g' config/default.php
+
+release-publish: release
+	@if [ "$$(command -v gh)" = "" ]; then echo "github-cli is needed for this action!" && exit 1; else exit 0; fi
+	@gh release create $(version) --generate-notes --latest=true --target master gislercms.zip
 
 dependencies: docker
 	@docker compose run --rm gislercms composer install
