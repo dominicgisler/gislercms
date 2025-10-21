@@ -23,8 +23,6 @@ class UpdateController extends AbstractController
     const PATTERN = '{admin_route}/misc/system/update';
     const METHODS = ['GET', 'POST'];
 
-    const API_RELEASE_URL = 'https://api.gisler-software.ch/github.php?type=gcms-latest';
-    const API_DEV_RELEASE_URL = 'https://api.gisler-software.ch/github.php?type=gcms-dev-latest';
     const UPDATE_FOLDER = 'update';
 
     /**
@@ -49,8 +47,8 @@ class UpdateController extends AbstractController
 
         $rootPath = realpath($this->get('settings')['root_path']);
         $cmsVersion = $this->get('settings')['version'];
-        $release = $this->getRelease(self::API_RELEASE_URL);
-        $releaseDev = $this->getRelease(self::API_DEV_RELEASE_URL);
+        $release = $this->getURLContents(self::API_RELEASE_URL);
+        $releaseDev = $this->getURLContents(self::API_DEV_RELEASE_URL);
 
         $update['current'] = $cmsVersion;
         $update['latest'] = '';
@@ -115,24 +113,6 @@ class UpdateController extends AbstractController
         return $this->render($request, $response, 'admin/misc/system/update.twig', [
             'update' => $update
         ]);
-    }
-
-    /**
-     * @param string $url
-     * @return mixed
-     */
-    public static function getRelease(string $url): mixed
-    {
-        $context = stream_context_create([
-            'http' => [
-                'method' => 'GET',
-                'header' => [
-                    'User-Agent: PHP'
-                ]
-            ]
-        ]);
-        $content = file_get_contents($url, false, $context);
-        return json_decode($content, true);
     }
 
     /**

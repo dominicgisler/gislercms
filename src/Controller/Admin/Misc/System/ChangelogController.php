@@ -18,8 +18,6 @@ class ChangelogController extends AbstractController
     const PATTERN = '{admin_route}/misc/system/changelog';
     const METHODS = ['GET'];
 
-    const API_RELEASES_URL = 'https://api.gisler-software.ch/github.php?type=gcms-releases';
-
     /**
      * @param Request $request
      * @param Response $response
@@ -29,7 +27,7 @@ class ChangelogController extends AbstractController
      */
     public function __invoke(Request $request, Response $response): Response
     {
-        $rel = $this->getReleases();
+        $rel = $this->getURLContents(self::API_RELEASES_URL);;
 
         foreach ($rel as $key => $release) {
             $rel[$key]['body']  = preg_replace('/https:\/\/(.*)/i', '<a href="https://${1}" target="_blank">https://${1}</a>', str_replace('**', '', $release['body']));
@@ -38,22 +36,5 @@ class ChangelogController extends AbstractController
         return $this->render($request, $response, 'admin/misc/system/changelog.twig', [
             'releases' => $rel
         ]);
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getReleases(): mixed
-    {
-        $context = stream_context_create([
-            'http' => [
-                'method' => 'GET',
-                'header' => [
-                    'User-Agent: PHP'
-                ]
-            ]
-        ]);
-        $content = file_get_contents(self::API_RELEASES_URL, false, $context);
-        return json_decode($content, true);
     }
 }

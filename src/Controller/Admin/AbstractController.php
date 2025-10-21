@@ -26,6 +26,10 @@ use Slim\Route;
  */
 abstract class AbstractController
 {
+    const string API_RELEASES_URL = 'https://api.gisler-software.ch/?type=gcms-releases';
+    const string API_RELEASE_URL = 'https://api.gisler-software.ch/?type=gcms-latest';
+    const string API_DEV_RELEASE_URL = 'https://api.gisler-software.ch/?type=gcms-dev-latest';
+
     /**
      * @var Container|ContainerInterface
      */
@@ -131,5 +135,25 @@ abstract class AbstractController
             }
         }
         return $val;
+    }
+
+    /**
+     * @param string $url
+     * @return mixed
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    protected function getURLContents(string $url): mixed
+    {
+        $context = stream_context_create([
+            'http' => [
+                'method' => 'GET',
+                'header' => [
+                    sprintf('User-Agent: Mozilla/5.0 (compatible; GislerCMS/%s; %s; +https://github.com/dominicgisler/gislercms)', $this->get('settings')['version'], md5($_SERVER['SERVER_NAME'])),
+                ]
+            ]
+        ]);
+        $content = file_get_contents($url, false, $context);
+        return json_decode($content, true);
     }
 }

@@ -2,12 +2,46 @@
 
 {% block title %}{{ 'Dashboard'|trans }}{% endblock %}
 
+{% set alerts = {
+    notracking: {
+        class: 'warning',
+        message: 'Die Aufzeichung von Statistiken ist deaktiviert!'|trans ~ ' ' ~ 'Dies kann in der %s angepasst werden.'|trans|format('Konfiguration'|trans)|raw,
+        button: {
+            class: 'primary',
+            icon: 'cogs',
+            url: admin_url ~ '/misc/system/config',
+            text: 'Konfiguration'
+        }
+    },
+    newupdate: {
+        class: 'warning',
+        message: 'Es ist ein Update verfügbar: %s -> %s'|trans|format(update.current, update.latest),
+        button: {
+            class: 'warning',
+            icon: 'cogs',
+            url: admin_url ~ '/misc/system/update',
+            text: 'Installieren'
+        }
+    }
+} %}
+
 {% block content %}
-    {% if not tracking %}
-        <div class="alert alert-warning" role="alert">
-            {{ 'Die Aufzeichung von Statistiken ist deaktiviert!'|trans }} {{ 'Dies kann in der %s angepasst werden.'|trans|format('<a href="' ~ admin_url ~ '/misc/system/config">' ~ 'Konfiguration'|trans ~ '</a>')|raw }}
-        </div>
-    {% endif %}
+    {% for msg in messages %}
+        {% if alerts[msg].button %}
+            <div class="alert alert-{{ alerts[msg].class }} mx-0 row" role="alert">
+                <div class="col-8 align-middle p-0 pt-1">
+                    {{ alerts[msg].message|raw }}
+                </div>
+                <div class="col-4 text-end p-0">
+                    <a class="btn btn-{{ alerts[msg].button.class }} btn-sm" href="{{ alerts[msg].button.url }}"><i class="fa fa-{{ alerts[msg].button.icon }} me-1"></i> {{ alerts[msg].button.text }}</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-{{ alerts[msg].class }}" role="alert">
+                {{ alerts[msg].message }}
+            </div>
+        {% endif %}
+    {% endfor %}
     <div class="alert alert-info mx-0 row" role="alert">
         <div class="col-8 align-middle p-0 pt-1">
             {% if not calculation_date %}

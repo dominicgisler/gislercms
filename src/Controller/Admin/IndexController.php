@@ -32,8 +32,6 @@ class IndexController extends AbstractController
      */
     public function __invoke(Request $request, Response $response): Response
     {
-        $track = Config::getConfig('global', 'enable_tracking')->getValue();
-
         $cacheFile = $this->get('settings')['data_cache'] . 'dashboard.json';
         if (file_exists($cacheFile)) {
             $cache = json_decode(file_get_contents($cacheFile), true);
@@ -65,11 +63,31 @@ class IndexController extends AbstractController
             return $response->withRedirect($this->get('base_url') . $this->get('settings')['global']['admin_route']);
         }
 
+        $messages = [];
+
+        $track = Config::getConfig('global', 'enable_tracking')->getValue();
+        if (!$track) {
+            $messages[] = 'notracking';
+        }
+
+        $update = [
+            'current' => $this->get('settings')['version'],
+            'latest' => ''
+        ];
+        if ($update['current'] !== 'dev-latest') {
+            $release = $this->getURLContents(self::API_RELEASE_URL);
+            if (!empty($release['tag_name']) && $release['tag_name'] !== $update['current']) {
+                $messages[] = 'newupdate';
+                $update['latest'] = $release['tag_name'];
+            }
+        }
+
         return $this->render($request, $response, 'admin/index.twig', [
-            'tracking' => $track,
             'calculation_date' => $cache['calculation_date'],
             'stats' => $cache['stats'],
-            'graph' => $cache['graph']
+            'graph' => $cache['graph'],
+            'messages' => $messages,
+            'update' => $update,
         ]);
     }
 
