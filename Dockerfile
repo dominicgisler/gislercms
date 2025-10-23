@@ -1,8 +1,8 @@
 FROM php:8.3-apache
 
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y libicu-dev libzip-dev zip git minify libpng-dev npm wget
-RUN docker-php-ext-configure intl && docker-php-ext-install intl zip pdo pdo_mysql gd
+RUN apt-get install -y libicu-dev libzip-dev zip git minify libpng-dev libjpeg-dev npm wget
+RUN docker-php-ext-configure intl && docker-php-ext-configure gd --with-jpeg && docker-php-ext-install intl zip pdo pdo_mysql gd
 RUN npm install -g sass
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN curl -sS -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb

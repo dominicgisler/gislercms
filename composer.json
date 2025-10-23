@@ -24,6 +24,7 @@
     "ext-json": "*",
     "ext-fileinfo": "*",
     "ext-zip": "*",
+    "ext-gd": "*",
     "slim/slim": "^3.12",
     "slim/twig-view": "^2.4",
     "monolog/monolog": "^1.24",
