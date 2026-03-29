@@ -49,7 +49,7 @@ class ThemeController extends AbstractController
                 $msg = 'upload_error';
                 $upload = $request->getUploadedFiles()['new_theme'];
                 $overwrite = boolval($request->getParsedBodyParam('overwrite'));
-                if ($upload->getClientMediaType() == 'application/zip') {
+                if (in_array($upload->getClientMediaType(), ['application/zip', 'application/x-zip-compressed'])) {
                     $zipPath = $path . '/' . $upload->getClientFilename();
                     $info = pathinfo($zipPath);
                     $upload->moveTo($zipPath);
